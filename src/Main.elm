@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Animation
 import Html exposing (Html, text, div, h1, img, p, video)
 import Html.Attributes exposing (property, src, style)
 import Http exposing (Error)
@@ -7,6 +8,7 @@ import Json.Decode as Decode
 import Json.Encode as Encode
 import Random
 import RemoteData exposing (RemoteData(..), WebData)
+import Task
 import Time exposing (Time)
 
 
@@ -45,6 +47,7 @@ tags =
 
 type alias Model =
     { gifUrl : WebData String
+    , style : Animation.State
     }
 
 
@@ -52,7 +55,11 @@ init : ( Model, Cmd Msg )
 init =
     let
         model =
-            { gifUrl = NotRequested }
+            { gifUrl = NotRequested
+            , style =
+                Animation.style
+                    [ Animation.opacity 1 ]
+            }
     in
         ( { model | gifUrl = Requesting }
         , (List.length tags - 1)
@@ -109,16 +116,42 @@ type Msg
     | RandomTagIndex Int
     | UpdatePage Model
     | NoOp
+    | Animate Animation.Msg
+    | FadeOutFadeIn ()
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Animate msg ->
+            ( { model
+                | style = Animation.update msg model.style
+              }
+            , Cmd.none
+            )
+
+        FadeOutFadeIn () ->
+            ( { model
+                | style =
+                    Animation.interrupt
+                        [ Animation.to
+                            [ Animation.opacity 0 ]
+                        , Animation.to
+                            [ Animation.opacity 1 ]
+                        ]
+                        model.style
+              }
+            , Cmd.none
+            )
+
         GetNextGif time ->
             ( model
-            , (List.length tags - 1)
-                |> Random.int 1
-                |> Random.generate RandomTagIndex
+            , Cmd.batch
+                [ (List.length tags - 1)
+                    |> Random.int 1
+                    |> Random.generate RandomTagIndex
+                , Task.succeed () |> Task.perform FadeOutFadeIn
+                ]
             )
 
         GetRandomGif (Ok imageUrl) ->
@@ -146,30 +179,27 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    gif model.gifUrl
-
-
-gif : WebData String -> Html Msg
-gif gifUrl =
-    case gifUrl of
+    case model.gifUrl of
         NotRequested ->
             p [] [ text "" ]
 
         Requesting ->
-            p [] [ text "Getting gif..." ]
+            p [] [ text "" ]
 
         Success gifUrl ->
             video
-                [ src gifUrl
-                , style
-                    [ ( "height", "100%" )
-                    , ( "maxWidth", "100%" )
-                    , ( "width", "100%" )
-                    , ( "margin", "0 auto" )
-                    ]
-                , property "autoplay" (Encode.string "true")
-                , property "loop" (Encode.string "true")
-                ]
+                (Animation.render model.style
+                    ++ [ src gifUrl
+                       , style
+                            [ ( "height", "100%" )
+                            , ( "maxWidth", "100%" )
+                            , ( "width", "100%" )
+                            , ( "margin", "0 auto" )
+                            ]
+                       , property "autoplay" (Encode.string "true")
+                       , property "loop" (Encode.string "true")
+                       ]
+                )
                 []
 
         _ ->
@@ -182,7 +212,10 @@ gif gifUrl =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Time.every (7 * Time.second) GetNextGif
+    Sub.batch
+        [ Time.every (7 * Time.second) GetNextGif
+        , Animation.subscription Animate [ model.style ]
+        ]
 
 
 
