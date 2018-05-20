@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Animation
 import Html exposing (Html, text, div, h1, img, p, video)
-import Html.Attributes exposing (property, src, style)
+import Html.Attributes exposing (attribute, property, src, style)
 import Http exposing (Error)
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -45,9 +45,17 @@ tags =
 ---- MODEL ----
 
 
+type VideoPlayer
+    = Player1
+    | Player2
+
+
 type alias Model =
-    { gifUrl : WebData String
-    , style : Animation.State
+    { player1GifUrl : WebData String
+    , player1Style : Animation.State
+    , player2GifUrl : WebData String
+    , player2Style : Animation.State
+    , visiblePlayer : VideoPlayer
     }
 
 
@@ -55,16 +63,17 @@ init : ( Model, Cmd Msg )
 init =
     let
         model =
-            { gifUrl = NotRequested
-            , style =
-                Animation.style
-                    [ Animation.opacity 1 ]
+            { player1GifUrl = NotRequested
+            , player1Style =
+                Animation.style [ Animation.opacity 1 ]
+            , player2Style =
+                Animation.style [ Animation.opacity 0 ]
+            , player2GifUrl = NotRequested
+            , visiblePlayer = Player1
             }
     in
-        ( { model | gifUrl = Requesting }
-        , (List.length tags - 1)
-            |> Random.int 1
-            |> Random.generate RandomTagIndex
+        ( { model | player1GifUrl = Requesting }
+        , generateRandomGif
         )
 
 
@@ -72,9 +81,30 @@ init =
 ---- COMMANDS ----
 
 
-fetchRandomGif : String -> Cmd Msg
-fetchRandomGif tag =
+generateRandomGif : Cmd Msg
+generateRandomGif =
     let
+        index =
+            Random.int 1 (List.length tags - 1)
+    in
+        index
+            |> Random.generate GenerateRandomTagIndex
+
+
+generateRandomTag : Int -> String
+generateRandomTag numberOfMembers =
+    tags
+        |> List.drop numberOfMembers
+        |> List.head
+        |> Maybe.withDefault "80s"
+
+
+fetchRandomGif : Int -> Cmd Msg
+fetchRandomGif index =
+    let
+        tag =
+            generateRandomTag index
+
         host =
             "https://api.giphy.com"
 
@@ -113,7 +143,7 @@ decodeGifUrl =
 type Msg
     = GetRandomGif (Result Error String)
     | GetNextGif Time
-    | RandomTagIndex Int
+    | GenerateRandomTagIndex Int
     | UpdatePage Model
     | NoOp
     | Animate Animation.Msg
@@ -125,21 +155,21 @@ update msg model =
     case msg of
         Animate msg ->
             ( { model
-                | style = Animation.update msg model.style
+                | player1Style = Animation.update msg model.player1Style
               }
             , Cmd.none
             )
 
         FadeOutFadeIn () ->
             ( { model
-                | style =
+                | player1Style =
                     Animation.interrupt
                         [ Animation.to
                             [ Animation.opacity 0 ]
                         , Animation.to
                             [ Animation.opacity 1 ]
                         ]
-                        model.style
+                        model.player1Style
               }
             , Cmd.none
             )
@@ -147,27 +177,20 @@ update msg model =
         GetNextGif time ->
             ( model
             , Cmd.batch
-                [ (List.length tags - 1)
-                    |> Random.int 1
-                    |> Random.generate RandomTagIndex
-                , Task.succeed () |> Task.perform FadeOutFadeIn
+                [ generateRandomGif
+                , Task.succeed ()
+                    |> Task.perform FadeOutFadeIn
                 ]
             )
 
         GetRandomGif (Ok imageUrl) ->
-            ( { model | gifUrl = Success imageUrl }, Cmd.none )
+            ( { model | player1GifUrl = Success imageUrl }, Cmd.none )
 
         GetRandomGif (Err error) ->
             ( model, Cmd.none )
 
-        RandomTagIndex index ->
-            ( model
-            , tags
-                |> List.drop index
-                |> List.head
-                |> Maybe.withDefault "80s"
-                |> fetchRandomGif
-            )
+        GenerateRandomTagIndex index ->
+            ( model, fetchRandomGif index )
 
         _ ->
             ( model, Cmd.none )
@@ -179,28 +202,46 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    case model.gifUrl of
+    case model.player1GifUrl of
         NotRequested ->
             p [] [ text "" ]
 
         Requesting ->
             p [] [ text "" ]
 
-        Success gifUrl ->
-            video
-                (Animation.render model.style
-                    ++ [ src gifUrl
-                       , style
+        Success player1GifUrl ->
+            div [ attribute "data-name" "container" ]
+                [ div (Animation.render model.player1Style)
+                    [ video
+                        [ src player1GifUrl
+                        , attribute "data-name" "player-1"
+                        , style
                             [ ( "height", "100%" )
                             , ( "maxWidth", "100%" )
                             , ( "width", "100%" )
                             , ( "margin", "0 auto" )
                             ]
-                       , property "autoplay" (Encode.string "true")
-                       , property "loop" (Encode.string "true")
-                       ]
-                )
-                []
+                        , property "autoplay" (Encode.string "true")
+                        , property "loop" (Encode.string "true")
+                        ]
+                        []
+                    ]
+                , div [ style [ ( "display", "none" ) ] ]
+                    [ video
+                        [ src player1GifUrl
+                        , attribute "data-name" "player-2"
+                        , style
+                            [ ( "height", "100%" )
+                            , ( "maxWidth", "100%" )
+                            , ( "width", "100%" )
+                            , ( "margin", "0 auto" )
+                            ]
+                        , property "autoplay" (Encode.string "true")
+                        , property "loop" (Encode.string "true")
+                        ]
+                        []
+                    ]
+                ]
 
         _ ->
             p [] [ text "Something went wrong" ]
@@ -214,7 +255,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Time.every (7 * Time.second) GetNextGif
-        , Animation.subscription Animate [ model.style ]
+        , Animation.subscription Animate [ model.player1Style ]
         ]
 
 
