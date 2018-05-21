@@ -133,6 +133,7 @@ view model =
                             , ( "maxWidth", "100%" )
                             , ( "width", "100%" )
                             , ( "margin", "0 auto" )
+                            , ( "object-fit", "cover" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
