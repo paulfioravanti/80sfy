@@ -4,10 +4,10 @@ import Animation
 import Gif
 import Html exposing (Html, text, div, h1, img, p, video)
 import Html.Attributes exposing (attribute, property, src, style)
-import Http exposing (Error)
 import Json.Encode as Encode
 import Model exposing (Model)
 import Msg exposing (Msg(..))
+import Player exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (Time)
@@ -40,20 +40,29 @@ update msg model =
         GetNextGif time ->
             ( model
             , Cmd.batch
-                [ Gif.random
+                [ Gif.random Player1
                 , Task.succeed ()
                     |> Task.perform FadeOutFadeIn
                 ]
             )
 
-        GetRandomGif (Ok imageUrl) ->
-            ( { model | player1GifUrl = Success imageUrl }, Cmd.none )
+        GetRandomGif player (Ok imageUrl) ->
+            let
+                newModel =
+                    case player of
+                        Player1 ->
+                            { model | player1GifUrl = Success imageUrl }
 
-        GetRandomGif (Err error) ->
+                        Player2 ->
+                            { model | player2GifUrl = Success imageUrl }
+            in
+                ( newModel, Cmd.none )
+
+        GetRandomGif player (Err error) ->
             ( model, Cmd.none )
 
-        RandomTag tag ->
-            ( model, Gif.fetchRandomGif tag )
+        RandomTag player tag ->
+            ( model, Gif.fetchRandomGif player tag )
 
         _ ->
             ( model, Cmd.none )
@@ -65,14 +74,8 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    case model.player1GifUrl of
-        NotRequested ->
-            p [] [ text "" ]
-
-        Requesting ->
-            p [] [ text "" ]
-
-        Success player1GifUrl ->
+    case ( model.player1GifUrl, model.player2GifUrl ) of
+        ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
                 [ div (Animation.render model.player1Style)
                     [ video
@@ -91,7 +94,7 @@ view model =
                     ]
                 , div [ style [ ( "display", "none" ) ] ]
                     [ video
-                        [ src player1GifUrl
+                        [ src player2GifUrl
                         , attribute "data-name" "player-2"
                         , style
                             [ ( "height", "100%" )
@@ -107,7 +110,7 @@ view model =
                 ]
 
         _ ->
-            p [] [ text "Something went wrong" ]
+            p [] [ text "" ]
 
 
 

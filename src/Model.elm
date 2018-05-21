@@ -3,6 +3,7 @@ module Model exposing (Model, init)
 import Animation
 import Gif
 import Msg exposing (Msg)
+import Player exposing (Player(Player1, Player2))
 import RemoteData exposing (RemoteData(..), WebData)
 
 
@@ -25,5 +26,8 @@ init =
             }
     in
         ( { model | player1GifUrl = Requesting }
-        , Gif.random
+        , Cmd.batch
+            [ Gif.random Player1
+            , Gif.random Player2
+            ]
         )
