@@ -38,7 +38,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        CrossFade ( visiblePlayerId, hiddenPlayerId ) ->
+        CrossFade visiblePlayerId hiddenPlayerId time ->
             let
                 currentPlayer1 =
                     model.player1
@@ -46,13 +46,13 @@ update msg model =
                 currentPlayer2 =
                     model.player2
 
-                ( player1Opacity, player1Visibility, player2Opacity, player2Visibility ) =
+                ( player1Opacity, player1Visibility, player1ZIndex, player2Opacity, player2Visibility ) =
                     case visiblePlayerId of
                         Player1 ->
-                            ( 0, False, 1, True )
+                            ( 0, False, "0", 1, True )
 
                         Player2 ->
-                            ( 1, True, 0, False )
+                            ( 1, True, "1000", 0, False )
 
                 player1 =
                     { currentPlayer1
@@ -77,22 +77,19 @@ update msg model =
                     }
             in
                 ( { model | player1 = player1, player2 = player2 }
-                , Cmd.none
+                , Task.succeed visiblePlayerId
+                    |> Task.perform GetNextGif
                 )
 
-        GetNextGif visiblePlayer hiddenPlayer time ->
+        GetNextGif hiddenPlayerId ->
             ( model
-            , Cmd.batch
-                [ Gif.random visiblePlayer
-                , Task.succeed ( visiblePlayer.id, hiddenPlayer.id )
-                    |> Task.perform CrossFade
-                ]
+            , Gif.random hiddenPlayerId
             )
 
-        GetRandomGif player (Ok imageUrl) ->
+        GetRandomGif playerId (Ok imageUrl) ->
             let
                 newModel =
-                    case player.id of
+                    case playerId of
                         Player1 ->
                             let
                                 currentPlayer1 =
@@ -138,7 +135,19 @@ view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ div (Animation.render model.player1.style)
+                [ div
+                    ((Animation.render model.player1.style)
+                        ++ [ style
+                                [ ( "zIndex", "0" )
+                                , ( "position", "absolute" )
+                                , ( "height", "100%" )
+                                , ( "maxWidth", "100%" )
+                                , ( "width", "100%" )
+                                , ( "margin", "0 auto" )
+                                , ( "objectFit", "cover" )
+                                ]
+                           ]
+                    )
                     [ video
                         [ src player1GifUrl
                         , attribute "data-name" "player-1"
@@ -147,14 +156,26 @@ view model =
                             , ( "maxWidth", "100%" )
                             , ( "width", "100%" )
                             , ( "margin", "0 auto" )
-                            , ( "object-fit", "cover" )
+                            , ( "objectFit", "cover" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
                         ]
                         []
                     ]
-                , div (Animation.render model.player2.style)
+                , div
+                    ((Animation.render model.player2.style)
+                        ++ [ style
+                                [ ( "zIndex", "1" )
+                                , ( "position", "absolute" )
+                                , ( "height", "100%" )
+                                , ( "maxWidth", "100%" )
+                                , ( "width", "100%" )
+                                , ( "margin", "0 auto" )
+                                , ( "objectFit", "cover" )
+                                ]
+                           ]
+                    )
                     [ video
                         [ src player2GifUrl
                         , attribute "data-name" "player-2"
@@ -163,7 +184,7 @@ view model =
                             , ( "maxWidth", "100%" )
                             , ( "width", "100%" )
                             , ( "margin", "0 auto" )
-                            , ( "object-fit", "cover" )
+                            , ( "objectFit", "cover" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
@@ -183,15 +204,15 @@ view model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     let
-        ( visiblePlayer, hiddenPlayer ) =
+        ( visiblePlayerId, hiddenPlayerId ) =
             if model.player1.visible == True then
-                ( model.player1, model.player2 )
+                ( model.player1.id, model.player2.id )
             else
-                ( model.player2, model.player1 )
+                ( model.player2.id, model.player1.id )
     in
         Sub.batch
-            [ Time.every (7 * Time.second)
-                (GetNextGif visiblePlayer hiddenPlayer)
+            [ Time.every (10 * Time.second)
+                (CrossFade visiblePlayerId hiddenPlayerId)
             , Animation.subscription Animate
                 [ model.player1.style
                 , model.player2.style

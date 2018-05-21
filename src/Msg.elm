@@ -7,9 +7,9 @@ import Time exposing (Time)
 
 
 type Msg
-    = GetRandomGif Player (Result Error String)
-    | GetNextGif Player Player Time
-    | RandomTag Player String
+    = GetRandomGif Id (Result Error String)
+    | GetNextGif Id
+    | RandomTag Id String
     | NoOp
     | Animate Animation.Msg
-    | CrossFade ( Id, Id )
+    | CrossFade Id Id Time

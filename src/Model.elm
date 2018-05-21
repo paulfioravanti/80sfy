@@ -21,7 +21,7 @@ init =
     in
         ( model
         , Cmd.batch
-            [ Gif.random model.player1
-            , Gif.random model.player2
+            [ Gif.random Player1
+            , Gif.random Player2
             ]
         )
