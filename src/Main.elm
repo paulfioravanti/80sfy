@@ -138,13 +138,13 @@ view model =
                 [ div
                     ((Animation.render model.player1.style)
                         ++ [ style
-                                [ ( "zIndex", "0" )
-                                , ( "position", "absolute" )
-                                , ( "height", "100%" )
-                                , ( "maxWidth", "100%" )
+                                [ ( "height", "100%" )
+                                , ( "left", "0" )
+                                , ( "position", "fixed" )
+                                , ( "text-align", "center" )
+                                , ( "top", "0" )
                                 , ( "width", "100%" )
-                                , ( "margin", "0 auto" )
-                                , ( "objectFit", "cover" )
+                                , ( "zIndex", "0" )
                                 ]
                            ]
                     )
@@ -152,11 +152,12 @@ view model =
                         [ src player1GifUrl
                         , attribute "data-name" "player-1"
                         , style
-                            [ ( "height", "100%" )
-                            , ( "maxWidth", "100%" )
-                            , ( "width", "100%" )
-                            , ( "margin", "0 auto" )
+                            [ ( "height", "auto" )
+                            , ( "minHeight", "100%" )
+                            , ( "minWidth", "100%" )
                             , ( "objectFit", "cover" )
+                            , ( "width", "auto" )
+                            , ( "zIndex", "-100" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
@@ -166,13 +167,13 @@ view model =
                 , div
                     ((Animation.render model.player2.style)
                         ++ [ style
-                                [ ( "zIndex", "1" )
-                                , ( "position", "absolute" )
-                                , ( "height", "100%" )
-                                , ( "maxWidth", "100%" )
+                                [ ( "height", "100%" )
+                                , ( "left", "0" )
+                                , ( "position", "fixed" )
+                                , ( "text-align", "center" )
+                                , ( "top", "0" )
                                 , ( "width", "100%" )
-                                , ( "margin", "0 auto" )
-                                , ( "objectFit", "cover" )
+                                , ( "zIndex", "1" )
                                 ]
                            ]
                     )
@@ -180,11 +181,12 @@ view model =
                         [ src player2GifUrl
                         , attribute "data-name" "player-2"
                         , style
-                            [ ( "height", "100%" )
-                            , ( "maxWidth", "100%" )
-                            , ( "width", "100%" )
-                            , ( "margin", "0 auto" )
+                            [ ( "height", "auto" )
+                            , ( "minHeight", "100%" )
+                            , ( "minWidth", "100%" )
                             , ( "objectFit", "cover" )
+                            , ( "width", "auto" )
+                            , ( "zIndex", "-100" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
