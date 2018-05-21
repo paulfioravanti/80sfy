@@ -1,153 +1,16 @@
 module Main exposing (main)
 
 import Animation
+import Gif
 import Html exposing (Html, text, div, h1, img, p, video)
 import Html.Attributes exposing (attribute, property, src, style)
 import Http exposing (Error)
-import Json.Decode as Decode
 import Json.Encode as Encode
-import Random
+import Model exposing (Model)
+import Msg exposing (Msg(..))
 import RemoteData exposing (RemoteData(..), WebData)
 import Task
 import Time exposing (Time)
-
-
-tags : List String
-tags =
-    [ "80s"
-    , "1980"
-    , "80s art"
-    , "80s animation"
-    , "80s tv"
-    , "80s food"
-    , "80s movie"
-    , "80s music"
-    , "80s miami"
-    , "80s fashion"
-    , "80s scifi"
-    , "80s anime"
-    , "80s video games"
-    , "80s video"
-    , "vhs"
-    , "synthwave"
-    , "tron"
-    , "grid"
-    , "nes"
-    , "8bit"
-    , "pixel"
-    , "neon"
-    , "geometry"
-    , "kidmograph"
-    ]
-
-
-
----- MODEL ----
-
-
-type VideoPlayer
-    = Player1
-    | Player2
-
-
-type alias Model =
-    { player1GifUrl : WebData String
-    , player1Style : Animation.State
-    , player2GifUrl : WebData String
-    , player2Style : Animation.State
-    , visiblePlayer : VideoPlayer
-    }
-
-
-init : ( Model, Cmd Msg )
-init =
-    let
-        model =
-            { player1GifUrl = NotRequested
-            , player1Style =
-                Animation.style [ Animation.opacity 1 ]
-            , player2Style =
-                Animation.style [ Animation.opacity 0 ]
-            , player2GifUrl = NotRequested
-            , visiblePlayer = Player1
-            }
-    in
-        ( { model | player1GifUrl = Requesting }
-        , generateRandomGif
-        )
-
-
-
----- COMMANDS ----
-
-
-generateRandomGif : Cmd Msg
-generateRandomGif =
-    let
-        index =
-            Random.int 1 (List.length tags - 1)
-    in
-        index
-            |> Random.generate GenerateRandomTagIndex
-
-
-generateRandomTag : Int -> String
-generateRandomTag numberOfMembers =
-    tags
-        |> List.drop numberOfMembers
-        |> List.head
-        |> Maybe.withDefault "80s"
-
-
-fetchRandomGif : Int -> Cmd Msg
-fetchRandomGif index =
-    let
-        tag =
-            generateRandomTag index
-
-        host =
-            "https://api.giphy.com"
-
-        path =
-            "/v1/gifs/random"
-
-        apiKey =
-            "api_key=JASRREAAILxOCCf0awYF89DVBaH2BPl3"
-
-        url =
-            host
-                ++ path
-                ++ "?"
-                ++ apiKey
-                ++ "&tag="
-                ++ tag
-    in
-        decodeGifUrl
-            |> Http.get url
-            |> Http.send GetRandomGif
-
-
-
----- DECODERS ----
-
-
-decodeGifUrl : Decode.Decoder String
-decodeGifUrl =
-    Decode.at [ "data", "image_mp4_url" ] Decode.string
-
-
-
----- UPDATE ----
-
-
-type Msg
-    = GetRandomGif (Result Error String)
-    | GetNextGif Time
-    | GenerateRandomTagIndex Int
-    | UpdatePage Model
-    | NoOp
-    | Animate Animation.Msg
-    | FadeOutFadeIn ()
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -177,7 +40,7 @@ update msg model =
         GetNextGif time ->
             ( model
             , Cmd.batch
-                [ generateRandomGif
+                [ Gif.random
                 , Task.succeed ()
                     |> Task.perform FadeOutFadeIn
                 ]
@@ -189,8 +52,8 @@ update msg model =
         GetRandomGif (Err error) ->
             ( model, Cmd.none )
 
-        GenerateRandomTagIndex index ->
-            ( model, fetchRandomGif index )
+        RandomTag tag ->
+            ( model, Gif.fetchRandomGif tag )
 
         _ ->
             ( model, Cmd.none )
@@ -267,7 +130,7 @@ main : Program Never Model Msg
 main =
     Html.program
         { view = view
-        , init = init
+        , init = Model.init
         , update = update
         , subscriptions = subscriptions
         }
