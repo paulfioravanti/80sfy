@@ -12,4 +12,4 @@ type Msg
     | RandomTag Player String
     | NoOp
     | Animate Animation.Msg
-    | FadeOutFadeIn ()
+    | CrossFade ()

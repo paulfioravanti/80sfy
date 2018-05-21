@@ -30,7 +30,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        FadeOutFadeIn () ->
+        CrossFade () ->
             let
                 currentPlayer1 =
                     model.player1
@@ -56,7 +56,7 @@ update msg model =
             , Cmd.batch
                 [ Gif.random model.player1
                 , Task.succeed ()
-                    |> Task.perform FadeOutFadeIn
+                    |> Task.perform CrossFade
                 ]
             )
 
@@ -124,7 +124,7 @@ view model =
                         ]
                         []
                     ]
-                , div [ style [ ( "display", "none" ) ] ]
+                , div (Animation.render model.player2.style)
                     [ video
                         [ src player2GifUrl
                         , attribute "data-name" "player-2"
@@ -153,7 +153,11 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Time.every (7 * Time.second) GetNextGif
-        , Animation.subscription Animate [ model.player1.style ]
+        , Animation.subscription
+            Animate
+            [ model.player1.style
+            , model.player2.style
+            ]
         ]
 
 
