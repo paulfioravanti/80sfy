@@ -26,6 +26,7 @@ fetchRandomGif playerId tag =
                 ++ apiKey
                 ++ "&tag="
                 ++ tag
+                ++ "&rating=pg-13"
     in
         decodeGifUrl
             |> Http.get url

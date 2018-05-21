@@ -213,7 +213,7 @@ subscriptions model =
                 ( model.player2.id, model.player1.id )
     in
         Sub.batch
-            [ Time.every (10 * Time.second)
+            [ Time.every (4 * Time.second)
                 (CrossFade visiblePlayerId hiddenPlayerId)
             , Animation.subscription Animate
                 [ model.player1.style
