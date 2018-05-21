@@ -1,6 +1,6 @@
 module Tag exposing (random)
 
-import Player exposing (Player(..))
+import Player exposing (Player)
 import Msg exposing (Msg(RandomTag))
 import Random
 

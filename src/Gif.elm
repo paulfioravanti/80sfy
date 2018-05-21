@@ -2,7 +2,7 @@ module Gif exposing (fetchRandomGif, random)
 
 import Http
 import Json.Decode as Decode
-import Player exposing (Player(..))
+import Player exposing (Player)
 import Msg exposing (Msg(GetRandomGif))
 import Tag
 

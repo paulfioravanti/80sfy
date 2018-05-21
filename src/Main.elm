@@ -17,30 +17,44 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Animate msg ->
-            ( { model
-                | player1Style = Animation.update msg model.player1Style
-              }
-            , Cmd.none
-            )
+            let
+                currentPlayer1 =
+                    model.player1
+
+                player1 =
+                    { currentPlayer1
+                        | style = Animation.update msg currentPlayer1.style
+                    }
+            in
+                ( { model | player1 = player1 }
+                , Cmd.none
+                )
 
         FadeOutFadeIn () ->
-            ( { model
-                | player1Style =
-                    Animation.interrupt
-                        [ Animation.to
-                            [ Animation.opacity 0 ]
-                        , Animation.to
-                            [ Animation.opacity 1 ]
-                        ]
-                        model.player1Style
-              }
-            , Cmd.none
-            )
+            let
+                currentPlayer1 =
+                    model.player1
+
+                player1 =
+                    { currentPlayer1
+                        | style =
+                            Animation.interrupt
+                                [ Animation.to
+                                    [ Animation.opacity 0 ]
+                                , Animation.to
+                                    [ Animation.opacity 1 ]
+                                ]
+                                currentPlayer1.style
+                    }
+            in
+                ( { model | player1 = player1 }
+                , Cmd.none
+                )
 
         GetNextGif time ->
             ( model
             , Cmd.batch
-                [ Gif.random Player1
+                [ Gif.random model.player1
                 , Task.succeed ()
                     |> Task.perform FadeOutFadeIn
                 ]
@@ -49,12 +63,30 @@ update msg model =
         GetRandomGif player (Ok imageUrl) ->
             let
                 newModel =
-                    case player of
+                    case player.id of
                         Player1 ->
-                            { model | player1GifUrl = Success imageUrl }
+                            let
+                                currentPlayer1 =
+                                    model.player1
+
+                                player1 =
+                                    { currentPlayer1
+                                        | gifUrl = Success imageUrl
+                                    }
+                            in
+                                { model | player1 = player1 }
 
                         Player2 ->
-                            { model | player2GifUrl = Success imageUrl }
+                            let
+                                currentPlayer2 =
+                                    model.player2
+
+                                player2 =
+                                    { currentPlayer2
+                                        | gifUrl = Success imageUrl
+                                    }
+                            in
+                                { model | player2 = player2 }
             in
                 ( newModel, Cmd.none )
 
@@ -74,10 +106,10 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    case ( model.player1GifUrl, model.player2GifUrl ) of
+    case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ div (Animation.render model.player1Style)
+                [ div (Animation.render model.player1.style)
                     [ video
                         [ src player1GifUrl
                         , attribute "data-name" "player-1"
@@ -121,7 +153,7 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.batch
         [ Time.every (7 * Time.second) GetNextGif
-        , Animation.subscription Animate [ model.player1Style ]
+        , Animation.subscription Animate [ model.player1.style ]
         ]
 
 
