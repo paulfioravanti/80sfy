@@ -25,37 +25,66 @@ update msg model =
                     { currentPlayer1
                         | style = Animation.update msg currentPlayer1.style
                     }
+
+                currentPlayer2 =
+                    model.player2
+
+                player2 =
+                    { currentPlayer2
+                        | style = Animation.update msg currentPlayer2.style
+                    }
             in
-                ( { model | player1 = player1 }
+                ( { model | player1 = player1, player2 = player2 }
                 , Cmd.none
                 )
 
-        CrossFade () ->
+        CrossFade ( visiblePlayerId, hiddenPlayerId ) ->
             let
                 currentPlayer1 =
                     model.player1
+
+                currentPlayer2 =
+                    model.player2
+
+                ( player1Opacity, player1Visibility, player2Opacity, player2Visibility ) =
+                    case visiblePlayerId of
+                        Player1 ->
+                            ( 0, False, 1, True )
+
+                        Player2 ->
+                            ( 1, True, 0, False )
 
                 player1 =
                     { currentPlayer1
                         | style =
                             Animation.interrupt
                                 [ Animation.to
-                                    [ Animation.opacity 0 ]
-                                , Animation.to
-                                    [ Animation.opacity 1 ]
+                                    [ Animation.opacity player1Opacity ]
                                 ]
                                 currentPlayer1.style
+                        , visible = player1Visibility
+                    }
+
+                player2 =
+                    { currentPlayer2
+                        | style =
+                            Animation.interrupt
+                                [ Animation.to
+                                    [ Animation.opacity player2Opacity ]
+                                ]
+                                currentPlayer2.style
+                        , visible = player2Visibility
                     }
             in
-                ( { model | player1 = player1 }
+                ( { model | player1 = player1, player2 = player2 }
                 , Cmd.none
                 )
 
-        GetNextGif time ->
+        GetNextGif visiblePlayer hiddenPlayer time ->
             ( model
             , Cmd.batch
-                [ Gif.random model.player1
-                , Task.succeed ()
+                [ Gif.random visiblePlayer
+                , Task.succeed ( visiblePlayer.id, hiddenPlayer.id )
                     |> Task.perform CrossFade
                 ]
             )
@@ -118,6 +147,7 @@ view model =
                             , ( "maxWidth", "100%" )
                             , ( "width", "100%" )
                             , ( "margin", "0 auto" )
+                            , ( "object-fit", "cover" )
                             ]
                         , property "autoplay" (Encode.string "true")
                         , property "loop" (Encode.string "true")
@@ -152,14 +182,21 @@ view model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.batch
-        [ Time.every (7 * Time.second) GetNextGif
-        , Animation.subscription
-            Animate
-            [ model.player1.style
-            , model.player2.style
+    let
+        ( visiblePlayer, hiddenPlayer ) =
+            if model.player1.visible == True then
+                ( model.player1, model.player2 )
+            else
+                ( model.player2, model.player1 )
+    in
+        Sub.batch
+            [ Time.every (7 * Time.second)
+                (GetNextGif visiblePlayer hiddenPlayer)
+            , Animation.subscription Animate
+                [ model.player1.style
+                , model.player2.style
+                ]
             ]
-        ]
 
 
 
