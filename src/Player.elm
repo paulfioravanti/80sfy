@@ -40,20 +40,20 @@ init id visible zIndex =
 updateVisibility : Player -> Player
 updateVisibility player =
     let
-        ( newOpacity, newVisibility ) =
-            case player.visible of
-                True ->
-                    ( 0, False )
-
-                False ->
-                    ( 1, True )
+        newOpacity =
+            if player.visible then
+                0
+            else
+                1
     in
         { player
             | style =
                 Animation.interrupt
-                    [ Animation.to [ Animation.opacity newOpacity ] ]
+                    [ Animation.to
+                        [ Animation.opacity newOpacity ]
+                    ]
                     player.style
-            , visible = newVisibility
+            , visible = not player.visible
         }
 
 

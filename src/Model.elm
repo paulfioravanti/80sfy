@@ -20,11 +20,6 @@ init =
         player2 =
             Player.init Player2 False -2
     in
-        ( { player1 = player1
-          , player2 = player2
-          }
-        , Cmd.batch
-            [ Gif.random player1
-            , Gif.random player2
-            ]
+        ( { player1 = player1, player2 = player2 }
+        , Cmd.batch [ Gif.random player1, Gif.random player2 ]
         )
