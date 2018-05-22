@@ -2,13 +2,13 @@ module Gif exposing (fetchRandomGif, random)
 
 import Http
 import Json.Decode as Decode
-import Player exposing (PlayerId)
+import Player exposing (Player)
 import Msg exposing (Msg(GetRandomGif))
 import Tag
 
 
-fetchRandomGif : PlayerId -> String -> Cmd Msg
-fetchRandomGif playerId tag =
+fetchRandomGif : Player -> String -> Cmd Msg
+fetchRandomGif player tag =
     let
         host =
             "https://api.giphy.com"
@@ -30,12 +30,12 @@ fetchRandomGif playerId tag =
     in
         decodeGifUrl
             |> Http.get url
-            |> Http.send (GetRandomGif playerId)
+            |> Http.send (GetRandomGif player)
 
 
-random : PlayerId -> Cmd Msg
-random playerId =
-    Tag.random playerId
+random : Player -> Cmd Msg
+random player =
+    Tag.random player
 
 
 decodeGifUrl : Decode.Decoder String

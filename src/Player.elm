@@ -1,7 +1,7 @@
-module Player exposing (Player, PlayerId(..), init, setStyle)
+module Player exposing (Player, PlayerId(..), init, setGifUrl, setStyle)
 
 import Animation
-import RemoteData exposing (RemoteData(NotRequested), WebData)
+import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
 
 
 type PlayerId
@@ -29,3 +29,8 @@ init id visibility =
 setStyle : Animation.Msg -> Player -> Player
 setStyle msg player =
     { player | style = Animation.update msg player.style }
+
+
+setGifUrl : String -> Player -> Player
+setGifUrl gifUrl player =
+    { player | gifUrl = Success gifUrl }

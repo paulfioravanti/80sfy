@@ -9,7 +9,6 @@ import Msg
         ( Msg(Animate, CrossFade, GetNextGif, GetRandomGif, RandomTag)
         )
 import Player exposing (PlayerId(Player1, Player2))
-import RemoteData exposing (RemoteData(Success), WebData)
 import Task
 import Time exposing (Time)
 import View
@@ -24,17 +23,15 @@ update msg model =
                     model.player1
                         |> Player.setStyle msg
             in
-                ( { model | player1 = player1 }
-                , Cmd.none
-                )
+                ( { model | player1 = player1 }, Cmd.none )
 
-        CrossFade visiblePlayerId hiddenPlayerId time ->
+        CrossFade visiblePlayer hiddenPlayer time ->
             let
                 currentPlayer1 =
                     model.player1
 
                 ( player1Opacity, player1Visibility ) =
-                    case visiblePlayerId of
+                    case visiblePlayer.id of
                         Player1 ->
                             ( 0, False )
 
@@ -53,40 +50,30 @@ update msg model =
                     }
             in
                 ( { model | player1 = player1 }
-                , Task.succeed visiblePlayerId
+                , Task.succeed visiblePlayer
                     |> Task.perform GetNextGif
                 )
 
         GetNextGif hiddenPlayerId ->
-            ( model
-            , Gif.random hiddenPlayerId
-            )
+            ( model, Gif.random hiddenPlayerId )
 
-        GetRandomGif playerId (Ok imageUrl) ->
+        GetRandomGif player (Ok gifUrl) ->
             let
                 newModel =
-                    case playerId of
+                    case player.id of
                         Player1 ->
                             let
-                                currentPlayer1 =
-                                    model.player1
-
                                 player1 =
-                                    { currentPlayer1
-                                        | gifUrl = Success imageUrl
-                                    }
+                                    model.player1
+                                        |> Player.setGifUrl gifUrl
                             in
                                 { model | player1 = player1 }
 
                         Player2 ->
                             let
-                                currentPlayer2 =
-                                    model.player2
-
                                 player2 =
-                                    { currentPlayer2
-                                        | gifUrl = Success imageUrl
-                                    }
+                                    model.player2
+                                        |> Player.setGifUrl gifUrl
                             in
                                 { model | player2 = player2 }
             in
@@ -95,8 +82,8 @@ update msg model =
         GetRandomGif player (Err error) ->
             ( model, Cmd.none )
 
-        RandomTag playerId tag ->
-            ( model, Gif.fetchRandomGif playerId tag )
+        RandomTag player tag ->
+            ( model, Gif.fetchRandomGif player tag )
 
 
 
@@ -106,19 +93,16 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions { player1, player2 } =
     let
-        ( visiblePlayerId, hiddenPlayerId ) =
+        ( visiblePlayer, hiddenPlayer ) =
             if player1.visible == True then
-                ( player1.id, player2.id )
+                ( player1, player2 )
             else
-                ( player2.id, player1.id )
+                ( player2, player1 )
     in
         Sub.batch
             [ Time.every (4 * Time.second)
-                (CrossFade visiblePlayerId hiddenPlayerId)
-            , Animation.subscription Animate
-                [ player1.style
-                , player2.style
-                ]
+                (CrossFade visiblePlayer hiddenPlayer)
+            , Animation.subscription Animate [ player1.style ]
             ]
 
 

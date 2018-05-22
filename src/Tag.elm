@@ -1,19 +1,19 @@
 module Tag exposing (random)
 
-import Player exposing (PlayerId)
+import Player exposing (Player)
 import Msg exposing (Msg(RandomTag))
 import Random
 
 
-random : PlayerId -> Cmd Msg
-random playerId =
+random : Player -> Cmd Msg
+random player =
     let
         generator =
             Random.int 1 (List.length tags - 1)
                 |> Random.map numToTag
     in
         generator
-            |> Random.generate (RandomTag playerId)
+            |> Random.generate (RandomTag player)
 
 
 numToTag : Int -> String
