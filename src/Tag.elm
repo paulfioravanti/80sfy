@@ -42,7 +42,7 @@ tags =
     , "80s video"
     , "vhs"
     , "synthwave"
-    , "tron"
+    , "80s tron"
     , "grid"
     , "nes"
     , "8bit"

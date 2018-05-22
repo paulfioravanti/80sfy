@@ -1,4 +1,4 @@
-module Player exposing (PlayerId(..), Player, init)
+module Player exposing (Player, PlayerId(..), init)
 
 import Animation
 import RemoteData exposing (RemoteData(NotRequested), WebData)

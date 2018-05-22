@@ -2,21 +2,14 @@ module Main exposing (main)
 
 import Animation
 import Gif
-import Html.Styled as Html exposing (Html, text, div, h1, img, p, video)
-import Html.Styled.Attributes
-    exposing
-        ( attribute
-        , css
-        , fromUnstyled
-        , property
-        , src
-        , style
-        )
+import Html.Styled as Html
 import Model exposing (Model)
-import Msg exposing (Msg(..))
-import Player exposing (..)
-import RemoteData exposing (RemoteData(..), WebData)
-import Styles
+import Msg
+    exposing
+        ( Msg(Animate, CrossFade, GetNextGif, GetRandomGif, RandomTag)
+        )
+import Player exposing (PlayerId(Player1, Player2))
+import RemoteData exposing (RemoteData(Success), WebData)
 import Task
 import Time exposing (Time)
 import View
@@ -131,12 +124,8 @@ update msg model =
         RandomTag player tag ->
             ( model, Gif.fetchRandomGif player tag )
 
-        _ ->
-            ( model, Cmd.none )
 
 
-
----- VIEW ----
 ---- SUBSCRIPTIONS ----
 
 

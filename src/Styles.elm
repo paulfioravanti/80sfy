@@ -1,6 +1,24 @@
-module Styles exposing (..)
+module Styles exposing (playerGifContainer, videoPlayer)
 
-import Css exposing (..)
+import Css
+    exposing
+        ( Style
+        , auto
+        , center
+        , fixed
+        , height
+        , int
+        , left
+        , minHeight
+        , minWidth
+        , pct
+        , position
+        , px
+        , textAlign
+        , top
+        , width
+        , zIndex
+        )
 
 
 playerGifContainer : Int -> Style
