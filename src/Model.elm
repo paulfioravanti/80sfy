@@ -13,15 +13,11 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    let
-        model =
-            { player1 = Player.init Player1
-            , player2 = Player.init Player2
-            }
-    in
-        ( model
-        , Cmd.batch
-            [ Gif.random Player1
-            , Gif.random Player2
-            ]
-        )
+    ( { player1 = Player.init Player1 1 True
+      , player2 = Player.init Player2 0 False
+      }
+    , Cmd.batch
+        [ Gif.random Player1
+        , Gif.random Player2
+        ]
+    )

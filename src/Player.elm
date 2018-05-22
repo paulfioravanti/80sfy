@@ -17,19 +17,10 @@ type alias Player =
     }
 
 
-init : PlayerId -> Player
-init id =
-    let
-        ( opacity, visibility ) =
-            case id of
-                Player1 ->
-                    ( 1, True )
-
-                Player2 ->
-                    ( 0, False )
-    in
-        { gifUrl = NotRequested
-        , id = id
-        , style = Animation.style [ Animation.opacity opacity ]
-        , visible = visibility
-        }
+init : PlayerId -> Float -> Bool -> Player
+init id opacity visibility =
+    { gifUrl = NotRequested
+    , id = id
+    , style = Animation.style [ Animation.opacity opacity ]
+    , visible = visibility
+    }

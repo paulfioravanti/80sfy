@@ -54,7 +54,7 @@ update msg model =
                             ( 0, False, "0", 1, True )
 
                         Player2 ->
-                            ( 1, True, "1000", 0, False )
+                            ( 1, True, "1", 0, False )
 
                 player1 =
                     { currentPlayer1
@@ -121,8 +121,8 @@ update msg model =
         GetRandomGif player (Err error) ->
             ( model, Cmd.none )
 
-        RandomTag player tag ->
-            ( model, Gif.fetchRandomGif player tag )
+        RandomTag playerId tag ->
+            ( model, Gif.fetchRandomGif playerId tag )
 
 
 
@@ -130,11 +130,8 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions { player1, player2 } =
     let
-        ( player1, player2 ) =
-            ( model.player1, model.player2 )
-
         ( visiblePlayerId, hiddenPlayerId ) =
             if player1.visible == True then
                 ( player1.id, player2.id )
