@@ -21,41 +21,32 @@ update msg model =
             let
                 player1 =
                     model.player1
-                        |> Player.setStyle msg
+                        |> Player.updateStyle msg
             in
                 ( { model | player1 = player1 }, Cmd.none )
 
-        CrossFade visiblePlayer hiddenPlayer time ->
+        CrossFade time ->
             let
-                currentPlayer1 =
-                    model.player1
+                { player1, player2 } =
+                    model
 
-                ( player1Opacity, player1Visibility ) =
-                    case visiblePlayer.id of
-                        Player1 ->
-                            ( 0, False )
+                willBeHiddenPlayer =
+                    if player1.visible then
+                        player1
+                    else
+                        player2
 
-                        Player2 ->
-                            ( 1, True )
-
-                player1 =
-                    { currentPlayer1
-                        | style =
-                            Animation.interrupt
-                                [ Animation.to
-                                    [ Animation.opacity player1Opacity ]
-                                ]
-                                currentPlayer1.style
-                        , visible = player1Visibility
-                    }
+                newPlayer1 =
+                    player1
+                        |> Player.updateVisibility
             in
-                ( { model | player1 = player1 }
-                , Task.succeed visiblePlayer
+                ( { model | player1 = newPlayer1 }
+                , Task.succeed willBeHiddenPlayer
                     |> Task.perform GetNextGif
                 )
 
-        GetNextGif hiddenPlayerId ->
-            ( model, Gif.random hiddenPlayerId )
+        GetNextGif hiddenPlayer ->
+            ( model, Gif.random hiddenPlayer )
 
         GetRandomGif player (Ok gifUrl) ->
             case player.id of
@@ -82,28 +73,12 @@ update msg model =
             ( model, Gif.fetchRandomGif player tag )
 
 
-
----- SUBSCRIPTIONS ----
-
-
 subscriptions : Model -> Sub Msg
-subscriptions { player1, player2 } =
-    let
-        ( visiblePlayer, hiddenPlayer ) =
-            if player1.visible == True then
-                ( player1, player2 )
-            else
-                ( player2, player1 )
-    in
-        Sub.batch
-            [ Time.every (4 * Time.second)
-                (CrossFade visiblePlayer hiddenPlayer)
-            , Animation.subscription Animate [ player1.style ]
-            ]
-
-
-
----- PROGRAM ----
+subscriptions { player1 } =
+    Sub.batch
+        [ Time.every (4 * Time.second) CrossFade
+        , Animation.subscription Animate [ player1.style ]
+        ]
 
 
 main : Program Never Model Msg
