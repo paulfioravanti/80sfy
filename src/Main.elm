@@ -2,13 +2,14 @@ module Main exposing (main)
 
 import Animation
 import Gif
-import Html exposing (Html, text, div, h1, img, p, video)
-import Html.Attributes exposing (attribute, property, src, style)
+import Html.Styled as Html exposing (Html, text, div, h1, img, p, video)
+import Html.Styled.Attributes exposing (attribute, css, fromUnstyled, property, src, style)
 import Json.Encode as Encode
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Player exposing (..)
 import RemoteData exposing (RemoteData(..), WebData)
+import Styles
 import Task
 import Time exposing (Time)
 
@@ -143,43 +144,32 @@ view model =
             p [] [ text "" ]
 
 
-player : Player -> String -> Html Msg
+player : Player -> String -> Html msg
 player player gifUrl =
     let
         ( zIndex, name ) =
             case player.id of
                 Player1 ->
-                    ( "0", "player-1" )
+                    ( 0, "player-1" )
 
                 Player2 ->
-                    ( "1", "player-2" )
+                    ( 1, "player-2" )
+
+        true =
+            Encode.string "true"
     in
         div
-            ((Animation.render player.style)
-                ++ [ style
-                        [ ( "height", "100%" )
-                        , ( "left", "0" )
-                        , ( "position", "fixed" )
-                        , ( "text-align", "center" )
-                        , ( "top", "0" )
-                        , ( "width", "100%" )
-                        , ( "zIndex", zIndex )
-                        ]
+            (List.map fromUnstyled (Animation.render player.style)
+                ++ [ css [ Styles.playerGifContainer zIndex ]
+                   , attribute "data-name" "player-gif-container"
                    ]
             )
             [ video
                 [ src gifUrl
+                , css [ Styles.videoPlayer ]
                 , attribute "data-name" name
-                , style
-                    [ ( "height", "auto" )
-                    , ( "minHeight", "100%" )
-                    , ( "minWidth", "100%" )
-                    , ( "objectFit", "cover" )
-                    , ( "width", "auto" )
-                    , ( "zIndex", "-100" )
-                    ]
-                , property "autoplay" (Encode.string "true")
-                , property "loop" (Encode.string "true")
+                , property "autoplay" true
+                , property "loop" true
                 ]
                 []
             ]
@@ -202,7 +192,7 @@ subscriptions model =
                 ( player2.id, player1.id )
     in
         Sub.batch
-            [ Time.every (30 * Time.second)
+            [ Time.every (4 * Time.second)
                 (CrossFade visiblePlayerId hiddenPlayerId)
             , Animation.subscription Animate
                 [ player1.style
