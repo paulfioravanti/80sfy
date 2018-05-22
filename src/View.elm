@@ -24,16 +24,16 @@ view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ player model.player1 player1GifUrl -1
-                , player model.player2 player2GifUrl -2
+                [ player model.player1 player1GifUrl
+                , player model.player2 player2GifUrl
                 ]
 
         _ ->
             p [] [ text "" ]
 
 
-player : Player -> String -> Int -> Html msg
-player player gifUrl zIndex =
+player : Player -> String -> Html msg
+player player gifUrl =
     let
         videoName =
             player.id
@@ -49,7 +49,7 @@ player player gifUrl zIndex =
                 |> List.map fromUnstyled
 
         attributes =
-            [ css [ Styles.playerGifContainer zIndex ]
+            [ css [ Styles.playerGifContainer player.zIndex ]
             , attribute "data-name" "player-gif-container"
             ]
     in

@@ -23,15 +23,17 @@ type alias Player =
     , id : PlayerId
     , style : Animation.State
     , visible : Bool
+    , zIndex : Int
     }
 
 
-init : PlayerId -> Bool -> Player
-init id visible =
+init : PlayerId -> Bool -> Int -> Player
+init id visible zIndex =
     { gifUrl = NotRequested
     , id = id
     , style = Animation.style [ Animation.opacity 1 ]
     , visible = visible
+    , zIndex = zIndex
     }
 
 

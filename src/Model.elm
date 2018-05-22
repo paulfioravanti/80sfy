@@ -15,10 +15,10 @@ init : ( Model, Cmd Msg )
 init =
     let
         player1 =
-            Player.init Player1 True
+            Player.init Player1 True -1
 
         player2 =
-            Player.init Player2 False
+            Player.init Player2 False -2
     in
         ( { player1 = player1
           , player2 = player2
