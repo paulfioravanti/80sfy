@@ -2,14 +2,14 @@ module Msg exposing (Msg(..))
 
 import Animation
 import Http exposing (Error)
-import Player exposing (Player, Id)
+import Player exposing (Player, PlayerId)
 import Time exposing (Time)
 
 
 type Msg
-    = GetRandomGif Id (Result Error String)
-    | GetNextGif Id
-    | RandomTag Id String
+    = GetRandomGif PlayerId (Result Error String)
+    | GetNextGif PlayerId
+    | RandomTag PlayerId String
     | NoOp
     | Animate Animation.Msg
-    | CrossFade Id Id Time
+    | CrossFade PlayerId PlayerId Time

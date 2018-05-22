@@ -3,8 +3,15 @@ module Main exposing (main)
 import Animation
 import Gif
 import Html.Styled as Html exposing (Html, text, div, h1, img, p, video)
-import Html.Styled.Attributes exposing (attribute, css, fromUnstyled, property, src, style)
-import Json.Encode as Encode
+import Html.Styled.Attributes
+    exposing
+        ( attribute
+        , css
+        , fromUnstyled
+        , property
+        , src
+        , style
+        )
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 import Player exposing (..)
@@ -12,6 +19,7 @@ import RemoteData exposing (RemoteData(..), WebData)
 import Styles
 import Task
 import Time exposing (Time)
+import View
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -129,53 +137,6 @@ update msg model =
 
 
 ---- VIEW ----
-
-
-view : Model -> Html Msg
-view model =
-    case ( model.player1.gifUrl, model.player2.gifUrl ) of
-        ( Success player1GifUrl, Success player2GifUrl ) ->
-            div [ attribute "data-name" "container" ]
-                [ player model.player1 player1GifUrl
-                , player model.player2 player2GifUrl
-                ]
-
-        _ ->
-            p [] [ text "" ]
-
-
-player : Player -> String -> Html msg
-player player gifUrl =
-    let
-        ( zIndex, name ) =
-            case player.id of
-                Player1 ->
-                    ( 0, "player-1" )
-
-                Player2 ->
-                    ( 1, "player-2" )
-
-        true =
-            Encode.string "true"
-    in
-        div
-            (List.map fromUnstyled (Animation.render player.style)
-                ++ [ css [ Styles.playerGifContainer zIndex ]
-                   , attribute "data-name" "player-gif-container"
-                   ]
-            )
-            [ video
-                [ src gifUrl
-                , css [ Styles.videoPlayer ]
-                , attribute "data-name" name
-                , property "autoplay" true
-                , property "loop" true
-                ]
-                []
-            ]
-
-
-
 ---- SUBSCRIPTIONS ----
 
 
@@ -208,7 +169,7 @@ subscriptions model =
 main : Program Never Model Msg
 main =
     Html.program
-        { view = view
+        { view = View.view
         , init = Model.init
         , update = update
         , subscriptions = subscriptions

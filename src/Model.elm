@@ -2,7 +2,7 @@ module Model exposing (Model, init)
 
 import Gif
 import Msg exposing (Msg)
-import Player exposing (Player, Id(Player1, Player2))
+import Player exposing (Player, PlayerId(Player1, Player2))
 
 
 type alias Model =

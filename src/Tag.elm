@@ -1,11 +1,11 @@
 module Tag exposing (random)
 
-import Player exposing (Id)
+import Player exposing (PlayerId)
 import Msg exposing (Msg(RandomTag))
 import Random
 
 
-random : Id -> Cmd Msg
+random : PlayerId -> Cmd Msg
 random playerId =
     let
         generator =

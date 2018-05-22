@@ -2,12 +2,12 @@ module Gif exposing (fetchRandomGif, random)
 
 import Http
 import Json.Decode as Decode
-import Player exposing (Id)
+import Player exposing (PlayerId)
 import Msg exposing (Msg(GetRandomGif))
 import Tag
 
 
-fetchRandomGif : Id -> String -> Cmd Msg
+fetchRandomGif : PlayerId -> String -> Cmd Msg
 fetchRandomGif playerId tag =
     let
         host =
@@ -33,7 +33,7 @@ fetchRandomGif playerId tag =
             |> Http.send (GetRandomGif playerId)
 
 
-random : Id -> Cmd Msg
+random : PlayerId -> Cmd Msg
 random playerId =
     Tag.random playerId
 

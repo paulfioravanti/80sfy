@@ -1,23 +1,23 @@
-module Player exposing (Id(..), Player, init)
+module Player exposing (PlayerId(..), Player, init)
 
 import Animation
 import RemoteData exposing (RemoteData(NotRequested), WebData)
 
 
-type Id
+type PlayerId
     = Player1
     | Player2
 
 
 type alias Player =
     { gifUrl : WebData String
-    , id : Id
+    , id : PlayerId
     , style : Animation.State
     , visible : Bool
     }
 
 
-init : Id -> Player
+init : PlayerId -> Player
 init id =
     let
         ( opacity, visibility ) =
