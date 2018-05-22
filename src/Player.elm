@@ -17,10 +17,10 @@ type alias Player =
     }
 
 
-init : PlayerId -> Float -> Bool -> Player
-init id opacity visibility =
+init : PlayerId -> Bool -> Player
+init id visibility =
     { gifUrl = NotRequested
     , id = id
-    , style = Animation.style [ Animation.opacity opacity ]
+    , style = Animation.style [ Animation.opacity 1 ]
     , visible = visibility
     }

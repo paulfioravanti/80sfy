@@ -13,8 +13,8 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { player1 = Player.init Player1 1 True
-      , player2 = Player.init Player2 0 False
+    ( { player1 = Player.init Player1 True
+      , player2 = Player.init Player2 False
       }
     , Cmd.batch
         [ Gif.random Player1
