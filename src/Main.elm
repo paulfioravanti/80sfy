@@ -135,68 +135,54 @@ view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ div
-                    ((Animation.render model.player1.style)
-                        ++ [ style
-                                [ ( "height", "100%" )
-                                , ( "left", "0" )
-                                , ( "position", "fixed" )
-                                , ( "text-align", "center" )
-                                , ( "top", "0" )
-                                , ( "width", "100%" )
-                                , ( "zIndex", "0" )
-                                ]
-                           ]
-                    )
-                    [ video
-                        [ src player1GifUrl
-                        , attribute "data-name" "player-1"
-                        , style
-                            [ ( "height", "auto" )
-                            , ( "minHeight", "100%" )
-                            , ( "minWidth", "100%" )
-                            , ( "objectFit", "cover" )
-                            , ( "width", "auto" )
-                            , ( "zIndex", "-100" )
-                            ]
-                        , property "autoplay" (Encode.string "true")
-                        , property "loop" (Encode.string "true")
-                        ]
-                        []
-                    ]
-                , div
-                    ((Animation.render model.player2.style)
-                        ++ [ style
-                                [ ( "height", "100%" )
-                                , ( "left", "0" )
-                                , ( "position", "fixed" )
-                                , ( "text-align", "center" )
-                                , ( "top", "0" )
-                                , ( "width", "100%" )
-                                , ( "zIndex", "1" )
-                                ]
-                           ]
-                    )
-                    [ video
-                        [ src player2GifUrl
-                        , attribute "data-name" "player-2"
-                        , style
-                            [ ( "height", "auto" )
-                            , ( "minHeight", "100%" )
-                            , ( "minWidth", "100%" )
-                            , ( "objectFit", "cover" )
-                            , ( "width", "auto" )
-                            , ( "zIndex", "-100" )
-                            ]
-                        , property "autoplay" (Encode.string "true")
-                        , property "loop" (Encode.string "true")
-                        ]
-                        []
-                    ]
+                [ player model.player1 player1GifUrl
+                , player model.player2 player2GifUrl
                 ]
 
         _ ->
             p [] [ text "" ]
+
+
+player : Player -> String -> Html Msg
+player player gifUrl =
+    let
+        ( zIndex, name ) =
+            case player.id of
+                Player1 ->
+                    ( "0", "player-1" )
+
+                Player2 ->
+                    ( "1", "player-2" )
+    in
+        div
+            ((Animation.render player.style)
+                ++ [ style
+                        [ ( "height", "100%" )
+                        , ( "left", "0" )
+                        , ( "position", "fixed" )
+                        , ( "text-align", "center" )
+                        , ( "top", "0" )
+                        , ( "width", "100%" )
+                        , ( "zIndex", zIndex )
+                        ]
+                   ]
+            )
+            [ video
+                [ src gifUrl
+                , attribute "data-name" name
+                , style
+                    [ ( "height", "auto" )
+                    , ( "minHeight", "100%" )
+                    , ( "minWidth", "100%" )
+                    , ( "objectFit", "cover" )
+                    , ( "width", "auto" )
+                    , ( "zIndex", "-100" )
+                    ]
+                , property "autoplay" (Encode.string "true")
+                , property "loop" (Encode.string "true")
+                ]
+                []
+            ]
 
 
 
@@ -206,18 +192,21 @@ view model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     let
+        ( player1, player2 ) =
+            ( model.player1, model.player2 )
+
         ( visiblePlayerId, hiddenPlayerId ) =
-            if model.player1.visible == True then
-                ( model.player1.id, model.player2.id )
+            if player1.visible == True then
+                ( player1.id, player2.id )
             else
-                ( model.player2.id, model.player1.id )
+                ( player2.id, player1.id )
     in
         Sub.batch
-            [ Time.every (4 * Time.second)
+            [ Time.every (30 * Time.second)
                 (CrossFade visiblePlayerId hiddenPlayerId)
             , Animation.subscription Animate
-                [ model.player1.style
-                , model.player2.style
+                [ player1.style
+                , player2.style
                 ]
             ]
 
