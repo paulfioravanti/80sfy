@@ -30,7 +30,7 @@ fetchRandomGif player tag =
     in
         decodeGifUrl
             |> Http.get url
-            |> Http.send (GetRandomGif player)
+            |> Http.send (GetRandomGif player.id)
 
 
 random : Player -> Cmd Msg

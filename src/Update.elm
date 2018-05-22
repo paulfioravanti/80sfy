@@ -44,8 +44,8 @@ update msg model =
         GetNextGif hiddenPlayer ->
             ( model, Gif.random hiddenPlayer )
 
-        GetRandomGif player (Ok gifUrl) ->
-            case player.id of
+        GetRandomGif playerId (Ok gifUrl) ->
+            case playerId of
                 Player1 ->
                     let
                         player1 =

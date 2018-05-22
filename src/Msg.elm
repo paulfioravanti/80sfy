@@ -10,5 +10,5 @@ type Msg
     = Animate Animation.Msg
     | CrossFade Time
     | GetNextGif Player
-    | GetRandomGif Player (Result Error String)
+    | GetRandomGif PlayerId (Result Error String)
     | RandomTag Player String
