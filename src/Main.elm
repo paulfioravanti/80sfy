@@ -58,26 +58,22 @@ update msg model =
             ( model, Gif.random hiddenPlayerId )
 
         GetRandomGif player (Ok gifUrl) ->
-            let
-                newModel =
-                    case player.id of
-                        Player1 ->
-                            let
-                                player1 =
-                                    model.player1
-                                        |> Player.setGifUrl gifUrl
-                            in
-                                { model | player1 = player1 }
+            case player.id of
+                Player1 ->
+                    let
+                        player1 =
+                            model.player1
+                                |> Player.setGifUrl gifUrl
+                    in
+                        ( { model | player1 = player1 }, Cmd.none )
 
-                        Player2 ->
-                            let
-                                player2 =
-                                    model.player2
-                                        |> Player.setGifUrl gifUrl
-                            in
-                                { model | player2 = player2 }
-            in
-                ( newModel, Cmd.none )
+                Player2 ->
+                    let
+                        player2 =
+                            model.player2
+                                |> Player.setGifUrl gifUrl
+                    in
+                        ( { model | player2 = player2 }, Cmd.none )
 
         GetRandomGif player (Err error) ->
             ( model, Cmd.none )
