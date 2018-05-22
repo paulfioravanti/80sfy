@@ -1,4 +1,4 @@
-module Player exposing (Player, PlayerId(..), init)
+module Player exposing (Player, PlayerId(..), init, setStyle)
 
 import Animation
 import RemoteData exposing (RemoteData(NotRequested), WebData)
@@ -24,3 +24,8 @@ init id visibility =
     , style = Animation.style [ Animation.opacity 1 ]
     , visible = visibility
     }
+
+
+setStyle : Animation.Msg -> Player -> Player
+setStyle msg player =
+    { player | style = Animation.update msg player.style }

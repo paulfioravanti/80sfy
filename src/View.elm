@@ -24,8 +24,8 @@ view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ player model.player1 player1GifUrl 0
-                , player model.player2 player2GifUrl 1
+                [ player model.player1 player1GifUrl -1
+                , player model.player2 player2GifUrl -2
                 ]
 
         _ ->
@@ -35,7 +35,7 @@ view model =
 player : Player -> String -> Int -> Html msg
 player player gifUrl zIndex =
     let
-        name =
+        videoName =
             player.id
                 |> toString
                 |> String.toLower
@@ -47,18 +47,17 @@ player player gifUrl zIndex =
             player.style
                 |> Animation.render
                 |> List.map fromUnstyled
+
+        attributes =
+            [ css [ Styles.playerGifContainer zIndex ]
+            , attribute "data-name" "player-gif-container"
+            ]
     in
-        div
-            (List.append
-                animations
-                [ css [ Styles.playerGifContainer zIndex ]
-                , attribute "data-name" "player-gif-container"
-                ]
-            )
+        div (List.append animations attributes)
             [ video
                 [ src gifUrl
                 , css [ Styles.videoPlayer ]
-                , attribute "data-name" name
+                , attribute "data-name" videoName
                 , property "autoplay" true
                 , property "loop" true
                 ]

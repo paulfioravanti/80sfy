@@ -20,23 +20,11 @@ update msg model =
     case msg of
         Animate msg ->
             let
-                currentPlayer1 =
-                    model.player1
-
                 player1 =
-                    { currentPlayer1
-                        | style = Animation.update msg currentPlayer1.style
-                    }
-
-                currentPlayer2 =
-                    model.player2
-
-                player2 =
-                    { currentPlayer2
-                        | style = Animation.update msg currentPlayer2.style
-                    }
+                    model.player1
+                        |> Player.setStyle msg
             in
-                ( { model | player1 = player1, player2 = player2 }
+                ( { model | player1 = player1 }
                 , Cmd.none
                 )
 
@@ -45,16 +33,13 @@ update msg model =
                 currentPlayer1 =
                     model.player1
 
-                currentPlayer2 =
-                    model.player2
-
-                ( player1Opacity, player1Visibility, player1ZIndex, player2Opacity, player2Visibility ) =
+                ( player1Opacity, player1Visibility ) =
                     case visiblePlayerId of
                         Player1 ->
-                            ( 0, False, "0", 1, True )
+                            ( 0, False )
 
                         Player2 ->
-                            ( 1, True, "1", 0, False )
+                            ( 1, True )
 
                 player1 =
                     { currentPlayer1
@@ -66,19 +51,8 @@ update msg model =
                                 currentPlayer1.style
                         , visible = player1Visibility
                     }
-
-                player2 =
-                    { currentPlayer2
-                        | style =
-                            Animation.interrupt
-                                [ Animation.to
-                                    [ Animation.opacity player2Opacity ]
-                                ]
-                                currentPlayer2.style
-                        , visible = player2Visibility
-                    }
             in
-                ( { model | player1 = player1, player2 = player2 }
+                ( { model | player1 = player1 }
                 , Task.succeed visiblePlayerId
                     |> Task.perform GetNextGif
                 )
