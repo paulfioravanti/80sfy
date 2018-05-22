@@ -24,24 +24,21 @@ view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             div [ attribute "data-name" "container" ]
-                [ player model.player1 player1GifUrl
-                , player model.player2 player2GifUrl
+                [ player model.player1 player1GifUrl 0
+                , player model.player2 player2GifUrl 1
                 ]
 
         _ ->
             p [] [ text "" ]
 
 
-player : Player -> String -> Html msg
-player player gifUrl =
+player : Player -> String -> Int -> Html msg
+player player gifUrl zIndex =
     let
-        ( zIndex, name ) =
-            case player.id of
-                Player1 ->
-                    ( 0, "player-1" )
-
-                Player2 ->
-                    ( 1, "player-2" )
+        name =
+            player.id
+                |> toString
+                |> String.toLower
 
         true =
             Encode.string "true"
