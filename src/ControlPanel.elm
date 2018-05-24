@@ -16,14 +16,13 @@ import Animation exposing (px)
 import Mouse
 import Msg exposing (Msg(CountdownToHideMenu, ShowControlPanel))
 import Time
-import Visibility exposing (Visibility(Hidden, Visible))
 
 
 type alias ControlPanel =
     { inUse : Bool
     , secondsOpen : Int
     , style : Animation.State
-    , visibility : Visibility
+    , visible : Bool
     }
 
 
@@ -46,7 +45,7 @@ hide controlPanel =
                 [ Animation.to styles.hidden ]
                 controlPanel.style
     in
-        { controlPanel | style = animateToHidden, visibility = Hidden }
+        { controlPanel | style = animateToHidden, visible = False }
 
 
 incrementSecondsOpen : ControlPanel -> ControlPanel
@@ -59,7 +58,7 @@ init =
     { inUse = False
     , secondsOpen = 0
     , style = Animation.style styles.hidden
-    , visibility = Hidden
+    , visible = False
     }
 
 
@@ -88,12 +87,12 @@ show controlPanel =
                 [ Animation.to styles.visible ]
                 controlPanel.style
     in
-        { controlPanel | style = animateToVisible, visibility = Visible }
+        { controlPanel | style = animateToVisible, visible = True }
 
 
 subscription : ControlPanel -> Sub Msg
 subscription controlPanel =
-    if controlPanel.visibility == Visible && not controlPanel.inUse then
+    if controlPanel.visible && not controlPanel.inUse then
         Time.every Time.second CountdownToHideMenu
     else
         Mouse.moves (\_ -> ShowControlPanel)

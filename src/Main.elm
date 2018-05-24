@@ -14,7 +14,6 @@ import Msg
 import Time
 import Update
 import View
-import Visibility exposing (Visibility(Visible))
 
 
 subscriptions : Model -> Sub Msg

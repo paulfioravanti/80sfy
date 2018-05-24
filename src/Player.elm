@@ -10,7 +10,6 @@ module Player
 
 import Animation
 import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
-import Visibility exposing (Visibility(Hidden, Visible))
 
 
 type PlayerId
@@ -22,7 +21,7 @@ type alias Player =
     { gifUrl : WebData String
     , id : PlayerId
     , style : Animation.State
-    , visibility : Visibility
+    , visible : Bool
     , zIndex : Int
     }
 
@@ -32,12 +31,12 @@ animateStyle msg player =
     { player | style = Animation.update msg player.style }
 
 
-init : PlayerId -> Visibility -> Int -> Player
-init id visibility zIndex =
+init : PlayerId -> Bool -> Int -> Player
+init id visible zIndex =
     { gifUrl = NotRequested
     , id = id
     , style = Animation.style [ Animation.opacity 1 ]
-    , visibility = visibility
+    , visible = visible
     , zIndex = zIndex
     }
 
@@ -47,11 +46,11 @@ setGifUrl gifUrl player =
     { player | gifUrl = Success gifUrl }
 
 
-updateVisibility : Visibility -> Player -> Player
-updateVisibility visibility player =
+updateVisibility : Bool -> Player -> Player
+updateVisibility visible player =
     let
         newOpacity =
-            if player.visibility == Visible then
+            if player.visible then
                 0
             else
                 1
@@ -65,5 +64,5 @@ updateVisibility visibility player =
     in
         { player
             | style = animateToNewOpacity
-            , visibility = visibility
+            , visible = visible
         }
