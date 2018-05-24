@@ -8,11 +8,11 @@ import Time exposing (Time)
 
 type Msg
     = Animate Animation.Msg
+    | CountdownToHideMenu Time
     | CrossFadePlayers Time
     | GetNextGif Player
     | GetRandomGif PlayerId (Result Error String)
     | HideControlPanel ()
     | RandomTag Player String
     | ShowControlPanel
-    | Tick Time
     | UseControlPanel Bool

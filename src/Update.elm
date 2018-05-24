@@ -7,13 +7,13 @@ import Msg
     exposing
         ( Msg
             ( Animate
+            , CountdownToHideMenu
             , CrossFadePlayers
             , GetNextGif
             , GetRandomGif
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
-            , Tick
             , UseControlPanel
             )
         )
@@ -111,7 +111,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        Tick time ->
+        CountdownToHideMenu time ->
             let
                 controlPanel =
                     model.controlPanel

@@ -14,7 +14,7 @@ module ControlPanel
 
 import Animation exposing (px)
 import Mouse
-import Msg exposing (Msg(ShowControlPanel, Tick))
+import Msg exposing (Msg(CountdownToHideMenu, ShowControlPanel))
 import Time
 import Visibility exposing (Visibility(Hidden, Visible))
 
@@ -94,6 +94,6 @@ show controlPanel =
 subscription : ControlPanel -> Sub Msg
 subscription controlPanel =
     if controlPanel.visibility == Visible && not controlPanel.inUse then
-        Time.every Time.second Tick
+        Time.every Time.second CountdownToHideMenu
     else
         Mouse.moves (\_ -> ShowControlPanel)
