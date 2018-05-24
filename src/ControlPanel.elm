@@ -1,7 +1,6 @@
 module ControlPanel
     exposing
         ( ControlPanel
-        , Status(..)
         , hide
         , incrementSecondsOpen
         , init
@@ -13,18 +12,14 @@ module ControlPanel
         )
 
 import Animation exposing (px)
-
-
-type Status
-    = Hidden
-    | Visible
+import Visibility exposing (Visibility(Hidden, Visible))
 
 
 type alias ControlPanel =
     { inUse : Bool
     , secondsOpen : Int
     , style : Animation.State
-    , status : Status
+    , visibility : Visibility
     }
 
 
@@ -39,7 +34,7 @@ init =
     { inUse = False
     , secondsOpen = 0
     , style = Animation.style styles.hidden
-    , status = Hidden
+    , visibility = Hidden
     }
 
 
@@ -58,7 +53,7 @@ hide controlPanel =
                 [ Animation.to styles.hidden ]
                 controlPanel.style
     in
-        { controlPanel | status = Hidden, style = animateToHidden }
+        { controlPanel | style = animateToHidden, visibility = Hidden }
 
 
 incrementSecondsOpen : ControlPanel -> ControlPanel
@@ -79,7 +74,7 @@ show controlPanel =
                 [ Animation.to styles.visible ]
                 controlPanel.style
     in
-        { controlPanel | status = Visible, style = animateToVisible }
+        { controlPanel | style = animateToVisible, visibility = Visible }
 
 
 setInUse : Bool -> ControlPanel -> ControlPanel

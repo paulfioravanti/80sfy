@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Animation
-import ControlPanel exposing (Status(Visible))
+import ControlPanel
 import Html.Styled as Html
 import Model exposing (Model)
 import Mouse
@@ -18,13 +18,14 @@ import Msg
 import Time exposing (Time)
 import Update
 import View
+import Visibility exposing (Visibility(Visible))
 
 
 subscriptions : Model -> Sub Msg
 subscriptions { controlPanel, player1 } =
     let
         menuToggle =
-            if controlPanel.status == Visible && not controlPanel.inUse then
+            if controlPanel.visibility == Visible && not controlPanel.inUse then
                 Time.every Time.second Tick
             else
                 Mouse.moves (\_ -> ShowControlPanel)
