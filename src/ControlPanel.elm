@@ -13,8 +13,8 @@ import Animation exposing (px)
 
 
 type Status
-    = Open
-    | Closed
+    = Hidden
+    | Visible
 
 
 type alias ControlPanel =
@@ -24,45 +24,45 @@ type alias ControlPanel =
 
 
 type alias Styles =
-    { open : List Animation.Property
-    , closed : List Animation.Property
+    { hidden : List Animation.Property
+    , visible : List Animation.Property
     }
 
 
 init : ControlPanel
 init =
-    { style = Animation.style styles.closed
-    , status = Closed
+    { style = Animation.style styles.hidden
+    , status = Hidden
     }
 
 
 styles : Styles
 styles =
-    { open = [ Animation.left (px 0.0) ]
-    , closed = [ Animation.left (px -220.0) ]
+    { hidden = [ Animation.left (px -220.0) ]
+    , visible = [ Animation.left (px 0.0) ]
     }
 
 
 hide : ControlPanel -> ControlPanel
 hide controlPanel =
     let
-        animateToClosed =
+        animateToHidden =
             Animation.interrupt
-                [ Animation.to styles.closed ]
+                [ Animation.to styles.hidden ]
                 controlPanel.style
     in
-        { controlPanel | status = Closed, style = animateToClosed }
+        { controlPanel | status = Hidden, style = animateToHidden }
 
 
 show : ControlPanel -> ControlPanel
 show controlPanel =
     let
-        animateToOpen =
+        animateToVisible =
             Animation.interrupt
-                [ Animation.to styles.open ]
+                [ Animation.to styles.visible ]
                 controlPanel.style
     in
-        { controlPanel | status = Open, style = animateToOpen }
+        { controlPanel | status = Visible, style = animateToVisible }
 
 
 updateStyle : Animation.Msg -> ControlPanel -> ControlPanel

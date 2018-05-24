@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Animation
-import ControlPanel exposing (Status(Open))
+import ControlPanel exposing (Status(Visible))
 import Html.Styled as Html
 import Model exposing (Model)
 import Mouse
@@ -24,7 +24,7 @@ subscriptions : Model -> Sub Msg
 subscriptions { controlPanel, controlPanelMouseOver, player1 } =
     let
         menuToggle =
-            if controlPanel.status == Open && not controlPanelMouseOver then
+            if controlPanel.status == Visible && not controlPanelMouseOver then
                 Time.every Time.second Tick
             else
                 Mouse.moves (\_ -> ShowControlPanel)
