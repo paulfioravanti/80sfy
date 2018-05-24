@@ -9,7 +9,7 @@ import Msg
     exposing
         ( Msg
             ( Animate
-            , CrossFade
+            , CrossFadePlayers
             , HideControlPanel
             , ShowControlPanel
             , Tick
@@ -31,8 +31,9 @@ subscriptions { controlPanel, player1 } =
                 Mouse.moves (\_ -> ShowControlPanel)
     in
         Sub.batch
-            [ Time.every (4 * Time.second) CrossFade
-            , Animation.subscription Animate [ player1.style, controlPanel.style ]
+            [ Time.every (4 * Time.second) CrossFadePlayers
+            , Animation.subscription Animate
+                [ player1.style, controlPanel.style ]
             , menuToggle
             ]
 

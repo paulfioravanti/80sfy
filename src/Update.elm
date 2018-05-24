@@ -7,7 +7,7 @@ import Msg
     exposing
         ( Msg
             ( Animate
-            , CrossFade
+            , CrossFadePlayers
             , GetNextGif
             , GetRandomGif
             , HideControlPanel
@@ -41,7 +41,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        CrossFade time ->
+        CrossFadePlayers time ->
             let
                 ( newPlayer1Visibility, nowHiddenPlayer ) =
                     model
