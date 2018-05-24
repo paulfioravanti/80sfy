@@ -17,7 +17,7 @@ import Msg
             , UseControlPanel
             )
         )
-import Player exposing (PlayerId(Player1, Player2))
+import VideoPlayer exposing (VideoPlayerId(Player1, Player2))
 import Task
 
 
@@ -28,7 +28,7 @@ update msg model =
             let
                 player1 =
                     model.player1
-                        |> Player.animateStyle msg
+                        |> VideoPlayer.animateStyle msg
 
                 controlPanel =
                     model.controlPanel
@@ -54,7 +54,7 @@ update msg model =
 
                 player1 =
                     model.player1
-                        |> Player.updateVisibility newPlayer1Visibility
+                        |> VideoPlayer.updateVisibility newPlayer1Visibility
             in
                 ( { model | player1 = player1 }
                 , Task.succeed nowHiddenPlayer
@@ -70,7 +70,7 @@ update msg model =
                     let
                         player1 =
                             model.player1
-                                |> Player.setGifUrl gifUrl
+                                |> VideoPlayer.setGifUrl gifUrl
                     in
                         ( { model | player1 = player1 }, Cmd.none )
 
@@ -78,7 +78,7 @@ update msg model =
                     let
                         player2 =
                             model.player2
-                                |> Player.setGifUrl gifUrl
+                                |> VideoPlayer.setGifUrl gifUrl
                     in
                         ( { model | player2 = player2 }, Cmd.none )
 

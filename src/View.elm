@@ -15,9 +15,9 @@ import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Json.Encode as Encode
 import Model exposing (Model)
 import Msg exposing (Msg(ShowControlPanel, UseControlPanel))
-import Player exposing (Player, PlayerId(Player1, Player2))
 import RemoteData exposing (RemoteData(Success))
 import Styles
+import VideoPlayer exposing (VideoPlayer, VideoPlayerId(Player1, Player2))
 
 
 view : Model -> Html Msg
@@ -40,16 +40,16 @@ view model =
                                ]
                         )
                         []
-                    , player model.player1 player1GifUrl
-                    , player model.player2 player2GifUrl
+                    , videoPlayer model.player1 player1GifUrl
+                    , videoPlayer model.player2 player2GifUrl
                     ]
 
         _ ->
             p [] [ text "" ]
 
 
-player : Player -> String -> Html msg
-player player gifUrl =
+videoPlayer : VideoPlayer -> String -> Html msg
+videoPlayer player gifUrl =
     let
         videoName =
             player.id

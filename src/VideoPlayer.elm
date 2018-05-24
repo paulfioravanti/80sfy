@@ -1,7 +1,7 @@
-module Player
+module VideoPlayer
     exposing
-        ( Player
-        , PlayerId(..)
+        ( VideoPlayer
+        , VideoPlayerId(..)
         , animateStyle
         , init
         , setGifUrl
@@ -12,26 +12,26 @@ import Animation
 import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
 
 
-type PlayerId
+type VideoPlayerId
     = Player1
     | Player2
 
 
-type alias Player =
+type alias VideoPlayer =
     { gifUrl : WebData String
-    , id : PlayerId
+    , id : VideoPlayerId
     , style : Animation.State
     , visible : Bool
     , zIndex : Int
     }
 
 
-animateStyle : Animation.Msg -> Player -> Player
+animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
 animateStyle msg player =
     { player | style = Animation.update msg player.style }
 
 
-init : PlayerId -> Bool -> Int -> Player
+init : VideoPlayerId -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     { gifUrl = NotRequested
     , id = id
@@ -41,12 +41,12 @@ init id visible zIndex =
     }
 
 
-setGifUrl : String -> Player -> Player
+setGifUrl : String -> VideoPlayer -> VideoPlayer
 setGifUrl gifUrl player =
     { player | gifUrl = Success gifUrl }
 
 
-updateVisibility : Bool -> Player -> Player
+updateVisibility : Bool -> VideoPlayer -> VideoPlayer
 updateVisibility visible player =
     let
         newOpacity =

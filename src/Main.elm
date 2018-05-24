@@ -11,8 +11,8 @@ import View
 main : Program Never Model Msg
 main =
     Html.program
-        { view = View.view
-        , init = Model.init
+        { init = Model.init
         , update = Update.update
+        , view = View.view
         , subscriptions = Subscriptions.subscriptions
         }
