@@ -1,6 +1,7 @@
 module ControlPanel
     exposing
         ( ControlPanel
+        , Status(..)
         , hide
         , init
         , show
@@ -11,9 +12,14 @@ module ControlPanel
 import Animation exposing (px)
 
 
+type Status
+    = Open
+    | Closed
+
+
 type alias ControlPanel =
     { style : Animation.State
-    , visible : Bool
+    , status : Status
     }
 
 
@@ -26,7 +32,7 @@ type alias Styles =
 init : ControlPanel
 init =
     { style = Animation.style styles.closed
-    , visible = False
+    , status = Closed
     }
 
 
@@ -44,7 +50,7 @@ hide controlPanel =
             Animation.interrupt
                 [ Animation.to styles.closed ]
                 controlPanel.style
-        , visible = False
+        , status = Closed
     }
 
 
@@ -55,7 +61,7 @@ show controlPanel =
             Animation.interrupt
                 [ Animation.to styles.open ]
                 controlPanel.style
-        , visible = True
+        , status = Open
     }
 
 
