@@ -12,12 +12,12 @@ import VideoPlayer exposing (VideoPlayer, VideoPlayerId(Player1, Player2))
 
 
 view : Model -> Html Msg
-view model =
-    case ( model.player1.gifUrl, model.player2.gifUrl ) of
+view { controlPanel, player1, player2 } =
+    case ( player1.gifUrl, player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
             let
                 animations =
-                    model.controlPanel.style
+                    controlPanel.style
                         |> Animation.render
                         |> List.map fromUnstyled
             in
@@ -31,8 +31,8 @@ view model =
                                ]
                         )
                         []
-                    , VideoPlayer.view model.player1 player1GifUrl
-                    , VideoPlayer.view model.player2 player2GifUrl
+                    , VideoPlayer.view player1 player1GifUrl
+                    , VideoPlayer.view player2 player2GifUrl
                     ]
 
         _ ->
