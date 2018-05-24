@@ -4,18 +4,14 @@ import Animation
 import ControlPanel
 import Html.Styled as Html
 import Model exposing (Model)
-import Mouse
 import Msg
     exposing
         ( Msg
             ( Animate
             , CrossFadePlayers
-            , HideControlPanel
-            , ShowControlPanel
-            , Tick
             )
         )
-import Time exposing (Time)
+import Time
 import Update
 import View
 import Visibility exposing (Visibility(Visible))
@@ -23,19 +19,13 @@ import Visibility exposing (Visibility(Visible))
 
 subscriptions : Model -> Sub Msg
 subscriptions { controlPanel, player1 } =
-    let
-        menuToggle =
-            if controlPanel.visibility == Visible && not controlPanel.inUse then
-                Time.every Time.second Tick
-            else
-                Mouse.moves (\_ -> ShowControlPanel)
-    in
-        Sub.batch
-            [ Time.every (4 * Time.second) CrossFadePlayers
-            , Animation.subscription Animate
-                [ player1.style, controlPanel.style ]
-            , menuToggle
-            ]
+    Sub.batch
+        [ Time.every (4 * Time.second) CrossFadePlayers
+        , Animation.subscription
+            Animate
+            [ player1.style, controlPanel.style ]
+        , ControlPanel.subscription controlPanel
+        ]
 
 
 main : Program Never Model Msg

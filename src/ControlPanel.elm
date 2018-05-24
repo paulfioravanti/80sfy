@@ -9,9 +9,13 @@ module ControlPanel
         , setInUse
         , show
         , styles
+        , subscription
         )
 
 import Animation exposing (px)
+import Mouse
+import Msg exposing (Msg(ShowControlPanel, Tick))
+import Time
 import Visibility exposing (Visibility(Hidden, Visible))
 
 
@@ -85,3 +89,11 @@ show controlPanel =
                 controlPanel.style
     in
         { controlPanel | style = animateToVisible, visibility = Visible }
+
+
+subscription : ControlPanel -> Sub Msg
+subscription controlPanel =
+    if controlPanel.visibility == Visible && not controlPanel.inUse then
+        Time.every Time.second Tick
+    else
+        Mouse.moves (\_ -> ShowControlPanel)
