@@ -34,10 +34,7 @@ update msg model =
                     model.controlPanel
                         |> ControlPanel.animateStyle msg
             in
-                ( { model
-                    | controlPanel = controlPanel
-                    , player1 = player1
-                  }
+                ( { model | controlPanel = controlPanel, player1 = player1 }
                 , Cmd.none
                 )
 

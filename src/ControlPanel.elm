@@ -7,7 +7,6 @@ module ControlPanel
         , init
         , setInUse
         , show
-        , styles
         , subscription
         )
 
@@ -96,16 +95,16 @@ show controlPanel =
         { controlPanel | style = animateToVisible, visible = True }
 
 
-styles : Styles
-styles =
-    { hidden = [ Animation.left (px -220.0) ]
-    , visible = [ Animation.left (px 0.0) ]
-    }
-
-
 subscription : ControlPanel -> Sub Msg
 subscription controlPanel =
     if controlPanel.visible && not controlPanel.inUse then
         Time.every Time.second CountdownToHideControlPanel
     else
         Mouse.moves (\_ -> ShowControlPanel)
+
+
+styles : Styles
+styles =
+    { hidden = [ Animation.left (px -220.0) ]
+    , visible = [ Animation.left (px 0.0) ]
+    }

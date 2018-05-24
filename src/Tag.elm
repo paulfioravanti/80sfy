@@ -8,8 +8,11 @@ import Random
 random : Player -> Cmd Msg
 random player =
     let
+        tagsLength =
+            List.length tags - 1
+
         generator =
-            Random.int 1 (List.length tags - 1)
+            Random.int 1 tagsLength
                 |> Random.map numToTag
     in
         generator

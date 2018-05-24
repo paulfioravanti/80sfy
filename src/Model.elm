@@ -13,6 +13,14 @@ type alias Model =
     }
 
 
+determineNewPlayerVisibility : Model -> ( Bool, Player )
+determineNewPlayerVisibility { player1, player2 } =
+    if player1.visible then
+        ( False, player1 )
+    else
+        ( True, player2 )
+
+
 init : ( Model, Cmd Msg )
 init =
     let
@@ -28,11 +36,3 @@ init =
           }
         , Cmd.batch [ Gif.random player1, Gif.random player2 ]
         )
-
-
-determineNewPlayerVisibility : Model -> ( Bool, Player )
-determineNewPlayerVisibility { player1, player2 } =
-    if player1.visible then
-        ( False, player1 )
-    else
-        ( True, player2 )
