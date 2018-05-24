@@ -2,11 +2,11 @@ module Tag exposing (random)
 
 import Msg exposing (Msg(RandomTag))
 import Random
-import VideoPlayer exposing (VideoPlayer)
+import VideoPlayer exposing (VideoPlayerId)
 
 
-random : VideoPlayer -> Cmd Msg
-random videoPlayer =
+random : VideoPlayerId -> Cmd Msg
+random videoPlayerId =
     let
         tagsLength =
             List.length tags - 1
@@ -16,7 +16,7 @@ random videoPlayer =
                 |> Random.map numToTag
     in
         generator
-            |> Random.generate (RandomTag videoPlayer)
+            |> Random.generate (RandomTag videoPlayerId)
 
 
 numToTag : Int -> String

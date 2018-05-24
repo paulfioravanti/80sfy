@@ -34,5 +34,5 @@ init =
           , player1 = player1
           , player2 = player2
           }
-        , Cmd.batch [ Gif.random player1, Gif.random player2 ]
+        , Cmd.batch [ Gif.random Player1, Gif.random Player2 ]
         )

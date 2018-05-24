@@ -4,11 +4,11 @@ import Http
 import Json.Decode as Decode
 import Msg exposing (Msg(FetchRandomGif))
 import Tag
-import VideoPlayer exposing (VideoPlayer)
+import VideoPlayer exposing (VideoPlayerId)
 
 
-fetchRandomGif : VideoPlayer -> String -> Cmd Msg
-fetchRandomGif videoPlayer tag =
+fetchRandomGif : VideoPlayerId -> String -> Cmd Msg
+fetchRandomGif videoPlayerId tag =
     let
         host =
             "https://api.giphy.com"
@@ -30,12 +30,12 @@ fetchRandomGif videoPlayer tag =
     in
         decodeGifUrl
             |> Http.get url
-            |> Http.send (FetchRandomGif videoPlayer.id)
+            |> Http.send (FetchRandomGif videoPlayerId)
 
 
-random : VideoPlayer -> Cmd Msg
-random player =
-    Tag.random player
+random : VideoPlayerId -> Cmd Msg
+random videoPlayerId =
+    Tag.random videoPlayerId
 
 
 decodeGifUrl : Decode.Decoder String

@@ -2,7 +2,7 @@ module Msg exposing (Msg(..))
 
 import Animation
 import Http exposing (Error)
-import VideoPlayer exposing (VideoPlayer, VideoPlayerId)
+import VideoPlayer exposing (VideoPlayerId)
 import Time exposing (Time)
 
 
@@ -10,9 +10,9 @@ type Msg
     = Animate Animation.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
-    | FetchNextGif VideoPlayer
+    | FetchNextGif VideoPlayerId
     | FetchRandomGif VideoPlayerId (Result Error String)
     | HideControlPanel ()
-    | RandomTag VideoPlayer String
+    | RandomTag VideoPlayerId String
     | ShowControlPanel
     | UseControlPanel Bool

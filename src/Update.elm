@@ -57,12 +57,12 @@ update msg model =
                         |> VideoPlayer.updateVisibility newPlayer1Visibility
             in
                 ( { model | player1 = player1 }
-                , Task.succeed nowHiddenPlayer
+                , Task.succeed nowHiddenPlayer.id
                     |> Task.perform FetchNextGif
                 )
 
-        FetchNextGif hiddenPlayer ->
-            ( model, Gif.random hiddenPlayer )
+        FetchNextGif hiddenPlayerId ->
+            ( model, Gif.random hiddenPlayerId )
 
         FetchRandomGif playerId (Ok gifUrl) ->
             case playerId of
