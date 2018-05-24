@@ -11,9 +11,10 @@ import Html.Styled.Attributes
         , src
         , style
         )
+import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Json.Encode as Encode
 import Model exposing (Model)
-import Msg exposing (Msg)
+import Msg exposing (Msg(ShowControlPanel, MouseOverControlPanel))
 import Player exposing (Player, PlayerId(Player1, Player2))
 import RemoteData exposing (RemoteData(Success))
 import Styles
@@ -23,10 +24,25 @@ view : Model -> Html Msg
 view model =
     case ( model.player1.gifUrl, model.player2.gifUrl ) of
         ( Success player1GifUrl, Success player2GifUrl ) ->
-            div [ attribute "data-name" "container" ]
-                [ player model.player1 player1GifUrl
-                , player model.player2 player2GifUrl
-                ]
+            let
+                animations =
+                    model.controlPanel.style
+                        |> Animation.render
+                        |> List.map fromUnstyled
+            in
+                div [ attribute "data-name" "container" ]
+                    [ div
+                        (animations
+                            ++ [ css [ Styles.controlPanel ]
+                               , attribute "data-name" "control-panel"
+                               , onMouseEnter (MouseOverControlPanel True)
+                               , onMouseLeave (MouseOverControlPanel False)
+                               ]
+                        )
+                        []
+                    , player model.player1 player1GifUrl
+                    , player model.player2 player2GifUrl
+                    ]
 
         _ ->
             p [] [ text "" ]

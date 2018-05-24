@@ -1,10 +1,21 @@
 module Update exposing (update)
 
+import ControlPanel
 import Gif
 import Model exposing (Model)
 import Msg
     exposing
-        ( Msg(Animate, CrossFade, GetNextGif, GetRandomGif, RandomTag)
+        ( Msg
+            ( Animate
+            , CrossFade
+            , GetNextGif
+            , GetRandomGif
+            , HideControlPanel
+            , MouseOverControlPanel
+            , RandomTag
+            , ShowControlPanel
+            , Tick
+            )
         )
 import Player exposing (PlayerId(Player1, Player2))
 import Task
@@ -18,8 +29,17 @@ update msg model =
                 player1 =
                     model.player1
                         |> Player.updateStyle msg
+
+                controlPanel =
+                    model.controlPanel
+                        |> ControlPanel.updateStyle msg
             in
-                ( { model | player1 = player1 }, Cmd.none )
+                ( { model
+                    | controlPanel = controlPanel
+                    , player1 = player1
+                  }
+                , Cmd.none
+                )
 
         CrossFade time ->
             let
@@ -65,5 +85,38 @@ update msg model =
         GetRandomGif player (Err error) ->
             ( model, Cmd.none )
 
+        HideControlPanel () ->
+            let
+                newControlPanel =
+                    model.controlPanel
+                        |> ControlPanel.hide
+            in
+                ( { model | controlPanel = newControlPanel }
+                , Cmd.none
+                )
+
+        MouseOverControlPanel bool ->
+            ( { model | controlPanelMouseOver = bool }, Cmd.none )
+
         RandomTag player tag ->
             ( model, Gif.fetchRandomGif player tag )
+
+        ShowControlPanel ->
+            let
+                newControlPanel =
+                    model.controlPanel
+                        |> ControlPanel.show
+            in
+                ( { model | controlPanel = newControlPanel }
+                , Cmd.none
+                )
+
+        Tick time ->
+            let
+                ( seconds, cmd ) =
+                    if model.controlPanelSecondsOpen > 2 then
+                        ( 0, Task.perform HideControlPanel (Task.succeed ()) )
+                    else
+                        ( model.controlPanelSecondsOpen + 1, Cmd.none )
+            in
+                ( { model | controlPanelSecondsOpen = seconds }, cmd )

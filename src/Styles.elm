@@ -1,10 +1,12 @@
-module Styles exposing (playerGifContainer, videoPlayer)
+module Styles exposing (controlPanel, playerGifContainer, videoPlayer)
 
 import Css
     exposing
         ( Style
         , auto
+        , block
         , center
+        , display
         , fixed
         , height
         , int
@@ -14,11 +16,29 @@ import Css
         , pct
         , position
         , px
+        , rgb
         , textAlign
         , top
         , width
         , zIndex
+          -- tmp
+        , backgroundColor
         )
+
+
+controlPanel : Style
+controlPanel =
+    Css.batch
+        [ display block
+        , height (pct 100)
+        , position fixed
+        , left (px 0)
+        , top (px 0)
+        , width (px 220)
+        , zIndex (int 5000)
+          -- tmp
+        , backgroundColor (rgb 255 0 0)
+        ]
 
 
 playerGifContainer : Int -> Style
