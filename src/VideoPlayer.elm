@@ -5,6 +5,7 @@ module VideoPlayer
         , animateStyle
         , init
         , setFailureGifUrl
+        , setRequestingGifUrl
         , setSuccessGifUrl
         , updateVisibility
         , view
@@ -22,7 +23,16 @@ import Html.Styled.Attributes
         )
 import Http exposing (Error)
 import Json.Encode as Encode
-import RemoteData exposing (RemoteData(Failure, NotRequested, Success), WebData)
+import RemoteData
+    exposing
+        ( RemoteData
+            ( Failure
+            , NotRequested
+            , Requesting
+            , Success
+            )
+        , WebData
+        )
 import Styles
 
 
@@ -58,6 +68,11 @@ init id visible zIndex =
 setFailureGifUrl : Error -> VideoPlayer -> VideoPlayer
 setFailureGifUrl error player =
     { player | gifUrl = Failure error }
+
+
+setRequestingGifUrl : VideoPlayer -> VideoPlayer
+setRequestingGifUrl player =
+    { player | gifUrl = Requesting }
 
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
