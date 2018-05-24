@@ -9,8 +9,8 @@ import Msg
             ( Animate
             , CountdownToHideControlPanel
             , CrossFadePlayers
+            , FetchNextGif
             , FetchRandomGif
-            , GetNextGif
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
@@ -58,8 +58,11 @@ update msg model =
             in
                 ( { model | player1 = player1 }
                 , Task.succeed nowHiddenPlayer
-                    |> Task.perform GetNextGif
+                    |> Task.perform FetchNextGif
                 )
+
+        FetchNextGif hiddenPlayer ->
+            ( model, Gif.random hiddenPlayer )
 
         FetchRandomGif playerId (Ok gifUrl) ->
             case playerId of
@@ -96,9 +99,6 @@ update msg model =
                                 |> VideoPlayer.setFailureGifUrl error
                     in
                         ( { model | player2 = player2 }, Cmd.none )
-
-        GetNextGif hiddenPlayer ->
-            ( model, Gif.random hiddenPlayer )
 
         HideControlPanel () ->
             let
