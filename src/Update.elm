@@ -87,32 +87,32 @@ update msg model =
 
         HideControlPanel () ->
             let
-                newControlPanel =
+                controlPanel =
                     model.controlPanel
                         |> ControlPanel.hide
             in
-                ( { model | controlPanel = newControlPanel }
+                ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
 
         UseControlPanel bool ->
             let
-                newControlPanel =
+                controlPanel =
                     model.controlPanel
                         |> ControlPanel.setInUse bool
             in
-                ( { model | controlPanel = newControlPanel }, Cmd.none )
+                ( { model | controlPanel = controlPanel }, Cmd.none )
 
         RandomTag player tag ->
             ( model, Gif.fetchRandomGif player tag )
 
         ShowControlPanel ->
             let
-                newControlPanel =
+                controlPanel =
                     model.controlPanel
                         |> ControlPanel.show
             in
-                ( { model | controlPanel = newControlPanel }
+                ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
 
