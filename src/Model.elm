@@ -8,7 +8,6 @@ import Player exposing (Player, PlayerId(Player1, Player2))
 
 type alias Model =
     { controlPanel : ControlPanel
-    , controlPanelMouseOver : Bool
     , controlPanelSecondsOpen : Int
     , player1 : Player
     , player2 : Player
@@ -25,7 +24,6 @@ init =
             Player.init Player2 False -2
     in
         ( { controlPanel = ControlPanel.init
-          , controlPanelMouseOver = False
           , controlPanelSecondsOpen = 0
           , player1 = player1
           , player2 = player2

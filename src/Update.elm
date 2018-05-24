@@ -11,10 +11,10 @@ import Msg
             , GetNextGif
             , GetRandomGif
             , HideControlPanel
-            , MouseOverControlPanel
             , RandomTag
             , ShowControlPanel
             , Tick
+            , UseControlPanel
             )
         )
 import Player exposing (PlayerId(Player1, Player2))
@@ -95,8 +95,13 @@ update msg model =
                 , Cmd.none
                 )
 
-        MouseOverControlPanel bool ->
-            ( { model | controlPanelMouseOver = bool }, Cmd.none )
+        UseControlPanel bool ->
+            let
+                newControlPanel =
+                    model.controlPanel
+                        |> ControlPanel.setInUse bool
+            in
+                ( { model | controlPanel = newControlPanel }, Cmd.none )
 
         RandomTag player tag ->
             ( model, Gif.fetchRandomGif player tag )

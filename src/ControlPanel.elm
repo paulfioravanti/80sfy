@@ -4,6 +4,7 @@ module ControlPanel
         , Status(..)
         , hide
         , init
+        , setInUse
         , show
         , styles
         , updateStyle
@@ -18,7 +19,8 @@ type Status
 
 
 type alias ControlPanel =
-    { style : Animation.State
+    { inUse : Bool
+    , style : Animation.State
     , status : Status
     }
 
@@ -31,7 +33,8 @@ type alias Styles =
 
 init : ControlPanel
 init =
-    { style = Animation.style styles.hidden
+    { inUse = False
+    , style = Animation.style styles.hidden
     , status = Hidden
     }
 
@@ -63,6 +66,11 @@ show controlPanel =
                 controlPanel.style
     in
         { controlPanel | status = Visible, style = animateToVisible }
+
+
+setInUse : Bool -> ControlPanel -> ControlPanel
+setInUse bool controlPanel =
+    { controlPanel | inUse = bool }
 
 
 updateStyle : Animation.Msg -> ControlPanel -> ControlPanel

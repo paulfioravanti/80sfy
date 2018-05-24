@@ -12,7 +12,7 @@ type Msg
     | GetNextGif Player
     | GetRandomGif PlayerId (Result Error String)
     | HideControlPanel ()
-    | MouseOverControlPanel Bool
     | RandomTag Player String
     | ShowControlPanel
     | Tick Time
+    | UseControlPanel Bool

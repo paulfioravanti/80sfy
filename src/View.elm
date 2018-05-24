@@ -14,7 +14,7 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Json.Encode as Encode
 import Model exposing (Model)
-import Msg exposing (Msg(ShowControlPanel, MouseOverControlPanel))
+import Msg exposing (Msg(ShowControlPanel, UseControlPanel))
 import Player exposing (Player, PlayerId(Player1, Player2))
 import RemoteData exposing (RemoteData(Success))
 import Styles
@@ -35,8 +35,8 @@ view model =
                         (animations
                             ++ [ css [ Styles.controlPanel ]
                                , attribute "data-name" "control-panel"
-                               , onMouseEnter (MouseOverControlPanel True)
-                               , onMouseLeave (MouseOverControlPanel False)
+                               , onMouseEnter (UseControlPanel True)
+                               , onMouseLeave (UseControlPanel False)
                                ]
                         )
                         []

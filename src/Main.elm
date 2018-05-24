@@ -21,10 +21,10 @@ import View
 
 
 subscriptions : Model -> Sub Msg
-subscriptions { controlPanel, controlPanelMouseOver, player1 } =
+subscriptions { controlPanel, player1 } =
     let
         menuToggle =
-            if controlPanel.status == Visible && not controlPanelMouseOver then
+            if controlPanel.status == Visible && not controlPanel.inUse then
                 Time.every Time.second Tick
             else
                 Mouse.moves (\_ -> ShowControlPanel)
