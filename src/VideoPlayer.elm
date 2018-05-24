@@ -77,9 +77,17 @@ updateVisibility visible player =
         { player | style = animateToNewOpacity, visible = visible }
 
 
-view : VideoPlayer -> String -> Html msg
-view player gifUrl =
+view : VideoPlayer -> Html msg
+view player =
     let
+        gifUrl =
+            case player.gifUrl of
+                Success gifUrl ->
+                    gifUrl
+
+                _ ->
+                    ""
+
         videoName =
             player.id
                 |> toString

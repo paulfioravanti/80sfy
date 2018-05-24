@@ -13,27 +13,34 @@ import VideoPlayer exposing (VideoPlayer, VideoPlayerId(Player1, Player2))
 
 view : Model -> Html Msg
 view { controlPanel, player1, player2 } =
-    case ( player1.gifUrl, player2.gifUrl ) of
-        ( Success player1GifUrl, Success player2GifUrl ) ->
-            let
-                animations =
-                    controlPanel.style
-                        |> Animation.render
-                        |> List.map fromUnstyled
-            in
-                div [ attribute "data-name" "container" ]
-                    [ div
-                        (animations
-                            ++ [ css [ Styles.controlPanel ]
-                               , attribute "data-name" "control-panel"
-                               , onMouseEnter (UseControlPanel True)
-                               , onMouseLeave (UseControlPanel False)
-                               ]
-                        )
-                        []
-                    , VideoPlayer.view player1 player1GifUrl
-                    , VideoPlayer.view player2 player2GifUrl
-                    ]
+    let
+        visiblePlayer =
+            if player1.visible then
+                player1
+            else
+                player2
+    in
+        case (visiblePlayer.gifUrl) of
+            Success gifUrl ->
+                let
+                    animations =
+                        controlPanel.style
+                            |> Animation.render
+                            |> List.map fromUnstyled
+                in
+                    div [ attribute "data-name" "container" ]
+                        [ div
+                            (animations
+                                ++ [ css [ Styles.controlPanel ]
+                                   , attribute "data-name" "control-panel"
+                                   , onMouseEnter (UseControlPanel True)
+                                   , onMouseLeave (UseControlPanel False)
+                                   ]
+                            )
+                            []
+                        , VideoPlayer.view player1
+                        , VideoPlayer.view player2
+                        ]
 
-        _ ->
-            p [] [ text "" ]
+            _ ->
+                p [] [ text "" ]
