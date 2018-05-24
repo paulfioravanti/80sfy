@@ -4,13 +4,14 @@ module Player
         , PlayerId(..)
         , init
         , setGifUrl
-        , setVisible
+        , setVisibility
         , updateStyle
         , updateVisibility
         )
 
 import Animation
 import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
+import Visibility exposing (Visibility(Hidden, Visible))
 
 
 type PlayerId
@@ -22,44 +23,19 @@ type alias Player =
     { gifUrl : WebData String
     , id : PlayerId
     , style : Animation.State
-    , visible : Bool
+    , visibility : Visibility
     , zIndex : Int
     }
 
 
-init : PlayerId -> Bool -> Int -> Player
-init id visible zIndex =
+init : PlayerId -> Visibility -> Int -> Player
+init id visibility zIndex =
     { gifUrl = NotRequested
     , id = id
     , style = Animation.style [ Animation.opacity 1 ]
-    , visible = visible
+    , visibility = visibility
     , zIndex = zIndex
     }
-
-
-updateVisibility : Player -> Player
-updateVisibility player =
-    let
-        newOpacity =
-            if player.visible then
-                0
-            else
-                1
-    in
-        { player
-            | style =
-                Animation.interrupt
-                    [ Animation.to
-                        [ Animation.opacity newOpacity ]
-                    ]
-                    player.style
-            , visible = not player.visible
-        }
-
-
-updateStyle : Animation.Msg -> Player -> Player
-updateStyle msg player =
-    { player | style = Animation.update msg player.style }
 
 
 setGifUrl : String -> Player -> Player
@@ -67,6 +43,33 @@ setGifUrl gifUrl player =
     { player | gifUrl = Success gifUrl }
 
 
-setVisible : Bool -> Player -> Player
-setVisible visible player =
-    { player | visible = visible }
+setVisibility : Visibility -> Player -> Player
+setVisibility visibility player =
+    { player | visibility = visibility }
+
+
+updateStyle : Animation.Msg -> Player -> Player
+updateStyle msg player =
+    { player | style = Animation.update msg player.style }
+
+
+updateVisibility : Visibility -> Player -> Player
+updateVisibility visibility player =
+    let
+        newOpacity =
+            if player.visibility == Visible then
+                0
+            else
+                1
+
+        animateToNewOpacity =
+            Animation.interrupt
+                [ Animation.to
+                    [ Animation.opacity newOpacity ]
+                ]
+                player.style
+    in
+        { player
+            | style = animateToNewOpacity
+            , visibility = visibility
+        }

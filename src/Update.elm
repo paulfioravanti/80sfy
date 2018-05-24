@@ -43,21 +43,16 @@ update msg model =
 
         CrossFade time ->
             let
-                { player1, player2 } =
+                ( newPlayer1Visibility, nowHiddenPlayer ) =
                     model
+                        |> Model.determineNewPlayerVisibility
 
-                willBeHiddenPlayer =
-                    if player1.visible then
-                        player1
-                    else
-                        player2
-
-                newPlayer1 =
-                    player1
-                        |> Player.updateVisibility
+                player1 =
+                    model.player1
+                        |> Player.updateVisibility newPlayer1Visibility
             in
-                ( { model | player1 = newPlayer1 }
-                , Task.succeed willBeHiddenPlayer
+                ( { model | player1 = player1 }
+                , Task.succeed nowHiddenPlayer
                     |> Task.perform GetNextGif
                 )
 
