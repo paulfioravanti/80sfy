@@ -67,7 +67,7 @@ update msg model =
                     let
                         player1 =
                             model.player1
-                                |> VideoPlayer.setGifUrl gifUrl
+                                |> VideoPlayer.setSuccessGifUrl gifUrl
                     in
                         ( { model | player1 = player1 }, Cmd.none )
 
@@ -75,12 +75,27 @@ update msg model =
                     let
                         player2 =
                             model.player2
-                                |> VideoPlayer.setGifUrl gifUrl
+                                |> VideoPlayer.setSuccessGifUrl gifUrl
                     in
                         ( { model | player2 = player2 }, Cmd.none )
 
-        FetchRandomGif player (Err error) ->
-            ( model, Cmd.none )
+        FetchRandomGif playerId (Err error) ->
+            case playerId of
+                Player1 ->
+                    let
+                        player1 =
+                            model.player1
+                                |> VideoPlayer.setFailureGifUrl error
+                    in
+                        ( { model | player1 = player1 }, Cmd.none )
+
+                Player2 ->
+                    let
+                        player2 =
+                            model.player2
+                                |> VideoPlayer.setFailureGifUrl error
+                    in
+                        ( { model | player2 = player2 }, Cmd.none )
 
         GetNextGif hiddenPlayer ->
             ( model, Gif.random hiddenPlayer )
