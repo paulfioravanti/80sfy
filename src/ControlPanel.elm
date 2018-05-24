@@ -45,24 +45,24 @@ styles =
 
 hide : ControlPanel -> ControlPanel
 hide controlPanel =
-    { controlPanel
-        | style =
+    let
+        animateToClosed =
             Animation.interrupt
                 [ Animation.to styles.closed ]
                 controlPanel.style
-        , status = Closed
-    }
+    in
+        { controlPanel | status = Closed, style = animateToClosed }
 
 
 show : ControlPanel -> ControlPanel
 show controlPanel =
-    { controlPanel
-        | style =
+    let
+        animateToOpen =
             Animation.interrupt
                 [ Animation.to styles.open ]
                 controlPanel.style
-        , status = Open
-    }
+    in
+        { controlPanel | status = Open, style = animateToOpen }
 
 
 updateStyle : Animation.Msg -> ControlPanel -> ControlPanel
