@@ -2,10 +2,9 @@ module ControlPanel
     exposing
         ( ControlPanel
         , animateStyle
+        , determineVisibility
         , hide
-        , incrementSecondsOpen
         , init
-        , resetSecondsOpen
         , setInUse
         , show
         , styles
@@ -14,7 +13,15 @@ module ControlPanel
 
 import Animation exposing (px)
 import Mouse
-import Msg exposing (Msg(CountdownToHideMenu, ShowControlPanel))
+import Msg
+    exposing
+        ( Msg
+            ( CountdownToHideControlPanel
+            , HideControlPanel
+            , ShowControlPanel
+            )
+        )
+import Task
 import Time
 
 
@@ -37,6 +44,22 @@ animateStyle msg controlPanel =
     { controlPanel | style = Animation.update msg controlPanel.style }
 
 
+determineVisibility : ControlPanel -> ( ControlPanel, Cmd Msg )
+determineVisibility controlPanel =
+    let
+        timeoutSeconds =
+            2
+    in
+        if controlPanel.secondsOpen > timeoutSeconds then
+            ( { controlPanel | secondsOpen = 0 }
+            , Task.perform HideControlPanel (Task.succeed ())
+            )
+        else
+            ( { controlPanel | secondsOpen = controlPanel.secondsOpen + 1 }
+            , Cmd.none
+            )
+
+
 hide : ControlPanel -> ControlPanel
 hide controlPanel =
     let
@@ -48,11 +71,6 @@ hide controlPanel =
         { controlPanel | style = animateToHidden, visible = False }
 
 
-incrementSecondsOpen : ControlPanel -> ControlPanel
-incrementSecondsOpen controlPanel =
-    { controlPanel | secondsOpen = controlPanel.secondsOpen + 1 }
-
-
 init : ControlPanel
 init =
     { inUse = False
@@ -60,11 +78,6 @@ init =
     , style = Animation.style styles.hidden
     , visible = False
     }
-
-
-resetSecondsOpen : ControlPanel -> ControlPanel
-resetSecondsOpen controlPanel =
-    { controlPanel | secondsOpen = 0 }
 
 
 styles : Styles
@@ -93,6 +106,6 @@ show controlPanel =
 subscription : ControlPanel -> Sub Msg
 subscription controlPanel =
     if controlPanel.visible && not controlPanel.inUse then
-        Time.every Time.second CountdownToHideMenu
+        Time.every Time.second CountdownToHideControlPanel
     else
         Mouse.moves (\_ -> ShowControlPanel)

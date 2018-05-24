@@ -7,7 +7,7 @@ import Msg
     exposing
         ( Msg
             ( Animate
-            , CountdownToHideMenu
+            , CountdownToHideControlPanel
             , CrossFadePlayers
             , GetNextGif
             , GetRandomGif
@@ -111,19 +111,10 @@ update msg model =
                 , Cmd.none
                 )
 
-        CountdownToHideMenu time ->
+        CountdownToHideControlPanel time ->
             let
-                controlPanel =
+                ( controlPanel, cmd ) =
                     model.controlPanel
-
-                ( newControlPanel, cmd ) =
-                    if controlPanel.secondsOpen > 2 then
-                        ( ControlPanel.resetSecondsOpen controlPanel
-                        , Task.perform HideControlPanel (Task.succeed ())
-                        )
-                    else
-                        ( ControlPanel.incrementSecondsOpen controlPanel
-                        , Cmd.none
-                        )
+                        |> ControlPanel.determineVisibility
             in
-                ( { model | controlPanel = newControlPanel }, cmd )
+                ( { model | controlPanel = controlPanel }, cmd )
