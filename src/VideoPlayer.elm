@@ -6,10 +6,22 @@ module VideoPlayer
         , init
         , setGifUrl
         , updateVisibility
+        , view
         )
 
 import Animation
+import Html.Styled as Html exposing (Html, div, text, video)
+import Html.Styled.Attributes
+    exposing
+        ( attribute
+        , css
+        , fromUnstyled
+        , property
+        , src
+        )
+import Json.Encode as Encode
 import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
+import Styles
 
 
 type VideoPlayerId
@@ -63,3 +75,36 @@ updateVisibility visible player =
                 player.style
     in
         { player | style = animateToNewOpacity, visible = visible }
+
+
+view : VideoPlayer -> String -> Html msg
+view player gifUrl =
+    let
+        videoName =
+            player.id
+                |> toString
+                |> String.toLower
+
+        true =
+            Encode.string "true"
+
+        animations =
+            player.style
+                |> Animation.render
+                |> List.map fromUnstyled
+
+        attributes =
+            [ css [ Styles.playerGifContainer player.zIndex ]
+            , attribute "data-name" "player-gif-container"
+            ]
+    in
+        div (List.append animations attributes)
+            [ video
+                [ src gifUrl
+                , css [ Styles.videoPlayer ]
+                , attribute "data-name" videoName
+                , property "autoplay" true
+                , property "loop" true
+                ]
+                []
+            ]
