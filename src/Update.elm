@@ -118,10 +118,17 @@ update msg model =
 
         Tick time ->
             let
-                ( seconds, cmd ) =
-                    if model.controlPanelSecondsOpen > 2 then
-                        ( 0, Task.perform HideControlPanel (Task.succeed ()) )
+                controlPanel =
+                    model.controlPanel
+
+                ( newControlPanel, cmd ) =
+                    if controlPanel.secondsOpen > 2 then
+                        ( ControlPanel.resetSecondsOpen controlPanel
+                        , Task.perform HideControlPanel (Task.succeed ())
+                        )
                     else
-                        ( model.controlPanelSecondsOpen + 1, Cmd.none )
+                        ( ControlPanel.incrementSecondsOpen controlPanel
+                        , Cmd.none
+                        )
             in
-                ( { model | controlPanelSecondsOpen = seconds }, cmd )
+                ( { model | controlPanel = newControlPanel }, cmd )

@@ -3,7 +3,9 @@ module ControlPanel
         ( ControlPanel
         , Status(..)
         , hide
+        , incrementSecondsOpen
         , init
+        , resetSecondsOpen
         , setInUse
         , show
         , styles
@@ -20,6 +22,7 @@ type Status
 
 type alias ControlPanel =
     { inUse : Bool
+    , secondsOpen : Int
     , style : Animation.State
     , status : Status
     }
@@ -34,6 +37,7 @@ type alias Styles =
 init : ControlPanel
 init =
     { inUse = False
+    , secondsOpen = 0
     , style = Animation.style styles.hidden
     , status = Hidden
     }
@@ -55,6 +59,16 @@ hide controlPanel =
                 controlPanel.style
     in
         { controlPanel | status = Hidden, style = animateToHidden }
+
+
+incrementSecondsOpen : ControlPanel -> ControlPanel
+incrementSecondsOpen controlPanel =
+    { controlPanel | secondsOpen = controlPanel.secondsOpen + 1 }
+
+
+resetSecondsOpen : ControlPanel -> ControlPanel
+resetSecondsOpen controlPanel =
+    { controlPanel | secondsOpen = 0 }
 
 
 show : ControlPanel -> ControlPanel
