@@ -80,13 +80,6 @@ init =
     }
 
 
-styles : Styles
-styles =
-    { hidden = [ Animation.left (px -220.0) ]
-    , visible = [ Animation.left (px 0.0) ]
-    }
-
-
 setInUse : Bool -> ControlPanel -> ControlPanel
 setInUse bool controlPanel =
     { controlPanel | inUse = bool }
@@ -101,6 +94,13 @@ show controlPanel =
                 controlPanel.style
     in
         { controlPanel | style = animateToVisible, visible = True }
+
+
+styles : Styles
+styles =
+    { hidden = [ Animation.left (px -220.0) ]
+    , visible = [ Animation.left (px 0.0) ]
+    }
 
 
 subscription : ControlPanel -> Sub Msg

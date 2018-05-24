@@ -41,6 +41,14 @@ update msg model =
                 , Cmd.none
                 )
 
+        CountdownToHideControlPanel time ->
+            let
+                ( controlPanel, cmd ) =
+                    model.controlPanel
+                        |> ControlPanel.determineVisibility
+            in
+                ( { model | controlPanel = controlPanel }, cmd )
+
         CrossFadePlayers time ->
             let
                 ( newPlayer1Visibility, nowHiddenPlayer ) =
@@ -110,11 +118,3 @@ update msg model =
                 ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
-
-        CountdownToHideControlPanel time ->
-            let
-                ( controlPanel, cmd ) =
-                    model.controlPanel
-                        |> ControlPanel.determineVisibility
-            in
-                ( { model | controlPanel = controlPanel }, cmd )

@@ -62,7 +62,4 @@ updateVisibility visible player =
                 ]
                 player.style
     in
-        { player
-            | style = animateToNewOpacity
-            , visible = visible
-        }
+        { player | style = animateToNewOpacity, visible = visible }

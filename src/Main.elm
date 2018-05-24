@@ -1,29 +1,11 @@
 module Main exposing (main)
 
-import Animation
-import ControlPanel
 import Html.Styled as Html
 import Model exposing (Model)
-import Msg
-    exposing
-        ( Msg
-            ( Animate
-            , CrossFadePlayers
-            )
-        )
-import Time
+import Msg exposing (Msg)
+import Subscriptions
 import Update
 import View
-
-
-subscriptions : Model -> Sub Msg
-subscriptions { controlPanel, player1 } =
-    Sub.batch
-        [ Time.every (4 * Time.second) CrossFadePlayers
-        , Animation.subscription Animate
-            [ player1.style, controlPanel.style ]
-        , ControlPanel.subscription controlPanel
-        ]
 
 
 main : Program Never Model Msg
@@ -32,5 +14,5 @@ main =
         { view = View.view
         , init = Model.init
         , update = Update.update
-        , subscriptions = subscriptions
+        , subscriptions = Subscriptions.subscriptions
         }
