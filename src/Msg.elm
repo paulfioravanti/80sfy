@@ -10,8 +10,8 @@ type Msg
     = Animate Animation.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
+    | FetchRandomGif VideoPlayerId (Result Error String)
     | GetNextGif VideoPlayer
-    | GetRandomGif VideoPlayerId (Result Error String)
     | HideControlPanel ()
     | RandomTag VideoPlayer String
     | ShowControlPanel

@@ -9,8 +9,8 @@ import Msg
             ( Animate
             , CountdownToHideControlPanel
             , CrossFadePlayers
+            , FetchRandomGif
             , GetNextGif
-            , GetRandomGif
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
@@ -61,10 +61,7 @@ update msg model =
                     |> Task.perform GetNextGif
                 )
 
-        GetNextGif hiddenPlayer ->
-            ( model, Gif.random hiddenPlayer )
-
-        GetRandomGif playerId (Ok gifUrl) ->
+        FetchRandomGif playerId (Ok gifUrl) ->
             case playerId of
                 Player1 ->
                     let
@@ -82,8 +79,11 @@ update msg model =
                     in
                         ( { model | player2 = player2 }, Cmd.none )
 
-        GetRandomGif player (Err error) ->
+        FetchRandomGif player (Err error) ->
             ( model, Cmd.none )
+
+        GetNextGif hiddenPlayer ->
+            ( model, Gif.random hiddenPlayer )
 
         HideControlPanel () ->
             let
@@ -94,14 +94,6 @@ update msg model =
                 ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
-
-        UseControlPanel bool ->
-            let
-                controlPanel =
-                    model.controlPanel
-                        |> ControlPanel.setInUse bool
-            in
-                ( { model | controlPanel = controlPanel }, Cmd.none )
 
         RandomTag player tag ->
             ( model, Gif.fetchRandomGif player tag )
@@ -115,3 +107,11 @@ update msg model =
                 ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
+
+        UseControlPanel bool ->
+            let
+                controlPanel =
+                    model.controlPanel
+                        |> ControlPanel.setInUse bool
+            in
+                ( { model | controlPanel = controlPanel }, Cmd.none )
