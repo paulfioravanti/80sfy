@@ -28,11 +28,11 @@ update msg model =
             let
                 player1 =
                     model.player1
-                        |> Player.updateStyle msg
+                        |> Player.animateStyle msg
 
                 controlPanel =
                     model.controlPanel
-                        |> ControlPanel.updateStyle msg
+                        |> ControlPanel.animateStyle msg
             in
                 ( { model
                     | controlPanel = controlPanel

@@ -1,6 +1,7 @@
 module ControlPanel
     exposing
         ( ControlPanel
+        , animateStyle
         , hide
         , incrementSecondsOpen
         , init
@@ -8,7 +9,6 @@ module ControlPanel
         , setInUse
         , show
         , styles
-        , updateStyle
         )
 
 import Animation exposing (px)
@@ -29,20 +29,9 @@ type alias Styles =
     }
 
 
-init : ControlPanel
-init =
-    { inUse = False
-    , secondsOpen = 0
-    , style = Animation.style styles.hidden
-    , visibility = Hidden
-    }
-
-
-styles : Styles
-styles =
-    { hidden = [ Animation.left (px -220.0) ]
-    , visible = [ Animation.left (px 0.0) ]
-    }
+animateStyle : Animation.Msg -> ControlPanel -> ControlPanel
+animateStyle msg controlPanel =
+    { controlPanel | style = Animation.update msg controlPanel.style }
 
 
 hide : ControlPanel -> ControlPanel
@@ -61,9 +50,30 @@ incrementSecondsOpen controlPanel =
     { controlPanel | secondsOpen = controlPanel.secondsOpen + 1 }
 
 
+init : ControlPanel
+init =
+    { inUse = False
+    , secondsOpen = 0
+    , style = Animation.style styles.hidden
+    , visibility = Hidden
+    }
+
+
 resetSecondsOpen : ControlPanel -> ControlPanel
 resetSecondsOpen controlPanel =
     { controlPanel | secondsOpen = 0 }
+
+
+styles : Styles
+styles =
+    { hidden = [ Animation.left (px -220.0) ]
+    , visible = [ Animation.left (px 0.0) ]
+    }
+
+
+setInUse : Bool -> ControlPanel -> ControlPanel
+setInUse bool controlPanel =
+    { controlPanel | inUse = bool }
 
 
 show : ControlPanel -> ControlPanel
@@ -75,13 +85,3 @@ show controlPanel =
                 controlPanel.style
     in
         { controlPanel | style = animateToVisible, visibility = Visible }
-
-
-setInUse : Bool -> ControlPanel -> ControlPanel
-setInUse bool controlPanel =
-    { controlPanel | inUse = bool }
-
-
-updateStyle : Animation.Msg -> ControlPanel -> ControlPanel
-updateStyle msg controlPanel =
-    { controlPanel | style = Animation.update msg controlPanel.style }

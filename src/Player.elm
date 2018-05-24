@@ -2,10 +2,9 @@ module Player
     exposing
         ( Player
         , PlayerId(..)
+        , animateStyle
         , init
         , setGifUrl
-        , setVisibility
-        , updateStyle
         , updateVisibility
         )
 
@@ -28,6 +27,11 @@ type alias Player =
     }
 
 
+animateStyle : Animation.Msg -> Player -> Player
+animateStyle msg player =
+    { player | style = Animation.update msg player.style }
+
+
 init : PlayerId -> Visibility -> Int -> Player
 init id visibility zIndex =
     { gifUrl = NotRequested
@@ -41,16 +45,6 @@ init id visibility zIndex =
 setGifUrl : String -> Player -> Player
 setGifUrl gifUrl player =
     { player | gifUrl = Success gifUrl }
-
-
-setVisibility : Visibility -> Player -> Player
-setVisibility visibility player =
-    { player | visibility = visibility }
-
-
-updateStyle : Animation.Msg -> Player -> Player
-updateStyle msg player =
-    { player | style = Animation.update msg player.style }
 
 
 updateVisibility : Visibility -> Player -> Player
