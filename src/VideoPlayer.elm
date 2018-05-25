@@ -20,7 +20,6 @@ import Html.Styled.Attributes
         , property
         , src
         )
-import Http exposing (Error)
 import Json.Encode as Encode
 import RemoteData
     exposing

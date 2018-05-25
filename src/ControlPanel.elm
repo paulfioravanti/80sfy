@@ -12,8 +12,8 @@ module ControlPanel
         )
 
 import Animation exposing (px)
-import Html.Styled as Html exposing (Html, div, video)
-import Html.Styled.Attributes exposing (attribute, css, fromUnstyled)
+import Html.Styled as Html exposing (Html, div, img, video)
+import Html.Styled.Attributes exposing (attribute, css, fromUnstyled, src)
 import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Mouse
 import Msg
@@ -132,4 +132,27 @@ view controlPanel =
                    , onMouseLeave (UseControlPanel False)
                    ]
             )
+            [ div
+                [ css [ Styles.controlPanelContent ]
+                , attribute "data-name" "panel-content"
+                ]
+                [ logo
+                ]
+            ]
+
+
+logo : Html msg
+logo =
+    div
+        [ css [ Styles.logo ]
+        , attribute "data-name" "logo"
+        ]
+        [ div [ css [ Styles.scanlines ] ]
             []
+        , img
+            [ css [ Styles.logoImage ]
+            , src "assets/logo.png"
+            , attribute "data-name" "logo-image"
+            ]
+            []
+        ]
