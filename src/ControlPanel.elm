@@ -137,6 +137,7 @@ view controlPanel =
                 , attribute "data-name" "panel-content"
                 ]
                 [ logo
+                , trackInfo
                 ]
             ]
 
@@ -156,3 +157,12 @@ logo =
             ]
             []
         ]
+
+
+trackInfo : Html msg
+trackInfo =
+    div
+        [ css [ Styles.trackInfo ]
+        , attribute "data-name" "track-info"
+        ]
+        []

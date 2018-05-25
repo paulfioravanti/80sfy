@@ -6,6 +6,7 @@ module Styles
         , logoImage
         , playerGifContainer
         , scanlines
+        , trackInfo
         , videoPlayer
         )
 
@@ -26,6 +27,7 @@ import Css
         , boxShadow4
         , boxSizing
         , center
+        , color
         , cursor
         , default
         , display
@@ -48,6 +50,7 @@ import Css
         , relative
         , repeat
         , rgb
+        , rgba
         , textAlign
         , top
         , transparent
@@ -91,9 +94,8 @@ logo =
         , backgroundPosition2 (px 0) (px -40)
         , backgroundRepeat noRepeat
         , backgroundSize (pct 101)
-        , border3 (px 3) double (rgb 102 200 255)
-        , boxShadow4 (px 0) (px 0) (px 12) (rgb 102 200 255)
         , boxSizing borderBox
+        , controlPanelItemBorder
         , height (px 120)
         , marginBottom (px 20)
         , position relative
@@ -140,6 +142,20 @@ scanlines =
         ]
 
 
+trackInfo : Style
+trackInfo =
+    Css.batch
+        [ backgroundColor (rgba 0 0 0 0.2)
+        , boxSizing borderBox
+        , color (rgb 255 255 255)
+        , controlPanelItemBorder
+        , height (px 126)
+        , marginBottom (px 8)
+        , position relative
+        , textAlign center
+        ]
+
+
 videoPlayer : Style
 videoPlayer =
     Css.batch
@@ -149,3 +165,15 @@ videoPlayer =
         , width auto
         , zIndex (int -100)
         ]
+
+
+controlPanelItemBorder : Style
+controlPanelItemBorder =
+    let
+        miamiBlue =
+            rgb 102 200 255
+    in
+        Css.batch
+            [ border3 (px 3) double miamiBlue
+            , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
+            ]
