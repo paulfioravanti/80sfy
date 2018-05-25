@@ -4,6 +4,7 @@ module VideoPlayer
         , VideoPlayerId(..)
         , animateStyle
         , init
+        , newVisibility
         , setSuccessGifUrl
         , updateVisibility
         , view
@@ -61,6 +62,14 @@ init id visible zIndex =
     , visible = visible
     , zIndex = zIndex
     }
+
+
+newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
+newVisibility player1 =
+    if player1.visible then
+        ( False, Player1 )
+    else
+        ( True, Player2 )
 
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer

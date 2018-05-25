@@ -49,16 +49,16 @@ update msg model =
 
         CrossFadePlayers time ->
             let
-                ( newPlayer1Visibility, nowHiddenPlayer ) =
-                    model
-                        |> Model.determineNewPlayerVisibility
+                ( newPlayer1Visibility, nowHiddenPlayerId ) =
+                    model.player1
+                        |> VideoPlayer.newVisibility
 
                 player1 =
                     model.player1
                         |> VideoPlayer.updateVisibility newPlayer1Visibility
             in
                 ( { model | player1 = player1 }
-                , Task.succeed nowHiddenPlayer.id
+                , Task.succeed nowHiddenPlayerId
                     |> Task.perform FetchNextGif
                 )
 

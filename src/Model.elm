@@ -1,4 +1,4 @@
-module Model exposing (Model, determineNewPlayerVisibility, init)
+module Model exposing (Model, init)
 
 import ControlPanel exposing (ControlPanel)
 import Gif
@@ -11,14 +11,6 @@ type alias Model =
     , player1 : VideoPlayer
     , player2 : VideoPlayer
     }
-
-
-determineNewPlayerVisibility : Model -> ( Bool, VideoPlayer )
-determineNewPlayerVisibility { player1, player2 } =
-    if player1.visible then
-        ( False, player1 )
-    else
-        ( True, player2 )
 
 
 init : ( Model, Cmd Msg )
