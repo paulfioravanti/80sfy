@@ -43,4 +43,4 @@ view { controlPanel, player1, player2 } =
                         ]
 
             _ ->
-                p [] [ text "" ]
+                text ""
