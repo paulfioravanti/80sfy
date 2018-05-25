@@ -12,8 +12,15 @@ module ControlPanel
         )
 
 import Animation exposing (px)
-import Html.Styled as Html exposing (Html, div, img, video)
-import Html.Styled.Attributes exposing (attribute, css, fromUnstyled, src)
+import Html.Styled as Html exposing (Html, div, i, img, video)
+import Html.Styled.Attributes
+    exposing
+        ( attribute
+        , class
+        , css
+        , fromUnstyled
+        , src
+        )
 import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Mouse
 import Msg
@@ -80,8 +87,13 @@ init : ControlPanel
 init =
     { inUse = False
     , secondsOpen = 0
-    , style = Animation.style styles.hidden
-    , visible = False
+    , style =
+        -- FIXME
+        -- Animation.style styles.hidden
+        Animation.style styles.visible
+        -- FIXME
+        -- , visible = False
+    , visible = True
     }
 
 
@@ -138,6 +150,38 @@ view controlPanel =
                 ]
                 [ logo
                 , trackInfo
+                , div
+                    [ css [ Styles.controls ]
+                    , attribute "data-name" "controls"
+                    ]
+                    [ div
+                        [ css [ Styles.controlButton ]
+                        , attribute "data-name" "mute-unmute"
+                        ]
+                        [ div [ css [ Styles.controlIconBackground ] ]
+                            []
+                        , i
+                            [ css [ Styles.controlIcon ]
+                            , class "fas fa-volume-up"
+                            ]
+                            []
+                        ]
+                    , div
+                        [ css [ Styles.controlButton ]
+                        , attribute "data-name" "play-pause"
+                        ]
+                        []
+                    , div
+                        [ css [ Styles.controlButton ]
+                        , attribute "data-name" "next-track"
+                        ]
+                        []
+                    , div
+                        [ css [ Styles.controlButton ]
+                        , attribute "data-name" "fullscreen"
+                        ]
+                        []
+                    ]
                 ]
             ]
 
@@ -148,7 +192,7 @@ logo =
         [ css [ Styles.logo ]
         , attribute "data-name" "logo"
         ]
-        [ div [ css [ Styles.scanlines ] ]
+        [ div [ css [ Styles.logoImageBackground ] ]
             []
         , img
             [ css [ Styles.logoImage ]

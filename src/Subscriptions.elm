@@ -13,5 +13,6 @@ subscriptions { controlPanel, player1 } =
         [ Time.every (4 * Time.second) CrossFadePlayers
         , Animation.subscription Animate
             [ player1.style, controlPanel.style ]
-        , ControlPanel.subscription controlPanel
+          -- FIXME
+          -- , ControlPanel.subscription controlPanel
         ]
