@@ -8,9 +8,13 @@ module ControlPanel
         , setInUse
         , show
         , subscription
+        , view
         )
 
 import Animation exposing (px)
+import Html.Styled as Html exposing (Html, div, video)
+import Html.Styled.Attributes exposing (attribute, css, fromUnstyled)
+import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Mouse
 import Msg
     exposing
@@ -18,8 +22,10 @@ import Msg
             ( CountdownToHideControlPanel
             , HideControlPanel
             , ShowControlPanel
+            , UseControlPanel
             )
         )
+import Styles
 import Task
 import Time
 
@@ -108,3 +114,22 @@ styles =
     { hidden = [ Animation.left (px -220.0) ]
     , visible = [ Animation.left (px 0.0) ]
     }
+
+
+view : ControlPanel -> Html Msg
+view controlPanel =
+    let
+        animations =
+            controlPanel.style
+                |> Animation.render
+                |> List.map fromUnstyled
+    in
+        div
+            (animations
+                ++ [ css [ Styles.controlPanel ]
+                   , attribute "data-name" "control-panel"
+                   , onMouseEnter (UseControlPanel True)
+                   , onMouseLeave (UseControlPanel False)
+                   ]
+            )
+            []

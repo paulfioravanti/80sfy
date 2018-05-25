@@ -1,13 +1,11 @@
 module View exposing (view)
 
-import Animation
-import Html.Styled as Html exposing (Html, div, p, text, video)
-import Html.Styled.Attributes exposing (attribute, css, fromUnstyled)
-import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
+import ControlPanel
+import Html.Styled as Html exposing (Html, div, text)
+import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
-import Msg exposing (Msg(ShowControlPanel, UseControlPanel))
+import Msg exposing (Msg)
 import RemoteData exposing (RemoteData(Success))
-import Styles
 import VideoPlayer exposing (VideoPlayer, VideoPlayerId(Player1, Player2))
 
 
@@ -22,25 +20,11 @@ view { controlPanel, player1, player2 } =
     in
         case (visiblePlayer.gifUrl) of
             Success gifUrl ->
-                let
-                    animations =
-                        controlPanel.style
-                            |> Animation.render
-                            |> List.map fromUnstyled
-                in
-                    div [ attribute "data-name" "container" ]
-                        [ div
-                            (animations
-                                ++ [ css [ Styles.controlPanel ]
-                                   , attribute "data-name" "control-panel"
-                                   , onMouseEnter (UseControlPanel True)
-                                   , onMouseLeave (UseControlPanel False)
-                                   ]
-                            )
-                            []
-                        , VideoPlayer.view player1
-                        , VideoPlayer.view player2
-                        ]
+                div [ attribute "data-name" "container" ]
+                    [ ControlPanel.view controlPanel
+                    , VideoPlayer.view player1
+                    , VideoPlayer.view player2
+                    ]
 
             _ ->
                 text ""
