@@ -4,8 +4,6 @@ module VideoPlayer
         , VideoPlayerId(..)
         , animateStyle
         , init
-        , setFailureGifUrl
-        , setRequestingGifUrl
         , setSuccessGifUrl
         , updateVisibility
         , view
@@ -63,16 +61,6 @@ init id visible zIndex =
     , visible = visible
     , zIndex = zIndex
     }
-
-
-setFailureGifUrl : Error -> VideoPlayer -> VideoPlayer
-setFailureGifUrl error player =
-    { player | gifUrl = Failure error }
-
-
-setRequestingGifUrl : VideoPlayer -> VideoPlayer
-setRequestingGifUrl player =
-    { player | gifUrl = Requesting }
 
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer

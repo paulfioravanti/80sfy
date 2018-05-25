@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import ControlPanel
+import Debug
 import Gif
 import Model exposing (Model)
 import Msg
@@ -83,22 +84,13 @@ update msg model =
                         ( { model | player2 = player2 }, Cmd.none )
 
         FetchRandomGif playerId (Err error) ->
-            case playerId of
-                Player1 ->
-                    let
-                        player1 =
-                            model.player1
-                                |> VideoPlayer.setFailureGifUrl error
-                    in
-                        ( { model | player1 = player1 }, Cmd.none )
-
-                Player2 ->
-                    let
-                        player2 =
-                            model.player2
-                                |> VideoPlayer.setFailureGifUrl error
-                    in
-                        ( { model | player2 = player2 }, Cmd.none )
+            let
+                _ =
+                    Debug.log
+                        ("FetchRandomGif Failed for " ++ toString playerId)
+                        error
+            in
+                ( model, Cmd.none )
 
         HideControlPanel () ->
             let
