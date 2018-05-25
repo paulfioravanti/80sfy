@@ -110,8 +110,8 @@ update msg model =
                 , Cmd.none
                 )
 
-        RandomTag player tag ->
-            ( model, Gif.fetchRandomGif player tag )
+        RandomTag playerId tag ->
+            ( model, Gif.fetchRandomGif playerId tag )
 
         ShowControlPanel ->
             let
