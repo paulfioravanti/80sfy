@@ -76,6 +76,7 @@ import Css
         , none
         , noRepeat
         , outline
+        , overflow
         , padding
         , pct
         , pointer
@@ -163,6 +164,7 @@ controlPanel =
         , height (pct 100)
         , position fixed
         , left (px 0)
+        , overflow auto
         , top (px 0)
         , width (px 220)
         , zIndex (int 5000)
