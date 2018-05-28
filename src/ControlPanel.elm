@@ -12,15 +12,29 @@ module ControlPanel
         )
 
 import Animation exposing (px)
-import Html.Styled as Html exposing (Html, div, i, img, input, video)
+import Html.Styled as Html
+    exposing
+        ( Html
+        , a
+        , br
+        , div
+        , i
+        , img
+        , input
+        , span
+        , text
+        , video
+        )
 import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
         , class
         , css
         , fromUnstyled
+        , href
         , src
         , step
+        , target
         , type_
         , value
         )
@@ -155,6 +169,7 @@ view controlPanel =
                 , trackInfo
                 , audioPlayerControls
                 , volumeControl
+                , credits
                 ]
             ]
 
@@ -259,4 +274,66 @@ volumeControl =
             , value "80"
             ]
             []
+        ]
+
+
+credits : Html msg
+credits =
+    div
+        [ css [ Styles.credits ]
+        , attribute "data-name" "credits"
+        ]
+        [ div [ css [ Styles.creditsBackground ] ]
+            []
+        , div
+            [ css [ Styles.creditsHeader ]
+            , attribute "data-name" "credit-header"
+            ]
+            [ text "Powered by" ]
+        , div
+            [ css [ Styles.creditsIcons ]
+            , attribute "data-name" "credit-icons"
+            ]
+            [ a
+                [ css [ Styles.creditsIconLink ]
+                , href "https://www.giphy.com"
+                , target "_blank"
+                ]
+                [ img
+                    [ css [ Styles.creditsIconImage ]
+                    , src "assets/giphy.png"
+                    ]
+                    []
+                ]
+            , a
+                [ css [ Styles.creditsIconLink ]
+                , href "https://www.soundcloud.com"
+                , target "_blank"
+                ]
+                [ img
+                    [ css [ Styles.creditsIconImage ]
+                    , src "assets/soundcloud.png"
+                    ]
+                    []
+                ]
+            ]
+        , div
+            [ css [ Styles.creditsCreator ]
+            , attribute "data-name" "credit-creator"
+            ]
+            [ span []
+                [ text "Created by" ]
+            , br [] []
+            , a
+                [ css [ Styles.creditsLink ]
+                , href "http://www.digitalbloc.com"
+                , target "_blank"
+                ]
+                [ text "Art Sangurai" ]
+            ]
+        , div
+            [ css [ Styles.creditsCopyright ]
+            , attribute "data-name" "credit-copyright"
+            ]
+            [ text "Copyright 2017" ]
         ]

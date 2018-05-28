@@ -6,6 +6,15 @@ module Styles
         , controlPanel
         , controlPanelContent
         , controls
+        , credits
+        , creditsBackground
+        , creditsCopyright
+        , creditsCreator
+        , creditsHeader
+        , creditsIcons
+        , creditsIconLink
+        , creditsIconImage
+        , creditsLink
         , logo
         , logoImage
         , logoImageBackground
@@ -47,6 +56,7 @@ import Css
         , fixed
         , float
         , focus
+        , fontFamilies
         , fontSize
         , height
         , hover
@@ -79,10 +89,13 @@ import Css
         , solid
         , stop2
         , textAlign
+        , textDecoration
         , textShadow4
+        , textTransform
         , toBottom
         , top
         , transparent
+        , uppercase
         , url
         , width
         , zIndex
@@ -124,6 +137,8 @@ controlIcon =
             [ backgroundColor (rgb 255 255 255)
             , backgroundImage none
             ]
+        , marginLeft (px 2)
+        , marginTop (px 10)
         , property "-webkit-background-clip" "text"
         , property "background-clip" "text"
         , property "-webkit-text-fill-color" "transparent"
@@ -142,6 +157,7 @@ controlPanel : Style
 controlPanel =
     Css.batch
         [ display block
+        , fontSize (px 14)
         , height (pct 100)
         , position fixed
         , left (px 0)
@@ -186,6 +202,83 @@ controls =
                     [ marginRight (px 0) ]
                 ]
             ]
+        ]
+
+
+credits : Style
+credits =
+    Css.batch
+        [ backgroundColor (rgba 0 0 0 0.2)
+        , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
+        , boxSizing borderBox
+        , border3 (px 3) double miamiBlue
+        , color (rgb 255 255 255)
+        , fontFamilies [ "Source Code Pro", "sans-serif" ]
+        , fontSize (pct 80)
+        , height (px 160)
+        , padding (px 10)
+        , position relative
+        , textAlign center
+        , textShadow4 (px 0) (px 0) (px 8) (rgba 255 255 255 0.8)
+        , textTransform uppercase
+        , width (px 200)
+        ]
+
+
+creditsBackground : Style
+creditsBackground =
+    Css.batch
+        [ scanlines (px 160) (px 200) (px -2) ]
+
+
+creditsCopyright : Style
+creditsCopyright =
+    Css.batch
+        [ fontSize (pct 80) ]
+
+
+creditsCreator : Style
+creditsCreator =
+    Css.batch
+        [ marginBottom (px 5) ]
+
+
+creditsHeader : Style
+creditsHeader =
+    Css.batch
+        [ marginBottom (px 14) ]
+
+
+creditsIcons : Style
+creditsIcons =
+    Css.batch
+        [ marginBottom (px 14) ]
+
+
+creditsIconLink : Style
+creditsIconLink =
+    Css.batch
+        [ marginBottom (px 0)
+        , marginLeft (px 10)
+        , marginRight (px 10)
+        , marginTop (px 0)
+        ]
+
+
+creditsIconImage : Style
+creditsIconImage =
+    Css.batch
+        [ border (px 0)
+        , height (px 40)
+        ]
+
+
+creditsLink : Style
+creditsLink =
+    Css.batch
+        [ backgroundColor transparent
+        , textDecoration none
+        , color (rgb 255 255 255)
         ]
 
 
