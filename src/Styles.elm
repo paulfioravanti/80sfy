@@ -40,6 +40,7 @@ import Css
         , float
         , fontSize
         , height
+        , hover
         , int
         , lastChild
         , left
@@ -105,7 +106,11 @@ controlIcon =
                 [ (stop2 (rgba 241 231 103 1.0) (pct 100)) ]
             )
         , color (rgb 255 255 255)
-        , fontSize (px 18)
+        , fontSize (px 16)
+        , hover
+            [ backgroundColor (rgb 255 255 255)
+            , backgroundImage none
+            ]
         , property "-webkit-background-clip" "text"
         , property "background-clip" "text"
         , property "-webkit-text-fill-color" "transparent"
