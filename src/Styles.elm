@@ -232,7 +232,7 @@ credits =
 creditsBackground : Style
 creditsBackground =
     Css.batch
-        [ scanlines (px 160) (px 200) (px -2) ]
+        [ scanlines (px 200) (px 200) (px -2) ]
 
 
 creditsCopyright : Style
