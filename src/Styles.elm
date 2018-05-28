@@ -15,6 +15,8 @@ module Styles
         , creditsIconLink
         , creditsIconImage
         , creditsLink
+        , creditsPorter
+        , creditsPorterCopyright
         , logo
         , logoImage
         , logoImageBackground
@@ -215,7 +217,7 @@ credits =
         , color (rgb 255 255 255)
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (pct 80)
-        , height (px 160)
+        , height (px 200)
         , padding (px 10)
         , position relative
         , textAlign center
@@ -279,6 +281,26 @@ creditsLink =
         [ backgroundColor transparent
         , textDecoration none
         , color (rgb 255 255 255)
+        ]
+
+
+creditsPorter : Style
+creditsPorter =
+    Css.batch
+        [ fontSize (pct 70)
+        , marginBottom (px 5)
+        , marginTop (px 10)
+        ]
+
+
+creditsPorterCopyright : Style
+creditsPorterCopyright =
+    fontSize (pct 60)
+
+
+creditsPorterLink =
+    Css.batch
+        [ fontSize (pct 70)
         ]
 
 

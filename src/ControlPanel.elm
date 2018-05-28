@@ -336,4 +336,23 @@ credits =
             , attribute "data-name" "credit-copyright"
             ]
             [ text "Copyright 2017" ]
+        , div
+            [ css [ Styles.creditsPorter ]
+            , attribute "data-name" "credit-porter"
+            ]
+            [ span []
+                [ text "Elm port by" ]
+            , br [] []
+            , a
+                [ css [ Styles.creditsLink ]
+                , href "http://www.paulfioravanti.com"
+                , target "_blank"
+                ]
+                [ text "Paul Fioravanti" ]
+            ]
+        , div
+            [ css [ Styles.creditsPorterCopyright ]
+            , attribute "data-name" "credit-copyright"
+            ]
+            [ text "Copyright 2018" ]
         ]
