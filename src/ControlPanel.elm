@@ -12,14 +12,17 @@ module ControlPanel
         )
 
 import Animation exposing (px)
-import Html.Styled as Html exposing (Html, div, i, img, video)
-import Html.Styled.Attributes
+import Html.Styled as Html exposing (Html, div, i, img, input, video)
+import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
         , class
         , css
         , fromUnstyled
         , src
+        , step
+        , type_
+        , value
         )
 import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Mouse
@@ -150,38 +153,8 @@ view controlPanel =
                 ]
                 [ logo
                 , trackInfo
-                , div
-                    [ css [ Styles.controls ]
-                    , attribute "data-name" "controls"
-                    ]
-                    [ div
-                        [ css [ Styles.controlButton ]
-                        , attribute "data-name" "mute-unmute"
-                        ]
-                        [ div [ css [ Styles.controlIconBackground ] ]
-                            []
-                        , i
-                            [ css [ Styles.controlIcon ]
-                            , class "fas fa-volume-up"
-                            ]
-                            []
-                        ]
-                    , div
-                        [ css [ Styles.controlButton ]
-                        , attribute "data-name" "play-pause"
-                        ]
-                        []
-                    , div
-                        [ css [ Styles.controlButton ]
-                        , attribute "data-name" "next-track"
-                        ]
-                        []
-                    , div
-                        [ css [ Styles.controlButton ]
-                        , attribute "data-name" "fullscreen"
-                        ]
-                        []
-                    ]
+                , audioPlayerControls
+                , volumeControl
                 ]
             ]
 
@@ -210,3 +183,80 @@ trackInfo =
         , attribute "data-name" "track-info"
         ]
         []
+
+
+audioPlayerControls : Html msg
+audioPlayerControls =
+    div
+        [ css [ Styles.controls ]
+        , attribute "data-name" "controls"
+        ]
+        [ div
+            [ css [ Styles.controlButton ]
+            , attribute "data-name" "mute-unmute"
+            ]
+            [ div [ css [ Styles.controlIconBackground ] ]
+                []
+            , i
+                [ css [ Styles.controlIcon ]
+                , class "fas fa-volume-up"
+                ]
+                []
+            ]
+        , div
+            [ css [ Styles.controlButton ]
+            , attribute "data-name" "play-pause"
+            ]
+            [ div [ css [ Styles.controlIconBackground ] ]
+                []
+            , i
+                [ css [ Styles.controlIcon ]
+                , class "fas fa-play"
+                ]
+                []
+            ]
+        , div
+            [ css [ Styles.controlButton ]
+            , attribute "data-name" "next-track"
+            ]
+            [ div [ css [ Styles.controlIconBackground ] ]
+                []
+            , i
+                [ css [ Styles.controlIcon ]
+                , class "fas fa-fast-forward"
+                ]
+                []
+            ]
+        , div
+            [ css [ Styles.controlButton ]
+            , attribute "data-name" "fullscreen"
+            ]
+            [ div [ css [ Styles.controlIconBackground ] ]
+                []
+            , i
+                [ css [ Styles.controlIcon ]
+                , class "fas fa-expand-arrows-alt"
+                ]
+                []
+            ]
+        ]
+
+
+volumeControl : Html msg
+volumeControl =
+    div
+        [ css [ Styles.volume ]
+        , attribute "data-name" "volume"
+        ]
+        [ div [ css [ Styles.volumeBackground ] ]
+            []
+        , input
+            [ css [ Styles.volumeControl ]
+            , type_ "range"
+            , Attributes.min "0"
+            , Attributes.max "100"
+            , step "5"
+            , value "80"
+            ]
+            []
+        ]

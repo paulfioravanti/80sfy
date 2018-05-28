@@ -12,12 +12,17 @@ module Styles
         , playerGifContainer
         , trackInfo
         , videoPlayer
+        , volume
+        , volumeBackground
+        , volumeControl
         )
 
 import Css
     exposing
-        ( Style
+        ( Color
+        , Style
         , absolute
+        , after
         , auto
         , backgroundColor
         , backgroundImage
@@ -28,16 +33,20 @@ import Css
         , border
         , border3
         , borderBox
+        , borderRadius
+        , both
         , boxShadow4
         , boxSizing
         , center
         , color
+        , content
         , cursor
         , default
         , display
         , double
         , fixed
         , float
+        , focus
         , fontSize
         , height
         , hover
@@ -47,23 +56,27 @@ import Css
         , lineHeight
         , linearGradient2
         , marginBottom
+        , marginLeft
         , marginRight
         , marginTop
         , minHeight
         , minWidth
         , none
         , noRepeat
+        , outline
         , padding
         , pct
         , pointer
         , pointerEvents
         , position
         , property
+        , pseudoElement
         , px
         , relative
         , repeat
         , rgb
         , rgba
+        , solid
         , stop2
         , textAlign
         , textShadow4
@@ -106,7 +119,7 @@ controlIcon =
                 [ (stop2 (rgba 241 231 103 1.0) (pct 100)) ]
             )
         , color (rgb 255 255 255)
-        , fontSize (px 16)
+        , fontSize (px 18)
         , hover
             [ backgroundColor (rgb 255 255 255)
             , backgroundImage none
@@ -122,7 +135,7 @@ controlIcon =
 controlIconBackground : Style
 controlIconBackground =
     Css.batch
-        [ scanlines 44 44 ]
+        [ scanlines (px 44) (px 44) (px -2) ]
 
 
 controlPanel : Style
@@ -153,22 +166,25 @@ controlPanelContent =
 
 controlPanelItemBorder : Style
 controlPanelItemBorder =
-    let
-        miamiBlue =
-            rgb 102 200 255
-    in
-        Css.batch
-            [ border3 (px 3) double miamiBlue
-            , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
-            ]
+    Css.batch
+        [ border3 (px 3) double miamiBlue
+        , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
+        ]
 
 
 controls : Style
 controls =
-    children
-        [ div
-            [ lastChild
-                [ marginRight (px 0) ]
+    Css.batch
+        [ after
+            [ display block
+            , property "clear" "both"
+            , property "content" "' '"
+            ]
+        , children
+            [ div
+                [ lastChild
+                    [ marginRight (px 0) ]
+                ]
             ]
         ]
 
@@ -202,7 +218,12 @@ logoImage =
 
 logoImageBackground : Style
 logoImageBackground =
-    scanlines 120 200
+    scanlines (px 120) (px 200) (px -2)
+
+
+miamiBlue : Color
+miamiBlue =
+    rgb 102 200 255
 
 
 playerGifContainer : Int -> Style
@@ -243,21 +264,75 @@ videoPlayer =
         ]
 
 
+volume : Style
+volume =
+    Css.batch
+        [ marginBottom (px 20)
+        , marginTop (px 10)
+        , position relative
+        ]
+
+
+volumeBackground : Style
+volumeBackground =
+    scanlines (pct 85) (pct 100) (px 0)
+
+
+volumeControl : Style
+volumeControl =
+    Css.batch
+        [ focus
+            [ outline none ]
+        , marginBottom (px 0)
+        , marginLeft (px -0.15)
+        , marginTop (px 0)
+        , marginRight (px -0.15)
+        , property "-webkit-appearance" "none"
+        , pseudoElement "-webkit-slider-runnable-track"
+            [ backgroundColor (rgb 102 200 255)
+            , border3 (px 0) solid (rgb 0 0 0)
+            , borderRadius (px 0)
+            , boxShadow4 (px 0) (px 0) (px 2) (rgba 255 255 255 0.12)
+            , boxShadow4 (px 2) (px 2) (px 1) (rgba 255 255 255 0.12)
+            , cursor pointer
+            , height (px 18)
+            , width (pct 100)
+            ]
+        , pseudoElement "-webkit-slider-thumb"
+            [ backgroundColor (rgba 241 231 103 0.96)
+            , border3 (px 0) solid (rgb 241 231 103)
+            , borderRadius (px 0)
+            , boxShadow4 (px 0) (px 0) (px 1.8) (rgba 243 235 126 0.49)
+            , boxShadow4 (px 1.8) (px 1.8) (px 5.9) (rgba 241 231 103 0.49)
+            , cursor pointer
+            , height (px 18)
+            , marginTop (px 0.15)
+            , property "-webkit-appearance" "none"
+            , width (px 18)
+            ]
+        , width (pct 100)
+        ]
+
+
 
 ---- PRIVATE ----
 
 
-scanlines : Float -> Float -> Style
-scanlines pxHeight pxWidth =
+scanlines :
+    Css.LengthOrAuto compatible
+    -> Css.LengthOrAuto compatible1
+    -> Css.LengthOrAuto compatible2
+    -> Style
+scanlines linesHeight linesWidth positioning =
     Css.batch
         [ backgroundImage (url "assets/scanline-overlay.png")
         , backgroundRepeat repeat
         , display block
-        , height (px pxHeight)
-        , left (px -2)
+        , height linesHeight
+        , left positioning
         , pointerEvents none
         , position absolute
-        , top (px -2)
-        , width (px pxWidth)
+        , top positioning
+        , width linesWidth
         , zIndex (int 50000)
         ]
