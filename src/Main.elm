@@ -32,6 +32,4 @@ init flags =
         model =
             Model.init config
     in
-        ( model
-        , Cmd.batch [ Tag.fetchTags, Gif.random Player1, Gif.random Player2 ]
-        )
+        ( model, Tag.fetchTags )

@@ -65,7 +65,7 @@ update msg model =
                 )
 
         FetchNextGif hiddenPlayerId ->
-            ( model, Gif.random hiddenPlayerId )
+            ( model, Gif.random model.config.tags hiddenPlayerId )
 
         FetchRandomGif playerId (Ok gifUrl) ->
             case playerId of
@@ -100,7 +100,12 @@ update msg model =
                     model.config
                         |> Config.setTags tags
             in
-                ( { model | config = config }, Cmd.none )
+                ( { model | config = config }
+                , Cmd.batch
+                    [ Gif.random tags Player1
+                    , Gif.random tags Player2
+                    ]
+                )
 
         FetchTags (Err error) ->
             let
@@ -120,7 +125,9 @@ update msg model =
                 )
 
         RandomTag playerId tag ->
-            ( model, Gif.fetchRandomGif model.config.giphyApiKey playerId tag )
+            ( model
+            , Gif.fetchRandomGif model.config.giphyApiKey playerId tag
+            )
 
         ShowControlPanel ->
             let
