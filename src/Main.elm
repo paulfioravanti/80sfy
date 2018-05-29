@@ -7,6 +7,7 @@ import Html.Styled as Html
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Subscriptions
+import Tag
 import Update
 import VideoPlayer exposing (VideoPlayerId(Player1, Player2))
 import View
@@ -32,5 +33,5 @@ init flags =
             Model.init config
     in
         ( model
-        , Cmd.batch [ Gif.random Player1, Gif.random Player2 ]
+        , Cmd.batch [ Tag.fetchTags, Gif.random Player1, Gif.random Player2 ]
         )

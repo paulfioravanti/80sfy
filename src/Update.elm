@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import Config
 import ControlPanel
 import Debug
 import Gif
@@ -12,6 +13,7 @@ import Msg
             , CrossFadePlayers
             , FetchNextGif
             , FetchRandomGif
+            , FetchTags
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
@@ -89,6 +91,21 @@ update msg model =
                     Debug.log
                         ("FetchRandomGif Failed for " ++ toString playerId)
                         error
+            in
+                ( model, Cmd.none )
+
+        FetchTags (Ok tags) ->
+            let
+                config =
+                    model.config
+                        |> Config.setTags tags
+            in
+                ( { model | config = config }, Cmd.none )
+
+        FetchTags (Err error) ->
+            let
+                _ =
+                    Debug.log "FetchTags Failed" error
             in
                 ( model, Cmd.none )
 

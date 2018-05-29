@@ -12,6 +12,7 @@ type Msg
     | CrossFadePlayers Time
     | FetchNextGif VideoPlayerId
     | FetchRandomGif VideoPlayerId (Result Error String)
+    | FetchTags (Result Error (List String))
     | HideControlPanel ()
     | RandomTag VideoPlayerId String
     | ShowControlPanel

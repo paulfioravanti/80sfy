@@ -1,8 +1,26 @@
-module Tag exposing (random)
+module Tag exposing (Tags, fetchTags, random)
 
-import Msg exposing (Msg(RandomTag))
+import Http
+import Json.Decode as Decode exposing (Decoder)
+import Msg exposing (Msg(FetchTags, RandomTag))
 import Random
 import VideoPlayer exposing (VideoPlayerId)
+
+
+type alias Tags =
+    List String
+
+
+tagsDecoder : Decoder Tags
+tagsDecoder =
+    Decode.at [ "tags" ] (Decode.list Decode.string)
+
+
+fetchTags : Cmd Msg
+fetchTags =
+    tagsDecoder
+        |> Http.get "tags.json"
+        |> Http.send FetchTags
 
 
 random : VideoPlayerId -> Cmd Msg

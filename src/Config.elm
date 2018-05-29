@@ -1,11 +1,14 @@
-module Config exposing (Config, init)
+module Config exposing (Config, init, setTags)
 
 import Flags exposing (Flags)
 import Json.Decode as Decode exposing (Value)
+import Tag exposing (Tags)
 
 
 type alias Config =
-    { giphyApiKey : String }
+    { giphyApiKey : String
+    , tags : Tags
+    }
 
 
 init : Flags -> Config
@@ -23,4 +26,11 @@ init flags =
                 Err _ ->
                     ""
     in
-        { giphyApiKey = giphyApiKey }
+        { giphyApiKey = giphyApiKey
+        , tags = []
+        }
+
+
+setTags : Tags -> Config -> Config
+setTags tags config =
+    { config | tags = tags }
