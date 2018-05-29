@@ -103,7 +103,7 @@ update msg model =
                 )
 
         RandomTag playerId tag ->
-            ( model, Gif.fetchRandomGif playerId tag )
+            ( model, Gif.fetchRandomGif model.config.giphyApiKey playerId tag )
 
         ShowControlPanel ->
             let

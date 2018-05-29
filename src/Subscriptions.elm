@@ -1,7 +1,6 @@
 module Subscriptions exposing (subscriptions)
 
 import Animation
-import ControlPanel
 import Model exposing (Model)
 import Msg exposing (Msg(Animate, CrossFadePlayers))
 import Time

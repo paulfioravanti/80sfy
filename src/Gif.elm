@@ -7,8 +7,8 @@ import Tag
 import VideoPlayer exposing (VideoPlayerId)
 
 
-fetchRandomGif : VideoPlayerId -> String -> Cmd Msg
-fetchRandomGif videoPlayerId tag =
+fetchRandomGif : String -> VideoPlayerId -> String -> Cmd Msg
+fetchRandomGif giphyApiKey videoPlayerId tag =
     let
         host =
             "https://api.giphy.com"
@@ -16,14 +16,12 @@ fetchRandomGif videoPlayerId tag =
         path =
             "/v1/gifs/random"
 
-        apiKey =
-            "api_key=JASRREAAILxOCCf0awYF89DVBaH2BPl3"
-
         url =
             host
                 ++ path
                 ++ "?"
-                ++ apiKey
+                ++ "api_key="
+                ++ giphyApiKey
                 ++ "&tag="
                 ++ tag
                 ++ "&rating=pg-13"

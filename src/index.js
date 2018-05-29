@@ -10,8 +10,15 @@
 // Other references:
 // - https://fontawesome.com/how-to-use/js-component-packages
 // - https://github.com/parcel-bundler/parcel/issues/626#issuecomment-360371880
-import "@fortawesome/fontawesome-free-webfonts";
-import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css";
-import { Main } from "./Main.elm";
+import "@fortawesome/fontawesome-free-webfonts"
+import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
+import { Main } from "./Main.elm"
 
-Main.embed(document.getElementById("root"));
+const appContainer = document.querySelector("#root")
+
+if (appContainer) {
+  const app =
+    Main.embed(appContainer, {
+      giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+    })
+}

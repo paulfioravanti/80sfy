@@ -1,18 +1,36 @@
 module Main exposing (main)
 
+import Config
+import Flags exposing (Flags)
+import Gif
 import Html.Styled as Html
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Subscriptions
 import Update
+import VideoPlayer exposing (VideoPlayerId(Player1, Player2))
 import View
 
 
-main : Program Never Model Msg
+main : Program Flags Model Msg
 main =
-    Html.program
-        { init = Model.init
+    Html.programWithFlags
+        { init = init
         , update = Update.update
         , view = View.view
         , subscriptions = Subscriptions.subscriptions
         }
+
+
+init : Flags -> ( Model, Cmd Msg )
+init flags =
+    let
+        config =
+            Config.init flags
+
+        model =
+            Model.init config
+    in
+        ( model
+        , Cmd.batch [ Gif.random Player1, Gif.random Player2 ]
+        )
