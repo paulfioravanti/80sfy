@@ -2,8 +2,8 @@ module VideoPlayer
     exposing
         ( VideoPlayer
         , VideoPlayerId
-        , animateStyle
         , init
+        , animateStyle
         , newVisibility
         , setSuccessGifUrl
         , updateVisibility
@@ -11,26 +11,8 @@ module VideoPlayer
         )
 
 import Animation
-import Html.Styled as Html exposing (Html, div, text, video)
-import Html.Styled.Attributes
-    exposing
-        ( attribute
-        , css
-        , fromUnstyled
-        , property
-        , src
-        )
-import Json.Encode as Encode
-import RemoteData
-    exposing
-        ( RemoteData
-            ( Failure
-            , NotRequested
-            , Requesting
-            , Success
-            )
-        , WebData
-        )
+import Html.Styled exposing (Html)
+import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
 import Styles
 import VideoPlayer.View as View
 
@@ -48,11 +30,6 @@ type alias VideoPlayer =
     }
 
 
-animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
-animateStyle msg player =
-    { player | style = Animation.update msg player.style }
-
-
 init : VideoPlayerId -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     { gifUrl = NotRequested
@@ -61,6 +38,11 @@ init id visible zIndex =
     , visible = visible
     , zIndex = zIndex
     }
+
+
+animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
+animateStyle msg player =
+    { player | style = Animation.update msg player.style }
 
 
 newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
