@@ -1,6 +1,7 @@
 module ControlPanel.View exposing (view)
 
 import Animation
+import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
 import Html.Styled as Html
     exposing
@@ -40,15 +41,15 @@ view controlPanel =
             controlPanel.style
                 |> Animation.render
                 |> List.map fromUnstyled
+
+        attributes =
+            [ css [ Styles.controlPanel ]
+            , attribute "data-name" "control-panel"
+            , onMouseEnter (UseControlPanel True)
+            , onMouseLeave (UseControlPanel False)
+            ]
     in
-        div
-            (animations
-                ++ [ css [ Styles.controlPanel ]
-                   , attribute "data-name" "control-panel"
-                   , onMouseEnter (UseControlPanel True)
-                   , onMouseLeave (UseControlPanel False)
-                   ]
-            )
+        div (animations ++ attributes)
             [ div
                 [ css [ Styles.controlPanelContent ]
                 , attribute "data-name" "panel-content"
@@ -57,7 +58,7 @@ view controlPanel =
                 , trackInfo
                 , audioPlayerControls
                 , volumeControl
-                , credits
+                , Credits.view
                 ]
             ]
 
@@ -162,85 +163,4 @@ volumeControl =
             , value "80"
             ]
             []
-        ]
-
-
-credits : Html msg
-credits =
-    div
-        [ css [ Styles.credits ]
-        , attribute "data-name" "credits"
-        ]
-        [ div [ css [ Styles.creditsBackground ] ]
-            []
-        , div
-            [ css [ Styles.creditsHeader ]
-            , attribute "data-name" "credit-header"
-            ]
-            [ text "Powered by" ]
-        , div
-            [ css [ Styles.creditsIcons ]
-            , attribute "data-name" "credit-icons"
-            ]
-            [ a
-                [ css [ Styles.creditsIconLink ]
-                , href "https://www.giphy.com"
-                , target "_blank"
-                ]
-                [ img
-                    [ css [ Styles.creditsIconImage ]
-                    , src "assets/giphy.png"
-                    ]
-                    []
-                ]
-            , a
-                [ css [ Styles.creditsIconLink ]
-                , href "https://www.soundcloud.com"
-                , target "_blank"
-                ]
-                [ img
-                    [ css [ Styles.creditsIconImage ]
-                    , src "assets/soundcloud.png"
-                    ]
-                    []
-                ]
-            ]
-        , div
-            [ css [ Styles.creditsCreator ]
-            , attribute "data-name" "credit-creator"
-            ]
-            [ span []
-                [ text "Created by" ]
-            , br [] []
-            , a
-                [ css [ Styles.creditsLink ]
-                , href "http://www.digitalbloc.com"
-                , target "_blank"
-                ]
-                [ text "Art Sangurai" ]
-            ]
-        , div
-            [ css [ Styles.creditsCopyright ]
-            , attribute "data-name" "credit-copyright"
-            ]
-            [ text "Copyright 2017" ]
-        , div
-            [ css [ Styles.creditsPorter ]
-            , attribute "data-name" "credit-porter"
-            ]
-            [ span []
-                [ text "Elm port by" ]
-            , br [] []
-            , a
-                [ css [ Styles.creditsLink ]
-                , href "http://www.paulfioravanti.com"
-                , target "_blank"
-                ]
-                [ text "Paul Fioravanti" ]
-            ]
-        , div
-            [ css [ Styles.creditsPorterCopyright ]
-            , attribute "data-name" "credit-copyright"
-            ]
-            [ text "Copyright 2018" ]
         ]
