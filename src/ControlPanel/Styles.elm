@@ -1,8 +1,6 @@
 module ControlPanel.Styles
     exposing
-        ( controlButton
-        , controlIcon
-        , controlIconBackground
+        ( button
         , controlPanel
         , controlPanelContent
         , controls
@@ -17,6 +15,8 @@ module ControlPanel.Styles
         , creditsLink
         , creditsPorter
         , creditsPorterCopyright
+        , icon
+        , iconBackground
         , logo
         , logoImage
         , logoImageBackground
@@ -104,10 +104,30 @@ import Css
 import Css.Foreign exposing (children, div)
 
 
-controlButton : Style
-controlButton =
+background : Color
+background =
+    rgba 0 0 0 0.2
+
+
+blue : Color
+blue =
+    rgb 102 200 255
+
+
+yellow : Color
+yellow =
+    rgb 241 231 103
+
+
+yellowWithAlpha : Float -> Color
+yellowWithAlpha alpha =
+    rgba 241 231 103 alpha
+
+
+button : Style
+button =
     Css.batch
-        [ backgroundColor (rgba 0 0 0 0.2)
+        [ backgroundColor background
         , boxSizing borderBox
         , controlPanelItemBorder
         , cursor pointer
@@ -122,15 +142,15 @@ controlButton =
         ]
 
 
-controlIcon : Style
-controlIcon =
+icon : Style
+icon =
     Css.batch
         [ backgroundImage
             (linearGradient2
                 toBottom
-                (stop2 (rgba 241 231 103 1.0) (pct 0))
-                (stop2 (rgba 254 182 69 1.0) (pct 50))
-                [ (stop2 (rgba 241 231 103 1.0) (pct 100)) ]
+                (stop2 yellow (pct 0))
+                (stop2 (rgb 254 182 69) (pct 50))
+                [ (stop2 yellow (pct 100)) ]
             )
         , color (rgb 255 255 255)
         , fontSize (px 18)
@@ -144,12 +164,12 @@ controlIcon =
         , property "background-clip" "text"
         , property "-webkit-text-fill-color" "transparent"
         , property "text-fill-color" "transparent"
-        , textShadow4 (px 0) (px 0) (px 10) (rgba 241 231 103 1.0)
+        , textShadow4 (px 0) (px 0) (px 10) yellow
         ]
 
 
-controlIconBackground : Style
-controlIconBackground =
+iconBackground : Style
+iconBackground =
     Css.batch
         [ scanlines (px 44) (px 44) (px -2) ]
 
@@ -185,8 +205,8 @@ controlPanelContent =
 controlPanelItemBorder : Style
 controlPanelItemBorder =
     Css.batch
-        [ border3 (px 3) double miamiBlue
-        , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
+        [ border3 (px 3) double blue
+        , boxShadow4 (px 0) (px 0) (px 12) blue
         ]
 
 
@@ -210,10 +230,10 @@ controls =
 credits : Style
 credits =
     Css.batch
-        [ backgroundColor (rgba 0 0 0 0.2)
-        , boxShadow4 (px 0) (px 0) (px 12) miamiBlue
+        [ backgroundColor background
+        , boxShadow4 (px 0) (px 0) (px 12) blue
         , boxSizing borderBox
-        , border3 (px 3) double miamiBlue
+        , border3 (px 3) double blue
         , color (rgb 255 255 255)
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (pct 80)
@@ -337,15 +357,10 @@ logoImageBackground =
     scanlines (px 120) (px 200) (px -2)
 
 
-miamiBlue : Color
-miamiBlue =
-    rgb 102 200 255
-
-
 trackInfo : Style
 trackInfo =
     Css.batch
-        [ backgroundColor (rgba 0 0 0 0.2)
+        [ backgroundColor background
         , boxSizing borderBox
         , color (rgb 255 255 255)
         , controlPanelItemBorder
@@ -402,11 +417,11 @@ volumeControl =
             , width (pct 100)
             ]
         , pseudoElement "-webkit-slider-thumb"
-            [ backgroundColor (rgba 241 231 103 0.96)
-            , border3 (px 0) solid (rgb 241 231 103)
+            [ backgroundColor (yellowWithAlpha 0.96)
+            , border3 (px 0) solid yellow
             , borderRadius (px 0)
             , boxShadow4 (px 0) (px 0) (px 1.8) (rgba 243 235 126 0.49)
-            , boxShadow4 (px 1.8) (px 1.8) (px 5.9) (rgba 241 231 103 0.49)
+            , boxShadow4 (px 1.8) (px 1.8) (px 5.9) (yellowWithAlpha 0.49)
             , cursor pointer
             , height (px 18)
             , marginTop (px 0.15)
