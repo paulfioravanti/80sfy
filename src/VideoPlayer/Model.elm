@@ -33,18 +33,3 @@ init id visible zIndex =
     , visible = visible
     , zIndex = zIndex
     }
-
-
-setGifUrl : WebData String -> VideoPlayer -> VideoPlayer
-setGifUrl gifUrl videoPlayer =
-    { videoPlayer | gifUrl = gifUrl }
-
-
-setStyle : State -> VideoPlayer -> VideoPlayer
-setStyle style videoPlayer =
-    { videoPlayer | style = style }
-
-
-setVisible : Bool -> VideoPlayer -> VideoPlayer
-setVisible visible videoPlayer =
-    { videoPlayer | visible = visible }
