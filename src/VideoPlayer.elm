@@ -37,8 +37,8 @@ animateStyle msg player =
 
 
 newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
-newVisibility player1 =
-    if player1.visible then
+newVisibility videoPlayer1 =
+    if videoPlayer1.visible then
         ( False, "1" )
     else
         ( True, "2" )

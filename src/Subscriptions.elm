@@ -8,10 +8,10 @@ import Time exposing (second)
 
 
 subscriptions : Model -> Sub Msg
-subscriptions { controlPanel, player1 } =
+subscriptions { controlPanel, videoPlayer1 } =
     Sub.batch
         [ Time.every (4 * second) CrossFadePlayers
         , Animation.subscription Animate
-            [ player1.style, controlPanel.style ]
+            [ videoPlayer1.style, controlPanel.style ]
         , ControlPanel.subscriptions controlPanel
         ]

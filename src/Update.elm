@@ -29,15 +29,18 @@ update msg model =
     case msg of
         Animate msg ->
             let
-                player1 =
-                    model.player1
+                videoPlayer1 =
+                    model.videoPlayer1
                         |> VideoPlayer.animateStyle msg
 
                 controlPanel =
                     model.controlPanel
                         |> ControlPanel.animateStyle msg
             in
-                ( { model | controlPanel = controlPanel, player1 = player1 }
+                ( { model
+                    | controlPanel = controlPanel
+                    , videoPlayer1 = videoPlayer1
+                  }
                 , Cmd.none
                 )
 
@@ -51,43 +54,44 @@ update msg model =
 
         CrossFadePlayers time ->
             let
-                ( newPlayer1Visibility, nowHiddenPlayerId ) =
-                    model.player1
+                ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId ) =
+                    model.videoPlayer1
                         |> VideoPlayer.newVisibility
 
-                player1 =
-                    model.player1
-                        |> VideoPlayer.updateVisibility newPlayer1Visibility
+                videoPlayer1 =
+                    model.videoPlayer1
+                        |> VideoPlayer.updateVisibility
+                            newVideoPlayer1Visibility
             in
-                ( { model | player1 = player1 }
-                , Task.succeed nowHiddenPlayerId
+                ( { model | videoPlayer1 = videoPlayer1 }
+                , Task.succeed nowHiddenVideoPlayerId
                     |> Task.perform FetchNextGif
                 )
 
-        FetchNextGif hiddenPlayerId ->
-            ( model, Gif.random model.config.tags hiddenPlayerId )
+        FetchNextGif hiddenVideoPlayerId ->
+            ( model, Gif.random model.config.tags hiddenVideoPlayerId )
 
-        FetchRandomGif playerId (Ok gifUrl) ->
-            if playerId == "1" then
+        FetchRandomGif videoPlayerId (Ok gifUrl) ->
+            if videoPlayerId == "1" then
                 let
-                    player1 =
-                        model.player1
+                    videoPlayer1 =
+                        model.videoPlayer1
                             |> VideoPlayer.setSuccessGifUrl gifUrl
                 in
-                    ( { model | player1 = player1 }, Cmd.none )
+                    ( { model | videoPlayer1 = videoPlayer1 }, Cmd.none )
             else
                 let
-                    player2 =
-                        model.player2
+                    videoPlayer2 =
+                        model.videoPlayer2
                             |> VideoPlayer.setSuccessGifUrl gifUrl
                 in
-                    ( { model | player2 = player2 }, Cmd.none )
+                    ( { model | videoPlayer2 = videoPlayer2 }, Cmd.none )
 
-        FetchRandomGif playerId (Err error) ->
+        FetchRandomGif videoPlayerId (Err error) ->
             let
                 _ =
                     Debug.log
-                        ("FetchRandomGif Failed for " ++ toString playerId)
+                        ("FetchRandomGif Failed for " ++ toString videoPlayerId)
                         error
             in
                 ( model, Cmd.none )
@@ -122,9 +126,9 @@ update msg model =
                 , Cmd.none
                 )
 
-        RandomTag playerId tag ->
+        RandomTag videoPlayerId tag ->
             ( model
-            , Gif.fetchRandomGif model.config.giphyApiKey playerId tag
+            , Gif.fetchRandomGif model.config.giphyApiKey videoPlayerId tag
             )
 
         ShowControlPanel ->
