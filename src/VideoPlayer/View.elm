@@ -12,8 +12,8 @@ import Html.Styled.Attributes
         )
 import Json.Encode as Encode
 import RemoteData exposing (RemoteData(Success))
-import Styles
 import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Styles as Styles
 
 
 view : VideoPlayer -> Html msg
@@ -51,7 +51,7 @@ attributes player =
                 |> List.map fromUnstyled
 
         attributes =
-            [ css [ Styles.playerGifContainer player.zIndex ]
+            [ css [ Styles.gifContainer player.zIndex ]
             , attribute "data-name" "player-gif-container"
             ]
     in

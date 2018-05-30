@@ -20,9 +20,7 @@ module Styles
         , logo
         , logoImage
         , logoImageBackground
-        , playerGifContainer
         , trackInfo
-        , videoPlayer
         , volume
         , volumeBackground
         , volumeControl
@@ -300,6 +298,7 @@ creditsPorterCopyright =
     fontSize (pct 60)
 
 
+creditsPorterLink : Style
 creditsPorterLink =
     Css.batch
         [ fontSize (pct 70)
@@ -341,19 +340,6 @@ logoImageBackground =
 miamiBlue : Color
 miamiBlue =
     rgb 102 200 255
-
-
-playerGifContainer : Int -> Style
-playerGifContainer zindex =
-    Css.batch
-        [ height (pct 100)
-        , left (px 0)
-        , position fixed
-        , textAlign center
-        , top (px 0)
-        , width (pct 100)
-        , zIndex (int zindex)
-        ]
 
 
 trackInfo : Style
