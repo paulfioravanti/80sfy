@@ -13,9 +13,13 @@ type alias Tags =
 
 fetchTags : Cmd Msg
 fetchTags =
-    tagsDecoder
-        |> Http.get "tags.json"
-        |> Http.send FetchTags
+    let
+        tagsDecoder =
+            Decode.at [ "tags" ] (Decode.list Decode.string)
+    in
+        tagsDecoder
+            |> Http.get "tags.json"
+            |> Http.send FetchTags
 
 
 random : Tags -> VideoPlayerId -> Cmd Msg
@@ -38,8 +42,3 @@ numToTag tags numberOfMembers =
         |> List.drop numberOfMembers
         |> List.head
         |> Maybe.withDefault "80s"
-
-
-tagsDecoder : Decoder Tags
-tagsDecoder =
-    Decode.at [ "tags" ] (Decode.list Decode.string)
