@@ -26,6 +26,7 @@ module ControlPanel.Styles
         , volumeControl
         )
 
+import ControlPanel.Colors as Colors
 import Css
     exposing
         ( Color
@@ -85,8 +86,6 @@ import Css
         , px
         , relative
         , repeat
-        , rgb
-        , rgba
         , solid
         , stop2
         , textAlign
@@ -104,30 +103,10 @@ import Css
 import Css.Foreign exposing (children, div)
 
 
-background : Color
-background =
-    rgba 0 0 0 0.2
-
-
-blue : Color
-blue =
-    rgb 102 200 255
-
-
-yellow : Color
-yellow =
-    rgb 241 231 103
-
-
-yellowWithAlpha : Float -> Color
-yellowWithAlpha alpha =
-    rgba 241 231 103 alpha
-
-
 button : Style
 button =
     Css.batch
-        [ backgroundColor background
+        [ backgroundColor Colors.background
         , boxSizing borderBox
         , controlPanelItemBorder
         , cursor pointer
@@ -148,14 +127,14 @@ icon =
         [ backgroundImage
             (linearGradient2
                 toBottom
-                (stop2 yellow (pct 0))
-                (stop2 (rgb 254 182 69) (pct 50))
-                [ (stop2 yellow (pct 100)) ]
+                (stop2 Colors.yellow (pct 0))
+                (stop2 Colors.pastelOrange (pct 50))
+                [ (stop2 Colors.yellow (pct 100)) ]
             )
-        , color (rgb 255 255 255)
+        , color Colors.white
         , fontSize (px 18)
         , hover
-            [ backgroundColor (rgb 255 255 255)
+            [ backgroundColor Colors.white
             , backgroundImage none
             ]
         , marginLeft (px 2)
@@ -164,7 +143,7 @@ icon =
         , property "background-clip" "text"
         , property "-webkit-text-fill-color" "transparent"
         , property "text-fill-color" "transparent"
-        , textShadow4 (px 0) (px 0) (px 10) yellow
+        , textShadow4 (px 0) (px 0) (px 10) Colors.yellow
         ]
 
 
@@ -205,8 +184,8 @@ controlPanelContent =
 controlPanelItemBorder : Style
 controlPanelItemBorder =
     Css.batch
-        [ border3 (px 3) double blue
-        , boxShadow4 (px 0) (px 0) (px 12) blue
+        [ border3 (px 3) double Colors.blue
+        , boxShadow4 (px 0) (px 0) (px 12) Colors.blue
         ]
 
 
@@ -230,18 +209,18 @@ controls =
 credits : Style
 credits =
     Css.batch
-        [ backgroundColor background
-        , boxShadow4 (px 0) (px 0) (px 12) blue
+        [ backgroundColor Colors.background
+        , boxShadow4 (px 0) (px 0) (px 12) Colors.blue
         , boxSizing borderBox
-        , border3 (px 3) double blue
-        , color (rgb 255 255 255)
+        , border3 (px 3) double Colors.blue
+        , color Colors.white
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (pct 80)
         , height (px 200)
         , padding (px 10)
         , position relative
         , textAlign center
-        , textShadow4 (px 0) (px 0) (px 8) (rgba 255 255 255 0.8)
+        , textShadow4 (px 0) (px 0) (px 8) (Colors.whiteWithAlpha 0.8)
         , textTransform uppercase
         , width (px 200)
         ]
@@ -300,7 +279,7 @@ creditsLink =
     Css.batch
         [ backgroundColor transparent
         , textDecoration none
-        , color (rgb 255 255 255)
+        , color Colors.white
         ]
 
 
@@ -360,9 +339,9 @@ logoImageBackground =
 trackInfo : Style
 trackInfo =
     Css.batch
-        [ backgroundColor background
+        [ backgroundColor Colors.background
         , boxSizing borderBox
-        , color (rgb 255 255 255)
+        , color Colors.white
         , controlPanelItemBorder
         , height (px 126)
         , marginBottom (px 8)
@@ -407,21 +386,25 @@ volumeControl =
         , marginRight (px -0.15)
         , property "-webkit-appearance" "none"
         , pseudoElement "-webkit-slider-runnable-track"
-            [ backgroundColor (rgb 102 200 255)
-            , border3 (px 0) solid (rgb 0 0 0)
+            [ backgroundColor Colors.blue
+            , border3 (px 0) solid Colors.black
             , borderRadius (px 0)
-            , boxShadow4 (px 0) (px 0) (px 2) (rgba 255 255 255 0.12)
-            , boxShadow4 (px 2) (px 2) (px 1) (rgba 255 255 255 0.12)
+            , boxShadow4 (px 0) (px 0) (px 2) (Colors.whiteWithAlpha 0.12)
+            , boxShadow4 (px 2) (px 2) (px 1) (Colors.whiteWithAlpha 0.12)
             , cursor pointer
             , height (px 18)
             , width (pct 100)
             ]
         , pseudoElement "-webkit-slider-thumb"
-            [ backgroundColor (yellowWithAlpha 0.96)
-            , border3 (px 0) solid yellow
+            [ backgroundColor (Colors.yellowWithAlpha 0.96)
+            , border3 (px 0) solid Colors.yellow
             , borderRadius (px 0)
-            , boxShadow4 (px 0) (px 0) (px 1.8) (rgba 243 235 126 0.49)
-            , boxShadow4 (px 1.8) (px 1.8) (px 5.9) (yellowWithAlpha 0.49)
+            , boxShadow4 (px 0) (px 0) (px 1.8) Colors.paleYellow
+            , boxShadow4
+                (px 1.8)
+                (px 1.8)
+                (px 5.9)
+                (Colors.yellowWithAlpha 0.49)
             , cursor pointer
             , height (px 18)
             , marginTop (px 0.15)
