@@ -32,6 +32,7 @@ import RemoteData
         , WebData
         )
 import Styles
+import VideoPlayer.View as View
 
 
 type alias VideoPlayerId =
@@ -96,40 +97,4 @@ updateVisibility visible player =
 
 view : VideoPlayer -> Html msg
 view player =
-    let
-        gifUrl =
-            case player.gifUrl of
-                Success gifUrl ->
-                    gifUrl
-
-                _ ->
-                    ""
-
-        videoName =
-            player.id
-                |> toString
-                |> String.toLower
-
-        true =
-            Encode.string "true"
-
-        animations =
-            player.style
-                |> Animation.render
-                |> List.map fromUnstyled
-
-        attributes =
-            [ css [ Styles.playerGifContainer player.zIndex ]
-            , attribute "data-name" "player-gif-container"
-            ]
-    in
-        div (List.append animations attributes)
-            [ video
-                [ src gifUrl
-                , css [ Styles.videoPlayer ]
-                , attribute "data-name" videoName
-                , property "autoplay" true
-                , property "loop" true
-                ]
-                []
-            ]
+    View.view player
