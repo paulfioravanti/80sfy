@@ -7,26 +7,18 @@ module ControlPanel
         , hide
         , setInUse
         , show
-        , subscription
+        , subscriptions
         , view
         )
 
 import Animation
 import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.View as View
 import Html.Styled exposing (Html)
-import Mouse
-import Msg
-    exposing
-        ( Msg
-            ( CountdownToHideControlPanel
-            , HideControlPanel
-            , ShowControlPanel
-            )
-        )
+import Msg exposing (Msg(HideControlPanel))
 import Task
-import Time
 
 
 type alias ControlPanel =
@@ -40,7 +32,11 @@ init =
 
 animateStyle : Animation.Msg -> ControlPanel -> ControlPanel
 animateStyle msg controlPanel =
-    { controlPanel | style = Animation.update msg controlPanel.style }
+    { controlPanel
+        | style =
+            controlPanel.style
+                |> Animation.update msg
+    }
 
 
 determineVisibility : ControlPanel -> ( ControlPanel, Cmd Msg )
@@ -63,9 +59,8 @@ hide : ControlPanel -> ControlPanel
 hide controlPanel =
     let
         animateToHidden =
-            Animation.interrupt
-                [ Animation.to Animations.hidden ]
-                controlPanel.style
+            controlPanel.style
+                |> Animation.interrupt [ Animation.to Animations.hidden ]
     in
         { controlPanel | style = animateToHidden, visible = False }
 
@@ -79,19 +74,15 @@ show : ControlPanel -> ControlPanel
 show controlPanel =
     let
         animateToVisible =
-            Animation.interrupt
-                [ Animation.to Animations.visible ]
-                controlPanel.style
+            controlPanel.style
+                |> Animation.interrupt [ Animation.to Animations.visible ]
     in
         { controlPanel | style = animateToVisible, visible = True }
 
 
-subscription : ControlPanel -> Sub Msg
-subscription controlPanel =
-    if controlPanel.visible && not controlPanel.inUse then
-        Time.every Time.second CountdownToHideControlPanel
-    else
-        Mouse.moves (\_ -> ShowControlPanel)
+subscriptions : ControlPanel -> Sub Msg
+subscriptions controlPanel =
+    Subscriptions.subscriptions controlPanel
 
 
 view : ControlPanel -> Html Msg

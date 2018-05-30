@@ -16,11 +16,6 @@ init : ControlPanel
 init =
     { inUse = False
     , secondsOpen = 0
-    , style =
-        -- FIXME
-        -- Animation.style animations.hidden
-        Animation.style Animations.visible
-        -- FIXME
-        -- , visible = False
+    , style = Animation.style Animations.visible
     , visible = True
     }

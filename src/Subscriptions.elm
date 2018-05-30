@@ -1,6 +1,7 @@
 module Subscriptions exposing (subscriptions)
 
 import Animation
+import ControlPanel
 import Model exposing (Model)
 import Msg exposing (Msg(Animate, CrossFadePlayers))
 import Time
@@ -12,6 +13,5 @@ subscriptions { controlPanel, player1 } =
         [ Time.every (4 * Time.second) CrossFadePlayers
         , Animation.subscription Animate
             [ player1.style, controlPanel.style ]
-          -- FIXME
-          -- , ControlPanel.subscription controlPanel
+        , ControlPanel.subscriptions controlPanel
         ]
