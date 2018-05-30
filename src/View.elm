@@ -6,7 +6,7 @@ import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import RemoteData exposing (RemoteData(Success))
-import VideoPlayer exposing (VideoPlayer, VideoPlayerId(Player1, Player2))
+import VideoPlayer exposing (VideoPlayer)
 
 
 view : Model -> Html Msg

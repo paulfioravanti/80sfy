@@ -20,7 +20,7 @@ import Msg
             , UseControlPanel
             )
         )
-import VideoPlayer exposing (VideoPlayerId(Player1, Player2))
+import VideoPlayer
 import Task
 
 
@@ -68,22 +68,20 @@ update msg model =
             ( model, Gif.random model.config.tags hiddenPlayerId )
 
         FetchRandomGif playerId (Ok gifUrl) ->
-            case playerId of
-                Player1 ->
-                    let
-                        player1 =
-                            model.player1
-                                |> VideoPlayer.setSuccessGifUrl gifUrl
-                    in
-                        ( { model | player1 = player1 }, Cmd.none )
-
-                Player2 ->
-                    let
-                        player2 =
-                            model.player2
-                                |> VideoPlayer.setSuccessGifUrl gifUrl
-                    in
-                        ( { model | player2 = player2 }, Cmd.none )
+            if playerId == "1" then
+                let
+                    player1 =
+                        model.player1
+                            |> VideoPlayer.setSuccessGifUrl gifUrl
+                in
+                    ( { model | player1 = player1 }, Cmd.none )
+            else
+                let
+                    player2 =
+                        model.player2
+                            |> VideoPlayer.setSuccessGifUrl gifUrl
+                in
+                    ( { model | player2 = player2 }, Cmd.none )
 
         FetchRandomGif playerId (Err error) ->
             let
@@ -102,8 +100,8 @@ update msg model =
             in
                 ( { model | config = config }
                 , Cmd.batch
-                    [ Gif.random tags Player1
-                    , Gif.random tags Player2
+                    [ Gif.random tags "1"
+                    , Gif.random tags "2"
                     ]
                 )
 

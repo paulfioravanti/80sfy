@@ -1,7 +1,7 @@
 module VideoPlayer
     exposing
         ( VideoPlayer
-        , VideoPlayerId(..)
+        , VideoPlayerId
         , animateStyle
         , init
         , newVisibility
@@ -34,14 +34,13 @@ import RemoteData
 import Styles
 
 
-type VideoPlayerId
-    = Player1
-    | Player2
+type alias VideoPlayerId =
+    String
 
 
 type alias VideoPlayer =
     { gifUrl : WebData String
-    , id : VideoPlayerId
+    , id : String
     , style : Animation.State
     , visible : Bool
     , zIndex : Int
@@ -66,9 +65,9 @@ init id visible zIndex =
 newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
 newVisibility player1 =
     if player1.visible then
-        ( False, Player1 )
+        ( False, "1" )
     else
-        ( True, Player2 )
+        ( True, "2" )
 
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
