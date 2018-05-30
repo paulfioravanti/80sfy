@@ -12,6 +12,7 @@ module ControlPanel
         )
 
 import Animation
+import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Subscriptions as Subscriptions
@@ -85,6 +86,6 @@ subscriptions controlPanel =
     Subscriptions.subscriptions controlPanel
 
 
-view : ControlPanel -> Html Msg
-view controlPanel =
-    View.view controlPanel
+view : AudioPlayer -> ControlPanel -> Html Msg
+view audioPlayer controlPanel =
+    View.view audioPlayer controlPanel

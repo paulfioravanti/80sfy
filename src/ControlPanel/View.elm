@@ -1,6 +1,7 @@
 module ControlPanel.View exposing (view)
 
 import Animation
+import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -35,8 +36,8 @@ import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Msg exposing (Msg(UseControlPanel))
 
 
-view : ControlPanel -> Html Msg
-view controlPanel =
+view : AudioPlayer -> ControlPanel -> Html Msg
+view audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -57,7 +58,7 @@ view controlPanel =
                 ]
                 [ logo
                 , trackInfo
-                , Controls.view
+                , Controls.view audioPlayer
                 , volumeControl
                 , Credits.view
                 ]

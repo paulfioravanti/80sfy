@@ -1,15 +1,16 @@
 module ControlPanel.Controls exposing (view)
 
+import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 
 
-view : Html msg
-view =
+view : AudioPlayer -> Html msg
+view { playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
         [ muteUnmuteButton
-        , playPauseButton
+        , playPauseButton playing
         , nextTrackButton
         , fullscreenButton
         ]
@@ -39,9 +40,16 @@ nextTrackButton =
         ]
 
 
-playPauseButton : Html msg
-playPauseButton =
-    div [ css [ Styles.button ], attribute "data-name" "play-pause" ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-play" ] []
-        ]
+playPauseButton : Bool -> Html msg
+playPauseButton playing =
+    let
+        iconClass =
+            if playing then
+                "fas fa-pause"
+            else
+                "fas fa-play"
+    in
+        div [ css [ Styles.button ], attribute "data-name" "play-pause" ]
+            [ div [ css [ Styles.iconBackground ] ] []
+            , i [ css [ Styles.icon ], class iconClass ] []
+            ]

@@ -10,7 +10,7 @@ import VideoPlayer exposing (VideoPlayer)
 
 
 view : Model -> Html Msg
-view { controlPanel, videoPlayer1, videoPlayer2 } =
+view { audioPlayer, controlPanel, videoPlayer1, videoPlayer2 } =
     let
         visibleVideoPlayer =
             if videoPlayer1.visible then
@@ -21,7 +21,7 @@ view { controlPanel, videoPlayer1, videoPlayer2 } =
         case (visibleVideoPlayer.gifUrl) of
             Success gifUrl ->
                 div [ attribute "data-name" "container" ]
-                    [ ControlPanel.view controlPanel
+                    [ ControlPanel.view audioPlayer controlPanel
                     , VideoPlayer.view videoPlayer1
                     , VideoPlayer.view videoPlayer2
                     ]
