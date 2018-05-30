@@ -33,7 +33,8 @@ init id visible zIndex =
 
 animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
 animateStyle msg player =
-    { player | style = Animation.update msg player.style }
+    player
+        |> Model.setStyle (Animation.update msg player.style)
 
 
 newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
@@ -46,7 +47,8 @@ newVisibility player1 =
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
 setSuccessGifUrl gifUrl player =
-    { player | gifUrl = Success gifUrl }
+    player
+        |> Model.setGifUrl (Success gifUrl)
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer
@@ -65,7 +67,9 @@ updateVisibility visible player =
                 ]
                 player.style
     in
-        { player | style = animateToNewOpacity, visible = visible }
+        player
+            |> Model.setStyle animateToNewOpacity
+            |> Model.setVisible visible
 
 
 view : VideoPlayer -> Html msg

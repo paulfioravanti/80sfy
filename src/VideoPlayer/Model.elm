@@ -1,4 +1,12 @@
-module VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId, init)
+module VideoPlayer.Model
+    exposing
+        ( VideoPlayer
+        , VideoPlayerId
+        , init
+        , setGifUrl
+        , setStyle
+        , setVisible
+        )
 
 import Animation exposing (State)
 import RemoteData exposing (RemoteData(NotRequested), WebData)
@@ -25,3 +33,18 @@ init id visible zIndex =
     , visible = visible
     , zIndex = zIndex
     }
+
+
+setGifUrl : WebData String -> VideoPlayer -> VideoPlayer
+setGifUrl gifUrl videoPlayer =
+    { videoPlayer | gifUrl = gifUrl }
+
+
+setStyle : State -> VideoPlayer -> VideoPlayer
+setStyle style videoPlayer =
+    { videoPlayer | style = style }
+
+
+setVisible : Bool -> VideoPlayer -> VideoPlayer
+setVisible visible videoPlayer =
+    { videoPlayer | visible = visible }
