@@ -1,12 +1,4 @@
-module VideoPlayer.Model
-    exposing
-        ( VideoPlayer
-        , VideoPlayerId
-        , init
-        , setGifUrl
-        , setStyle
-        , setVisible
-        )
+module VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId, init)
 
 import Animation exposing (State)
 import RemoteData exposing (RemoteData(NotRequested), WebData)
