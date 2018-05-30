@@ -2,14 +2,12 @@ module Main exposing (main)
 
 import Config
 import Flags exposing (Flags)
-import Gif
 import Html.Styled as Html
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Subscriptions
 import Tag
 import Update
-import VideoPlayer exposing (VideoPlayerId(Player1, Player2))
 import View
 
 
