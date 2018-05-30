@@ -14,20 +14,16 @@ import Animation
 import Html.Styled exposing (Html)
 import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
 import Styles
+import VideoPlayer.Model as Model
 import VideoPlayer.View as View
 
 
 type alias VideoPlayerId =
-    String
+    Model.VideoPlayerId
 
 
 type alias VideoPlayer =
-    { gifUrl : WebData String
-    , id : String
-    , style : Animation.State
-    , visible : Bool
-    , zIndex : Int
-    }
+    Model.VideoPlayer
 
 
 init : VideoPlayerId -> Bool -> Int -> VideoPlayer
