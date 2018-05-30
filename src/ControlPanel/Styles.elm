@@ -121,38 +121,6 @@ button =
         ]
 
 
-icon : Style
-icon =
-    Css.batch
-        [ backgroundImage
-            (linearGradient2
-                toBottom
-                (stop2 Colors.yellow (pct 0))
-                (stop2 Colors.pastelOrange (pct 50))
-                [ (stop2 Colors.yellow (pct 100)) ]
-            )
-        , color Colors.white
-        , fontSize (px 18)
-        , hover
-            [ backgroundColor Colors.white
-            , backgroundImage none
-            ]
-        , marginLeft (px 2)
-        , marginTop (px 10)
-        , property "-webkit-background-clip" "text"
-        , property "background-clip" "text"
-        , property "-webkit-text-fill-color" "transparent"
-        , property "text-fill-color" "transparent"
-        , textShadow4 (px 0) (px 0) (px 10) Colors.yellow
-        ]
-
-
-iconBackground : Style
-iconBackground =
-    Css.batch
-        [ scanlines (px 44) (px 44) (px -2) ]
-
-
 controlPanel : Style
 controlPanel =
     Css.batch
@@ -304,6 +272,38 @@ creditsPorterLink =
         ]
 
 
+icon : Style
+icon =
+    Css.batch
+        [ backgroundImage
+            (linearGradient2
+                toBottom
+                (stop2 Colors.yellow (pct 0))
+                (stop2 Colors.pastelOrange (pct 50))
+                [ (stop2 Colors.yellow (pct 100)) ]
+            )
+        , color Colors.white
+        , fontSize (px 18)
+        , hover
+            [ backgroundColor Colors.white
+            , backgroundImage none
+            ]
+        , marginLeft (px 2)
+        , marginTop (px 10)
+        , property "-webkit-background-clip" "text"
+        , property "background-clip" "text"
+        , property "-webkit-text-fill-color" "transparent"
+        , property "text-fill-color" "transparent"
+        , textShadow4 (px 0) (px 0) (px 10) Colors.yellow
+        ]
+
+
+iconBackground : Style
+iconBackground =
+    Css.batch
+        [ scanlines (px 44) (px 44) (px -2) ]
+
+
 logo : Style
 logo =
     Css.batch
@@ -413,10 +413,6 @@ volumeControl =
             ]
         , width (pct 100)
         ]
-
-
-
----- PRIVATE ----
 
 
 scanlines :
