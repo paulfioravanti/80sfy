@@ -1,30 +1,7 @@
 module ControlPanel.Credits exposing (view)
 
-import Html.Styled as Html
-    exposing
-        ( Html
-        , a
-        , br
-        , div
-          -- , i
-        , img
-          -- , input
-        , span
-        , text
-        )
-import Html.Styled.Attributes
-    exposing
-        ( attribute
-          -- , class
-        , css
-          -- , fromUnstyled
-        , href
-        , src
-          -- , step
-        , target
-          -- , type_
-          -- , value
-        )
+import Html.Styled as Html exposing (Html, a, br, div, img, span, text)
+import Html.Styled.Attributes exposing (attribute, css, href, src, target)
 import Styles
 
 

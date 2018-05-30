@@ -1,6 +1,7 @@
 module ControlPanel.View exposing (view)
 
 import Animation
+import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
 import Html.Styled as Html
@@ -56,7 +57,7 @@ view controlPanel =
                 ]
                 [ logo
                 , trackInfo
-                , audioPlayerControls
+                , Controls.view
                 , volumeControl
                 , Credits.view
                 ]
@@ -65,12 +66,8 @@ view controlPanel =
 
 logo : Html msg
 logo =
-    div
-        [ css [ Styles.logo ]
-        , attribute "data-name" "logo"
-        ]
-        [ div [ css [ Styles.logoImageBackground ] ]
-            []
+    div [ css [ Styles.logo ], attribute "data-name" "logo" ]
+        [ div [ css [ Styles.logoImageBackground ] ] []
         , img
             [ css [ Styles.logoImage ]
             , src "assets/logo.png"
@@ -87,63 +84,6 @@ trackInfo =
         , attribute "data-name" "track-info"
         ]
         []
-
-
-audioPlayerControls : Html msg
-audioPlayerControls =
-    div
-        [ css [ Styles.controls ]
-        , attribute "data-name" "controls"
-        ]
-        [ div
-            [ css [ Styles.controlButton ]
-            , attribute "data-name" "mute-unmute"
-            ]
-            [ div [ css [ Styles.controlIconBackground ] ]
-                []
-            , i
-                [ css [ Styles.controlIcon ]
-                , class "fas fa-volume-up"
-                ]
-                []
-            ]
-        , div
-            [ css [ Styles.controlButton ]
-            , attribute "data-name" "play-pause"
-            ]
-            [ div [ css [ Styles.controlIconBackground ] ]
-                []
-            , i
-                [ css [ Styles.controlIcon ]
-                , class "fas fa-play"
-                ]
-                []
-            ]
-        , div
-            [ css [ Styles.controlButton ]
-            , attribute "data-name" "next-track"
-            ]
-            [ div [ css [ Styles.controlIconBackground ] ]
-                []
-            , i
-                [ css [ Styles.controlIcon ]
-                , class "fas fa-fast-forward"
-                ]
-                []
-            ]
-        , div
-            [ css [ Styles.controlButton ]
-            , attribute "data-name" "fullscreen"
-            ]
-            [ div [ css [ Styles.controlIconBackground ] ]
-                []
-            , i
-                [ css [ Styles.controlIcon ]
-                , class "fas fa-expand-arrows-alt"
-                ]
-                []
-            ]
-        ]
 
 
 volumeControl : Html msg
