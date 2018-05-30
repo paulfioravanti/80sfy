@@ -1,8 +1,8 @@
 module ControlPanel.Controls exposing (view)
 
+import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
-import Styles
 
 
 view : Html msg

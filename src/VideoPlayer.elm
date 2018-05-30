@@ -13,8 +13,8 @@ module VideoPlayer
 import Animation
 import Html.Styled exposing (Html)
 import RemoteData exposing (RemoteData(Success), WebData)
-import Styles
 import VideoPlayer.Model as Model
+import VideoPlayer.Styles as Styles
 import VideoPlayer.View as View
 
 

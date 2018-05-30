@@ -1,8 +1,8 @@
 module ControlPanel.Credits exposing (view)
 
+import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, a, br, div, img, span, text)
 import Html.Styled.Attributes exposing (attribute, css, href, src, target)
-import Styles
 
 
 view : Html msg

@@ -4,6 +4,7 @@ import Animation
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Styles as Styles
 import Html.Styled as Html
     exposing
         ( Html
@@ -32,7 +33,6 @@ import Html.Styled.Attributes as Attributes
         )
 import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
 import Msg exposing (Msg(UseControlPanel))
-import Styles
 
 
 view : ControlPanel -> Html Msg
