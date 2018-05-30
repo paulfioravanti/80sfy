@@ -1,7 +1,7 @@
-module VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId)
+module VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId, init)
 
 import Animation exposing (State)
-import RemoteData exposing (WebData)
+import RemoteData exposing (RemoteData(NotRequested), WebData)
 
 
 type alias VideoPlayerId =
@@ -14,4 +14,14 @@ type alias VideoPlayer =
     , style : State
     , visible : Bool
     , zIndex : Int
+    }
+
+
+init : VideoPlayerId -> Bool -> Int -> VideoPlayer
+init id visible zIndex =
+    { gifUrl = NotRequested
+    , id = id
+    , style = Animation.style [ Animation.opacity 1 ]
+    , visible = visible
+    , zIndex = zIndex
     }

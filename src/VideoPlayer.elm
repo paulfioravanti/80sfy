@@ -12,7 +12,7 @@ module VideoPlayer
 
 import Animation
 import Html.Styled exposing (Html)
-import RemoteData exposing (RemoteData(NotRequested, Success), WebData)
+import RemoteData exposing (RemoteData(Success), WebData)
 import Styles
 import VideoPlayer.Model as Model
 import VideoPlayer.View as View
@@ -28,12 +28,7 @@ type alias VideoPlayer =
 
 init : VideoPlayerId -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
-    { gifUrl = NotRequested
-    , id = id
-    , style = Animation.style [ Animation.opacity 1 ]
-    , visible = visible
-    , zIndex = zIndex
-    }
+    Model.init id visible zIndex
 
 
 animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
