@@ -25,6 +25,8 @@ import Msg
             , TogglePlayPause
             , ToggleSecretConfigVisibility
             , UseControlPanel
+            , UpdateSecretConfigTags
+            , UpdateSecretConfigSoundCloudPlaylistUrl
             )
         )
 import SecretConfig
@@ -122,7 +124,7 @@ update msg model =
 
                 secretConfig =
                     model.secretConfig
-                        |> SecretConfig.setTags tags
+                        |> SecretConfig.initTags tags
             in
                 ( { model | config = config, secretConfig = secretConfig }
                 , Cmd.batch
@@ -151,11 +153,11 @@ update msg model =
             , Gif.fetchRandomGif model.config.giphyApiKey videoPlayerId tag
             )
 
-        SaveConfig playlistUrl tagsString ->
+        SaveConfig ->
             let
                 config =
                     model.config
-                        |> Config.updateSettings playlistUrl tagsString
+                        |> Config.updateSettings model.secretConfig
             in
                 ( { model | config = config }, Cmd.none )
 
@@ -201,3 +203,19 @@ update msg model =
                         |> ControlPanel.setInUse bool
             in
                 ( { model | controlPanel = controlPanel }, Cmd.none )
+
+        UpdateSecretConfigSoundCloudPlaylistUrl url ->
+            let
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.setSoundCloudPlaylistUrl url
+            in
+                ( { model | secretConfig = secretConfig }, Cmd.none )
+
+        UpdateSecretConfigTags tags ->
+            let
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.setTags tags
+            in
+                ( { model | secretConfig = secretConfig }, Cmd.none )

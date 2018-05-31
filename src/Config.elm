@@ -2,6 +2,7 @@ module Config exposing (Config, init, updateSettings, setTags)
 
 import Config.Model as Model exposing (Config)
 import Flags exposing (Flags)
+import SecretConfig exposing (SecretConfig)
 import Tag exposing (Tags)
 
 
@@ -19,12 +20,15 @@ setTags tags config =
     { config | tags = tags }
 
 
-updateSettings : String -> String -> Config -> Config
-updateSettings soundCloudPlaylistUrl tagsString config =
+updateSettings : SecretConfig -> Config -> Config
+updateSettings { soundCloudPlaylistUrl, tags } config =
     let
-        tags =
-            tagsString
+        tagList =
+            tags
                 |> String.split ", "
                 |> List.map String.trim
     in
-        { config | soundCloudPlaylistUrl = soundCloudPlaylistUrl, tags = tags }
+        { config
+            | soundCloudPlaylistUrl = soundCloudPlaylistUrl
+            , tags = tagList
+        }

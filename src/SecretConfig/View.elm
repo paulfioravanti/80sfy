@@ -16,8 +16,16 @@ import Html.Styled.Attributes as Attributes
         , css
         , value
         )
-import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(SaveConfig, ToggleSecretConfigVisibility))
+import Html.Styled.Events exposing (onClick, onInput)
+import Msg
+    exposing
+        ( Msg
+            ( SaveConfig
+            , ToggleSecretConfigVisibility
+            , UpdateSecretConfigSoundCloudPlaylistUrl
+            , UpdateSecretConfigTags
+            )
+        )
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Styles as Styles
 
@@ -46,21 +54,23 @@ view { soundCloudPlaylistUrl, tags, visible } =
         ]
 
 
-gifTagsInput : String -> Html msg
+gifTagsInput : String -> Html Msg
 gifTagsInput tags =
     textarea
         [ css [ Styles.gifTags ]
         , attribute "data-name" "search-tags"
+        , onInput UpdateSecretConfigTags
         ]
         [ text tags ]
 
 
-soundCloudPlaylistUrlInput : String -> Html msg
+soundCloudPlaylistUrlInput : String -> Html Msg
 soundCloudPlaylistUrlInput soundCloudPlaylistUrl =
     input
         [ css [ Styles.playlist ]
         , attribute "data-name" "playlist-input"
         , value soundCloudPlaylistUrl
+        , onInput UpdateSecretConfigSoundCloudPlaylistUrl
         ]
         []
 
@@ -69,6 +79,6 @@ saveSettingsButton : Html Msg
 saveSettingsButton =
     button
         [ css [ Styles.configButton ]
-          -- , onClick (SaveConfig)
+        , onClick SaveConfig
         ]
         [ text "Save Settings" ]

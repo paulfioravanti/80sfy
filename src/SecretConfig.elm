@@ -2,6 +2,8 @@ module SecretConfig
     exposing
         ( SecretConfig
         , init
+        , initTags
+        , setSoundCloudPlaylistUrl
         , setTags
         , toggleVisibility
         , view
@@ -23,14 +25,24 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-setTags : Tags -> SecretConfig -> SecretConfig
-setTags tagsList secretConfig =
+initTags : Tags -> SecretConfig -> SecretConfig
+initTags tagsList secretConfig =
     let
         tags =
             tagsList
                 |> String.join ", "
     in
         { secretConfig | tags = tags }
+
+
+setSoundCloudPlaylistUrl : String -> SecretConfig -> SecretConfig
+setSoundCloudPlaylistUrl soundCloudPlaylistUrl secretConfig =
+    { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
+
+
+setTags : String -> SecretConfig -> SecretConfig
+setTags tags secretConfig =
+    { secretConfig | tags = tags }
 
 
 toggleVisibility : SecretConfig -> SecretConfig

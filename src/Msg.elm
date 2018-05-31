@@ -16,10 +16,12 @@ type Msg
     | FetchTags (Result Error (List String))
     | HideControlPanel ()
     | RandomTag VideoPlayerId String
-    | SaveConfig String String
+    | SaveConfig
     | ShowControlPanel
     | ToggleFullScreen
     | ToggleMute
     | TogglePlayPause
     | ToggleSecretConfigVisibility
+    | UpdateSecretConfigSoundCloudPlaylistUrl String
+    | UpdateSecretConfigTags String
     | UseControlPanel Bool
