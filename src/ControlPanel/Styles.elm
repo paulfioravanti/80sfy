@@ -31,6 +31,7 @@ import Css
     exposing
         ( Color
         , Style
+        , active
         , absolute
         , after
         , auto
@@ -44,6 +45,7 @@ import Css
         , border3
         , borderBox
         , borderRadius
+        , borderStyle
         , both
         , boxShadow4
         , boxSizing
@@ -61,6 +63,7 @@ import Css
         , fontSize
         , height
         , hover
+        , inset
         , int
         , lastChild
         , left
@@ -106,7 +109,9 @@ import Css.Foreign exposing (children, div)
 button : Style
 button =
     Css.batch
-        [ backgroundColor Colors.background
+        [ active
+            [ borderStyle inset ]
+        , backgroundColor Colors.background
         , boxSizing borderBox
         , controlPanelItemBorder
         , cursor pointer
