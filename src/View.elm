@@ -22,7 +22,7 @@ view { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
         case (visibleVideoPlayer.gifUrl) of
             Success gifUrl ->
                 let
-                    { playlistUrl, tags, visible } =
+                    { soundCloudPlaylistUrl, tags, visible } =
                         config
                 in
                     div [ attribute "data-name" "container" ]
@@ -30,7 +30,7 @@ view { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
                         , VideoPlayer.view videoPlayer1
                         , VideoPlayer.view videoPlayer2
                         , Config.secretConfigButton visible
-                        , Config.view playlistUrl tags visible
+                        , Config.view soundCloudPlaylistUrl tags visible
                         ]
 
             _ ->

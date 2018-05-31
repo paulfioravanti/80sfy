@@ -42,16 +42,16 @@ toggleVisibility config =
 
 
 updateSettings : String -> String -> Config -> Config
-updateSettings playlistUrl tagsString config =
+updateSettings soundCloudPlaylistUrl tagsString config =
     let
         tags =
             tagsString
                 |> String.split ", "
                 |> List.map String.trim
     in
-        { config | playlistUrl = playlistUrl, tags = tags }
+        { config | soundCloudPlaylistUrl = soundCloudPlaylistUrl, tags = tags }
 
 
 view : String -> Tags -> Bool -> Html Msg
-view playlistUrl tags visible =
-    View.view playlistUrl tags visible
+view soundCloudPlaylistUrl tags visible =
+    View.view soundCloudPlaylistUrl tags visible

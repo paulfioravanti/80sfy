@@ -7,7 +7,7 @@ import Tag exposing (Tags)
 
 type alias Config =
     { giphyApiKey : String
-    , playlistUrl : String
+    , soundCloudPlaylistUrl : String
     , tags : Tags
     , visible : Bool
     }
@@ -16,23 +16,46 @@ type alias Config =
 init : Flags -> Config
 init flags =
     let
-        giphyApiKeyFlag =
-            flags.giphyApiKey
-                |> Decode.decodeValue Decode.string
-
         giphyApiKey =
-            case giphyApiKeyFlag of
-                Ok apiKey ->
-                    apiKey
+            flags.giphyApiKey
+                |> fetchGiphyApiKey
 
-                Err _ ->
-                    ""
-
-        playlistUrl =
-            "http://api.soundcloud.com/playlists/193785575"
+        soundCloudPlaylistUrl =
+            flags.soundCloudPlaylistUrl
+                |> fetchSoundCloudPlaylistUrl
     in
         { giphyApiKey = giphyApiKey
-        , playlistUrl = playlistUrl
+        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = []
         , visible = True
         }
+
+
+fetchGiphyApiKey : Value -> String
+fetchGiphyApiKey giphyApiKeyFlag =
+    let
+        giphyApiKey =
+            giphyApiKeyFlag
+                |> Decode.decodeValue Decode.string
+    in
+        case giphyApiKey of
+            Ok apiKey ->
+                apiKey
+
+            Err _ ->
+                ""
+
+
+fetchSoundCloudPlaylistUrl : Value -> String
+fetchSoundCloudPlaylistUrl soundCloudPlaylistUrlFlag =
+    let
+        soundCloudPlaylistUrl =
+            soundCloudPlaylistUrlFlag
+                |> Decode.decodeValue Decode.string
+    in
+        case soundCloudPlaylistUrl of
+            Ok playlistUrl ->
+                playlistUrl
+
+            Err _ ->
+                "http://api.soundcloud.com/playlists/193785575"

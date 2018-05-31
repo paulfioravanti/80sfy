@@ -20,6 +20,7 @@ if (appContainer) {
   const app =
     Main.embed(appContainer, {
       giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+      soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
     })
 
   app.ports.toggleFullScreen.subscribe(() => {
