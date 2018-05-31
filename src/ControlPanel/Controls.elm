@@ -5,7 +5,7 @@ import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(ToggleMute, TogglePlayPause))
+import Msg exposing (Msg(ToggleFullScreen, ToggleMute, TogglePlayPause))
 
 
 view : AudioPlayer -> Html Msg
@@ -18,9 +18,13 @@ view { muted, playing } =
         ]
 
 
-fullscreenButton : Html msg
+fullscreenButton : Html Msg
 fullscreenButton =
-    div [ css [ Styles.button ], attribute "data-name" "fullscreen" ]
+    div
+        [ css [ Styles.button ]
+        , attribute "data-name" "fullscreen"
+        , onClick ToggleFullScreen
+        ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
         ]

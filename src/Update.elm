@@ -19,6 +19,7 @@ import Msg
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
+            , ToggleFullScreen
             , ToggleMute
             , TogglePlayPause
             , UseControlPanel
@@ -154,6 +155,9 @@ update msg model =
                 ( { model | controlPanel = controlPanel }
                 , Cmd.none
                 )
+
+        ToggleFullScreen ->
+            ( model, AudioPlayer.toggleFullScreen () )
 
         ToggleMute ->
             let

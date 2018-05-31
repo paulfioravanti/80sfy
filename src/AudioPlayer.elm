@@ -1,11 +1,15 @@
-module AudioPlayer
+port module AudioPlayer
     exposing
         ( AudioPlayer
         , init
         , adjustVolume
+        , toggleFullScreen
         , toggleMute
         , togglePlayPause
         )
+
+
+port toggleFullScreen : () -> Cmd msg
 
 
 type alias AudioPlayer =

@@ -21,4 +21,40 @@ if (appContainer) {
     Main.embed(appContainer, {
       giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
     })
+
+  app.ports.toggleFullScreen.subscribe(() => {
+    let fullScreenElement =
+      document.fullscreenElement ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement
+
+    if (fullScreenElement) {
+      exitFullScreen()
+    } else {
+      launchFullScreen()
+    }
+  })
+}
+
+function launchFullScreen() {
+  let documentElement = document.documentElement
+
+  if (documentElement.requestFullScreen) {
+    documentElement.requestFullScreen()
+  } else if (documentElement.mozRequestFullScreen) {
+    documentElement.mozRequestFullScreen()
+  } else {
+    documentElement.webkitRequestFullScreen &&
+      documentElement.webkitRequestFullScreen()
+  }
+}
+
+function exitFullScreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen()
+  } else if (document.mozCancelFullScreen) {
+    document.mozCancelFullScreen()
+  } else {
+    document.webkitExitFullscreen && document.webkitExitFullscreen()
+  }
 }
