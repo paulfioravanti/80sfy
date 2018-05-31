@@ -1,4 +1,4 @@
-module SecretConfig.View exposing (secretConfigButton, view)
+module SecretConfig.View exposing (view)
 
 import Html.Styled as Html
     exposing
@@ -22,29 +22,27 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Styles as Styles
 
 
-secretConfigButton : Bool -> Html Msg
-secretConfigButton visible =
-    div
-        [ css [ Styles.secretConfigButton ]
-        , attribute "data-name" "secret-config-button"
-        , onClick ToggleSecretConfigVisibility
-        ]
-        []
-
-
 view : SecretConfig -> Html Msg
 view { soundCloudPlaylistUrl, tags, visible } =
-    div
-        [ css [ Styles.secretConfig visible ]
-        , attribute "data-name" "secret-config"
-        ]
-        [ span []
-            [ text "Tags:" ]
-        , gifTagsInput tags
-        , span []
-            [ text "Playlist:" ]
-        , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
-        , saveSettingsButton
+    div [ attribute "data-name" "secret-config" ]
+        [ div
+            [ css [ Styles.secretConfigButton ]
+            , attribute "data-name" "secret-config-button"
+            , onClick ToggleSecretConfigVisibility
+            ]
+            []
+        , div
+            [ css [ Styles.secretConfig visible ]
+            , attribute "data-name" "secret-config-settings"
+            ]
+            [ span []
+                [ text "Tags:" ]
+            , gifTagsInput tags
+            , span []
+                [ text "Playlist:" ]
+            , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
+            , saveSettingsButton
+            ]
         ]
 
 

@@ -2,7 +2,6 @@ module SecretConfig
     exposing
         ( SecretConfig
         , init
-        , secretConfigButton
         , setTags
         , toggleVisibility
         , view
@@ -22,11 +21,6 @@ type alias SecretConfig =
 init : String -> SecretConfig
 init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
-
-
-secretConfigButton : Bool -> Html Msg
-secretConfigButton visible =
-    View.secretConfigButton visible
 
 
 setTags : Tags -> SecretConfig -> SecretConfig
