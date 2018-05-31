@@ -18,16 +18,13 @@ type alias Model =
 init : Config -> Model
 init config =
     let
-        audioPlayer =
-            AudioPlayer.init
-
         videoPlayer1 =
             VideoPlayer.init "1" True -1
 
         videoPlayer2 =
             VideoPlayer.init "2" False -2
     in
-        { audioPlayer = audioPlayer
+        { audioPlayer = AudioPlayer.init
         , config = config
         , controlPanel = ControlPanel.init
         , videoPlayer1 = videoPlayer1
