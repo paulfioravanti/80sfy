@@ -1,4 +1,13 @@
-module Config exposing (Config, button, init, setTags, toggleVisibility, view)
+module Config
+    exposing
+        ( Config
+        , init
+        , updateSettings
+        , secretConfigButton
+        , setTags
+        , toggleVisibility
+        , view
+        )
 
 import Config.Model as Model exposing (Config)
 import Config.View as View
@@ -17,6 +26,11 @@ init flags =
     Model.init flags
 
 
+secretConfigButton : Bool -> Html Msg
+secretConfigButton visible =
+    View.secretConfigButton visible
+
+
 setTags : Tags -> Config -> Config
 setTags tags config =
     { config | tags = tags }
@@ -27,11 +41,17 @@ toggleVisibility config =
     { config | visible = not config.visible }
 
 
-button : Config -> Html Msg
-button config =
-    View.button config
+updateSettings : String -> String -> Config -> Config
+updateSettings playlistUrl tagsString config =
+    let
+        tags =
+            tagsString
+                |> String.split ", "
+                |> List.map String.trim
+    in
+        { config | playlistUrl = playlistUrl, tags = tags }
 
 
-view : Config -> Html Msg
-view config =
-    View.view config
+view : String -> Tags -> Bool -> Html Msg
+view playlistUrl tags visible =
+    View.view playlistUrl tags visible

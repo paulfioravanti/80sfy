@@ -21,13 +21,17 @@ view { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
     in
         case (visibleVideoPlayer.gifUrl) of
             Success gifUrl ->
-                div [ attribute "data-name" "container" ]
-                    [ ControlPanel.view audioPlayer controlPanel
-                    , VideoPlayer.view videoPlayer1
-                    , VideoPlayer.view videoPlayer2
-                    , Config.button config
-                    , Config.view config
-                    ]
+                let
+                    { playlistUrl, tags, visible } =
+                        config
+                in
+                    div [ attribute "data-name" "container" ]
+                        [ ControlPanel.view audioPlayer controlPanel
+                        , VideoPlayer.view videoPlayer1
+                        , VideoPlayer.view videoPlayer2
+                        , Config.secretConfigButton visible
+                        , Config.view playlistUrl tags visible
+                        ]
 
             _ ->
                 text ""

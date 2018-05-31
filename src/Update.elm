@@ -18,6 +18,7 @@ import Msg
             , FetchTags
             , HideControlPanel
             , RandomTag
+            , SaveConfig
             , ShowControlPanel
             , ToggleConfigVisibility
             , ToggleFullScreen
@@ -144,6 +145,14 @@ update msg model =
             ( model
             , Gif.fetchRandomGif model.config.giphyApiKey videoPlayerId tag
             )
+
+        SaveConfig playlistUrl tagsString ->
+            let
+                config =
+                    model.config
+                        |> Config.updateSettings playlistUrl tagsString
+            in
+                ( { model | config = config }, Cmd.none )
 
         ShowControlPanel ->
             let

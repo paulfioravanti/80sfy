@@ -1,7 +1,8 @@
 module Config.Styles
     exposing
-        ( playlist
-        , searchTags
+        ( configButton
+        , gifTags
+        , playlist
         , secretConfig
         , secretConfigButton
         )
@@ -13,6 +14,7 @@ import Css
         , block
         , bottom
         , color
+        , cursor
         , display
         , fixed
         , fontFamilies
@@ -26,6 +28,7 @@ import Css
         , normal
         , overflow
         , pct
+        , pointer
         , position
         , px
         , right
@@ -34,6 +37,16 @@ import Css
         , width
         , zIndex
         )
+
+
+configButton : Style
+configButton =
+    Css.batch
+        [ cursor pointer
+        , display block
+        , fontFamilies [ "Source Code Pro", "sans-serif" ]
+        , fontSize (px 14)
+        ]
 
 
 playlist : Style
@@ -47,8 +60,8 @@ playlist =
         ]
 
 
-searchTags : Style
-searchTags =
+gifTags : Style
+gifTags =
     Css.batch
         [ color inherit
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
