@@ -88,21 +88,28 @@ trackInfo =
 
 
 volumeControl : AudioPlayer -> Html Msg
-volumeControl { volume } =
-    div
-        [ css [ Styles.volume ]
-        , attribute "data-name" "volume"
-        ]
-        [ div [ css [ Styles.volumeBackground ] ]
-            []
-        , input
-            [ css [ Styles.volumeControl ]
-            , type_ "range"
-            , Attributes.min "0"
-            , Attributes.max "100"
-            , step "5"
-            , value volume
-            , onInput AdjustVolume
+volumeControl { muted, volume } =
+    let
+        volumeDisplayValue =
+            if muted then
+                "0"
+            else
+                volume
+    in
+        div
+            [ css [ Styles.volume ]
+            , attribute "data-name" "volume"
             ]
-            []
-        ]
+            [ div [ css [ Styles.volumeBackground ] ]
+                []
+            , input
+                [ css [ Styles.volumeControl ]
+                , type_ "range"
+                , Attributes.min "0"
+                , Attributes.max "100"
+                , step "5"
+                , value volumeDisplayValue
+                , onInput AdjustVolume
+                ]
+                []
+            ]

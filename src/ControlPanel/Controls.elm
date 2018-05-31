@@ -5,13 +5,13 @@ import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(TogglePlayPause))
+import Msg exposing (Msg(ToggleMute, TogglePlayPause))
 
 
 view : AudioPlayer -> Html Msg
-view { playing } =
+view { muted, playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
-        [ muteUnmuteButton
+        [ muteUnmuteButton muted
         , playPauseButton playing
         , nextTrackButton
         , fullscreenButton
@@ -26,12 +26,23 @@ fullscreenButton =
         ]
 
 
-muteUnmuteButton : Html msg
-muteUnmuteButton =
-    div [ css [ Styles.button ], attribute "data-name" "mute-unmute" ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-volume-up" ] []
-        ]
+muteUnmuteButton : Bool -> Html Msg
+muteUnmuteButton muted =
+    let
+        iconClass =
+            if muted then
+                "fas fa-volume-off"
+            else
+                "fas fa-volume-up"
+    in
+        div
+            [ css [ Styles.button ]
+            , attribute "data-name" "mute-unmute"
+            , onClick ToggleMute
+            ]
+            [ div [ css [ Styles.iconBackground ] ] []
+            , i [ css [ Styles.icon ], class iconClass ] []
+            ]
 
 
 nextTrackButton : Html msg

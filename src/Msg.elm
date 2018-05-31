@@ -17,5 +17,6 @@ type Msg
     | HideControlPanel ()
     | RandomTag VideoPlayerId String
     | ShowControlPanel
+    | ToggleMute
     | TogglePlayPause
     | UseControlPanel Bool

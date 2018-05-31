@@ -19,6 +19,7 @@ import Msg
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
+            , ToggleMute
             , TogglePlayPause
             , UseControlPanel
             )
@@ -151,6 +152,16 @@ update msg model =
                         |> ControlPanel.show
             in
                 ( { model | controlPanel = controlPanel }
+                , Cmd.none
+                )
+
+        ToggleMute ->
+            let
+                audioPlayer =
+                    model.audioPlayer
+                        |> AudioPlayer.toggleMute
+            in
+                ( { model | audioPlayer = audioPlayer }
                 , Cmd.none
                 )
 
