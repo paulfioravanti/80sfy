@@ -1,4 +1,4 @@
-module Config exposing (Config, init, setTags, toggleVisibility, view)
+module Config exposing (Config, button, init, setTags, toggleVisibility, view)
 
 import Config.Model as Model exposing (Config)
 import Config.View as View
@@ -25,6 +25,11 @@ setTags tags config =
 toggleVisibility : Config -> Config
 toggleVisibility config =
     { config | visible = not config.visible }
+
+
+button : Config -> Html Msg
+button config =
+    View.button config
 
 
 view : Config -> Html Msg

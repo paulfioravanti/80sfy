@@ -7,6 +7,7 @@ import Tag exposing (Tags)
 
 type alias Config =
     { giphyApiKey : String
+    , playlistUrl : String
     , tags : Tags
     , visible : Bool
     }
@@ -26,8 +27,12 @@ init flags =
 
                 Err _ ->
                     ""
+
+        playlistUrl =
+            "http://api.soundcloud.com/playlists/193785575"
     in
         { giphyApiKey = giphyApiKey
+        , playlistUrl = playlistUrl
         , tags = []
         , visible = True
         }

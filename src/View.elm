@@ -25,6 +25,7 @@ view { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
                     [ ControlPanel.view audioPlayer controlPanel
                     , VideoPlayer.view videoPlayer1
                     , VideoPlayer.view videoPlayer2
+                    , Config.button config
                     , Config.view config
                     ]
 
