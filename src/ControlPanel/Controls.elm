@@ -4,9 +4,11 @@ import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
+import Html.Styled.Events exposing (onClick)
+import Msg exposing (Msg(TogglePlayPause))
 
 
-view : AudioPlayer -> Html msg
+view : AudioPlayer -> Html Msg
 view { playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
         [ muteUnmuteButton
@@ -40,7 +42,7 @@ nextTrackButton =
         ]
 
 
-playPauseButton : Bool -> Html msg
+playPauseButton : Bool -> Html Msg
 playPauseButton playing =
     let
         iconClass =
@@ -49,7 +51,11 @@ playPauseButton playing =
             else
                 "fas fa-play"
     in
-        div [ css [ Styles.button ], attribute "data-name" "play-pause" ]
+        div
+            [ css [ Styles.button ]
+            , attribute "data-name" "play-pause"
+            , onClick TogglePlayPause
+            ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
             ]

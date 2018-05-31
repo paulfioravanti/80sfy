@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import AudioPlayer
 import Config
 import ControlPanel
 import Debug
@@ -17,6 +18,7 @@ import Msg
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
+            , TogglePlayPause
             , UseControlPanel
             )
         )
@@ -138,6 +140,16 @@ update msg model =
                         |> ControlPanel.show
             in
                 ( { model | controlPanel = controlPanel }
+                , Cmd.none
+                )
+
+        TogglePlayPause ->
+            let
+                audioPlayer =
+                    model.audioPlayer
+                        |> AudioPlayer.togglePlayPause
+            in
+                ( { model | audioPlayer = audioPlayer }
                 , Cmd.none
                 )
 

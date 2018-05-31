@@ -14,7 +14,6 @@ import Animation
 import Html.Styled exposing (Html)
 import RemoteData exposing (RemoteData(Success), WebData)
 import VideoPlayer.Model as Model
-import VideoPlayer.Styles as Styles
 import VideoPlayer.View as View
 
 
@@ -32,8 +31,8 @@ init id visible zIndex =
 
 
 animateStyle : Animation.Msg -> VideoPlayer -> VideoPlayer
-animateStyle msg player =
-    { player | style = Animation.update msg player.style }
+animateStyle msg videoPlayer =
+    { videoPlayer | style = Animation.update msg videoPlayer.style }
 
 
 newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
@@ -45,15 +44,15 @@ newVisibility videoPlayer1 =
 
 
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
-setSuccessGifUrl gifUrl player =
-    { player | gifUrl = Success gifUrl }
+setSuccessGifUrl gifUrl videoPlayer =
+    { videoPlayer | gifUrl = Success gifUrl }
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer
-updateVisibility visible player =
+updateVisibility visible videoPlayer =
     let
         newOpacity =
-            if player.visible then
+            if videoPlayer.visible then
                 0
             else
                 1
@@ -63,11 +62,11 @@ updateVisibility visible player =
                 [ Animation.to
                     [ Animation.opacity newOpacity ]
                 ]
-                player.style
+                videoPlayer.style
     in
-        { player | style = animateToNewOpacity, visible = visible }
+        { videoPlayer | style = animateToNewOpacity, visible = visible }
 
 
 view : VideoPlayer -> Html msg
-view player =
-    View.view player
+view videoPlayer =
+    View.view videoPlayer

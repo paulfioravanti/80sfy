@@ -1,4 +1,4 @@
-module AudioPlayer exposing (AudioPlayer, init)
+module AudioPlayer exposing (AudioPlayer, init, togglePlayPause)
 
 
 type alias AudioPlayer =
@@ -8,3 +8,8 @@ type alias AudioPlayer =
 init : AudioPlayer
 init =
     { playing = False }
+
+
+togglePlayPause : AudioPlayer -> AudioPlayer
+togglePlayPause audioPlayer =
+    { audioPlayer | playing = not audioPlayer.playing }
