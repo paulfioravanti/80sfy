@@ -82,7 +82,7 @@ secretConfigButton =
         , position fixed
         , right (px 0)
         , width (px 20)
-        , zIndex (int 5100)
+        , zIndex (int -1)
         ]
 
 
@@ -105,5 +105,5 @@ secretConfig visible =
             , textAlign right
             , top (px 0)
             , width (px 400)
-            , zIndex (int 5000)
+            , zIndex (int -2)
             ]

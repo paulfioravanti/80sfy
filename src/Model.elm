@@ -24,10 +24,10 @@ init config =
             SecretConfig.init config.soundCloudPlaylistUrl
 
         videoPlayer1 =
-            VideoPlayer.init "1" True -1
+            VideoPlayer.init "1" True -3
 
         videoPlayer2 =
-            VideoPlayer.init "2" False -2
+            VideoPlayer.init "2" False -4
     in
         { audioPlayer = AudioPlayer.init
         , config = config

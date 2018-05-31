@@ -33,12 +33,7 @@ import SecretConfig.Styles as Styles
 view : SecretConfig -> Html Msg
 view { soundCloudPlaylistUrl, tags, visible } =
     div [ attribute "data-name" "secret-config" ]
-        [ div
-            [ css [ Styles.secretConfigButton ]
-            , attribute "data-name" "secret-config-button"
-            , onClick ToggleSecretConfigVisibility
-            ]
-            []
+        [ secretConfigButton
         , div
             [ css [ Styles.secretConfig visible ]
             , attribute "data-name" "secret-config-settings"
@@ -52,6 +47,16 @@ view { soundCloudPlaylistUrl, tags, visible } =
             , saveSettingsButton
             ]
         ]
+
+
+secretConfigButton : Html Msg
+secretConfigButton =
+    div
+        [ css [ Styles.secretConfigButton ]
+        , attribute "data-name" "secret-config-button"
+        , onClick ToggleSecretConfigVisibility
+        ]
+        []
 
 
 gifTagsInput : String -> Html Msg

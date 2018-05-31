@@ -12,7 +12,5 @@ init : String -> SecretConfig
 init soundCloudPlaylistUrl =
     { soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = ""
-    , visible =
-        True
-        -- FIXME change to False
+    , visible = False
     }
