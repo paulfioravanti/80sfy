@@ -19,6 +19,7 @@ import Msg
             , HideControlPanel
             , RandomTag
             , ShowControlPanel
+            , ToggleConfigVisibility
             , ToggleFullScreen
             , ToggleMute
             , TogglePlayPause
@@ -137,9 +138,7 @@ update msg model =
                     model.controlPanel
                         |> ControlPanel.hide
             in
-                ( { model | controlPanel = controlPanel }
-                , Cmd.none
-                )
+                ( { model | controlPanel = controlPanel }, Cmd.none )
 
         RandomTag videoPlayerId tag ->
             ( model
@@ -152,9 +151,15 @@ update msg model =
                     model.controlPanel
                         |> ControlPanel.show
             in
-                ( { model | controlPanel = controlPanel }
-                , Cmd.none
-                )
+                ( { model | controlPanel = controlPanel }, Cmd.none )
+
+        ToggleConfigVisibility ->
+            let
+                config =
+                    model.config
+                        |> Config.toggleVisibility
+            in
+                ( { model | config = config }, Cmd.none )
 
         ToggleFullScreen ->
             ( model, AudioPlayer.toggleFullScreen () )
@@ -165,9 +170,7 @@ update msg model =
                     model.audioPlayer
                         |> AudioPlayer.toggleMute
             in
-                ( { model | audioPlayer = audioPlayer }
-                , Cmd.none
-                )
+                ( { model | audioPlayer = audioPlayer }, Cmd.none )
 
         TogglePlayPause ->
             let
@@ -175,9 +178,7 @@ update msg model =
                     model.audioPlayer
                         |> AudioPlayer.togglePlayPause
             in
-                ( { model | audioPlayer = audioPlayer }
-                , Cmd.none
-                )
+                ( { model | audioPlayer = audioPlayer }, Cmd.none )
 
         UseControlPanel bool ->
             let

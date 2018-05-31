@@ -1,5 +1,6 @@
 module View exposing (view)
 
+import Config
 import ControlPanel
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (attribute)
@@ -10,7 +11,7 @@ import VideoPlayer exposing (VideoPlayer)
 
 
 view : Model -> Html Msg
-view { audioPlayer, controlPanel, videoPlayer1, videoPlayer2 } =
+view { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
     let
         visibleVideoPlayer =
             if videoPlayer1.visible then
@@ -24,6 +25,7 @@ view { audioPlayer, controlPanel, videoPlayer1, videoPlayer2 } =
                     [ ControlPanel.view audioPlayer controlPanel
                     , VideoPlayer.view videoPlayer1
                     , VideoPlayer.view videoPlayer2
+                    , Config.view config
                     ]
 
             _ ->

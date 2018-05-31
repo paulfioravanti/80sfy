@@ -1,36 +1,32 @@
-module Config exposing (Config, init, setTags)
+module Config exposing (Config, init, setTags, toggleVisibility, view)
 
+import Config.Model as Model exposing (Config)
+import Config.View as View
+import Html.Styled exposing (Html)
 import Flags exposing (Flags)
-import Json.Decode as Decode exposing (Value)
+import Msg exposing (Msg)
 import Tag exposing (Tags)
 
 
 type alias Config =
-    { giphyApiKey : String
-    , tags : Tags
-    }
+    Model.Config
 
 
 init : Flags -> Config
 init flags =
-    let
-        giphyApiKeyFlag =
-            flags.giphyApiKey
-                |> Decode.decodeValue Decode.string
-
-        giphyApiKey =
-            case giphyApiKeyFlag of
-                Ok apiKey ->
-                    apiKey
-
-                Err _ ->
-                    ""
-    in
-        { giphyApiKey = giphyApiKey
-        , tags = []
-        }
+    Model.init flags
 
 
 setTags : Tags -> Config -> Config
 setTags tags config =
     { config | tags = tags }
+
+
+toggleVisibility : Config -> Config
+toggleVisibility config =
+    { config | visible = not config.visible }
+
+
+view : Config -> Html Msg
+view config =
+    View.view config

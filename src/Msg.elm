@@ -17,6 +17,7 @@ type Msg
     | HideControlPanel ()
     | RandomTag VideoPlayerId String
     | ShowControlPanel
+    | ToggleConfigVisibility
     | ToggleFullScreen
     | ToggleMute
     | TogglePlayPause
