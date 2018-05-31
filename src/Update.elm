@@ -9,7 +9,8 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( Animate
+            ( AdjustVolume
+            , Animate
             , CountdownToHideControlPanel
             , CrossFadePlayers
             , FetchNextGif
@@ -29,6 +30,16 @@ import Task
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        AdjustVolume volume ->
+            let
+                audioPlayer =
+                    model.audioPlayer
+                        |> AudioPlayer.adjustVolume volume
+            in
+                ( { model | audioPlayer = audioPlayer }
+                , Cmd.none
+                )
+
         Animate msg ->
             let
                 videoPlayer1 =

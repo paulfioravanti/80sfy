@@ -32,8 +32,8 @@ import Html.Styled.Attributes as Attributes
         , type_
         , value
         )
-import Html.Styled.Events exposing (onMouseEnter, onMouseLeave)
-import Msg exposing (Msg(UseControlPanel))
+import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
+import Msg exposing (Msg(AdjustVolume, UseControlPanel))
 
 
 view : AudioPlayer -> ControlPanel -> Html Msg
@@ -59,7 +59,7 @@ view audioPlayer controlPanel =
                 [ logo
                 , trackInfo
                 , Controls.view audioPlayer
-                , volumeControl
+                , volumeControl audioPlayer
                 , Credits.view
                 ]
             ]
@@ -87,8 +87,8 @@ trackInfo =
         []
 
 
-volumeControl : Html msg
-volumeControl =
+volumeControl : AudioPlayer -> Html Msg
+volumeControl { volume } =
     div
         [ css [ Styles.volume ]
         , attribute "data-name" "volume"
@@ -101,7 +101,8 @@ volumeControl =
             , Attributes.min "0"
             , Attributes.max "100"
             , step "5"
-            , value "80"
+            , value volume
+            , onInput AdjustVolume
             ]
             []
         ]

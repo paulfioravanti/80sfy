@@ -1,13 +1,22 @@
-module AudioPlayer exposing (AudioPlayer, init, togglePlayPause)
+module AudioPlayer exposing (AudioPlayer, init, adjustVolume, togglePlayPause)
 
 
 type alias AudioPlayer =
-    { playing : Bool }
+    { playing : Bool
+    , volume : String
+    }
 
 
 init : AudioPlayer
 init =
-    { playing = False }
+    { playing = False
+    , volume = "80"
+    }
+
+
+adjustVolume : String -> AudioPlayer -> AudioPlayer
+adjustVolume volume audioPlayer =
+    { audioPlayer | volume = volume }
 
 
 togglePlayPause : AudioPlayer -> AudioPlayer
