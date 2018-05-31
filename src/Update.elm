@@ -27,6 +27,7 @@ import Msg
             , UseControlPanel
             )
         )
+import SecretConfig
 import VideoPlayer
 import Task
 
@@ -118,8 +119,12 @@ update msg model =
                 config =
                     model.config
                         |> Config.setTags tags
+
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.setTags tags
             in
-                ( { model | config = config }
+                ( { model | config = config, secretConfig = secretConfig }
                 , Cmd.batch
                     [ Gif.random tags "1"
                     , Gif.random tags "2"
