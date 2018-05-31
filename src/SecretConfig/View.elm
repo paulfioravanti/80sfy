@@ -1,6 +1,5 @@
-module Config.View exposing (secretConfigButton, view)
+module SecretConfig.View exposing (secretConfigButton, view)
 
-import Config.Styles as Styles
 import Html.Styled as Html
     exposing
         ( Html
@@ -18,8 +17,9 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(SaveConfig, ToggleConfigVisibility))
-import Tag exposing (Tags)
+import Msg exposing (Msg(SaveConfig, ToggleSecretConfigVisibility))
+import SecretConfig.Model exposing (SecretConfig)
+import SecretConfig.Styles as Styles
 
 
 secretConfigButton : Bool -> Html Msg
@@ -27,13 +27,13 @@ secretConfigButton visible =
     div
         [ css [ Styles.secretConfigButton ]
         , attribute "data-name" "secret-config-button"
-        , onClick ToggleConfigVisibility
+        , onClick ToggleSecretConfigVisibility
         ]
         []
 
 
-view : String -> Tags -> Bool -> Html Msg
-view playlistUrl tags visible =
+view : SecretConfig -> Html Msg
+view { soundCloudPlaylistUrl, tags, visible } =
     div
         [ css [ Styles.secretConfig visible ]
         , attribute "data-name" "secret-config"
@@ -43,34 +43,34 @@ view playlistUrl tags visible =
         , gifTagsInput tags
         , span []
             [ text "Playlist:" ]
-        , playlistUrlInput playlistUrl
-        , saveSettingsButton playlistUrl tags
+        , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
+        , saveSettingsButton
         ]
 
 
-gifTagsInput : Tags -> Html msg
+gifTagsInput : String -> Html msg
 gifTagsInput tags =
     textarea
         [ css [ Styles.gifTags ]
         , attribute "data-name" "search-tags"
         ]
-        [ text (String.join ", " tags) ]
+        [ text tags ]
 
 
-playlistUrlInput : String -> Html msg
-playlistUrlInput playlistUrl =
+soundCloudPlaylistUrlInput : String -> Html msg
+soundCloudPlaylistUrlInput soundCloudPlaylistUrl =
     input
         [ css [ Styles.playlist ]
         , attribute "data-name" "playlist-input"
-        , value playlistUrl
+        , value soundCloudPlaylistUrl
         ]
         []
 
 
-saveSettingsButton : String -> Tags -> Html Msg
-saveSettingsButton playlistUrl tags =
+saveSettingsButton : Html Msg
+saveSettingsButton =
     button
         [ css [ Styles.configButton ]
-        , onClick (SaveConfig playlistUrl (String.join ", " tags))
+          -- , onClick (SaveConfig)
         ]
         [ text "Save Settings" ]

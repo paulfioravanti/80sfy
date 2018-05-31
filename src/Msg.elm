@@ -18,8 +18,8 @@ type Msg
     | RandomTag VideoPlayerId String
     | SaveConfig String String
     | ShowControlPanel
-    | ToggleConfigVisibility
     | ToggleFullScreen
     | ToggleMute
     | TogglePlayPause
+    | ToggleSecretConfigVisibility
     | UseControlPanel Bool

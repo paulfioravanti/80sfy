@@ -1,19 +1,7 @@
-module Config
-    exposing
-        ( Config
-        , init
-        , updateSettings
-        , secretConfigButton
-        , setTags
-        , toggleVisibility
-        , view
-        )
+module Config exposing (Config, init, updateSettings, setTags)
 
 import Config.Model as Model exposing (Config)
-import Config.View as View
-import Html.Styled exposing (Html)
 import Flags exposing (Flags)
-import Msg exposing (Msg)
 import Tag exposing (Tags)
 
 
@@ -26,19 +14,9 @@ init flags =
     Model.init flags
 
 
-secretConfigButton : Bool -> Html Msg
-secretConfigButton visible =
-    View.secretConfigButton visible
-
-
 setTags : Tags -> Config -> Config
 setTags tags config =
     { config | tags = tags }
-
-
-toggleVisibility : Config -> Config
-toggleVisibility config =
-    { config | visible = not config.visible }
 
 
 updateSettings : String -> String -> Config -> Config
@@ -50,8 +28,3 @@ updateSettings soundCloudPlaylistUrl tagsString config =
                 |> List.map String.trim
     in
         { config | soundCloudPlaylistUrl = soundCloudPlaylistUrl, tags = tags }
-
-
-view : String -> Tags -> Bool -> Html Msg
-view soundCloudPlaylistUrl tags visible =
-    View.view soundCloudPlaylistUrl tags visible

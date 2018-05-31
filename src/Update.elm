@@ -20,10 +20,10 @@ import Msg
             , RandomTag
             , SaveConfig
             , ShowControlPanel
-            , ToggleConfigVisibility
             , ToggleFullScreen
             , ToggleMute
             , TogglePlayPause
+            , ToggleSecretConfigVisibility
             , UseControlPanel
             )
         )
@@ -167,13 +167,13 @@ update msg model =
             in
                 ( { model | controlPanel = controlPanel }, Cmd.none )
 
-        ToggleConfigVisibility ->
+        ToggleSecretConfigVisibility ->
             let
-                config =
-                    model.config
-                        |> Config.toggleVisibility
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.toggleVisibility
             in
-                ( { model | config = config }, Cmd.none )
+                ( { model | secretConfig = secretConfig }, Cmd.none )
 
         ToggleFullScreen ->
             ( model, AudioPlayer.toggleFullScreen () )
