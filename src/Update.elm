@@ -178,7 +178,7 @@ update msg model =
                         |> SecretConfig.toggleFetchNextGif bool
             in
                 ( { model | secretConfig = secretConfig }
-                , Cmd.none
+                , VideoPlayer.toggleVideoPlay bool
                 )
 
         ToggleFullScreen ->

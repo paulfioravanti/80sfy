@@ -1,4 +1,4 @@
-module VideoPlayer
+port module VideoPlayer
     exposing
         ( VideoPlayer
         , VideoPlayerId
@@ -6,6 +6,7 @@ module VideoPlayer
         , animateStyle
         , newVisibility
         , setSuccessGifUrl
+        , toggleVideoPlay
         , updateVisibility
         , view
         )
@@ -16,6 +17,9 @@ import Msg exposing (Msg)
 import RemoteData exposing (RemoteData(Success), WebData)
 import VideoPlayer.Model as Model
 import VideoPlayer.View as View
+
+
+port toggleVideoPlay : Bool -> Cmd msg
 
 
 type alias VideoPlayerId =

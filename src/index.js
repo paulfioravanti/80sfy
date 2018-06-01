@@ -35,6 +35,20 @@ if (appContainer) {
       launchFullScreen()
     }
   })
+
+  app.ports.toggleVideoPlay.subscribe((play) => {
+    let videos = Array.from(document.getElementsByTagName("video"))
+
+    if (play) {
+      videos.forEach((video) => {
+        video.play()
+      })
+    } else {
+      videos.forEach((video) => {
+        video.pause()
+      })
+    }
+  })
 }
 
 function launchFullScreen() {
