@@ -31,22 +31,21 @@ import SecretConfig.Styles as Styles
 
 
 view : SecretConfig -> Html Msg
-view { soundCloudPlaylistUrl, tags, visible } =
+view secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton
-        , div
-            [ css [ Styles.secretConfig visible ]
-            , attribute "data-name" "secret-config-settings"
-            ]
-            [ span []
-                [ text "Tags:" ]
-            , gifTagsInput tags
-            , span []
-                [ text "Playlist:" ]
-            , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
-            , saveSettingsButton
-            ]
+        , secretConfigSettings secretConfig
         ]
+
+
+gifTagsInput : String -> Html Msg
+gifTagsInput tags =
+    textarea
+        [ css [ Styles.gifTags ]
+        , attribute "data-name" "search-tags"
+        , onInput UpdateSecretConfigTags
+        ]
+        [ text tags ]
 
 
 secretConfigButton : Html Msg
@@ -59,14 +58,20 @@ secretConfigButton =
         []
 
 
-gifTagsInput : String -> Html Msg
-gifTagsInput tags =
-    textarea
-        [ css [ Styles.gifTags ]
-        , attribute "data-name" "search-tags"
-        , onInput UpdateSecretConfigTags
+secretConfigSettings : SecretConfig -> Html Msg
+secretConfigSettings { soundCloudPlaylistUrl, tags, visible } =
+    div
+        [ css [ Styles.secretConfig visible ]
+        , attribute "data-name" "secret-config-settings"
         ]
-        [ text tags ]
+        [ span []
+            [ text "Tags:" ]
+        , gifTagsInput tags
+        , span []
+            [ text "Playlist:" ]
+        , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
+        , saveSettingsButton
+        ]
 
 
 soundCloudPlaylistUrlInput : String -> Html Msg
