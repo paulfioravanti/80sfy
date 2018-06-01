@@ -176,8 +176,20 @@ update msg model =
                 secretConfig =
                     model.secretConfig
                         |> SecretConfig.toggleFetchNextGif bool
+
+                videoPlayer1 =
+                    model.videoPlayer1
+                        |> VideoPlayer.togglePlaying bool
+
+                videoPlayer2 =
+                    model.videoPlayer2
+                        |> VideoPlayer.togglePlaying bool
             in
-                ( { model | secretConfig = secretConfig }
+                ( { model
+                    | secretConfig = secretConfig
+                    , videoPlayer1 = videoPlayer1
+                    , videoPlayer2 = videoPlayer2
+                  }
                 , VideoPlayer.toggleVideoPlay bool
                 )
 

@@ -1,7 +1,7 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
-import Html.Styled as Html exposing (Html, div, text, video)
+import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
         ( attribute
@@ -14,34 +14,30 @@ import Html.Styled.Events exposing (onDoubleClick)
 import Json.Encode as Encode
 import Msg exposing (Msg(ToggleFullScreen))
 import RemoteData exposing (RemoteData(Success))
-import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Styles as Styles
 
 
 view : VideoPlayer -> Html Msg
-view player =
+view videoPlayer =
     let
         gifUrl =
-            case player.gifUrl of
+            case videoPlayer.gifUrl of
                 Success gifUrl ->
                     gifUrl
 
                 _ ->
-                    ""
+                    videoPlayer.fallbackGifUrl
 
-        true =
-            Encode.string "true"
-    in
-        div (attributes player)
-            [ video
-                [ src gifUrl
-                , css [ Styles.videoPlayer ]
-                , attribute "data-name" ("player-" ++ player.id)
-                , property "autoplay" true
-                , property "loop" true
+        childElements =
+            if videoPlayer.playing then
+                [ gifVideoPlayer gifUrl videoPlayer ]
+            else
+                [ playerPausedOverlay
+                , gifVideoPlayer gifUrl videoPlayer
                 ]
-                []
-            ]
+    in
+        div (attributes videoPlayer) childElements
 
 
 attributes : VideoPlayer -> List (Html.Attribute Msg)
@@ -59,3 +55,49 @@ attributes player =
             ]
     in
         List.append animations attributes
+
+
+gifVideoPlayer : String -> VideoPlayer -> Html msg
+gifVideoPlayer gifUrl videoPlayer =
+    let
+        playingAttributes =
+            if videoPlayer.playing then
+                let
+                    true =
+                        Encode.string "true"
+                in
+                    [ property "autoplay" true
+                    , property "loop" true
+                    ]
+            else
+                []
+    in
+        video
+            ([ src gifUrl
+             , css [ Styles.videoPlayer ]
+             , attribute "data-name" ("player-" ++ videoPlayer.id)
+             ]
+                ++ playingAttributes
+            )
+            []
+
+
+playerPausedOverlay : Html msg
+playerPausedOverlay =
+    div
+        [ css [ Styles.videoPlayerPaused ]
+        , attribute "data-name" "player-paused"
+        ]
+        [ div
+            [ css [ Styles.videoPlayerPausedContent ]
+            , attribute "data-name" "player-paused-content"
+            ]
+            [ span [] [ text "[GIFs Paused]" ]
+            , br [] []
+            , br [] []
+            , span []
+                [ text """Click here to make this the
+                               active window and continue GIFs"""
+                ]
+            ]
+        ]

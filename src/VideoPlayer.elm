@@ -6,6 +6,7 @@ port module VideoPlayer
         , animateStyle
         , newVisibility
         , setSuccessGifUrl
+        , togglePlaying
         , toggleVideoPlay
         , updateVisibility
         , view
@@ -51,6 +52,11 @@ newVisibility videoPlayer1 =
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
 setSuccessGifUrl gifUrl videoPlayer =
     { videoPlayer | gifUrl = Success gifUrl }
+
+
+togglePlaying : Bool -> VideoPlayer -> VideoPlayer
+togglePlaying playing videoPlayer =
+    { videoPlayer | playing = playing }
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer

@@ -19,14 +19,9 @@ view { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
             else
                 videoPlayer2
     in
-        case (visibleVideoPlayer.gifUrl) of
-            Success gifUrl ->
-                div [ attribute "data-name" "container" ]
-                    [ ControlPanel.view audioPlayer controlPanel
-                    , VideoPlayer.view videoPlayer1
-                    , VideoPlayer.view videoPlayer2
-                    , SecretConfig.view secretConfig
-                    ]
-
-            _ ->
-                text ""
+        div [ attribute "data-name" "container" ]
+            [ ControlPanel.view audioPlayer controlPanel
+            , VideoPlayer.view videoPlayer1
+            , VideoPlayer.view videoPlayer2
+            , SecretConfig.view secretConfig
+            ]
