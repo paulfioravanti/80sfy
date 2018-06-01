@@ -19,6 +19,7 @@ type Msg
     | SaveConfig
     | ShowControlPanel
     | ToggleFullScreen
+    | ToggleInactivityPause
     | ToggleMute
     | TogglePlayPause
     | ToggleSecretConfigVisibility

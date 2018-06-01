@@ -5,6 +5,7 @@ module SecretConfig
         , initTags
         , setSoundCloudPlaylistUrl
         , setTags
+        , toggleInactivityPause
         , toggleVisibility
         , view
         )
@@ -43,6 +44,13 @@ setSoundCloudPlaylistUrl soundCloudPlaylistUrl secretConfig =
 setTags : String -> SecretConfig -> SecretConfig
 setTags tags secretConfig =
     { secretConfig | tags = tags }
+
+
+toggleInactivityPause : SecretConfig -> SecretConfig
+toggleInactivityPause secretConfig =
+    { secretConfig
+        | overrideInactivityPause = not secretConfig.overrideInactivityPause
+    }
 
 
 toggleVisibility : SecretConfig -> SecretConfig

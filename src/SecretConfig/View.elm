@@ -21,6 +21,7 @@ import Msg
     exposing
         ( Msg
             ( SaveConfig
+            , ToggleInactivityPause
             , ToggleSecretConfigVisibility
             , UpdateSecretConfigSoundCloudPlaylistUrl
             , UpdateSecretConfigTags
@@ -48,9 +49,12 @@ gifTagsInput tags =
         [ text tags ]
 
 
-overrideInactivityPauseButton : Html msg
+overrideInactivityPauseButton : Html Msg
 overrideInactivityPauseButton =
-    button [ css [ Styles.configButton ] ]
+    button
+        [ css [ Styles.configButton ]
+        , onClick ToggleInactivityPause
+        ]
         [ text "Override Inactivity Pause" ]
 
 
