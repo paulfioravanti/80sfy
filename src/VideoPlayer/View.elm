@@ -10,13 +10,15 @@ import Html.Styled.Attributes
         , property
         , src
         )
+import Html.Styled.Events exposing (onDoubleClick)
 import Json.Encode as Encode
+import Msg exposing (Msg(ToggleFullScreen))
 import RemoteData exposing (RemoteData(Success))
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Styles as Styles
 
 
-view : VideoPlayer -> Html msg
+view : VideoPlayer -> Html Msg
 view player =
     let
         gifUrl =
@@ -42,7 +44,7 @@ view player =
             ]
 
 
-attributes : VideoPlayer -> List (Html.Attribute msg)
+attributes : VideoPlayer -> List (Html.Attribute Msg)
 attributes player =
     let
         animations =
@@ -53,6 +55,7 @@ attributes player =
         attributes =
             [ css [ Styles.gifContainer player.zIndex ]
             , attribute "data-name" "player-gif-container"
+            , onDoubleClick ToggleFullScreen
             ]
     in
         List.append animations attributes

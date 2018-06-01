@@ -12,6 +12,7 @@ module VideoPlayer
 
 import Animation
 import Html.Styled exposing (Html)
+import Msg exposing (Msg)
 import RemoteData exposing (RemoteData(Success), WebData)
 import VideoPlayer.Model as Model
 import VideoPlayer.View as View
@@ -67,6 +68,6 @@ updateVisibility visible videoPlayer =
         { videoPlayer | style = animateToNewOpacity, visible = visible }
 
 
-view : VideoPlayer -> Html msg
+view : VideoPlayer -> Html Msg
 view videoPlayer =
     View.view videoPlayer
