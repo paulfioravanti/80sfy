@@ -17,7 +17,7 @@ type Msg
     | RandomTag String String
     | SaveConfig
     | ShowControlPanel
-    | ToggleFetchNextGif Bool
+    | ToggleGifRotation Bool
     | ToggleFullScreen
     | ToggleInactivityPause
     | ToggleMute
