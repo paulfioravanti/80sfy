@@ -10,6 +10,12 @@ import Time exposing (second)
 subscriptions : Model -> Sub Msg
 subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     let
+        videoPlayerSubscription =
+            if secretConfig.fetchNextGif then
+                Time.every (4 * second) CrossFadePlayers
+            else
+                Sub.none
+
         controlPanelSubscription =
             if secretConfig.overrideInactivityPause then
                 Sub.none
@@ -17,7 +23,7 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
                 ControlPanel.subscriptions controlPanel
     in
         Sub.batch
-            [ Time.every (4 * second) CrossFadePlayers
+            [ videoPlayerSubscription
             , Animation.subscription Animate
                 [ videoPlayer1.style, controlPanel.style ]
             , controlPanelSubscription
