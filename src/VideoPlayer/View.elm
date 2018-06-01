@@ -10,9 +10,9 @@ import Html.Styled.Attributes
         , property
         , src
         )
-import Html.Styled.Events exposing (onDoubleClick)
+import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
-import Msg exposing (Msg(ToggleFullScreen))
+import Msg exposing (Msg(ToggleFullScreen, ToggleGifRotation))
 import RemoteData exposing (RemoteData(Success))
 import VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Styles as Styles
@@ -57,7 +57,7 @@ attributes player =
         List.append animations attributes
 
 
-gifVideoPlayer : String -> VideoPlayer -> Html msg
+gifVideoPlayer : String -> VideoPlayer -> Html Msg
 gifVideoPlayer gifUrl videoPlayer =
     let
         playingAttributes =
@@ -71,15 +71,15 @@ gifVideoPlayer gifUrl videoPlayer =
                     ]
             else
                 []
+
+        attributes =
+            [ src gifUrl
+            , css [ Styles.videoPlayer ]
+            , attribute "data-name" ("player-" ++ videoPlayer.id)
+            , onClick (ToggleGifRotation True)
+            ]
     in
-        video
-            ([ src gifUrl
-             , css [ Styles.videoPlayer ]
-             , attribute "data-name" ("player-" ++ videoPlayer.id)
-             ]
-                ++ playingAttributes
-            )
-            []
+        video (attributes ++ playingAttributes) []
 
 
 playerPausedOverlay : Html msg
