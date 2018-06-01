@@ -5,6 +5,7 @@ module SecretConfig
         , initTags
         , setSoundCloudPlaylistUrl
         , setTags
+        , toggleFetchNextGif
         , toggleInactivityPause
         , toggleVisibility
         , view
@@ -44,6 +45,11 @@ setSoundCloudPlaylistUrl soundCloudPlaylistUrl secretConfig =
 setTags : String -> SecretConfig -> SecretConfig
 setTags tags secretConfig =
     { secretConfig | tags = tags }
+
+
+toggleFetchNextGif : Bool -> SecretConfig -> SecretConfig
+toggleFetchNextGif bool secretConfig =
+    { secretConfig | fetchNextGif = bool }
 
 
 toggleInactivityPause : SecretConfig -> SecretConfig

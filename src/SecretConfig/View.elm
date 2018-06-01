@@ -21,6 +21,7 @@ import Msg
     exposing
         ( Msg
             ( SaveConfig
+            , ToggleFetchNextGif
             , ToggleInactivityPause
             , ToggleSecretConfigVisibility
             , UpdateSecretConfigSoundCloudPlaylistUrl
@@ -64,9 +65,12 @@ pauseAudioButton =
         [ text "Pause Audio" ]
 
 
-pauseGifRotationButton : Html msg
+pauseGifRotationButton : Html Msg
 pauseGifRotationButton =
-    button [ css [ Styles.configButton ] ]
+    button
+        [ css [ Styles.configButton ]
+        , onClick (ToggleFetchNextGif False)
+        ]
         [ text "Pause Gif Rotation" ]
 
 
@@ -76,9 +80,12 @@ playAudioButton =
         [ text "Play Audio" ]
 
 
-playGifRotationButton : Html msg
+playGifRotationButton : Html Msg
 playGifRotationButton =
-    button [ css [ Styles.configButton ] ]
+    button
+        [ css [ Styles.configButton ]
+        , onClick (ToggleFetchNextGif True)
+        ]
         [ text "Play Gif Rotation" ]
 
 

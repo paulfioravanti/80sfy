@@ -20,6 +20,7 @@ import Msg
             , RandomTag
             , SaveConfig
             , ShowControlPanel
+            , ToggleFetchNextGif
             , ToggleInactivityPause
             , ToggleFullScreen
             , ToggleMute
@@ -169,6 +170,14 @@ update msg model =
                         |> ControlPanel.show
             in
                 ( { model | controlPanel = controlPanel }, Cmd.none )
+
+        ToggleFetchNextGif bool ->
+            let
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.toggleFetchNextGif bool
+            in
+                ( { model | secretConfig = secretConfig }, Cmd.none )
 
         ToggleFullScreen ->
             ( model, AudioPlayer.toggleFullScreen () )
