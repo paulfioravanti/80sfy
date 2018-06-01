@@ -48,6 +48,36 @@ gifTagsInput tags =
         [ text tags ]
 
 
+overrideInactivityPauseButton : Html msg
+overrideInactivityPauseButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Override Inactivity Pause" ]
+
+
+pauseAudioButton : Html msg
+pauseAudioButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Pause Audio" ]
+
+
+pauseGifRotationButton : Html msg
+pauseGifRotationButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Pause Gif Rotation" ]
+
+
+playAudioButton : Html msg
+playAudioButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Play Audio" ]
+
+
+playGifRotationButton : Html msg
+playGifRotationButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Play Gif Rotation" ]
+
+
 secretConfigButton : Html Msg
 secretConfigButton =
     div
@@ -71,7 +101,19 @@ secretConfigSettings { soundCloudPlaylistUrl, tags, visible } =
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
         , saveSettingsButton
+        , showStateButton
+        , overrideInactivityPauseButton
+        , pauseGifRotationButton
+        , playGifRotationButton
+        , playAudioButton
+        , pauseAudioButton
         ]
+
+
+showStateButton : Html msg
+showStateButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Show State" ]
 
 
 soundCloudPlaylistUrlInput : String -> Html Msg
