@@ -60,22 +60,23 @@ attributes player =
 gifVideoPlayer : String -> VideoPlayer -> Html Msg
 gifVideoPlayer gifUrl videoPlayer =
     let
+        true =
+            Encode.string "1"
+
+        false =
+            Encode.string "0"
+
         playingAttributes =
             if videoPlayer.playing then
-                let
-                    true =
-                        Encode.string "1"
-
-                    false =
-                        Encode.string "0"
-                in
-                    [ property "autoplay" true
-                    , property "loop" true
-                    , property "muted" true
-                    , property "autopause" false
-                    ]
+                [ property "autoplay" true
+                , property "loop" true
+                , property "muted" true
+                , property "autopause" false
+                ]
             else
-                []
+                [ property "muted" true
+                , property "autopause" false
+                ]
 
         attributes =
             [ src gifUrl
