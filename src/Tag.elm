@@ -1,14 +1,10 @@
-module Tag exposing (Tags, fetchTags, random)
+module Tag exposing (fetchTags, random)
 
 import Http
 import Json.Decode as Decode exposing (Decoder)
 import Msg exposing (Msg(FetchTags, RandomTag))
 import Random
 import VideoPlayer exposing (VideoPlayerId)
-
-
-type alias Tags =
-    List String
 
 
 fetchTags : Cmd Msg
@@ -22,7 +18,7 @@ fetchTags =
             |> Http.send FetchTags
 
 
-random : Tags -> VideoPlayerId -> Cmd Msg
+random : List String -> VideoPlayerId -> Cmd Msg
 random tags videoPlayerId =
     let
         tagsLength =
@@ -36,7 +32,7 @@ random tags videoPlayerId =
             |> Random.generate (RandomTag videoPlayerId)
 
 
-numToTag : Tags -> Int -> String
+numToTag : List String -> Int -> String
 numToTag tags numberOfMembers =
     tags
         |> List.drop numberOfMembers

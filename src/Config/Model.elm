@@ -2,13 +2,12 @@ module Config.Model exposing (Config, init)
 
 import Flags exposing (Flags)
 import Json.Decode as Decode exposing (Value)
-import Tag exposing (Tags)
 
 
 type alias Config =
     { giphyApiKey : String
     , soundCloudPlaylistUrl : String
-    , tags : Tags
+    , tags : List String
     }
 
 

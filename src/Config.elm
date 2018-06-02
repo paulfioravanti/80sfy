@@ -3,7 +3,6 @@ module Config exposing (Config, init, updateSettings, setTags)
 import Config.Model as Model exposing (Config)
 import Flags exposing (Flags)
 import SecretConfig exposing (SecretConfig)
-import Tag exposing (Tags)
 
 
 type alias Config =
@@ -15,7 +14,7 @@ init flags =
     Model.init flags
 
 
-setTags : Tags -> Config -> Config
+setTags : List String -> Config -> Config
 setTags tags config =
     { config | tags = tags }
 

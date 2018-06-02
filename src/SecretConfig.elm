@@ -15,7 +15,6 @@ import Html.Styled exposing (Html)
 import Msg exposing (Msg)
 import SecretConfig.Model as Model
 import SecretConfig.View as View
-import Tag exposing (Tags)
 
 
 type alias SecretConfig =
@@ -27,7 +26,7 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-initTags : Tags -> SecretConfig -> SecretConfig
+initTags : List String -> SecretConfig -> SecretConfig
 initTags tagsList secretConfig =
     let
         tags =
