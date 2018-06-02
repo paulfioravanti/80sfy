@@ -71,6 +71,7 @@ gifVideoPlayer gifUrl videoPlayer =
                 in
                     [ property "autoplay" true
                     , property "loop" true
+                    , property "muted" true
                     , property "autopause" false
                     ]
             else
