@@ -8,23 +8,19 @@ port module AudioPlayer
         , togglePlayPause
         )
 
+import AudioPlayer.Model as Model exposing (AudioPlayer)
+
 
 port toggleFullScreen : () -> Cmd msg
 
 
 type alias AudioPlayer =
-    { muted : Bool
-    , playing : Bool
-    , volume : String
-    }
+    Model.AudioPlayer
 
 
 init : AudioPlayer
 init =
-    { muted = False
-    , playing = False
-    , volume = "80"
-    }
+    Model.init
 
 
 adjustVolume : String -> AudioPlayer -> AudioPlayer
