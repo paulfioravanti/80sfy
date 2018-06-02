@@ -64,10 +64,14 @@ gifVideoPlayer gifUrl videoPlayer =
             if videoPlayer.playing then
                 let
                     true =
-                        Encode.string "true"
+                        Encode.string "1"
+
+                    false =
+                        Encode.string "0"
                 in
                     [ property "autoplay" true
                     , property "loop" true
+                    , property "autopause" false
                     ]
             else
                 []
