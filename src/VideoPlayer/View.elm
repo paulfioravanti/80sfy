@@ -11,6 +11,7 @@ import Html.Styled.Attributes
         , src
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
+import Html.Styled.Keyed as Keyed
 import Json.Encode as Encode
 import Msg exposing (Msg(ToggleFullScreen, ToggleGifRotation))
 import RemoteData exposing (RemoteData(Success))
@@ -85,7 +86,7 @@ gifVideoPlayer gifUrl videoPlayer =
             , onClick (ToggleGifRotation True)
             ]
     in
-        video (attributes ++ playingAttributes) []
+        Keyed.node "video" (attributes ++ playingAttributes) []
 
 
 playerPausedOverlay : Html msg
