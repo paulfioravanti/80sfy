@@ -86,7 +86,7 @@ gifVideoPlayer gifUrl videoPlayer =
             , onClick (ToggleGifRotation True)
             ]
     in
-        Keyed.node "video" (attributes ++ playingAttributes) []
+        video (attributes ++ playingAttributes) []
 
 
 playerPausedOverlay : Html msg
