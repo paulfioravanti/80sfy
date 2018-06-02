@@ -5,7 +5,6 @@ import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
-import RemoteData exposing (RemoteData(Success))
 import SecretConfig
 import VideoPlayer exposing (VideoPlayer)
 
