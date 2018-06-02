@@ -313,7 +313,7 @@ logo : Style
 logo =
     Css.batch
         [ backgroundColor transparent
-        , backgroundImage (url "http://i.giphy.com/yrIRi67zxPmo.gif")
+        , backgroundImage (url "https://i.giphy.com/yrIRi67zxPmo.gif")
         , backgroundPosition2 (px 0) (px -40)
         , backgroundRepeat noRepeat
         , backgroundSize (pct 101)
