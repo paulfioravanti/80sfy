@@ -87,7 +87,11 @@ porter =
         [ css [ Styles.creditsPorter ]
         , attribute "data-name" "credit-porter"
         ]
-        [ span []
+        [ a
+            [ css [ Styles.creditsLink ]
+            , href "https://github.com/paulfioravanti/80sfy"
+            , target "_blank"
+            ]
             [ text "Elm port by" ]
         , br [] []
         , a
