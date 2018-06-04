@@ -3,7 +3,14 @@ module Subscriptions exposing (subscriptions)
 import Animation
 import ControlPanel
 import Model exposing (Model)
-import Msg exposing (Msg(Animate, CrossFadePlayers))
+import Msg
+    exposing
+        ( Msg
+            ( AnimateControlPanel
+            , AnimateVideoPlayer
+            , CrossFadePlayers
+            )
+        )
 import Time exposing (second)
 
 
@@ -24,7 +31,7 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     in
         Sub.batch
             [ videoPlayerSubscription
-            , Animation.subscription Animate
-                [ videoPlayer1.style, controlPanel.style ]
+            , Animation.subscription AnimateVideoPlayer [ videoPlayer1.style ]
+            , Animation.subscription AnimateControlPanel [ controlPanel.style ]
             , controlPanelSubscription
             ]

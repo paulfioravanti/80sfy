@@ -7,7 +7,8 @@ import Time exposing (Time)
 
 type Msg
     = AdjustVolume String
-    | Animate Animation.Msg
+    | AnimateControlPanel Animation.Msg
+    | AnimateVideoPlayer Animation.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
     | FetchNextGif String

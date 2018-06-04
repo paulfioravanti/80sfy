@@ -10,7 +10,8 @@ import Msg
     exposing
         ( Msg
             ( AdjustVolume
-            , Animate
+            , AnimateControlPanel
+            , AnimateVideoPlayer
             , CountdownToHideControlPanel
             , CrossFadePlayers
             , FetchNextGif
@@ -49,20 +50,23 @@ update msg model =
                 , Cmd.none
                 )
 
-        Animate msg ->
+        AnimateControlPanel msg ->
             let
-                videoPlayer1 =
-                    model.videoPlayer1
-                        |> VideoPlayer.animateStyle msg
-
                 controlPanel =
                     model.controlPanel
                         |> ControlPanel.animateStyle msg
             in
-                ( { model
-                    | controlPanel = controlPanel
-                    , videoPlayer1 = videoPlayer1
-                  }
+                ( { model | controlPanel = controlPanel }
+                , Cmd.none
+                )
+
+        AnimateVideoPlayer msg ->
+            let
+                videoPlayer1 =
+                    model.videoPlayer1
+                        |> VideoPlayer.animateStyle msg
+            in
+                ( { model | videoPlayer1 = videoPlayer1 }
                 , Cmd.none
                 )
 
