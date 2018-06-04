@@ -23,6 +23,7 @@ type Msg
     | ToggleFullScreen
     | ToggleInactivityPause
     | ToggleMute
+    | TogglePlaying Bool
     | TogglePlayPause
     | ToggleSecretConfigVisibility
     | UpdateSecretConfigSoundCloudPlaylistUrl String

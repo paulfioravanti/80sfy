@@ -26,6 +26,7 @@ import Msg
             , ToggleInactivityPause
             , ToggleFullScreen
             , ToggleMute
+            , TogglePlaying
             , TogglePlayPause
             , ToggleSecretConfigVisibility
             , UseControlPanel
@@ -189,21 +190,10 @@ update msg model =
                 secretConfig =
                     model.secretConfig
                         |> SecretConfig.toggleFetchNextGif bool
-
-                videoPlayer1 =
-                    model.videoPlayer1
-                        |> VideoPlayer.togglePlaying bool
-
-                videoPlayer2 =
-                    model.videoPlayer2
-                        |> VideoPlayer.togglePlaying bool
             in
-                ( { model
-                    | secretConfig = secretConfig
-                    , videoPlayer1 = videoPlayer1
-                    , videoPlayer2 = videoPlayer2
-                  }
-                , VideoPlayer.toggleVideoPlay bool
+                ( { model | secretConfig = secretConfig }
+                , Task.succeed bool
+                    |> Task.perform TogglePlaying
                 )
 
         ToggleFullScreen ->
@@ -224,6 +214,23 @@ update msg model =
                         |> AudioPlayer.toggleMute
             in
                 ( { model | audioPlayer = audioPlayer }, Cmd.none )
+
+        TogglePlaying bool ->
+            let
+                videoPlayer1 =
+                    model.videoPlayer1
+                        |> VideoPlayer.togglePlaying bool
+
+                videoPlayer2 =
+                    model.videoPlayer2
+                        |> VideoPlayer.togglePlaying bool
+            in
+                ( { model
+                    | videoPlayer1 = videoPlayer1
+                    , videoPlayer2 = videoPlayer2
+                  }
+                , VideoPlayer.toggleVideoPlay bool
+                )
 
         TogglePlayPause ->
             let
