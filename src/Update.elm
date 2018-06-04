@@ -33,7 +33,6 @@ import Msg
         )
 import SecretConfig
 import VideoPlayer
-import Task
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -127,8 +126,7 @@ update msg model =
                 , Cmd.batch
                     [ Gif.random tags "1"
                     , Gif.random tags "2"
-                    , Task.succeed tags
-                        |> Task.perform InitSecretConfigTags
+                    , SecretConfig.initTagsTask tags
                     ]
                 )
 
@@ -185,8 +183,7 @@ update msg model =
                         |> SecretConfig.toggleFetchNextGif bool
             in
                 ( { model | secretConfig = secretConfig }
-                , Task.succeed bool
-                    |> Task.perform TogglePlaying
+                , VideoPlayer.togglePlayingTask bool
                 )
 
         ToggleFullScreen ->

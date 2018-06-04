@@ -8,6 +8,7 @@ port module VideoPlayer
         , setSuccessGifUrl
         , toggleFullScreen
         , togglePlaying
+        , togglePlayingTask
         , toggleVideoPlay
         , updateVisibility
         , view
@@ -15,8 +16,9 @@ port module VideoPlayer
 
 import Animation
 import Html.Styled exposing (Html)
-import Msg exposing (Msg)
+import Msg exposing (Msg(TogglePlaying))
 import RemoteData exposing (RemoteData(Success), WebData)
+import Task
 import VideoPlayer.Model as Model
 import VideoPlayer.Ports as Ports
 import VideoPlayer.View as View
@@ -61,6 +63,12 @@ toggleFullScreen =
 togglePlaying : Bool -> VideoPlayer -> VideoPlayer
 togglePlaying playing videoPlayer =
     { videoPlayer | playing = playing }
+
+
+togglePlayingTask : Bool -> Cmd Msg
+togglePlayingTask bool =
+    Task.succeed bool
+        |> Task.perform TogglePlaying
 
 
 toggleVideoPlay : Bool -> Cmd msg

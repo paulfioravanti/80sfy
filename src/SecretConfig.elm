@@ -3,6 +3,7 @@ module SecretConfig
         ( SecretConfig
         , init
         , initTags
+        , initTagsTask
         , setSoundCloudPlaylistUrl
         , setTags
         , toggleFetchNextGif
@@ -12,9 +13,10 @@ module SecretConfig
         )
 
 import Html.Styled exposing (Html)
-import Msg exposing (Msg)
+import Msg exposing (Msg(InitSecretConfigTags))
 import SecretConfig.Model as Model
 import SecretConfig.View as View
+import Task
 
 
 type alias SecretConfig =
@@ -34,6 +36,12 @@ initTags tagsList secretConfig =
                 |> String.join ", "
     in
         { secretConfig | tags = tags }
+
+
+initTagsTask : List String -> Cmd Msg
+initTagsTask tags =
+    Task.succeed tags
+        |> Task.perform InitSecretConfigTags
 
 
 setSoundCloudPlaylistUrl : String -> SecretConfig -> SecretConfig
