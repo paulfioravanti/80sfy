@@ -3,15 +3,11 @@ port module AudioPlayer
         ( AudioPlayer
         , init
         , adjustVolume
-        , toggleFullScreen
         , toggleMute
         , togglePlayPause
         )
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
-
-
-port toggleFullScreen : () -> Cmd msg
 
 
 type alias AudioPlayer =

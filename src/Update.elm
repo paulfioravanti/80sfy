@@ -197,7 +197,7 @@ update msg model =
                 )
 
         ToggleFullScreen ->
-            ( model, AudioPlayer.toggleFullScreen () )
+            ( model, VideoPlayer.toggleFullScreen )
 
         ToggleInactivityPause ->
             let

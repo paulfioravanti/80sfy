@@ -6,6 +6,7 @@ port module VideoPlayer
         , animateStyle
         , newVisibility
         , setSuccessGifUrl
+        , toggleFullScreen
         , togglePlaying
         , toggleVideoPlay
         , updateVisibility
@@ -17,10 +18,8 @@ import Html.Styled exposing (Html)
 import Msg exposing (Msg)
 import RemoteData exposing (RemoteData(Success), WebData)
 import VideoPlayer.Model as Model
+import VideoPlayer.Ports as Ports
 import VideoPlayer.View as View
-
-
-port toggleVideoPlay : Bool -> Cmd msg
 
 
 type alias VideoPlayerId =
@@ -54,9 +53,19 @@ setSuccessGifUrl gifUrl videoPlayer =
     { videoPlayer | gifUrl = Success gifUrl }
 
 
+toggleFullScreen : Cmd msg
+toggleFullScreen =
+    Ports.toggleFullScreen ()
+
+
 togglePlaying : Bool -> VideoPlayer -> VideoPlayer
 togglePlaying playing videoPlayer =
     { videoPlayer | playing = playing }
+
+
+toggleVideoPlay : Bool -> Cmd msg
+toggleVideoPlay play =
+    Ports.toggleVideoPlay play
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer
