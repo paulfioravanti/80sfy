@@ -11,7 +11,6 @@ type Msg
     | AnimateVideoPlayer Animation.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
-    | FetchNextGif String
     | FetchRandomGif String (Result Error String)
     | FetchTags (Result Error (List String))
     | HideControlPanel ()

@@ -14,7 +14,6 @@ import Msg
             , AnimateVideoPlayer
             , CountdownToHideControlPanel
             , CrossFadePlayers
-            , FetchNextGif
             , FetchRandomGif
             , FetchTags
             , HideControlPanel
@@ -92,12 +91,8 @@ update msg model =
                             newVideoPlayer1Visibility
             in
                 ( { model | videoPlayer1 = videoPlayer1 }
-                , Task.succeed nowHiddenVideoPlayerId
-                    |> Task.perform FetchNextGif
+                , Gif.random model.config.tags nowHiddenVideoPlayerId
                 )
-
-        FetchNextGif hiddenVideoPlayerId ->
-            ( model, Gif.random model.config.tags hiddenVideoPlayerId )
 
         FetchRandomGif videoPlayerId (Ok gifUrl) ->
             if videoPlayerId == "1" then
