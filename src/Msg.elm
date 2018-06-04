@@ -17,7 +17,7 @@ type Msg
     | HideControlPanel ()
     | InitSecretConfigTags (List String)
     | RandomTag String String
-    | SaveConfig
+    | SaveConfig String String
     | ShowControlPanel
     | ToggleGifRotation Bool
     | ToggleFullScreen

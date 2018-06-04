@@ -111,7 +111,7 @@ secretConfigSettings { soundCloudPlaylistUrl, tags, visible } =
         , span []
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
-        , saveSettingsButton
+        , saveSettingsButton soundCloudPlaylistUrl tags
         , showStateButton
         , overrideInactivityPauseButton
         , pauseGifRotationButton
@@ -138,10 +138,10 @@ soundCloudPlaylistUrlInput soundCloudPlaylistUrl =
         []
 
 
-saveSettingsButton : Html Msg
-saveSettingsButton =
+saveSettingsButton : String -> String -> Html Msg
+saveSettingsButton soundCloudPlaylistUrl tags =
     button
         [ css [ Styles.configButton ]
-        , onClick SaveConfig
+        , onClick (SaveConfig soundCloudPlaylistUrl tags)
         ]
         [ text "Save Settings" ]

@@ -161,11 +161,11 @@ update msg model =
             , Gif.fetchRandomGif model.config.giphyApiKey videoPlayerId tag
             )
 
-        SaveConfig ->
+        SaveConfig soundCloudPlaylistUrl tags ->
             let
                 config =
                     model.config
-                        |> Config.updateSettings model.secretConfig
+                        |> Config.updateSettings soundCloudPlaylistUrl tags
             in
                 ( { model | config = config }, Cmd.none )
 
