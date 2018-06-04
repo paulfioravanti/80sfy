@@ -1,4 +1,12 @@
-module AudioPlayer exposing (AudioPlayer, Msg, init, update)
+module AudioPlayer
+    exposing
+        ( AudioPlayer
+        , Msg
+        , init
+        , toggleMuteMsg
+        , togglePlayPauseMsg
+        , update
+        )
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg
@@ -16,6 +24,16 @@ type alias Msg =
 init : AudioPlayer
 init =
     Model.init
+
+
+toggleMuteMsg : Msg
+toggleMuteMsg =
+    Msg.ToggleMute
+
+
+togglePlayPauseMsg : Msg
+togglePlayPauseMsg =
+    Msg.TogglePlayPause
 
 
 update : Msg -> AudioPlayer -> ( AudioPlayer, Cmd Msg )

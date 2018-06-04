@@ -1,7 +1,6 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import AudioPlayer.Msg exposing (Msg(ToggleMute, TogglePlayPause))
 import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
@@ -43,7 +42,7 @@ muteUnmuteButton muted =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "mute-unmute"
-            , onClick (AudioPlayerMsg ToggleMute)
+            , onClick (AudioPlayerMsg AudioPlayer.toggleMuteMsg)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
@@ -70,7 +69,7 @@ playPauseButton playing =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "play-pause"
-            , onClick (AudioPlayerMsg TogglePlayPause)
+            , onClick (AudioPlayerMsg AudioPlayer.togglePlayPauseMsg)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
