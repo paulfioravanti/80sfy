@@ -1,17 +1,16 @@
-port module AudioPlayer
-    exposing
-        ( AudioPlayer
-        , init
-        , adjustVolume
-        , toggleMute
-        , togglePlayPause
-        )
+module AudioPlayer exposing (AudioPlayer, Msg, init, update)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
+import AudioPlayer.Msg as Msg
+import AudioPlayer.Update as Update
 
 
 type alias AudioPlayer =
     Model.AudioPlayer
+
+
+type alias Msg =
+    Msg.Msg
 
 
 init : AudioPlayer
@@ -19,16 +18,6 @@ init =
     Model.init
 
 
-adjustVolume : String -> AudioPlayer -> AudioPlayer
-adjustVolume volume audioPlayer =
-    { audioPlayer | muted = False, volume = volume }
-
-
-toggleMute : AudioPlayer -> AudioPlayer
-toggleMute audioPlayer =
-    { audioPlayer | muted = not audioPlayer.muted }
-
-
-togglePlayPause : AudioPlayer -> AudioPlayer
-togglePlayPause audioPlayer =
-    { audioPlayer | playing = not audioPlayer.playing }
+update : Msg -> AudioPlayer -> ( AudioPlayer, Cmd Msg )
+update msg audioPlayer =
+    Update.update msg audioPlayer

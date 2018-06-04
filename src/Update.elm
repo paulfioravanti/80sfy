@@ -9,9 +9,9 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( AdjustVolume
-            , AnimateControlPanel
+            ( AnimateControlPanel
             , AnimateVideoPlayer
+            , AudioPlayerMsg
             , CountdownToHideControlPanel
             , CrossFadePlayers
             , FetchRandomGif
@@ -24,9 +24,7 @@ import Msg
             , ToggleGifRotation
             , ToggleInactivityPause
             , ToggleFullScreen
-            , ToggleMute
             , TogglePlaying
-            , TogglePlayPause
             , ToggleSecretConfigVisibility
             , UseControlPanel
             , UpdateSecretConfigTags
@@ -41,16 +39,6 @@ import Task
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AdjustVolume volume ->
-            let
-                audioPlayer =
-                    model.audioPlayer
-                        |> AudioPlayer.adjustVolume volume
-            in
-                ( { model | audioPlayer = audioPlayer }
-                , Cmd.none
-                )
-
         AnimateControlPanel msg ->
             let
                 controlPanel =
@@ -69,6 +57,15 @@ update msg model =
             in
                 ( { model | videoPlayer1 = videoPlayer1 }
                 , Cmd.none
+                )
+
+        AudioPlayerMsg msg ->
+            let
+                ( audioPlayer, cmd ) =
+                    AudioPlayer.update msg model.audioPlayer
+            in
+                ( { model | audioPlayer = audioPlayer }
+                , Cmd.map AudioPlayerMsg cmd
                 )
 
         CountdownToHideControlPanel time ->
@@ -202,14 +199,6 @@ update msg model =
             in
                 ( { model | secretConfig = secretConfig }, Cmd.none )
 
-        ToggleMute ->
-            let
-                audioPlayer =
-                    model.audioPlayer
-                        |> AudioPlayer.toggleMute
-            in
-                ( { model | audioPlayer = audioPlayer }, Cmd.none )
-
         TogglePlaying bool ->
             let
                 videoPlayer1 =
@@ -226,14 +215,6 @@ update msg model =
                   }
                 , VideoPlayer.toggleVideoPlay bool
                 )
-
-        TogglePlayPause ->
-            let
-                audioPlayer =
-                    model.audioPlayer
-                        |> AudioPlayer.togglePlayPause
-            in
-                ( { model | audioPlayer = audioPlayer }, Cmd.none )
 
         ToggleSecretConfigVisibility ->
             let

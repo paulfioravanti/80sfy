@@ -1,14 +1,15 @@
 module Msg exposing (Msg(..))
 
+import AudioPlayer
 import Animation
 import Http exposing (Error)
 import Time exposing (Time)
 
 
 type Msg
-    = AdjustVolume String
-    | AnimateControlPanel Animation.Msg
+    = AnimateControlPanel Animation.Msg
     | AnimateVideoPlayer Animation.Msg
+    | AudioPlayerMsg AudioPlayer.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
     | FetchRandomGif String (Result Error String)
@@ -21,9 +22,7 @@ type Msg
     | ToggleGifRotation Bool
     | ToggleFullScreen
     | ToggleInactivityPause
-    | ToggleMute
     | TogglePlaying Bool
-    | TogglePlayPause
     | ToggleSecretConfigVisibility
     | UpdateSecretConfigSoundCloudPlaylistUrl String
     | UpdateSecretConfigTags String

@@ -2,6 +2,7 @@ module ControlPanel.View exposing (view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
+import AudioPlayer.Msg exposing (Msg(AdjustVolume))
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -33,10 +34,10 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
-import Msg exposing (Msg(AdjustVolume, UseControlPanel))
+import Msg exposing (Msg(AudioPlayerMsg, UseControlPanel))
 
 
-view : AudioPlayer -> ControlPanel -> Html Msg
+view : AudioPlayer -> ControlPanel -> Html Msg.Msg
 view audioPlayer controlPanel =
     let
         animations =
@@ -87,7 +88,7 @@ trackInfo =
         []
 
 
-volumeControl : AudioPlayer -> Html Msg
+volumeControl : AudioPlayer -> Html Msg.Msg
 volumeControl { muted, volume } =
     let
         volumeDisplayValue =
@@ -109,7 +110,7 @@ volumeControl { muted, volume } =
                 , Attributes.max "100"
                 , step "5"
                 , value volumeDisplayValue
-                , onInput AdjustVolume
+                , onInput (AudioPlayerMsg << AdjustVolume)
                 ]
                 []
             ]

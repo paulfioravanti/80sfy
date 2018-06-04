@@ -1,14 +1,15 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
+import AudioPlayer.Msg exposing (Msg(ToggleMute, TogglePlayPause))
 import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(ToggleFullScreen, ToggleMute, TogglePlayPause))
+import Msg exposing (Msg(AudioPlayerMsg, ToggleFullScreen))
 
 
-view : AudioPlayer -> Html Msg
+view : AudioPlayer -> Html Msg.Msg
 view { muted, playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
         [ muteUnmuteButton muted
@@ -18,7 +19,7 @@ view { muted, playing } =
         ]
 
 
-fullscreenButton : Html Msg
+fullscreenButton : Html Msg.Msg
 fullscreenButton =
     div
         [ css [ Styles.button ]
@@ -30,7 +31,7 @@ fullscreenButton =
         ]
 
 
-muteUnmuteButton : Bool -> Html Msg
+muteUnmuteButton : Bool -> Html Msg.Msg
 muteUnmuteButton muted =
     let
         iconClass =
@@ -42,7 +43,7 @@ muteUnmuteButton muted =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "mute-unmute"
-            , onClick ToggleMute
+            , onClick (AudioPlayerMsg ToggleMute)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
@@ -57,7 +58,7 @@ nextTrackButton =
         ]
 
 
-playPauseButton : Bool -> Html Msg
+playPauseButton : Bool -> Html Msg.Msg
 playPauseButton playing =
     let
         iconClass =
@@ -69,7 +70,7 @@ playPauseButton playing =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "play-pause"
-            , onClick TogglePlayPause
+            , onClick (AudioPlayerMsg TogglePlayPause)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
