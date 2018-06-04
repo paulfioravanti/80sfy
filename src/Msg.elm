@@ -15,6 +15,7 @@ type Msg
     | FetchRandomGif String (Result Error String)
     | FetchTags (Result Error (List String))
     | HideControlPanel ()
+    | InitSecretConfigTags (List String)
     | RandomTag String String
     | SaveConfig
     | ShowControlPanel

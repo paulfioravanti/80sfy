@@ -18,6 +18,7 @@ import Msg
             , FetchRandomGif
             , FetchTags
             , HideControlPanel
+            , InitSecretConfigTags
             , RandomTag
             , SaveConfig
             , ShowControlPanel
@@ -127,15 +128,13 @@ update msg model =
                 config =
                     model.config
                         |> Config.setTags tags
-
-                secretConfig =
-                    model.secretConfig
-                        |> SecretConfig.initTags tags
             in
-                ( { model | config = config, secretConfig = secretConfig }
+                ( { model | config = config }
                 , Cmd.batch
                     [ Gif.random tags "1"
                     , Gif.random tags "2"
+                    , Task.succeed tags
+                        |> Task.perform InitSecretConfigTags
                     ]
                 )
 
@@ -153,6 +152,16 @@ update msg model =
                         |> ControlPanel.hide
             in
                 ( { model | controlPanel = controlPanel }, Cmd.none )
+
+        InitSecretConfigTags tags ->
+            let
+                secretConfig =
+                    model.secretConfig
+                        |> SecretConfig.initTags tags
+            in
+                ( { model | secretConfig = secretConfig }
+                , Cmd.none
+                )
 
         RandomTag videoPlayerId tag ->
             ( model
