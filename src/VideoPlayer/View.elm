@@ -30,12 +30,11 @@ view videoPlayer =
                     videoPlayer.fallbackGifUrl
 
         childElements =
-            if videoPlayer.playing then
-                [ gifVideoPlayer gifUrl videoPlayer ]
-            else
-                [ playerPausedOverlay
-                , gifVideoPlayer gifUrl videoPlayer
-                ]
+            gifVideoPlayer gifUrl videoPlayer
+                :: if not videoPlayer.playing then
+                    [ playerPausedOverlay ]
+                   else
+                    []
     in
         div (attributes videoPlayer) childElements
 
