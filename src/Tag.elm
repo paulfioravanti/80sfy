@@ -4,7 +4,6 @@ import Http
 import Json.Decode as Decode exposing (Decoder)
 import Msg exposing (Msg(FetchTags, RandomTag))
 import Random
-import VideoPlayer exposing (VideoPlayerId)
 
 
 fetchTags : Cmd Msg
@@ -18,7 +17,7 @@ fetchTags =
             |> Http.send FetchTags
 
 
-random : List String -> VideoPlayerId -> Cmd Msg
+random : List String -> String -> Cmd Msg
 random tags videoPlayerId =
     let
         tagsLength =

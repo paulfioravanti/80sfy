@@ -1,17 +1,13 @@
-module VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId, init)
+module VideoPlayer.Model exposing (VideoPlayer, init)
 
 import Animation exposing (State)
 import RemoteData exposing (RemoteData(NotRequested), WebData)
 
 
-type alias VideoPlayerId =
-    String
-
-
 type alias VideoPlayer =
     { fallbackGifUrl : String
     , gifUrl : WebData String
-    , id : VideoPlayerId
+    , id : String
     , playing : Bool
     , style : State
     , visible : Bool
@@ -19,7 +15,7 @@ type alias VideoPlayer =
     }
 
 
-init : VideoPlayerId -> Bool -> Int -> VideoPlayer
+init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     { fallbackGifUrl = "https://media3.giphy.com/media/OVlFjmEDhx9rG/giphy.mp4"
     , gifUrl = NotRequested

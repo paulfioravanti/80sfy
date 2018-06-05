@@ -4,10 +4,9 @@ import Http
 import Json.Decode as Decode
 import Msg exposing (Msg(FetchRandomGif))
 import Tag
-import VideoPlayer exposing (VideoPlayerId)
 
 
-fetchRandomGif : String -> VideoPlayerId -> String -> Cmd Msg
+fetchRandomGif : String -> String -> String -> Cmd Msg
 fetchRandomGif giphyApiKey videoPlayerId tag =
     let
         host =
@@ -31,7 +30,7 @@ fetchRandomGif giphyApiKey videoPlayerId tag =
             |> Http.send (FetchRandomGif videoPlayerId)
 
 
-random : List String -> VideoPlayerId -> Cmd Msg
+random : List String -> String -> Cmd Msg
 random tags videoPlayerId =
     Tag.random tags videoPlayerId
 

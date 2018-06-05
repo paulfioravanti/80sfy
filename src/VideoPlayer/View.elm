@@ -14,7 +14,7 @@ import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import Msg exposing (Msg(ToggleFullScreen, ToggleGifRotation))
 import RemoteData exposing (RemoteData(Success))
-import VideoPlayer.Model exposing (VideoPlayer, VideoPlayerId)
+import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Styles as Styles
 
 

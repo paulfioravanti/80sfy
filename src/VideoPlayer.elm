@@ -1,7 +1,6 @@
-port module VideoPlayer
+module VideoPlayer
     exposing
         ( VideoPlayer
-        , VideoPlayerId
         , init
         , animateStyle
         , newVisibility
@@ -24,15 +23,11 @@ import VideoPlayer.Ports as Ports
 import VideoPlayer.View as View
 
 
-type alias VideoPlayerId =
-    Model.VideoPlayerId
-
-
 type alias VideoPlayer =
     Model.VideoPlayer
 
 
-init : VideoPlayerId -> Bool -> Int -> VideoPlayer
+init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     Model.init id visible zIndex
 
@@ -42,7 +37,7 @@ animateStyle msg videoPlayer =
     { videoPlayer | style = Animation.update msg videoPlayer.style }
 
 
-newVisibility : VideoPlayer -> ( Bool, VideoPlayerId )
+newVisibility : VideoPlayer -> ( Bool, String )
 newVisibility videoPlayer1 =
     if videoPlayer1.visible then
         ( False, "1" )
