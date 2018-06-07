@@ -9,6 +9,7 @@ module VideoPlayer
         , togglePlaying
         , togglePlayingTask
         , toggleVideoPlay
+        , update
         , updateVisibility
         , view
         )
@@ -19,8 +20,10 @@ import Msg exposing (Msg(TogglePlaying))
 import RemoteData exposing (RemoteData(Success), WebData)
 import Task
 import VideoPlayer.Model as Model
+import VideoPlayer.Msg
 import VideoPlayer.Ports as Ports
 import VideoPlayer.View as View
+import VideoPlayer.Update as Update
 
 
 type alias VideoPlayer =
@@ -69,6 +72,15 @@ togglePlayingTask bool =
 toggleVideoPlay : Bool -> Cmd msg
 toggleVideoPlay play =
     Ports.toggleVideoPlay play
+
+
+update :
+    VideoPlayer.Msg.Msg
+    -> VideoPlayer
+    -> VideoPlayer
+    -> ( VideoPlayer, VideoPlayer, Cmd VideoPlayer.Msg.Msg )
+update msg videoPlayer1 videoPlayer2 =
+    Update.update msg videoPlayer1 videoPlayer2
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer

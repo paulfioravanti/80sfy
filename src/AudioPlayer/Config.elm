@@ -1,16 +1,20 @@
 module AudioPlayer.Config exposing (Config, init)
 
 import AudioPlayer.Msg
+import VideoPlayer.Msg
 
 
 type alias Config msg =
     { audioPlayerMsg : AudioPlayer.Msg.Msg -> msg
-    , togglePlayingMsg : Bool -> msg
+    , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
     }
 
 
-init : (AudioPlayer.Msg.Msg -> msg) -> (Bool -> msg) -> Config msg
-init audioPlayerMsg togglePlayingMsg =
+init :
+    (AudioPlayer.Msg.Msg -> msg)
+    -> (VideoPlayer.Msg.Msg -> msg)
+    -> Config msg
+init audioPlayerMsg videoPlayerMsg =
     { audioPlayerMsg = audioPlayerMsg
-    , togglePlayingMsg = togglePlayingMsg
+    , videoPlayerMsg = videoPlayerMsg
     }

@@ -4,9 +4,10 @@ import AudioPlayer.Config exposing (Config)
 import AudioPlayer.Msg exposing (Msg(AdjustVolume, ToggleMute, TogglePlayPause))
 import AudioPlayer.Model exposing (AudioPlayer)
 import Task
+import VideoPlayer.Msg exposing (Msg(TogglePlaying))
 
 
-updateModel : Msg -> AudioPlayer -> AudioPlayer
+updateModel : AudioPlayer.Msg.Msg -> AudioPlayer -> AudioPlayer
 updateModel msg audioPlayer =
     case msg of
         AdjustVolume volume ->
@@ -19,8 +20,8 @@ updateModel msg audioPlayer =
             { audioPlayer | playing = not audioPlayer.playing }
 
 
-updateCmd : Config msg -> Msg -> AudioPlayer -> Cmd msg
-updateCmd { togglePlayingMsg } msg audioPlayer =
+updateCmd : Config msg -> AudioPlayer.Msg.Msg -> AudioPlayer -> Cmd msg
+updateCmd { videoPlayerMsg } msg audioPlayer =
     case msg of
         AdjustVolume volume ->
             Cmd.none
@@ -30,4 +31,4 @@ updateCmd { togglePlayingMsg } msg audioPlayer =
 
         TogglePlayPause ->
             Task.succeed (not audioPlayer.playing)
-                |> Task.perform togglePlayingMsg
+                |> Task.perform (videoPlayerMsg << TogglePlaying)

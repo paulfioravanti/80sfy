@@ -4,6 +4,7 @@ import AudioPlayer
 import Animation
 import Http exposing (Error)
 import Time exposing (Time)
+import VideoPlayer.Msg
 
 
 type Msg
@@ -27,3 +28,4 @@ type Msg
     | UpdateSecretConfigSoundCloudPlaylistUrl String
     | UpdateSecretConfigTags String
     | UseControlPanel Bool
+    | VideoPlayerMsg VideoPlayer.Msg.Msg

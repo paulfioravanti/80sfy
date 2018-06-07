@@ -29,6 +29,7 @@ import Msg
             , UseControlPanel
             , UpdateSecretConfigTags
             , UpdateSecretConfigSoundCloudPlaylistUrl
+            , VideoPlayerMsg
             )
         )
 import SecretConfig
@@ -62,7 +63,7 @@ update msg model =
             let
                 config =
                     { audioPlayerMsg = AudioPlayerMsg
-                    , togglePlayingMsg = TogglePlaying
+                    , videoPlayerMsg = VideoPlayerMsg
                     }
 
                 ( audioPlayer, cmd ) =
@@ -250,3 +251,18 @@ update msg model =
                         |> SecretConfig.setTags tags
             in
                 ( { model | secretConfig = secretConfig }, Cmd.none )
+
+        VideoPlayerMsg msg ->
+            let
+                ( videoPlayer1, videoPlayer2, cmd ) =
+                    VideoPlayer.update
+                        msg
+                        model.videoPlayer1
+                        model.videoPlayer2
+            in
+                ( { model
+                    | videoPlayer1 = videoPlayer1
+                    , videoPlayer2 = videoPlayer2
+                  }
+                , Cmd.map VideoPlayerMsg cmd
+                )
