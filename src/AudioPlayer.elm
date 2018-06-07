@@ -39,6 +39,4 @@ togglePlayPauseMsg =
 
 update : Config msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
 update config msg audioPlayer =
-    ( Update.updateModel msg audioPlayer
-    , Update.updateCmd config msg audioPlayer
-    )
+    Update.update config msg audioPlayer
