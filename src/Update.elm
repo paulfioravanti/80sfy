@@ -60,12 +60,17 @@ update msg model =
 
         AudioPlayerMsg msg ->
             let
+                config =
+                    { audioPlayerMsg = AudioPlayerMsg
+                    , togglePlayingMsg = TogglePlaying
+                    }
+
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msg
+                        |> AudioPlayer.update config msg
             in
                 ( { model | audioPlayer = audioPlayer }
-                , Cmd.map AudioPlayerMsg cmd
+                , cmd
                 )
 
         CountdownToHideControlPanel time ->
