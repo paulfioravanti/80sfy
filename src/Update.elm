@@ -21,9 +21,9 @@ import Msg
             , RandomTag
             , SaveConfig
             , ShowControlPanel
+            , ToggleFullScreen
             , ToggleGifRotation
             , ToggleInactivityPause
-            , ToggleFullScreen
             , TogglePlaying
             , ToggleSecretConfigVisibility
             , UseControlPanel
