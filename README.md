@@ -1,7 +1,8 @@
 # 80sfy
 
-[80sfy.com][] is a pretty cool site if you love [synthwave][], so I decided to
-see if I could re-create it using [Elm][].
+[80sfy.com][] by [Art Sangurai][] ([original codebase repo][]) is a pretty cool
+site if you love [synthwave][], so I decided to see if I could re-create it
+using [Elm][].
 
 I think I got most of the way there, but was hamstrung on the [Soundcloud][]
 audio integration since it is currently [not possible to register a
@@ -84,10 +85,12 @@ This project is currently deployed at the following sites:
 
 [80sfy.com]: http://www.80sfy.com/
 [80sfy on Reddit]: https://www.reddit.com/r/outrun/comments/5rdvks/my_boyfriend_made_a_website_that_plays_synthwave/
+[Art Sangurai]: http://www.digitalbloc.com/
 [Create Elm App]: https://github.com/halfzebra/create-elm-app
 [Elm]: http://elm-lang.org/
 [Giphy Developers]: https://developers.giphy.com/
 [NodeJS]: https://nodejs.org/en/
+[original codebase repo]: https://bitbucket.org/asangurai/80sfy/src/master/
 [Soundcloud]: https://soundcloud.com
 [Soundcloud register new app]: http://soundcloud.com/you/apps/new
 [synthwave]: https://en.wikipedia.org/wiki/Synthwave
