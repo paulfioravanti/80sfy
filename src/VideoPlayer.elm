@@ -21,6 +21,7 @@ import RemoteData exposing (RemoteData(Success), WebData)
 import Task
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg
+import VideoPlayer.MsgConfig exposing (MsgConfig)
 import VideoPlayer.Ports as Ports
 import VideoPlayer.View as View
 import VideoPlayer.Update as Update
@@ -102,6 +103,6 @@ updateVisibility visible videoPlayer =
         { videoPlayer | style = animateToNewOpacity, visible = visible }
 
 
-view : VideoPlayer -> Html Msg
-view videoPlayer =
-    View.view videoPlayer
+view : MsgConfig msg -> VideoPlayer -> Html Msg
+view msgConfig videoPlayer =
+    View.view msgConfig videoPlayer

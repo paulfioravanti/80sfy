@@ -15,11 +15,12 @@ import Json.Encode as Encode
 import Msg exposing (Msg(ToggleFullScreen, ToggleGifRotation))
 import RemoteData exposing (RemoteData(Success))
 import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.MsgConfig exposing (MsgConfig)
 import VideoPlayer.Styles as Styles
 
 
-view : VideoPlayer -> Html Msg
-view videoPlayer =
+view : MsgConfig msg -> VideoPlayer -> Html Msg
+view msgConfig videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
