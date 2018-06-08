@@ -12,7 +12,6 @@ import Msg
             ( AudioPlayerMsg
             , ConfigMsg
             , ControlPanelMsg
-            , CrossFadePlayers
             , SecretConfigMsg
             , VideoPlayerMsg
             )
@@ -64,24 +63,6 @@ update msg model =
                     , cmd
                     )
 
-            CrossFadePlayers time ->
-                let
-                    ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId ) =
-                        model.videoPlayer1
-                            |> VideoPlayer.newVisibility
-
-                    videoPlayer1 =
-                        model.videoPlayer1
-                            |> VideoPlayer.updateVisibility
-                                newVideoPlayer1Visibility
-                in
-                    ( { model | videoPlayer1 = videoPlayer1 }
-                    , Gif.random
-                        msgConfig
-                        model.config.tags
-                        nowHiddenVideoPlayerId
-                    )
-
             SecretConfigMsg msg ->
                 let
                     ( secretConfig, cmd ) =
@@ -96,6 +77,7 @@ update msg model =
                 let
                     ( videoPlayer1, videoPlayer2, cmd ) =
                         VideoPlayer.update
+                            msgConfig
                             msg
                             model.videoPlayer1
                             model.videoPlayer2
@@ -104,5 +86,5 @@ update msg model =
                         | videoPlayer1 = videoPlayer1
                         , videoPlayer2 = videoPlayer2
                       }
-                    , Cmd.map VideoPlayerMsg cmd
+                    , cmd
                     )

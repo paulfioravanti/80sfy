@@ -9,14 +9,13 @@ import Msg
             ( AudioPlayerMsg
             , ConfigMsg
             , ControlPanelMsg
-            , CrossFadePlayers
             , SecretConfigMsg
             , VideoPlayerMsg
             )
         )
 import MsgConfig
 import Time exposing (second)
-import VideoPlayer.Msg exposing (Msg(AnimateVideoPlayer))
+import VideoPlayer.Msg exposing (Msg(AnimateVideoPlayer, CrossFadePlayers))
 
 
 subscriptions : Model -> Sub Msg.Msg
@@ -32,7 +31,9 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
 
         videoPlayerSubscription =
             if secretConfig.fetchNextGif then
-                Time.every (4 * second) CrossFadePlayers
+                Time.every
+                    (4 * second)
+                    (msgConfig.videoPlayerMsg << CrossFadePlayers)
             else
                 Sub.none
 

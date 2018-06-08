@@ -68,12 +68,13 @@ toggleVideoPlay play =
 
 
 update :
-    VideoPlayer.Msg.Msg
+    MsgConfig msg
+    -> VideoPlayer.Msg.Msg
     -> VideoPlayer
     -> VideoPlayer
-    -> ( VideoPlayer, VideoPlayer, Cmd VideoPlayer.Msg.Msg )
-update msg videoPlayer1 videoPlayer2 =
-    Update.update msg videoPlayer1 videoPlayer2
+    -> ( VideoPlayer, VideoPlayer, Cmd msg )
+update msgConfig msg videoPlayer1 videoPlayer2 =
+    Update.update msgConfig msg videoPlayer1 videoPlayer2
 
 
 updateVisibility : Bool -> VideoPlayer -> VideoPlayer

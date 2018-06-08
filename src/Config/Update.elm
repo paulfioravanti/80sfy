@@ -1,10 +1,19 @@
 module Config.Update exposing (update)
 
 import Config.Model exposing (Config)
-import Config.Msg exposing (Msg(FetchTags, RandomTag, SaveConfig))
+import Config.Msg
+    exposing
+        ( Msg
+            ( FetchTags
+            , GenerateRandomGif
+            , RandomTag
+            , SaveConfig
+            )
+        )
 import Gif
 import MsgConfig exposing (MsgConfig)
 import SecretConfig.Msg exposing (Msg(InitSecretConfigTags))
+import Tag
 import Task
 
 
@@ -28,6 +37,9 @@ update msgConfig msg config =
                     Debug.log "FetchTags Failed" error
             in
                 ( config, Cmd.none )
+
+        GenerateRandomGif videoPlayerId ->
+            ( config, Tag.random msgConfig config.tags videoPlayerId )
 
         RandomTag videoPlayerId tag ->
             ( config
