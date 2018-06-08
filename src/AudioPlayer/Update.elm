@@ -1,15 +1,17 @@
 module AudioPlayer.Update exposing (update)
 
-import AudioPlayer.Msg exposing (Msg(AdjustVolume, ToggleMute, TogglePlayPause))
 import AudioPlayer.Model exposing (AudioPlayer)
-import Task
-import VideoPlayer.Msg exposing (Msg(TogglePlaying))
+import AudioPlayer.Msg
+    exposing
+        ( Msg
+            ( AdjustVolume
+            , ToggleMute
+            , TogglePlayPause
+            )
+        )
 
 
-update :
-    AudioPlayer.Msg.Msg
-    -> AudioPlayer
-    -> ( AudioPlayer, Cmd msg )
+update : AudioPlayer.Msg.Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
 update msg audioPlayer =
     case msg of
         AdjustVolume volume ->
