@@ -5,6 +5,7 @@ module VideoPlayer
         , animateStyle
         , newVisibility
         , setSuccessGifUrl
+        , subscriptions
         , toggleFullScreen
         , togglePlaying
         , toggleVideoPlay
@@ -21,6 +22,7 @@ import Task
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg
 import VideoPlayer.Ports as Ports
+import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.View as View
 import VideoPlayer.Update as Update
 
@@ -50,6 +52,11 @@ newVisibility videoPlayer1 =
 setSuccessGifUrl : String -> VideoPlayer -> VideoPlayer
 setSuccessGifUrl gifUrl videoPlayer =
     { videoPlayer | gifUrl = Success gifUrl }
+
+
+subscriptions : MsgConfig msg -> Bool -> VideoPlayer -> Sub msg
+subscriptions msgConfig fetchNextGif videoPlayer1 =
+    Subscriptions.subscriptions msgConfig fetchNextGif videoPlayer1
 
 
 toggleFullScreen : Cmd msg

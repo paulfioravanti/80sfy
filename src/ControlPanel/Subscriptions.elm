@@ -19,7 +19,9 @@ subscriptions : MsgConfig msg -> Bool -> ControlPanel -> Sub msg
 subscriptions { controlPanelMsg } overrideInactivityPause controlPanel =
     let
         visibilitySubscription =
-            if controlPanel.visible && not controlPanel.inUse then
+            if overrideInactivityPause then
+                Sub.none
+            else if controlPanel.visible && not controlPanel.inUse then
                 every second (controlPanelMsg << CountdownToHideControlPanel)
             else
                 Mouse.moves (\_ -> (controlPanelMsg ShowControlPanel))

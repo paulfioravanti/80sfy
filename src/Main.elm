@@ -34,9 +34,9 @@ main =
     in
         Html.programWithFlags
             { init = init msgConfig
-            , update = Update.update
-            , view = View.view
-            , subscriptions = Subscriptions.subscriptions
+            , update = Update.update msgConfig
+            , view = View.view msgConfig
+            , subscriptions = Subscriptions.subscriptions msgConfig
             }
 
 
