@@ -22,15 +22,24 @@ update : MsgConfig msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
 update msgConfig msg config =
     case msg of
         FetchTags (Ok tags) ->
-            ( { config | tags = tags }
-            , Cmd.batch
-                [ Gif.random (msgConfig.configMsg << RandomTag "1") tags
-                , Gif.random (msgConfig.configMsg << RandomTag "2") tags
-                , Task.succeed tags
-                    |> Task.perform
-                        (msgConfig.secretConfigMsg << SecretConfig.initTagsMsg)
-                ]
-            )
+            let
+                randomGifForVideoPlayerId id =
+                    Gif.random (msgConfig.configMsg << RandomTag id) tags
+
+                initSecretConfigTags =
+                    Task.succeed tags
+                        |> Task.perform
+                            (msgConfig.secretConfigMsg
+                                << SecretConfig.initTagsMsg
+                            )
+            in
+                ( { config | tags = tags }
+                , Cmd.batch
+                    [ randomGifForVideoPlayerId "1"
+                    , randomGifForVideoPlayerId "2"
+                    , initSecretConfigTags
+                    ]
+                )
 
         FetchTags (Err error) ->
             let
