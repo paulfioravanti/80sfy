@@ -2,7 +2,6 @@ module VideoPlayer.Update exposing (update)
 
 import Animation
 import Config
-import Gif
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success))
 import Task

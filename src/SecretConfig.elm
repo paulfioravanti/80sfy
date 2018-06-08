@@ -8,6 +8,7 @@ module SecretConfig
         , setSoundCloudPlaylistUrl
         , setTags
         , toggleFetchNextGif
+        , toggleGifRotationMsg
         , toggleInactivityPause
         , toggleVisibility
         , update
@@ -63,6 +64,11 @@ setTags tags secretConfig =
 toggleFetchNextGif : Bool -> SecretConfig -> SecretConfig
 toggleFetchNextGif bool secretConfig =
     { secretConfig | fetchNextGif = bool }
+
+
+toggleGifRotationMsg : Bool -> Msg
+toggleGifRotationMsg =
+    Msg.ToggleGifRotation
 
 
 toggleInactivityPause : SecretConfig -> SecretConfig

@@ -14,7 +14,7 @@ import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success))
-import SecretConfig.Msg exposing (Msg(ToggleGifRotation))
+import SecretConfig
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
 import VideoPlayer.Styles as Styles
@@ -83,7 +83,7 @@ gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
             [ src gifUrl
             , css [ Styles.videoPlayer ]
             , attribute "data-name" ("player-" ++ videoPlayer.id)
-            , onClick (secretConfigMsg (ToggleGifRotation True))
+            , onClick (secretConfigMsg (SecretConfig.toggleGifRotationMsg True))
             ]
     in
         video (attributes ++ playingAttributes) []
