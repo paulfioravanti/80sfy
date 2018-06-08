@@ -15,7 +15,7 @@ import Gif
 import MsgConfig exposing (MsgConfig)
 import SecretConfig
 import Task
-import VideoPlayer.Msg exposing (Msg(FetchRandomGif))
+import VideoPlayer
 
 
 update : MsgConfig msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
@@ -60,7 +60,8 @@ update msgConfig msg config =
         RandomTag videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
-                    msgConfig.videoPlayerMsg << FetchRandomGif videoPlayerId
+                    msgConfig.videoPlayerMsg
+                        << VideoPlayer.fetchRandomGifMsg videoPlayerId
             in
                 ( config
                 , tag
