@@ -1,5 +1,6 @@
 module SecretConfig.Update exposing (update)
 
+import MsgConfig exposing (MsgConfig)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
@@ -7,7 +8,6 @@ import SecretConfig.Msg
             ( ToggleGifRotation
             )
         )
-import SecretConfig.MsgConfig exposing (MsgConfig)
 import Task
 import VideoPlayer.Msg exposing (Msg(TogglePlaying))
 

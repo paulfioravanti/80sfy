@@ -12,11 +12,11 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
+import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success))
 import SecretConfig.Msg exposing (Msg(ToggleGifRotation))
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
-import VideoPlayer.MsgConfig exposing (MsgConfig)
 import VideoPlayer.Styles as Styles
 
 

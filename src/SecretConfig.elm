@@ -15,9 +15,9 @@ module SecretConfig
 
 import Html.Styled exposing (Html)
 import Msg exposing (Msg(InitSecretConfigTags))
+import MsgConfig exposing (MsgConfig)
 import SecretConfig.Model as Model
 import SecretConfig.Msg
-import SecretConfig.MsgConfig exposing (MsgConfig)
 import SecretConfig.Update as Update
 import SecretConfig.View as View
 import Task

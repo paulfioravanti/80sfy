@@ -1,17 +1,17 @@
-module SecretConfig.MsgConfig exposing (MsgConfig, init)
+module MsgConfig exposing (MsgConfig, init)
 
-import SecretConfig.Msg exposing (Msg)
+import SecretConfig.Msg
 import VideoPlayer.Msg
 
 
 type alias MsgConfig msg =
-    { secretConfigMsg : Msg -> msg
+    { secretConfigMsg : SecretConfig.Msg.Msg -> msg
     , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
     }
 
 
 init :
-    (Msg -> msg)
+    (SecretConfig.Msg.Msg -> msg)
     -> (VideoPlayer.Msg.Msg -> msg)
     -> MsgConfig msg
 init secretConfigMsg videoPlayerMsg =
