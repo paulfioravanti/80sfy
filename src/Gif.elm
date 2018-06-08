@@ -1,15 +1,13 @@
 module Gif exposing (fetchRandomGif, random)
 
-import Http
+import Http exposing (Error)
 import Json.Decode as Decode
-import MsgConfig exposing (MsgConfig)
 import Random
 import Tags
-import VideoPlayer.Msg exposing (Msg(FetchRandomGif))
 
 
-fetchRandomGif : MsgConfig msg -> String -> String -> String -> Cmd msg
-fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
+fetchRandomGif : (Result Error String -> msg) -> String -> String -> Cmd msg
+fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
     let
         host =
             "https://api.giphy.com"
@@ -28,7 +26,7 @@ fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
     in
         decodeGifUrl
             |> Http.get url
-            |> Http.send (videoPlayerMsg << (FetchRandomGif videoPlayerId))
+            |> Http.send fetchRandomGifMsg
 
 
 random : (String -> msg) -> List String -> Cmd msg

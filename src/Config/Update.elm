@@ -15,9 +15,10 @@ import Gif
 import MsgConfig exposing (MsgConfig)
 import SecretConfig
 import Task
+import VideoPlayer.Msg exposing (Msg(FetchRandomGif))
 
 
-update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
+update : MsgConfig msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
 update msgConfig msg config =
     case msg of
         GenerateRandomGif videoPlayerId ->
@@ -57,10 +58,14 @@ update msgConfig msg config =
                 ( config, Cmd.none )
 
         RandomTag videoPlayerId tag ->
-            ( config
-            , tag
-                |> Gif.fetchRandomGif msgConfig config.giphyApiKey videoPlayerId
-            )
+            let
+                fetchRandomGifMsg =
+                    msgConfig.videoPlayerMsg << FetchRandomGif videoPlayerId
+            in
+                ( config
+                , tag
+                    |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
+                )
 
         SaveConfig soundCloudPlaylistUrl tagsString ->
             let
