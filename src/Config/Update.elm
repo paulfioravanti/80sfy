@@ -28,9 +28,7 @@ update msgConfig msg config =
                 , Gif.random msgConfig tags "2"
                 , Task.succeed tags
                     |> Task.perform
-                        (msgConfig.secretConfigMsg
-                            << SecretConfig.initSecretConfigTagsMsg
-                        )
+                        (msgConfig.secretConfigMsg << SecretConfig.initTagsMsg)
                 ]
             )
 

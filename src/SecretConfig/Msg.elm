@@ -2,9 +2,9 @@ module SecretConfig.Msg exposing (Msg(..))
 
 
 type Msg
-    = InitSecretConfigTags (List String)
+    = InitTags (List String)
     | ToggleGifRotation Bool
     | ToggleInactivityPause
-    | ToggleSecretConfigVisibility
-    | UpdateSecretConfigSoundCloudPlaylistUrl String
-    | UpdateSecretConfigTags String
+    | ToggleVisibility
+    | UpdateSoundCloudPlaylistUrl String
+    | UpdateTags String

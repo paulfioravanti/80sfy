@@ -5,12 +5,12 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
         ( Msg
-            ( InitSecretConfigTags
+            ( InitTags
             , ToggleGifRotation
             , ToggleInactivityPause
-            , ToggleSecretConfigVisibility
-            , UpdateSecretConfigSoundCloudPlaylistUrl
-            , UpdateSecretConfigTags
+            , ToggleVisibility
+            , UpdateSoundCloudPlaylistUrl
+            , UpdateTags
             )
         )
 import Task
@@ -24,7 +24,7 @@ update :
     -> ( SecretConfig, Cmd msg )
 update { videoPlayerMsg } msg secretConfig =
     case msg of
-        InitSecretConfigTags tagList ->
+        InitTags tagList ->
             let
                 tags =
                     tagList
@@ -46,11 +46,11 @@ update { videoPlayerMsg } msg secretConfig =
             , Cmd.none
             )
 
-        ToggleSecretConfigVisibility ->
+        ToggleVisibility ->
             ( { secretConfig | visible = not secretConfig.visible }, Cmd.none )
 
-        UpdateSecretConfigSoundCloudPlaylistUrl url ->
+        UpdateSoundCloudPlaylistUrl url ->
             ( { secretConfig | soundCloudPlaylistUrl = url }, Cmd.none )
 
-        UpdateSecretConfigTags tags ->
+        UpdateTags tags ->
             ( { secretConfig | tags = tags }, Cmd.none )

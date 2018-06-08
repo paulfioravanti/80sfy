@@ -3,7 +3,7 @@ module SecretConfig
         ( Msg
         , SecretConfig
         , init
-        , initSecretConfigTagsMsg
+        , initTagsMsg
         , initTags
         , setSoundCloudPlaylistUrl
         , setTags
@@ -35,9 +35,9 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-initSecretConfigTagsMsg : List String -> Msg
-initSecretConfigTagsMsg =
-    Msg.InitSecretConfigTags
+initTagsMsg : List String -> Msg
+initTagsMsg =
+    Msg.InitTags
 
 
 initTags : List String -> SecretConfig -> SecretConfig

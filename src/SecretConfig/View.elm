@@ -25,9 +25,9 @@ import SecretConfig.Msg
         ( Msg
             ( ToggleGifRotation
             , ToggleInactivityPause
-            , ToggleSecretConfigVisibility
-            , UpdateSecretConfigSoundCloudPlaylistUrl
-            , UpdateSecretConfigTags
+            , ToggleVisibility
+            , UpdateSoundCloudPlaylistUrl
+            , UpdateTags
             )
         )
 import SecretConfig.Styles as Styles
@@ -46,7 +46,7 @@ secretConfigButton { secretConfigMsg } =
     div
         [ css [ Styles.secretConfigButton ]
         , attribute "data-name" "secret-config-button"
-        , onClick (secretConfigMsg ToggleSecretConfigVisibility)
+        , onClick (secretConfigMsg ToggleVisibility)
         ]
         []
 
@@ -78,7 +78,7 @@ gifTagsInput { secretConfigMsg } tags =
     textarea
         [ css [ Styles.gifTags ]
         , attribute "data-name" "search-tags"
-        , onInput (secretConfigMsg << UpdateSecretConfigTags)
+        , onInput (secretConfigMsg << UpdateTags)
         ]
         [ text tags ]
 
@@ -89,7 +89,7 @@ soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
         [ css [ Styles.playlist ]
         , attribute "data-name" "playlist-input"
         , value soundCloudPlaylistUrl
-        , onInput (secretConfigMsg << UpdateSecretConfigSoundCloudPlaylistUrl)
+        , onInput (secretConfigMsg << UpdateSoundCloudPlaylistUrl)
         ]
         []
 
