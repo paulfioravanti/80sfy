@@ -10,9 +10,10 @@ import Config.Msg
             , SaveConfig
             )
         )
+import Debug
 import Gif
 import MsgConfig exposing (MsgConfig)
-import SecretConfig.Msg exposing (Msg(InitSecretConfigTags))
+import SecretConfig
 import Tag
 import Task
 
@@ -27,7 +28,9 @@ update msgConfig msg config =
                 , Gif.random msgConfig tags "2"
                 , Task.succeed tags
                     |> Task.perform
-                        (msgConfig.secretConfigMsg << InitSecretConfigTags)
+                        (msgConfig.secretConfigMsg
+                            << SecretConfig.initSecretConfigTagsMsg
+                        )
                 ]
             )
 

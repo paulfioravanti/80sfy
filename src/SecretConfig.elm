@@ -1,7 +1,9 @@
 module SecretConfig
     exposing
-        ( SecretConfig
+        ( Msg
+        , SecretConfig
         , init
+        , initSecretConfigTagsMsg
         , initTags
         , setSoundCloudPlaylistUrl
         , setTags
@@ -15,19 +17,27 @@ module SecretConfig
 import Html.Styled exposing (Html)
 import MsgConfig exposing (MsgConfig)
 import SecretConfig.Model as Model
-import SecretConfig.Msg exposing (Msg(InitSecretConfigTags))
+import SecretConfig.Msg as Msg
 import SecretConfig.Update as Update
 import SecretConfig.View as View
-import Task
 
 
 type alias SecretConfig =
     Model.SecretConfig
 
 
+type alias Msg =
+    Msg.Msg
+
+
 init : String -> SecretConfig
 init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
+
+
+initSecretConfigTagsMsg : List String -> Msg
+initSecretConfigTagsMsg =
+    Msg.InitSecretConfigTags
 
 
 initTags : List String -> SecretConfig -> SecretConfig
@@ -67,11 +77,7 @@ toggleVisibility secretConfig =
     { secretConfig | visible = not secretConfig.visible }
 
 
-update :
-    MsgConfig msg
-    -> SecretConfig.Msg.Msg
-    -> SecretConfig
-    -> ( SecretConfig, Cmd msg )
+update : MsgConfig msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
 update msgConfig msg secretConfig =
     Update.update msgConfig msg secretConfig
 
