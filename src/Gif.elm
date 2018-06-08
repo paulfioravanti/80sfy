@@ -4,7 +4,7 @@ import Http
 import Json.Decode as Decode
 import MsgConfig exposing (MsgConfig)
 import Random
-import Tag
+import Tags
 import VideoPlayer.Msg exposing (Msg(FetchRandomGif))
 
 
@@ -39,7 +39,7 @@ random randomTagMsg tags =
 
         generator =
             Random.int 1 tagsLength
-                |> Random.map (Tag.numToTag tags)
+                |> Random.map (Tags.numToTag tags)
     in
         generator
             |> Random.generate randomTagMsg

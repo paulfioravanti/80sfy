@@ -1,4 +1,4 @@
-module Tag exposing (fetchTags, numToTag)
+module Tags exposing (fetchTags, numToTag)
 
 import Http exposing (Error)
 import Json.Decode as Decode exposing (Decoder)

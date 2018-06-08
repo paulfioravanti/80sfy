@@ -16,7 +16,7 @@ import Msg
         )
 import MsgConfig exposing (MsgConfig)
 import Subscriptions
-import Tag
+import Tags
 import Update
 import View
 
@@ -49,4 +49,4 @@ init msgConfig flags =
         model =
             Model.init config
     in
-        ( model, Tag.fetchTags (msgConfig.configMsg << Config.fetchTagsMsg) )
+        ( model, Tags.fetchTags (msgConfig.configMsg << Config.fetchTagsMsg) )
