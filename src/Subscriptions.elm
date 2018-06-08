@@ -2,7 +2,6 @@ module Subscriptions exposing (subscriptions)
 
 import Animation
 import ControlPanel
-import ControlPanel.Msg exposing (Msg(AnimateControlPanel))
 import Model exposing (Model)
 import Msg
     exposing

@@ -2,7 +2,6 @@ module Gif exposing (fetchRandomGif, random)
 
 import Http
 import Json.Decode as Decode
-import Msg exposing (Msg)
 import MsgConfig exposing (MsgConfig)
 import Tag
 import VideoPlayer.Msg exposing (Msg(FetchRandomGif))
@@ -32,9 +31,9 @@ fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
             |> Http.send (videoPlayerMsg << (FetchRandomGif videoPlayerId))
 
 
-random : List String -> String -> Cmd Msg.Msg
-random tags videoPlayerId =
-    Tag.random tags videoPlayerId
+random : MsgConfig msg -> List String -> String -> Cmd msg
+random msgConfig tags videoPlayerId =
+    Tag.random msgConfig tags videoPlayerId
 
 
 decodeGifUrl : Decode.Decoder String

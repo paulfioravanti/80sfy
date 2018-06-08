@@ -13,9 +13,6 @@ import Msg
             , ConfigMsg
             , ControlPanelMsg
             , CrossFadePlayers
-            , FetchTags
-            , InitSecretConfigTags
-            , RandomTag
             , SecretConfigMsg
             , VideoPlayerMsg
             )
@@ -51,7 +48,7 @@ update msg model =
                 let
                     ( config, cmd ) =
                         model.config
-                            |> Config.update msg
+                            |> Config.update msgConfig msg
                 in
                     ( { model | config = config }
                     , cmd
@@ -79,48 +76,11 @@ update msg model =
                                 newVideoPlayer1Visibility
                 in
                     ( { model | videoPlayer1 = videoPlayer1 }
-                    , Gif.random model.config.tags nowHiddenVideoPlayerId
+                    , Gif.random
+                        msgConfig
+                        model.config.tags
+                        nowHiddenVideoPlayerId
                     )
-
-            FetchTags (Ok tags) ->
-                let
-                    config =
-                        model.config
-                            |> Config.setTags tags
-                in
-                    ( { model | config = config }
-                    , Cmd.batch
-                        [ Gif.random tags "1"
-                        , Gif.random tags "2"
-                        , SecretConfig.initTagsTask tags
-                        ]
-                    )
-
-            FetchTags (Err error) ->
-                let
-                    _ =
-                        Debug.log "FetchTags Failed" error
-                in
-                    ( model, Cmd.none )
-
-            InitSecretConfigTags tags ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.initTags tags
-                in
-                    ( { model | secretConfig = secretConfig }
-                    , Cmd.none
-                    )
-
-            RandomTag videoPlayerId tag ->
-                ( model
-                , Gif.fetchRandomGif
-                    msgConfig
-                    model.config.giphyApiKey
-                    videoPlayerId
-                    tag
-                )
 
             SecretConfigMsg msg ->
                 let

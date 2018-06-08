@@ -4,6 +4,7 @@ import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
+import MsgConfig exposing (MsgConfig)
 
 
 type alias Config =
@@ -24,9 +25,9 @@ setTags tags config =
     { config | tags = tags }
 
 
-update : Msg -> Config -> ( Config, Cmd msg )
-update msg config =
-    Update.update msg config
+update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
+update msgConfig msg config =
+    Update.update msgConfig msg config
 
 
 updateSettings : String -> String -> Config -> Config

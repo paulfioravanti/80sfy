@@ -1,5 +1,9 @@
 module Config.Msg exposing (Msg(..))
 
+import Http exposing (Error)
+
 
 type Msg
-    = SaveConfig String String
+    = FetchTags (Result Error (List String))
+    | SaveConfig String String
+    | RandomTag String String
