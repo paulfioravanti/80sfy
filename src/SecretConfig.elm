@@ -4,13 +4,7 @@ module SecretConfig
         , SecretConfig
         , init
         , initTagsMsg
-        , initTags
-        , setSoundCloudPlaylistUrl
-        , setTags
-        , toggleFetchNextGif
         , toggleGifRotationMsg
-        , toggleInactivityPause
-        , toggleVisibility
         , update
         , view
         )
@@ -41,46 +35,9 @@ initTagsMsg =
     Msg.InitTags
 
 
-initTags : List String -> SecretConfig -> SecretConfig
-initTags tagsList secretConfig =
-    let
-        tags =
-            tagsList
-                |> String.join ", "
-    in
-        { secretConfig | tags = tags }
-
-
-setSoundCloudPlaylistUrl : String -> SecretConfig -> SecretConfig
-setSoundCloudPlaylistUrl soundCloudPlaylistUrl secretConfig =
-    { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
-
-
-setTags : String -> SecretConfig -> SecretConfig
-setTags tags secretConfig =
-    { secretConfig | tags = tags }
-
-
-toggleFetchNextGif : Bool -> SecretConfig -> SecretConfig
-toggleFetchNextGif bool secretConfig =
-    { secretConfig | fetchNextGif = bool }
-
-
 toggleGifRotationMsg : Bool -> Msg
 toggleGifRotationMsg =
     Msg.ToggleGifRotation
-
-
-toggleInactivityPause : SecretConfig -> SecretConfig
-toggleInactivityPause secretConfig =
-    { secretConfig
-        | overrideInactivityPause = not secretConfig.overrideInactivityPause
-    }
-
-
-toggleVisibility : SecretConfig -> SecretConfig
-toggleVisibility secretConfig =
-    { secretConfig | visible = not secretConfig.visible }
 
 
 update : MsgConfig msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
