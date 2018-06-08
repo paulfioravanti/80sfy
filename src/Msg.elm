@@ -15,7 +15,6 @@ type Msg
     | ConfigMsg Config.Msg.Msg
     | ControlPanelMsg ControlPanel.Msg.Msg
     | CrossFadePlayers Time
-    | FetchRandomGif String (Result Error String)
     | FetchTags (Result Error (List String))
     | InitSecretConfigTags (List String)
     | RandomTag String String

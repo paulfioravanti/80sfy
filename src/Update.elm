@@ -13,7 +13,6 @@ import Msg
             , ConfigMsg
             , ControlPanelMsg
             , CrossFadePlayers
-            , FetchRandomGif
             , FetchTags
             , InitSecretConfigTags
             , RandomTag
@@ -84,31 +83,6 @@ update msg model =
                     , Gif.random model.config.tags nowHiddenVideoPlayerId
                     )
 
-            FetchRandomGif videoPlayerId (Ok gifUrl) ->
-                if videoPlayerId == "1" then
-                    let
-                        videoPlayer1 =
-                            model.videoPlayer1
-                                |> VideoPlayer.setSuccessGifUrl gifUrl
-                    in
-                        ( { model | videoPlayer1 = videoPlayer1 }, Cmd.none )
-                else
-                    let
-                        videoPlayer2 =
-                            model.videoPlayer2
-                                |> VideoPlayer.setSuccessGifUrl gifUrl
-                    in
-                        ( { model | videoPlayer2 = videoPlayer2 }, Cmd.none )
-
-            FetchRandomGif videoPlayerId (Err error) ->
-                let
-                    _ =
-                        Debug.log
-                            ("FetchRandomGif Failed for " ++ toString videoPlayerId)
-                            error
-                in
-                    ( model, Cmd.none )
-
             FetchTags (Ok tags) ->
                 let
                     config =
@@ -142,7 +116,11 @@ update msg model =
 
             RandomTag videoPlayerId tag ->
                 ( model
-                , Gif.fetchRandomGif model.config.giphyApiKey videoPlayerId tag
+                , Gif.fetchRandomGif
+                    msgConfig
+                    model.config.giphyApiKey
+                    videoPlayerId
+                    tag
                 )
 
             SaveConfig soundCloudPlaylistUrl tags ->
