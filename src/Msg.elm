@@ -3,6 +3,7 @@ module Msg exposing (Msg(..))
 import AudioPlayer
 import Animation
 import Config.Msg
+import ControlPanel.Msg
 import Http exposing (Error)
 import SecretConfig.Msg
 import Time exposing (Time)
@@ -13,6 +14,7 @@ type Msg
     = AnimateControlPanel Animation.Msg
     | AudioPlayerMsg AudioPlayer.Msg
     | ConfigMsg Config.Msg.Msg
+    | ControlPanelMsg ControlPanel.Msg.Msg
     | CountdownToHideControlPanel Time
     | CrossFadePlayers Time
     | FetchRandomGif String (Result Error String)

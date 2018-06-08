@@ -8,6 +8,7 @@ module ControlPanel
         , setInUse
         , show
         , subscriptions
+        , update
         , view
         )
 
@@ -15,10 +16,13 @@ import Animation
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Msg
 import ControlPanel.Subscriptions as Subscriptions
+import ControlPanel.Update as Update
 import ControlPanel.View as View
 import Html.Styled exposing (Html)
 import Msg exposing (Msg(HideControlPanel))
+import MsgConfig exposing (MsgConfig)
 import Task
 
 
@@ -84,6 +88,11 @@ show controlPanel =
 subscriptions : ControlPanel -> Sub Msg
 subscriptions controlPanel =
     Subscriptions.subscriptions controlPanel
+
+
+update : MsgConfig msg -> ControlPanel.Msg.Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update msgConfig msg controlPanel =
+    Update.update msgConfig msg controlPanel
 
 
 view : AudioPlayer -> ControlPanel -> Html Msg

@@ -12,6 +12,7 @@ import Msg
             ( AnimateControlPanel
             , AudioPlayerMsg
             , ConfigMsg
+            , ControlPanelMsg
             , CountdownToHideControlPanel
             , CrossFadePlayers
             , FetchRandomGif
@@ -37,7 +38,11 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         msgConfig =
-            MsgConfig.init ConfigMsg SecretConfigMsg VideoPlayerMsg
+            MsgConfig.init
+                ConfigMsg
+                ControlPanelMsg
+                SecretConfigMsg
+                VideoPlayerMsg
     in
         case msg of
             AnimateControlPanel msg ->
@@ -67,6 +72,16 @@ update msg model =
                             |> Config.update msg
                 in
                     ( { model | config = config }
+                    , cmd
+                    )
+
+            ControlPanelMsg msg ->
+                let
+                    ( controlPanel, cmd ) =
+                        model.controlPanel
+                            |> ControlPanel.update msgConfig msg
+                in
+                    ( { model | controlPanel = controlPanel }
                     , cmd
                     )
 

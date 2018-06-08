@@ -8,6 +8,7 @@ import Msg
         ( Msg
             ( AnimateControlPanel
             , ConfigMsg
+            , ControlPanelMsg
             , CrossFadePlayers
             , SecretConfigMsg
             , VideoPlayerMsg
@@ -22,7 +23,11 @@ subscriptions : Model -> Sub Msg.Msg
 subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     let
         msgConfig =
-            MsgConfig.init ConfigMsg SecretConfigMsg VideoPlayerMsg
+            MsgConfig.init
+                ConfigMsg
+                ControlPanelMsg
+                SecretConfigMsg
+                VideoPlayerMsg
 
         videoPlayerSubscription =
             if secretConfig.fetchNextGif then
