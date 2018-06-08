@@ -5,8 +5,6 @@ module Config
         , init
         , generateRandomGifMsg
         , update
-        , updateSettings
-        , setTags
         )
 
 import Config.Model as Model exposing (Config)
@@ -34,25 +32,6 @@ generateRandomGifMsg =
     Msg.GenerateRandomGif
 
 
-setTags : List String -> Config -> Config
-setTags tags config =
-    { config | tags = tags }
-
-
 update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgConfig msg config =
     Update.update msgConfig msg config
-
-
-updateSettings : String -> String -> Config -> Config
-updateSettings soundCloudPlaylistUrl tagsString config =
-    let
-        tags =
-            tagsString
-                |> String.split ", "
-                |> List.map String.trim
-    in
-        { config
-            | soundCloudPlaylistUrl = soundCloudPlaylistUrl
-            , tags = tags
-        }
