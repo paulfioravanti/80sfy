@@ -17,7 +17,7 @@ fetchTags fetchTagsMsg =
 
 
 random : (String -> msg) -> List String -> Cmd msg
-random msg tags =
+random randomTagMsg tags =
     let
         tagsLength =
             List.length tags - 1
@@ -27,7 +27,7 @@ random msg tags =
                 |> Random.map (numToTag tags)
     in
         generator
-            |> Random.generate msg
+            |> Random.generate randomTagMsg
 
 
 numToTag : List String -> Int -> String

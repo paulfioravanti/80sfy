@@ -31,8 +31,8 @@ fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
 
 
 random : (String -> msg) -> List String -> Cmd msg
-random msg tags =
-    Tag.random msg tags
+random randomTagMsg tags =
+    Tag.random randomTagMsg tags
 
 
 decodeGifUrl : Decode.Decoder String
