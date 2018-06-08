@@ -24,12 +24,7 @@ type Msg
     | SaveConfig String String
     | SecretConfigMsg SecretConfig.Msg.Msg
     | ShowControlPanel
-    | ToggleGifRotation Bool
     | ToggleFullScreen
-    | ToggleInactivityPause
     | TogglePlaying Bool
-    | ToggleSecretConfigVisibility
-    | UpdateSecretConfigSoundCloudPlaylistUrl String
-    | UpdateSecretConfigTags String
     | UseControlPanel Bool
     | VideoPlayerMsg VideoPlayer.Msg.Msg

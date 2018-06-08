@@ -24,13 +24,8 @@ import Msg
             , SecretConfigMsg
             , ShowControlPanel
             , ToggleFullScreen
-            , ToggleGifRotation
-            , ToggleInactivityPause
             , TogglePlaying
-            , ToggleSecretConfigVisibility
             , UseControlPanel
-            , UpdateSecretConfigTags
-            , UpdateSecretConfigSoundCloudPlaylistUrl
             , VideoPlayerMsg
             )
         )
@@ -204,26 +199,8 @@ update msg model =
                 in
                     ( { model | controlPanel = controlPanel }, Cmd.none )
 
-            ToggleGifRotation bool ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.toggleFetchNextGif bool
-                in
-                    ( { model | secretConfig = secretConfig }
-                    , VideoPlayer.togglePlayingTask bool
-                    )
-
             ToggleFullScreen ->
                 ( model, VideoPlayer.toggleFullScreen )
-
-            ToggleInactivityPause ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.toggleInactivityPause
-                in
-                    ( { model | secretConfig = secretConfig }, Cmd.none )
 
             TogglePlaying bool ->
                 let
@@ -242,14 +219,6 @@ update msg model =
                     , VideoPlayer.toggleVideoPlay bool
                     )
 
-            ToggleSecretConfigVisibility ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.toggleVisibility
-                in
-                    ( { model | secretConfig = secretConfig }, Cmd.none )
-
             UseControlPanel bool ->
                 let
                     controlPanel =
@@ -257,22 +226,6 @@ update msg model =
                             |> ControlPanel.setInUse bool
                 in
                     ( { model | controlPanel = controlPanel }, Cmd.none )
-
-            UpdateSecretConfigSoundCloudPlaylistUrl url ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.setSoundCloudPlaylistUrl url
-                in
-                    ( { model | secretConfig = secretConfig }, Cmd.none )
-
-            UpdateSecretConfigTags tags ->
-                let
-                    secretConfig =
-                        model.secretConfig
-                            |> SecretConfig.setTags tags
-                in
-                    ( { model | secretConfig = secretConfig }, Cmd.none )
 
             VideoPlayerMsg msg ->
                 let
