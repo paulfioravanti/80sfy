@@ -39,15 +39,15 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
             if secretConfig.overrideInactivityPause then
                 Sub.none
             else
-                ControlPanel.subscriptions controlPanel
+                ControlPanel.subscriptions
+                    msgConfig
+                    secretConfig.overrideInactivityPause
+                    controlPanel
     in
         Sub.batch
             [ videoPlayerSubscription
             , Animation.subscription
                 (VideoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]
-            , Animation.subscription
-                (ControlPanelMsg << AnimateControlPanel)
-                [ controlPanel.style ]
             , controlPanelSubscription
             ]

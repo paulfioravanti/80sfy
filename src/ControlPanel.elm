@@ -85,12 +85,16 @@ show controlPanel =
         { controlPanel | style = animateToVisible, visible = True }
 
 
-subscriptions : ControlPanel -> Sub Msg
-subscriptions controlPanel =
-    Subscriptions.subscriptions controlPanel
+subscriptions : MsgConfig msg -> Bool -> ControlPanel -> Sub msg
+subscriptions msgConfig overrideInactivityPause controlPanel =
+    Subscriptions.subscriptions msgConfig overrideInactivityPause controlPanel
 
 
-update : MsgConfig msg -> ControlPanel.Msg.Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update :
+    MsgConfig msg
+    -> ControlPanel.Msg.Msg
+    -> ControlPanel
+    -> ( ControlPanel, Cmd msg )
 update msgConfig msg controlPanel =
     Update.update msgConfig msg controlPanel
 
