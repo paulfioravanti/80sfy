@@ -12,6 +12,7 @@ import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
+import Http exposing (Error)
 import MsgConfig exposing (MsgConfig)
 
 
@@ -28,6 +29,7 @@ init flags =
     Model.init flags
 
 
+fetchTagsMsg : Result Error (List String) -> Msg.Msg
 fetchTagsMsg =
     Msg.FetchTags
 
