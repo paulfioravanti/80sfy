@@ -17,109 +17,90 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
-import Msg
+import Config.Msg exposing (Msg(SaveConfig))
+import MsgConfig exposing (MsgConfig)
+import SecretConfig.Model exposing (SecretConfig)
+import SecretConfig.Msg
     exposing
         ( Msg
-            ( SaveConfig
-            , ToggleGifRotation
+            ( ToggleGifRotation
             , ToggleInactivityPause
             , ToggleSecretConfigVisibility
             , UpdateSecretConfigSoundCloudPlaylistUrl
             , UpdateSecretConfigTags
             )
         )
-import MsgConfig exposing (MsgConfig)
-import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Styles as Styles
 
 
-view : MsgConfig msg -> SecretConfig -> Html Msg
+view : MsgConfig msg -> SecretConfig -> Html msg
 view msgConfig secretConfig =
     div [ attribute "data-name" "secret-config" ]
-        [ secretConfigButton
-        , secretConfigSettings secretConfig
+        [ secretConfigButton msgConfig
+        , secretConfigSettings msgConfig secretConfig
         ]
 
 
-gifTagsInput : String -> Html Msg
-gifTagsInput tags =
-    textarea
-        [ css [ Styles.gifTags ]
-        , attribute "data-name" "search-tags"
-        , onInput UpdateSecretConfigTags
-        ]
-        [ text tags ]
-
-
-overrideInactivityPauseButton : Html Msg
-overrideInactivityPauseButton =
-    button
-        [ css [ Styles.configButton ]
-        , onClick ToggleInactivityPause
-        ]
-        [ text "Override Inactivity Pause" ]
-
-
-pauseAudioButton : Html msg
-pauseAudioButton =
-    button [ css [ Styles.configButton ] ]
-        [ text "Pause Audio" ]
-
-
-pauseGifRotationButton : Html Msg
-pauseGifRotationButton =
-    button
-        [ css [ Styles.configButton ]
-        , onClick (ToggleGifRotation False)
-        ]
-        [ text "Pause Gif Rotation" ]
-
-
-playAudioButton : Html msg
-playAudioButton =
-    button [ css [ Styles.configButton ] ]
-        [ text "Play Audio" ]
-
-
-playGifRotationButton : Html Msg
-playGifRotationButton =
-    button
-        [ css [ Styles.configButton ]
-        , onClick (ToggleGifRotation True)
-        ]
-        [ text "Play Gif Rotation" ]
-
-
-secretConfigButton : Html Msg
-secretConfigButton =
+secretConfigButton : MsgConfig msg -> Html msg
+secretConfigButton { secretConfigMsg } =
     div
         [ css [ Styles.secretConfigButton ]
         , attribute "data-name" "secret-config-button"
-        , onClick ToggleSecretConfigVisibility
+        , onClick (secretConfigMsg ToggleSecretConfigVisibility)
         ]
         []
 
 
-secretConfigSettings : SecretConfig -> Html Msg
-secretConfigSettings { soundCloudPlaylistUrl, tags, visible } =
+secretConfigSettings : MsgConfig msg -> SecretConfig -> Html msg
+secretConfigSettings msgConfig { soundCloudPlaylistUrl, tags, visible } =
     div
         [ css [ Styles.secretConfig visible ]
         , attribute "data-name" "secret-config-settings"
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput tags
+        , gifTagsInput msgConfig tags
         , span []
             [ text "Playlist:" ]
-        , soundCloudPlaylistUrlInput soundCloudPlaylistUrl
-        , saveSettingsButton soundCloudPlaylistUrl tags
+        , soundCloudPlaylistUrlInput msgConfig soundCloudPlaylistUrl
+        , saveSettingsButton msgConfig soundCloudPlaylistUrl tags
         , showStateButton
-        , overrideInactivityPauseButton
-        , pauseGifRotationButton
-        , playGifRotationButton
+        , overrideInactivityPauseButton msgConfig
+        , pauseGifRotationButton msgConfig
+        , playGifRotationButton msgConfig
         , playAudioButton
         , pauseAudioButton
         ]
+
+
+gifTagsInput : MsgConfig msg -> String -> Html msg
+gifTagsInput { secretConfigMsg } tags =
+    textarea
+        [ css [ Styles.gifTags ]
+        , attribute "data-name" "search-tags"
+        , onInput (secretConfigMsg << UpdateSecretConfigTags)
+        ]
+        [ text tags ]
+
+
+soundCloudPlaylistUrlInput : MsgConfig msg -> String -> Html msg
+soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
+    input
+        [ css [ Styles.playlist ]
+        , attribute "data-name" "playlist-input"
+        , value soundCloudPlaylistUrl
+        , onInput (secretConfigMsg << UpdateSecretConfigSoundCloudPlaylistUrl)
+        ]
+        []
+
+
+saveSettingsButton : MsgConfig msg -> String -> String -> Html msg
+saveSettingsButton { configMsg } soundCloudPlaylistUrl tags =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (configMsg (SaveConfig soundCloudPlaylistUrl tags))
+        ]
+        [ text "Save Settings" ]
 
 
 showStateButton : Html msg
@@ -128,21 +109,40 @@ showStateButton =
         [ text "Show State" ]
 
 
-soundCloudPlaylistUrlInput : String -> Html Msg
-soundCloudPlaylistUrlInput soundCloudPlaylistUrl =
-    input
-        [ css [ Styles.playlist ]
-        , attribute "data-name" "playlist-input"
-        , value soundCloudPlaylistUrl
-        , onInput UpdateSecretConfigSoundCloudPlaylistUrl
-        ]
-        []
-
-
-saveSettingsButton : String -> String -> Html Msg
-saveSettingsButton soundCloudPlaylistUrl tags =
+overrideInactivityPauseButton : MsgConfig msg -> Html msg
+overrideInactivityPauseButton { secretConfigMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (SaveConfig soundCloudPlaylistUrl tags)
+        , onClick (secretConfigMsg ToggleInactivityPause)
         ]
-        [ text "Save Settings" ]
+        [ text "Override Inactivity Pause" ]
+
+
+pauseGifRotationButton : MsgConfig msg -> Html msg
+pauseGifRotationButton { secretConfigMsg } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (secretConfigMsg (ToggleGifRotation False))
+        ]
+        [ text "Pause Gif Rotation" ]
+
+
+playGifRotationButton : MsgConfig msg -> Html msg
+playGifRotationButton { secretConfigMsg } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (secretConfigMsg (ToggleGifRotation True))
+        ]
+        [ text "Play Gif Rotation" ]
+
+
+playAudioButton : Html msg
+playAudioButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Play Audio" ]
+
+
+pauseAudioButton : Html msg
+pauseAudioButton =
+    button [ css [ Styles.configButton ] ]
+        [ text "Pause Audio" ]
