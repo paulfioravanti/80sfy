@@ -16,7 +16,6 @@ import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success), WebData)
-import Task
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Ports as Ports

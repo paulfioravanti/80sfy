@@ -21,7 +21,7 @@ import VideoPlayer.Ports as Ports
 
 update :
     MsgConfig msg
-    -> VideoPlayer.Msg.Msg
+    -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
