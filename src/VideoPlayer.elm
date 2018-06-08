@@ -10,6 +10,7 @@ module VideoPlayer
         , toggleFullScreen
         , toggleFullScreenMsg
         , togglePlaying
+        , togglePlayingMsg
         , toggleVideoPlay
         , update
         , updateVisibility
@@ -78,6 +79,11 @@ toggleFullScreenMsg =
 togglePlaying : Bool -> VideoPlayer -> VideoPlayer
 togglePlaying playing videoPlayer =
     { videoPlayer | playing = playing }
+
+
+togglePlayingMsg : Bool -> Msg
+togglePlayingMsg =
+    Msg.TogglePlaying
 
 
 toggleVideoPlay : Bool -> Cmd msg
