@@ -6,7 +6,7 @@ import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
 import MsgConfig exposing (MsgConfig)
-import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
+import VideoPlayer
 
 
 view : MsgConfig msg -> AudioPlayer -> Html msg
@@ -70,7 +70,7 @@ fullscreenButton { videoPlayerMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "fullscreen"
-        , onClick (videoPlayerMsg ToggleFullScreen)
+        , onClick (videoPlayerMsg VideoPlayer.toggleFullScreenMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []

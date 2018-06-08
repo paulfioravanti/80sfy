@@ -1,12 +1,14 @@
 module VideoPlayer
     exposing
-        ( VideoPlayer
+        ( Msg
+        , VideoPlayer
         , init
         , animateStyle
         , newVisibility
         , setSuccessGifUrl
         , subscriptions
         , toggleFullScreen
+        , toggleFullScreenMsg
         , togglePlaying
         , toggleVideoPlay
         , update
@@ -20,7 +22,7 @@ import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success), WebData)
 import Task
 import VideoPlayer.Model as Model
-import VideoPlayer.Msg
+import VideoPlayer.Msg as Msg
 import VideoPlayer.Ports as Ports
 import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.View as View
@@ -29,6 +31,10 @@ import VideoPlayer.Update as Update
 
 type alias VideoPlayer =
     Model.VideoPlayer
+
+
+type alias Msg =
+    Msg.Msg
 
 
 init : String -> Bool -> Int -> VideoPlayer
@@ -64,6 +70,11 @@ toggleFullScreen =
     Ports.toggleFullScreen ()
 
 
+toggleFullScreenMsg : Msg
+toggleFullScreenMsg =
+    Msg.ToggleFullScreen
+
+
 togglePlaying : Bool -> VideoPlayer -> VideoPlayer
 togglePlaying playing videoPlayer =
     { videoPlayer | playing = playing }
@@ -76,7 +87,7 @@ toggleVideoPlay play =
 
 update :
     MsgConfig msg
-    -> VideoPlayer.Msg.Msg
+    -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
