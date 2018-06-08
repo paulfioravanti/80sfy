@@ -6,6 +6,7 @@ import AudioPlayer.Msg exposing (Msg(AdjustVolume))
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Msg exposing (Msg(UseControlPanel))
 import ControlPanel.Styles as Styles
 import Html.Styled as Html
     exposing
@@ -34,11 +35,11 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
-import Msg exposing (Msg(AudioPlayerMsg, UseControlPanel))
+import MsgConfig exposing (MsgConfig)
 
 
-view : AudioPlayer -> ControlPanel -> Html Msg.Msg
-view audioPlayer controlPanel =
+view : MsgConfig msg -> AudioPlayer -> ControlPanel -> Html msg
+view ({ controlPanelMsg } as msgConfig) audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -48,8 +49,8 @@ view audioPlayer controlPanel =
         attributes =
             [ css [ Styles.controlPanel ]
             , attribute "data-name" "control-panel"
-            , onMouseEnter (UseControlPanel True)
-            , onMouseLeave (UseControlPanel False)
+            , onMouseEnter (controlPanelMsg (UseControlPanel True))
+            , onMouseLeave (controlPanelMsg (UseControlPanel False))
             ]
     in
         div (animations ++ attributes)
@@ -59,8 +60,8 @@ view audioPlayer controlPanel =
                 ]
                 [ logo
                 , trackInfo
-                , Controls.view audioPlayer
-                , volumeControl audioPlayer
+                , Controls.view msgConfig audioPlayer
+                , volumeControl msgConfig audioPlayer
                 , Credits.view
                 ]
             ]
@@ -88,8 +89,8 @@ trackInfo =
         []
 
 
-volumeControl : AudioPlayer -> Html Msg.Msg
-volumeControl { muted, volume } =
+volumeControl : MsgConfig msg -> AudioPlayer -> Html msg
+volumeControl { audioPlayerMsg } { muted, volume } =
     let
         volumeDisplayValue =
             if muted then
@@ -110,7 +111,7 @@ volumeControl { muted, volume } =
                 , Attributes.max "100"
                 , step "5"
                 , value volumeDisplayValue
-                , onInput (AudioPlayerMsg << AdjustVolume)
+                , onInput (audioPlayerMsg << AdjustVolume)
                 ]
                 []
             ]

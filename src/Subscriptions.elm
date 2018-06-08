@@ -7,7 +7,8 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( ConfigMsg
+            ( AudioPlayerMsg
+            , ConfigMsg
             , ControlPanelMsg
             , CrossFadePlayers
             , SecretConfigMsg
@@ -24,6 +25,7 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     let
         msgConfig =
             MsgConfig.init
+                AudioPlayerMsg
                 ConfigMsg
                 ControlPanelMsg
                 SecretConfigMsg

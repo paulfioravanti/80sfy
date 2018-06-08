@@ -7,7 +7,8 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( ConfigMsg
+            ( AudioPlayerMsg
+            , ConfigMsg
             , ControlPanelMsg
             , SecretConfigMsg
             , VideoPlayerMsg
@@ -23,13 +24,14 @@ view { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
     let
         msgConfig =
             MsgConfig.init
+                AudioPlayerMsg
                 ConfigMsg
                 ControlPanelMsg
                 SecretConfigMsg
                 VideoPlayerMsg
     in
         div [ attribute "data-name" "container" ]
-            [ ControlPanel.view audioPlayer controlPanel
+            [ ControlPanel.view msgConfig audioPlayer controlPanel
             , VideoPlayer.view msgConfig videoPlayer1
             , VideoPlayer.view msgConfig videoPlayer2
             , SecretConfig.view msgConfig secretConfig

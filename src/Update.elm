@@ -12,19 +12,15 @@ import Msg
             ( AudioPlayerMsg
             , ConfigMsg
             , ControlPanelMsg
-            , CountdownToHideControlPanel
             , CrossFadePlayers
             , FetchRandomGif
             , FetchTags
-            , HideControlPanel
             , InitSecretConfigTags
             , RandomTag
             , SaveConfig
             , SecretConfigMsg
-            , ShowControlPanel
             , ToggleFullScreen
             , TogglePlaying
-            , UseControlPanel
             , VideoPlayerMsg
             )
         )
@@ -38,6 +34,7 @@ update msg model =
     let
         msgConfig =
             MsgConfig.init
+                AudioPlayerMsg
                 ConfigMsg
                 ControlPanelMsg
                 SecretConfigMsg
@@ -73,14 +70,6 @@ update msg model =
                     ( { model | controlPanel = controlPanel }
                     , cmd
                     )
-
-            CountdownToHideControlPanel time ->
-                let
-                    ( controlPanel, cmd ) =
-                        model.controlPanel
-                            |> ControlPanel.determineVisibility
-                in
-                    ( { model | controlPanel = controlPanel }, cmd )
 
             CrossFadePlayers time ->
                 let
@@ -143,14 +132,6 @@ update msg model =
                 in
                     ( model, Cmd.none )
 
-            HideControlPanel () ->
-                let
-                    controlPanel =
-                        model.controlPanel
-                            |> ControlPanel.hide
-                in
-                    ( { model | controlPanel = controlPanel }, Cmd.none )
-
             InitSecretConfigTags tags ->
                 let
                     secretConfig =
@@ -184,14 +165,6 @@ update msg model =
                     , cmd
                     )
 
-            ShowControlPanel ->
-                let
-                    controlPanel =
-                        model.controlPanel
-                            |> ControlPanel.show
-                in
-                    ( { model | controlPanel = controlPanel }, Cmd.none )
-
             ToggleFullScreen ->
                 ( model, VideoPlayer.toggleFullScreen )
 
@@ -211,14 +184,6 @@ update msg model =
                       }
                     , VideoPlayer.toggleVideoPlay bool
                     )
-
-            UseControlPanel bool ->
-                let
-                    controlPanel =
-                        model.controlPanel
-                            |> ControlPanel.setInUse bool
-                in
-                    ( { model | controlPanel = controlPanel }, Cmd.none )
 
             VideoPlayerMsg msg ->
                 let

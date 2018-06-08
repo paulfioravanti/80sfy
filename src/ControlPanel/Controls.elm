@@ -5,33 +5,22 @@ import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import Msg exposing (Msg(AudioPlayerMsg, ToggleFullScreen))
+import MsgConfig exposing (MsgConfig)
+import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
 
 
-view : AudioPlayer -> Html Msg.Msg
-view { muted, playing } =
+view : MsgConfig msg -> AudioPlayer -> Html msg
+view msgConfig { muted, playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
-        [ muteUnmuteButton muted
-        , playPauseButton playing
+        [ muteUnmuteButton msgConfig muted
+        , playPauseButton msgConfig playing
         , nextTrackButton
-        , fullscreenButton
+        , fullscreenButton msgConfig
         ]
 
 
-fullscreenButton : Html Msg.Msg
-fullscreenButton =
-    div
-        [ css [ Styles.button ]
-        , attribute "data-name" "fullscreen"
-        , onClick ToggleFullScreen
-        ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
-        ]
-
-
-muteUnmuteButton : Bool -> Html Msg.Msg
-muteUnmuteButton muted =
+muteUnmuteButton : MsgConfig msg -> Bool -> Html msg
+muteUnmuteButton { audioPlayerMsg } muted =
     let
         iconClass =
             if muted then
@@ -42,7 +31,26 @@ muteUnmuteButton muted =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "mute-unmute"
-            , onClick (AudioPlayerMsg AudioPlayer.toggleMuteMsg)
+            , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
+            ]
+            [ div [ css [ Styles.iconBackground ] ] []
+            , i [ css [ Styles.icon ], class iconClass ] []
+            ]
+
+
+playPauseButton : MsgConfig msg -> Bool -> Html msg
+playPauseButton { audioPlayerMsg } playing =
+    let
+        iconClass =
+            if playing then
+                "fas fa-pause"
+            else
+                "fas fa-play"
+    in
+        div
+            [ css [ Styles.button ]
+            , attribute "data-name" "play-pause"
+            , onClick (audioPlayerMsg AudioPlayer.togglePlayPauseMsg)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []
@@ -57,20 +65,13 @@ nextTrackButton =
         ]
 
 
-playPauseButton : Bool -> Html Msg.Msg
-playPauseButton playing =
-    let
-        iconClass =
-            if playing then
-                "fas fa-pause"
-            else
-                "fas fa-play"
-    in
-        div
-            [ css [ Styles.button ]
-            , attribute "data-name" "play-pause"
-            , onClick (AudioPlayerMsg AudioPlayer.togglePlayPauseMsg)
-            ]
-            [ div [ css [ Styles.iconBackground ] ] []
-            , i [ css [ Styles.icon ], class iconClass ] []
-            ]
+fullscreenButton : MsgConfig msg -> Html msg
+fullscreenButton { videoPlayerMsg } =
+    div
+        [ css [ Styles.button ]
+        , attribute "data-name" "fullscreen"
+        , onClick (videoPlayerMsg ToggleFullScreen)
+        ]
+        [ div [ css [ Styles.iconBackground ] ] []
+        , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
+        ]

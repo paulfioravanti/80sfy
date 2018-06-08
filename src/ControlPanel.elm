@@ -16,12 +16,11 @@ import Animation
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
-import ControlPanel.Msg
+import ControlPanel.Msg exposing (Msg(HideControlPanel))
 import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.Update as Update
 import ControlPanel.View as View
 import Html.Styled exposing (Html)
-import Msg exposing (Msg(HideControlPanel))
 import MsgConfig exposing (MsgConfig)
 import Task
 
@@ -99,6 +98,6 @@ update msgConfig msg controlPanel =
     Update.update msgConfig msg controlPanel
 
 
-view : AudioPlayer -> ControlPanel -> Html Msg
-view audioPlayer controlPanel =
-    View.view audioPlayer controlPanel
+view : MsgConfig msg -> AudioPlayer -> ControlPanel -> Html msg
+view msgConfig audioPlayer controlPanel =
+    View.view msgConfig audioPlayer controlPanel
