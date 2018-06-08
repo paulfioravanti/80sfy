@@ -18,7 +18,7 @@ import Tag
 import Task
 
 
-update : MsgConfig msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
+update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgConfig msg config =
     case msg of
         FetchTags (Ok tags) ->
