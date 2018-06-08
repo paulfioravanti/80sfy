@@ -28,12 +28,13 @@ import Msg
             , UpdateSecretConfigTags
             )
         )
+import MsgConfig exposing (MsgConfig)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Styles as Styles
 
 
-view : SecretConfig -> Html Msg
-view secretConfig =
+view : MsgConfig msg -> SecretConfig -> Html Msg
+view msgConfig secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton
         , secretConfigSettings secretConfig

@@ -2,4 +2,9 @@ module SecretConfig.Msg exposing (Msg(..))
 
 
 type Msg
-    = ToggleGifRotation Bool
+    = InitSecretConfigTags (List String)
+    | ToggleGifRotation Bool
+    | ToggleInactivityPause
+    | ToggleSecretConfigVisibility
+    | UpdateSecretConfigSoundCloudPlaylistUrl String
+    | UpdateSecretConfigTags String

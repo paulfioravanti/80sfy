@@ -84,6 +84,6 @@ update msgConfig msg secretConfig =
     Update.update msgConfig msg secretConfig
 
 
-view : SecretConfig -> Html Msg
-view secretConfig =
-    View.view secretConfig
+view : MsgConfig msg -> SecretConfig -> Html Msg
+view msgConfig secretConfig =
+    View.view msgConfig secretConfig

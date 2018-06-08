@@ -20,5 +20,5 @@ view { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
             [ ControlPanel.view audioPlayer controlPanel
             , VideoPlayer.view msgConfig videoPlayer1
             , VideoPlayer.view msgConfig videoPlayer2
-            , SecretConfig.view secretConfig
+            , SecretConfig.view msgConfig secretConfig
             ]
