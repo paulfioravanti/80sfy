@@ -1,6 +1,7 @@
 module ControlPanel
     exposing
         ( ControlPanel
+        , Msg
         , init
         , subscriptions
         , update

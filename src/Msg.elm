@@ -1,15 +1,15 @@
 module Msg exposing (Msg(..))
 
 import AudioPlayer
-import Config.Msg
-import ControlPanel.Msg
-import SecretConfig.Msg
-import VideoPlayer.Msg
+import Config
+import ControlPanel
+import SecretConfig
+import VideoPlayer
 
 
 type Msg
     = AudioPlayerMsg AudioPlayer.Msg
-    | ConfigMsg Config.Msg.Msg
-    | ControlPanelMsg ControlPanel.Msg.Msg
-    | SecretConfigMsg SecretConfig.Msg.Msg
-    | VideoPlayerMsg VideoPlayer.Msg.Msg
+    | ConfigMsg Config.Msg
+    | ControlPanelMsg ControlPanel.Msg
+    | SecretConfigMsg SecretConfig.Msg
+    | VideoPlayerMsg VideoPlayer.Msg
