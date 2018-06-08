@@ -7,16 +7,23 @@ import Msg
     exposing
         ( Msg
             ( AnimateControlPanel
-            , AnimateVideoPlayer
+            , ConfigMsg
             , CrossFadePlayers
+            , SecretConfigMsg
+            , VideoPlayerMsg
             )
         )
+import MsgConfig
 import Time exposing (second)
+import VideoPlayer.Msg exposing (Msg(AnimateVideoPlayer))
 
 
-subscriptions : Model -> Sub Msg
+subscriptions : Model -> Sub Msg.Msg
 subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     let
+        msgConfig =
+            MsgConfig.init ConfigMsg SecretConfigMsg VideoPlayerMsg
+
         videoPlayerSubscription =
             if secretConfig.fetchNextGif then
                 Time.every (4 * second) CrossFadePlayers
@@ -31,7 +38,9 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
     in
         Sub.batch
             [ videoPlayerSubscription
-            , Animation.subscription AnimateVideoPlayer [ videoPlayer1.style ]
+            , Animation.subscription
+                (VideoPlayerMsg << AnimateVideoPlayer)
+                [ videoPlayer1.style ]
             , Animation.subscription AnimateControlPanel [ controlPanel.style ]
             , controlPanelSubscription
             ]

@@ -10,7 +10,6 @@ import Msg
     exposing
         ( Msg
             ( AnimateControlPanel
-            , AnimateVideoPlayer
             , AudioPlayerMsg
             , ConfigMsg
             , CountdownToHideControlPanel
@@ -48,16 +47,6 @@ update msg model =
                             |> ControlPanel.animateStyle msg
                 in
                     ( { model | controlPanel = controlPanel }
-                    , Cmd.none
-                    )
-
-            AnimateVideoPlayer msg ->
-                let
-                    videoPlayer1 =
-                        model.videoPlayer1
-                            |> VideoPlayer.animateStyle msg
-                in
-                    ( { model | videoPlayer1 = videoPlayer1 }
                     , Cmd.none
                     )
 

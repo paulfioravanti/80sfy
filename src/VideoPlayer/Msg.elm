@@ -1,6 +1,9 @@
 module VideoPlayer.Msg exposing (Msg(..))
 
+import Animation
+
 
 type Msg
-    = ToggleFullScreen
+    = AnimateVideoPlayer Animation.Msg
+    | ToggleFullScreen
     | TogglePlaying Bool
