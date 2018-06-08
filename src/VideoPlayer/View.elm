@@ -68,16 +68,15 @@ gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
             Encode.string "0"
 
         playingAttributes =
-            if videoPlayer.playing then
-                [ property "autoplay" true
-                , property "loop" true
-                , property "muted" true
-                , property "autopause" false
-                ]
-            else
-                [ property "muted" true
-                , property "autopause" false
-                ]
+            [ property "muted" true
+            , property "autopause" false
+            ]
+                ++ if videoPlayer.playing then
+                    [ property "autoplay" true
+                    , property "loop" true
+                    ]
+                   else
+                    []
 
         attributes =
             [ src gifUrl
@@ -104,7 +103,7 @@ playerPausedOverlay =
             , br [] []
             , span []
                 [ text """Click here to make this the
-                               active window and continue GIFs"""
+                          active window and continue GIFs"""
                 ]
             ]
         ]
