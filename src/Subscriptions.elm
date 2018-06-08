@@ -2,12 +2,12 @@ module Subscriptions exposing (subscriptions)
 
 import Animation
 import ControlPanel
+import ControlPanel.Msg exposing (Msg(AnimateControlPanel))
 import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( AnimateControlPanel
-            , ConfigMsg
+            ( ConfigMsg
             , ControlPanelMsg
             , CrossFadePlayers
             , SecretConfigMsg
@@ -46,6 +46,8 @@ subscriptions { controlPanel, secretConfig, videoPlayer1 } =
             , Animation.subscription
                 (VideoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]
-            , Animation.subscription AnimateControlPanel [ controlPanel.style ]
+            , Animation.subscription
+                (ControlPanelMsg << AnimateControlPanel)
+                [ controlPanel.style ]
             , controlPanelSubscription
             ]

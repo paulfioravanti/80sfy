@@ -11,8 +11,7 @@ import VideoPlayer.Msg
 
 
 type Msg
-    = AnimateControlPanel Animation.Msg
-    | AudioPlayerMsg AudioPlayer.Msg
+    = AudioPlayerMsg AudioPlayer.Msg
     | ConfigMsg Config.Msg.Msg
     | ControlPanelMsg ControlPanel.Msg.Msg
     | CountdownToHideControlPanel Time

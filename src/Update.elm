@@ -9,8 +9,7 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( AnimateControlPanel
-            , AudioPlayerMsg
+            ( AudioPlayerMsg
             , ConfigMsg
             , ControlPanelMsg
             , CountdownToHideControlPanel
@@ -45,16 +44,6 @@ update msg model =
                 VideoPlayerMsg
     in
         case msg of
-            AnimateControlPanel msg ->
-                let
-                    controlPanel =
-                        model.controlPanel
-                            |> ControlPanel.animateStyle msg
-                in
-                    ( { model | controlPanel = controlPanel }
-                    , Cmd.none
-                    )
-
             AudioPlayerMsg msg ->
                 let
                     ( audioPlayer, cmd ) =
