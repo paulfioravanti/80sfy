@@ -1,5 +1,6 @@
 module SecretConfig.View exposing (view)
 
+import Config.Msg exposing (Msg(SaveConfig))
 import Html.Styled as Html
     exposing
         ( Html
@@ -17,7 +18,6 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
-import Config.Msg exposing (Msg(SaveConfig))
 import MsgConfig exposing (MsgConfig)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg

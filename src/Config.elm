@@ -1,4 +1,13 @@
-module Config exposing (Config, init, update, updateSettings, setTags)
+module Config
+    exposing
+        ( Config
+        , Msg
+        , init
+        , generateRandomGifMsg
+        , update
+        , updateSettings
+        , setTags
+        )
 
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
@@ -18,6 +27,11 @@ type alias Msg =
 init : Flags -> Config
 init flags =
     Model.init flags
+
+
+generateRandomGifMsg : String -> Msg
+generateRandomGifMsg =
+    Msg.GenerateRandomGif
 
 
 setTags : List String -> Config -> Config

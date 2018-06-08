@@ -2,7 +2,6 @@ module VideoPlayer.Update exposing (update)
 
 import Animation
 import Config
-import Config.Msg exposing (Msg(GenerateRandomGif))
 import Gif
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success))
@@ -62,7 +61,8 @@ update msgConfig msg videoPlayer1 videoPlayer2 =
                   }
                 , videoPlayer2
                 , Task.succeed nowHiddenVideoPlayerId
-                    |> Task.perform (msgConfig.configMsg << GenerateRandomGif)
+                    |> Task.perform
+                        (msgConfig.configMsg << Config.generateRandomGifMsg)
                 )
 
         FetchRandomGif videoPlayerId (Ok url) ->
