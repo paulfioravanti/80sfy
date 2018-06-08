@@ -30,9 +30,9 @@ fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
             |> Http.send (videoPlayerMsg << (FetchRandomGif videoPlayerId))
 
 
-random : MsgConfig msg -> List String -> String -> Cmd msg
-random msgConfig tags videoPlayerId =
-    Tag.random msgConfig tags videoPlayerId
+random : (String -> msg) -> List String -> Cmd msg
+random msg tags =
+    Tag.random msg tags
 
 
 decodeGifUrl : Decode.Decoder String

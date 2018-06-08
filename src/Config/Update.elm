@@ -24,8 +24,8 @@ update msgConfig msg config =
         FetchTags (Ok tags) ->
             ( { config | tags = tags }
             , Cmd.batch
-                [ Gif.random msgConfig tags "1"
-                , Gif.random msgConfig tags "2"
+                [ Gif.random (msgConfig.configMsg << RandomTag "1") tags
+                , Gif.random (msgConfig.configMsg << RandomTag "2") tags
                 , Task.succeed tags
                     |> Task.perform
                         (msgConfig.secretConfigMsg << SecretConfig.initTagsMsg)
@@ -40,7 +40,11 @@ update msgConfig msg config =
                 ( config, Cmd.none )
 
         GenerateRandomGif videoPlayerId ->
-            ( config, Tag.random msgConfig config.tags videoPlayerId )
+            ( config
+            , Tag.random
+                (msgConfig.configMsg << RandomTag videoPlayerId)
+                config.tags
+            )
 
         RandomTag videoPlayerId tag ->
             ( config

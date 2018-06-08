@@ -1,9 +1,7 @@
 module Tag exposing (fetchTags, random)
 
-import Config.Msg exposing (Msg(RandomTag))
 import Http exposing (Error)
 import Json.Decode as Decode exposing (Decoder)
-import MsgConfig exposing (MsgConfig)
 import Random
 
 
@@ -18,8 +16,8 @@ fetchTags fetchTagsMsg =
             |> Http.send fetchTagsMsg
 
 
-random : MsgConfig msg -> List String -> String -> Cmd msg
-random { configMsg } tags videoPlayerId =
+random : (String -> msg) -> List String -> Cmd msg
+random msg tags =
     let
         tagsLength =
             List.length tags - 1
@@ -29,7 +27,7 @@ random { configMsg } tags videoPlayerId =
                 |> Random.map (numToTag tags)
     in
         generator
-            |> Random.generate (configMsg << RandomTag videoPlayerId)
+            |> Random.generate msg
 
 
 numToTag : List String -> Int -> String
