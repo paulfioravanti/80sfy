@@ -103,6 +103,6 @@ updateVisibility visible videoPlayer =
         { videoPlayer | style = animateToNewOpacity, visible = visible }
 
 
-view : MsgConfig msg -> VideoPlayer -> Html Msg
+view : MsgConfig msg -> VideoPlayer -> Html msg
 view msgConfig videoPlayer =
     View.view msgConfig videoPlayer

@@ -20,6 +20,7 @@ import Msg
             , InitSecretConfigTags
             , RandomTag
             , SaveConfig
+            , SecretConfigMsg
             , ShowControlPanel
             , ToggleFullScreen
             , ToggleGifRotation
@@ -61,14 +62,14 @@ update msg model =
 
         AudioPlayerMsg msg ->
             let
-                config =
+                msgConfig =
                     { audioPlayerMsg = AudioPlayerMsg
                     , videoPlayerMsg = VideoPlayerMsg
                     }
 
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update config msg
+                        |> AudioPlayer.update msgConfig msg
             in
                 ( { model | audioPlayer = audioPlayer }
                 , cmd
@@ -173,6 +174,21 @@ update msg model =
                         |> Config.updateSettings soundCloudPlaylistUrl tags
             in
                 ( { model | config = config }, Cmd.none )
+
+        SecretConfigMsg msg ->
+            let
+                msgConfig =
+                    { secretConfigMsg = SecretConfigMsg
+                    , videoPlayerMsg = VideoPlayerMsg
+                    }
+
+                ( secretConfig, cmd ) =
+                    model.secretConfig
+                        |> SecretConfig.update msgConfig msg
+            in
+                ( { model | secretConfig = secretConfig }
+                , cmd
+                )
 
         ShowControlPanel ->
             let

@@ -12,14 +12,15 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
-import Msg exposing (Msg(ToggleFullScreen, ToggleGifRotation))
 import RemoteData exposing (RemoteData(Success))
+import SecretConfig.Msg exposing (Msg(ToggleGifRotation))
 import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
 import VideoPlayer.MsgConfig exposing (MsgConfig)
 import VideoPlayer.Styles as Styles
 
 
-view : MsgConfig msg -> VideoPlayer -> Html Msg
+view : MsgConfig msg -> VideoPlayer -> Html msg
 view msgConfig videoPlayer =
     let
         gifUrl =
@@ -31,34 +32,34 @@ view msgConfig videoPlayer =
                     videoPlayer.fallbackGifUrl
 
         childElements =
-            gifVideoPlayer gifUrl videoPlayer
+            gifVideoPlayer msgConfig gifUrl videoPlayer
                 :: if not videoPlayer.playing then
                     [ playerPausedOverlay ]
                    else
                     []
     in
-        div (attributes videoPlayer) childElements
+        div (attributes msgConfig videoPlayer) childElements
 
 
-attributes : VideoPlayer -> List (Html.Attribute Msg)
-attributes player =
+attributes : MsgConfig msg -> VideoPlayer -> List (Html.Attribute msg)
+attributes msgConfig videoPlayer =
     let
         animations =
-            player.style
+            videoPlayer.style
                 |> Animation.render
                 |> List.map fromUnstyled
 
         attributes =
-            [ css [ Styles.gifContainer player.zIndex ]
+            [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
-            , onDoubleClick ToggleFullScreen
+            , onDoubleClick (msgConfig.videoPlayerMsg ToggleFullScreen)
             ]
     in
         List.append animations attributes
 
 
-gifVideoPlayer : String -> VideoPlayer -> Html Msg
-gifVideoPlayer gifUrl videoPlayer =
+gifVideoPlayer : MsgConfig msg -> String -> VideoPlayer -> Html msg
+gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
     let
         true =
             Encode.string "1"
@@ -82,7 +83,7 @@ gifVideoPlayer gifUrl videoPlayer =
             [ src gifUrl
             , css [ Styles.videoPlayer ]
             , attribute "data-name" ("player-" ++ videoPlayer.id)
-            , onClick (ToggleGifRotation True)
+            , onClick (secretConfigMsg (ToggleGifRotation True))
             ]
     in
         video (attributes ++ playingAttributes) []

@@ -1,14 +1,14 @@
 module AudioPlayer.Update exposing (update)
 
-import AudioPlayer.Config exposing (Config)
 import AudioPlayer.Msg exposing (Msg(AdjustVolume, ToggleMute, TogglePlayPause))
+import AudioPlayer.MsgConfig exposing (MsgConfig)
 import AudioPlayer.Model exposing (AudioPlayer)
 import Task
 import VideoPlayer.Msg exposing (Msg(TogglePlaying))
 
 
 update :
-    Config msg
+    MsgConfig msg
     -> AudioPlayer.Msg.Msg
     -> AudioPlayer
     -> ( AudioPlayer, Cmd msg )

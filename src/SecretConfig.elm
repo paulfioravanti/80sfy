@@ -9,12 +9,16 @@ module SecretConfig
         , toggleFetchNextGif
         , toggleInactivityPause
         , toggleVisibility
+        , update
         , view
         )
 
 import Html.Styled exposing (Html)
 import Msg exposing (Msg(InitSecretConfigTags))
 import SecretConfig.Model as Model
+import SecretConfig.Msg
+import SecretConfig.MsgConfig exposing (MsgConfig)
+import SecretConfig.Update as Update
 import SecretConfig.View as View
 import Task
 
@@ -69,6 +73,15 @@ toggleInactivityPause secretConfig =
 toggleVisibility : SecretConfig -> SecretConfig
 toggleVisibility secretConfig =
     { secretConfig | visible = not secretConfig.visible }
+
+
+update :
+    MsgConfig msg
+    -> SecretConfig.Msg.Msg
+    -> SecretConfig
+    -> ( SecretConfig, Cmd msg )
+update msgConfig msg secretConfig =
+    Update.update msgConfig msg secretConfig
 
 
 view : SecretConfig -> Html Msg

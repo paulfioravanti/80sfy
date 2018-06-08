@@ -4,7 +4,7 @@ import ControlPanel
 import Html.Styled as Html exposing (Html, div, text)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
-import Msg exposing (Msg(VideoPlayerMsg))
+import Msg exposing (Msg(SecretConfigMsg, VideoPlayerMsg))
 import SecretConfig
 import VideoPlayer exposing (VideoPlayer)
 
@@ -14,6 +14,7 @@ view { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
     let
         msgConfig =
             { videoPlayerMsg = VideoPlayerMsg
+            , secretConfigMsg = SecretConfigMsg
             }
     in
         div [ attribute "data-name" "container" ]

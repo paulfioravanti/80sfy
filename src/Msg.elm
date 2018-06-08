@@ -3,6 +3,7 @@ module Msg exposing (Msg(..))
 import AudioPlayer
 import Animation
 import Http exposing (Error)
+import SecretConfig.Msg
 import Time exposing (Time)
 import VideoPlayer.Msg
 
@@ -19,6 +20,7 @@ type Msg
     | InitSecretConfigTags (List String)
     | RandomTag String String
     | SaveConfig String String
+    | SecretConfigMsg SecretConfig.Msg.Msg
     | ShowControlPanel
     | ToggleGifRotation Bool
     | ToggleFullScreen
