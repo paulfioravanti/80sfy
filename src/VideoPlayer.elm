@@ -2,6 +2,7 @@ module VideoPlayer
     exposing
         ( Msg
         , VideoPlayer
+        , fetchRandomGifMsg
         , init
         , subscriptions
         , toggleFullScreenMsg
@@ -12,6 +13,7 @@ module VideoPlayer
 
 import Animation
 import Html.Styled exposing (Html)
+import Http exposing (Error)
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success), WebData)
 import Task
@@ -34,6 +36,11 @@ type alias Msg =
 init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     Model.init id visible zIndex
+
+
+fetchRandomGifMsg : String -> Result Error String -> Msg
+fetchRandomGifMsg =
+    Msg.FetchRandomGif
 
 
 subscriptions : MsgConfig msg -> Bool -> VideoPlayer -> Sub msg
