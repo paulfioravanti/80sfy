@@ -49,4 +49,4 @@ init msgConfig flags =
         model =
             Model.init config
     in
-        ( model, Tags.init (msgConfig.configMsg << Config.fetchTagsMsg) )
+        ( model, Tags.init (msgConfig.configMsg << Config.initTagsMsg) )

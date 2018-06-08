@@ -4,8 +4,8 @@ import Config.Model exposing (Config)
 import Config.Msg
     exposing
         ( Msg
-            ( FetchTags
-            , GenerateRandomGif
+            ( GenerateRandomGif
+            , InitTags
             , RandomTag
             , SaveConfig
             )
@@ -20,7 +20,14 @@ import Task
 update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgConfig msg config =
     case msg of
-        FetchTags (Ok tags) ->
+        GenerateRandomGif videoPlayerId ->
+            ( config
+            , Gif.random
+                (msgConfig.configMsg << RandomTag videoPlayerId)
+                config.tags
+            )
+
+        InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId id =
                     Gif.random (msgConfig.configMsg << RandomTag id) tags
@@ -40,19 +47,12 @@ update msgConfig msg config =
                     ]
                 )
 
-        FetchTags (Err error) ->
+        InitTags (Err error) ->
             let
                 _ =
-                    Debug.log "FetchTags Failed" error
+                    Debug.log "InitTags Failed" error
             in
                 ( config, Cmd.none )
-
-        GenerateRandomGif videoPlayerId ->
-            ( config
-            , Gif.random
-                (msgConfig.configMsg << RandomTag videoPlayerId)
-                config.tags
-            )
 
         RandomTag videoPlayerId tag ->
             ( config

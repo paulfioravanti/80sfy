@@ -2,8 +2,8 @@ module Config
     exposing
         ( Config
         , Msg
-        , fetchTagsMsg
         , init
+        , initTagsMsg
         , generateRandomGifMsg
         , update
         )
@@ -29,9 +29,9 @@ init flags =
     Model.init flags
 
 
-fetchTagsMsg : Result Error (List String) -> Msg.Msg
-fetchTagsMsg =
-    Msg.FetchTags
+initTagsMsg : Result Error (List String) -> Msg.Msg
+initTagsMsg =
+    Msg.InitTags
 
 
 generateRandomGifMsg : String -> Msg

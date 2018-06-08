@@ -4,7 +4,7 @@ import Http exposing (Error)
 
 
 type Msg
-    = FetchTags (Result Error (List String))
-    | GenerateRandomGif String
+    = GenerateRandomGif String
+    | InitTags (Result Error (List String))
     | RandomTag String String
     | SaveConfig String String
