@@ -1,21 +1,21 @@
 module Tag exposing (fetchTags, random)
 
-import Config.Msg exposing (Msg(FetchTags, RandomTag))
-import Http
+import Config.Msg exposing (Msg(RandomTag))
+import Http exposing (Error)
 import Json.Decode as Decode exposing (Decoder)
 import MsgConfig exposing (MsgConfig)
 import Random
 
 
-fetchTags : MsgConfig msg -> Cmd msg
-fetchTags { configMsg } =
+fetchTags : (Result Error (List String) -> msg) -> Cmd msg
+fetchTags fetchTagsMsg =
     let
         tagsDecoder =
             Decode.at [ "tags" ] (Decode.list Decode.string)
     in
         tagsDecoder
             |> Http.get "tags.json"
-            |> Http.send (configMsg << FetchTags)
+            |> Http.send fetchTagsMsg
 
 
 random : MsgConfig msg -> List String -> String -> Cmd msg

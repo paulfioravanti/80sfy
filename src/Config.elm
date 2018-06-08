@@ -2,6 +2,7 @@ module Config
     exposing
         ( Config
         , Msg
+        , fetchTagsMsg
         , init
         , generateRandomGifMsg
         , update
@@ -25,6 +26,10 @@ type alias Msg =
 init : Flags -> Config
 init flags =
     Model.init flags
+
+
+fetchTagsMsg =
+    Msg.FetchTags
 
 
 generateRandomGifMsg : String -> Msg
