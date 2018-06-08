@@ -19,20 +19,10 @@ type alias Model =
 
 init : Config -> Model
 init config =
-    let
-        secretConfig =
-            SecretConfig.init config.soundCloudPlaylistUrl
-
-        videoPlayer1 =
-            VideoPlayer.init "1" True -4
-
-        videoPlayer2 =
-            VideoPlayer.init "2" True -5
-    in
-        { audioPlayer = AudioPlayer.init
-        , config = config
-        , controlPanel = ControlPanel.init
-        , secretConfig = secretConfig
-        , videoPlayer1 = videoPlayer1
-        , videoPlayer2 = videoPlayer2
-        }
+    { audioPlayer = AudioPlayer.init
+    , config = config
+    , controlPanel = ControlPanel.init
+    , secretConfig = SecretConfig.init config.soundCloudPlaylistUrl
+    , videoPlayer1 = VideoPlayer.init "1" True -4
+    , videoPlayer2 = VideoPlayer.init "2" True -5
+    }
