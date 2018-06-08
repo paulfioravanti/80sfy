@@ -3,6 +3,7 @@ module AudioPlayer
         ( AudioPlayer
         , Msg
         , init
+        , adjustVolumeMsg
         , toggleMuteMsg
         , togglePlayPauseMsg
         , update
@@ -24,6 +25,11 @@ type alias Msg =
 init : AudioPlayer
 init =
     Model.init
+
+
+adjustVolumeMsg : String -> Msg
+adjustVolumeMsg =
+    Msg.AdjustVolume
 
 
 toggleMuteMsg : Msg

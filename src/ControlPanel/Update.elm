@@ -8,8 +8,8 @@ import ControlPanel.Msg
         ( Msg
             ( AnimateControlPanel
             , CountdownToHideControlPanel
-            , ShowControlPanel
             , HideControlPanel
+            , ShowControlPanel
             , UseControlPanel
             )
         )

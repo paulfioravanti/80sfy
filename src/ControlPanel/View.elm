@@ -2,7 +2,6 @@ module ControlPanel.View exposing (view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import AudioPlayer.Msg exposing (Msg(AdjustVolume))
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -111,7 +110,7 @@ volumeControl { audioPlayerMsg } { muted, volume } =
                 , Attributes.max "100"
                 , step "5"
                 , value volumeDisplayValue
-                , onInput (audioPlayerMsg << AdjustVolume)
+                , onInput (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
                 ]
                 []
             ]
