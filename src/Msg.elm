@@ -18,6 +18,5 @@ type Msg
     | FetchTags (Result Error (List String))
     | InitSecretConfigTags (List String)
     | RandomTag String String
-    | SaveConfig String String
     | SecretConfigMsg SecretConfig.Msg.Msg
     | VideoPlayerMsg VideoPlayer.Msg.Msg

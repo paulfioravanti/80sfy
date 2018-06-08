@@ -16,7 +16,6 @@ import Msg
             , FetchTags
             , InitSecretConfigTags
             , RandomTag
-            , SaveConfig
             , SecretConfigMsg
             , VideoPlayerMsg
             )
@@ -122,14 +121,6 @@ update msg model =
                     videoPlayerId
                     tag
                 )
-
-            SaveConfig soundCloudPlaylistUrl tags ->
-                let
-                    config =
-                        model.config
-                            |> Config.updateSettings soundCloudPlaylistUrl tags
-                in
-                    ( { model | config = config }, Cmd.none )
 
             SecretConfigMsg msg ->
                 let
