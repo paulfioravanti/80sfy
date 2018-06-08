@@ -19,8 +19,7 @@ fetchRandomGif { videoPlayerMsg } giphyApiKey videoPlayerId tag =
         url =
             host
                 ++ path
-                ++ "?"
-                ++ "api_key="
+                ++ "?api_key="
                 ++ giphyApiKey
                 ++ "&tag="
                 ++ tag
