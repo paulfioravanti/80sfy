@@ -19,8 +19,6 @@ import Msg
             , RandomTag
             , SaveConfig
             , SecretConfigMsg
-            , ToggleFullScreen
-            , TogglePlaying
             , VideoPlayerMsg
             )
         )
@@ -163,26 +161,6 @@ update msg model =
                 in
                     ( { model | secretConfig = secretConfig }
                     , cmd
-                    )
-
-            ToggleFullScreen ->
-                ( model, VideoPlayer.toggleFullScreen )
-
-            TogglePlaying bool ->
-                let
-                    videoPlayer1 =
-                        model.videoPlayer1
-                            |> VideoPlayer.togglePlaying bool
-
-                    videoPlayer2 =
-                        model.videoPlayer2
-                            |> VideoPlayer.togglePlaying bool
-                in
-                    ( { model
-                        | videoPlayer1 = videoPlayer1
-                        , videoPlayer2 = videoPlayer2
-                      }
-                    , VideoPlayer.toggleVideoPlay bool
                     )
 
             VideoPlayerMsg msg ->

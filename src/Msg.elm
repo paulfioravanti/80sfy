@@ -21,6 +21,4 @@ type Msg
     | RandomTag String String
     | SaveConfig String String
     | SecretConfigMsg SecretConfig.Msg.Msg
-    | ToggleFullScreen
-    | TogglePlaying Bool
     | VideoPlayerMsg VideoPlayer.Msg.Msg
