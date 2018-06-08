@@ -1,18 +1,7 @@
 module Subscriptions exposing (subscriptions)
 
-import Animation
 import ControlPanel
 import Model exposing (Model)
-import Msg
-    exposing
-        ( Msg
-            ( AudioPlayerMsg
-            , ConfigMsg
-            , ControlPanelMsg
-            , SecretConfigMsg
-            , VideoPlayerMsg
-            )
-        )
 import MsgConfig exposing (MsgConfig)
 import VideoPlayer
 
