@@ -1,10 +1,10 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import Config
 import MsgConfig exposing (MsgConfig)
 import RemoteData exposing (RemoteData(Success))
 import Task
+import VideoPlayer.Context exposing (Context)
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg
     exposing
@@ -21,11 +21,12 @@ import VideoPlayer.Ports as Ports
 
 update :
     MsgConfig msg
+    -> Context msg
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgConfig msg videoPlayer1 videoPlayer2 =
+update msgConfig { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
     case msg of
         AnimateVideoPlayer msg ->
             ( { videoPlayer1 | style = Animation.update msg videoPlayer1.style }
@@ -60,8 +61,7 @@ update msgConfig msg videoPlayer1 videoPlayer2 =
                   }
                 , videoPlayer2
                 , Task.succeed nowHiddenVideoPlayerId
-                    |> Task.perform
-                        (msgConfig.configMsg << Config.generateRandomGifMsg)
+                    |> Task.perform generateRandomGifMsg
                 )
 
         FetchRandomGif videoPlayerId (Ok url) ->

@@ -64,9 +64,15 @@ update msgConfig msg model =
 
         VideoPlayerMsg msg ->
             let
+                context =
+                    { generateRandomGifMsg =
+                        msgConfig.configMsg << Config.generateRandomGifMsg
+                    }
+
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
                         msgConfig
+                        context
                         msg
                         model.videoPlayer1
                         model.videoPlayer2

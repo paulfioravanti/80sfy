@@ -11,11 +11,10 @@ module VideoPlayer
         , view
         )
 
-import Animation
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgConfig exposing (MsgConfig)
-import RemoteData exposing (RemoteData(Success), WebData)
+import VideoPlayer.Context exposing (Context)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Subscriptions as Subscriptions
@@ -58,12 +57,13 @@ togglePlayingMsg =
 
 update :
     MsgConfig msg
+    -> Context msg
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgConfig msg videoPlayer1 videoPlayer2 =
-    Update.update msgConfig msg videoPlayer1 videoPlayer2
+update msgConfig context msg videoPlayer1 videoPlayer2 =
+    Update.update msgConfig context msg videoPlayer1 videoPlayer2
 
 
 view : MsgConfig msg -> VideoPlayer -> Html msg
