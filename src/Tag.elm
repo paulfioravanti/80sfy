@@ -1,8 +1,7 @@
-module Tag exposing (fetchTags, random)
+module Tag exposing (fetchTags, numToTag)
 
 import Http exposing (Error)
 import Json.Decode as Decode exposing (Decoder)
-import Random
 
 
 fetchTags : (Result Error (List String) -> msg) -> Cmd msg
@@ -14,20 +13,6 @@ fetchTags fetchTagsMsg =
         tagsDecoder
             |> Http.get "tags.json"
             |> Http.send fetchTagsMsg
-
-
-random : (String -> msg) -> List String -> Cmd msg
-random randomTagMsg tags =
-    let
-        tagsLength =
-            List.length tags - 1
-
-        generator =
-            Random.int 1 tagsLength
-                |> Random.map (numToTag tags)
-    in
-        generator
-            |> Random.generate randomTagMsg
 
 
 numToTag : List String -> Int -> String

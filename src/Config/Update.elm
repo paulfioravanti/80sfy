@@ -14,7 +14,6 @@ import Debug
 import Gif
 import MsgConfig exposing (MsgConfig)
 import SecretConfig
-import Tag
 import Task
 
 
@@ -50,7 +49,7 @@ update msgConfig msg config =
 
         GenerateRandomGif videoPlayerId ->
             ( config
-            , Tag.random
+            , Gif.random
                 (msgConfig.configMsg << RandomTag videoPlayerId)
                 config.tags
             )
