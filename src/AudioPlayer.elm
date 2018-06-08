@@ -8,7 +8,6 @@ module AudioPlayer
         , update
         )
 
-import AudioPlayer.MsgConfig exposing (MsgConfig)
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg
 import AudioPlayer.Update as Update
@@ -37,6 +36,6 @@ togglePlayPauseMsg =
     Msg.TogglePlayPause
 
 
-update : MsgConfig msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update config msg audioPlayer =
-    Update.update config msg audioPlayer
+update : Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update msg audioPlayer =
+    Update.update msg audioPlayer

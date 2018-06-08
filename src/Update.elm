@@ -62,14 +62,9 @@ update msg model =
 
         AudioPlayerMsg msg ->
             let
-                msgConfig =
-                    { audioPlayerMsg = AudioPlayerMsg
-                    , videoPlayerMsg = VideoPlayerMsg
-                    }
-
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msgConfig msg
+                        |> AudioPlayer.update msg
             in
                 ( { model | audioPlayer = audioPlayer }
                 , cmd
