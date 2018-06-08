@@ -8,9 +8,7 @@ module ControlPanel
         , view
         )
 
-import Animation
 import AudioPlayer exposing (AudioPlayer)
-import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg(HideControlPanel))
 import ControlPanel.Subscriptions as Subscriptions
