@@ -14,6 +14,7 @@ import Html.Styled as Html
         , br
         , div
         , i
+        , iframe
         , img
         , input
         , span
@@ -58,7 +59,7 @@ view ({ controlPanelMsg } as msgConfig) audioPlayer controlPanel =
                 , attribute "data-name" "panel-content"
                 ]
                 [ logo
-                , trackInfo
+                , trackInfo audioPlayer
                 , Controls.view msgConfig audioPlayer
                 , volumeControl msgConfig audioPlayer
                 , Credits.view
@@ -79,13 +80,19 @@ logo =
         ]
 
 
-trackInfo : Html msg
-trackInfo =
+trackInfo : AudioPlayer -> Html msg
+trackInfo { soundCloudIframeUrl } =
     div
         [ css [ Styles.trackInfo ]
         , attribute "data-name" "track-info"
         ]
-        []
+        [ iframe
+            [ css [ Styles.trackPlayer ]
+            , attribute "data-name" "track-player"
+            , src soundCloudIframeUrl
+            ]
+            []
+        ]
 
 
 volumeControl : MsgConfig msg -> AudioPlayer -> Html msg

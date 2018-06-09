@@ -19,7 +19,7 @@ type alias Model =
 
 init : Config -> Model
 init config =
-    { audioPlayer = AudioPlayer.init
+    { audioPlayer = AudioPlayer.init config.soundCloudPlaylistUrl
     , config = config
     , controlPanel = ControlPanel.init
     , secretConfig = SecretConfig.init config.soundCloudPlaylistUrl

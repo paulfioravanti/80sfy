@@ -24,9 +24,9 @@ type alias Msg =
     Msg.Msg
 
 
-init : AudioPlayer
-init =
-    Model.init
+init : String -> AudioPlayer
+init soundCloudPlaylistUrl =
+    Model.init soundCloudPlaylistUrl
 
 
 adjustVolumeMsg : String -> Msg

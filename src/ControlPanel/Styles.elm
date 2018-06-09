@@ -21,6 +21,7 @@ module ControlPanel.Styles
         , logoImage
         , logoImageBackground
         , trackInfo
+        , trackPlayer
         , volume
         , volumeBackground
         , volumeControl
@@ -46,6 +47,7 @@ import Css
         , borderBox
         , borderRadius
         , borderStyle
+        , borderWidth
         , both
         , boxShadow4
         , boxSizing
@@ -62,6 +64,7 @@ import Css
         , fontFamilies
         , fontSize
         , height
+        , hidden
         , hover
         , inset
         , int
@@ -352,6 +355,17 @@ trackInfo =
         , marginBottom (px 8)
         , position relative
         , textAlign center
+        ]
+
+
+trackPlayer : Style
+trackPlayer =
+    Css.batch
+        [ borderWidth (px 0)
+        , height (px 120)
+        , overflow hidden
+        , property "scrolling" "no"
+        , width (pct 100)
         ]
 
 
