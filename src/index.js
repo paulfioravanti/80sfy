@@ -12,7 +12,8 @@
 // - https://github.com/parcel-bundler/parcel/issues/626#issuecomment-360371880
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
-import { Main } from "./Main.elm"
+import { Main } from "./Main"
+import * as VideoPlayer from "./videoPlayer"
 
 const appContainer = document.querySelector("#root")
 
@@ -23,54 +24,5 @@ if (appContainer) {
       soundCloudClientId: process.env.ELM_APP_SOUNDCLOUD_CLIENT_ID,
       soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
     })
-
-  app.ports.toggleFullScreen.subscribe(() => {
-    let fullScreenElement =
-      document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement
-
-    if (fullScreenElement) {
-      exitFullScreen()
-    } else {
-      launchFullScreen()
-    }
-  })
-
-  app.ports.toggleVideoPlay.subscribe((play) => {
-    let videos = Array.from(document.getElementsByTagName("video"))
-
-    if (play) {
-      videos.forEach((video) => {
-        video.play()
-      })
-    } else {
-      videos.forEach((video) => {
-        video.pause()
-      })
-    }
-  })
-}
-
-function launchFullScreen() {
-  let documentElement = document.documentElement
-
-  if (documentElement.requestFullScreen) {
-    documentElement.requestFullScreen()
-  } else if (documentElement.mozRequestFullScreen) {
-    documentElement.mozRequestFullScreen()
-  } else {
-    documentElement.webkitRequestFullScreen &&
-      documentElement.webkitRequestFullScreen()
-  }
-}
-
-function exitFullScreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen()
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen()
-  } else {
-    document.webkitExitFullscreen && document.webkitExitFullscreen()
-  }
+  VideoPlayer.initPorts(app)
 }
