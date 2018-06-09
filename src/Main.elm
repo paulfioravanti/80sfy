@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import AudioPlayer
 import Config
 import Flags exposing (Flags)
 import Html.Styled as Html
@@ -49,4 +50,9 @@ init msgConfig flags =
         model =
             Model.init config
     in
-        ( model, Tags.init (msgConfig.configMsg << Config.initTagsMsg) )
+        ( model
+        , Cmd.batch
+            [ Tags.init (msgConfig.configMsg << Config.initTagsMsg)
+            , AudioPlayer.initAudioPlayer config.soundCloudClientId
+            ]
+        )

@@ -3,6 +3,7 @@ module AudioPlayer
         ( AudioPlayer
         , Msg
         , init
+        , initAudioPlayer
         , adjustVolumeMsg
         , toggleMuteMsg
         , togglePlayPauseMsg
@@ -11,6 +12,7 @@ module AudioPlayer
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg
+import AudioPlayer.Ports as Ports
 import AudioPlayer.Update as Update
 
 
@@ -30,6 +32,11 @@ init =
 adjustVolumeMsg : String -> Msg
 adjustVolumeMsg =
     Msg.AdjustVolume
+
+
+initAudioPlayer : String -> Cmd msg
+initAudioPlayer soundCloudClientId =
+    Ports.initAudioPlayer soundCloudClientId
 
 
 toggleMuteMsg : Msg

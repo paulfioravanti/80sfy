@@ -12,10 +12,12 @@
 // - https://github.com/parcel-bundler/parcel/issues/626#issuecomment-360371880
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
+import SoundCloudAudio from "soundcloud-audio"
 import { Main } from "./Main"
 import * as VideoPlayer from "./videoPlayer"
 
 const appContainer = document.querySelector("#root")
+let audioPlayer
 
 if (appContainer) {
   const app =
@@ -25,4 +27,8 @@ if (appContainer) {
       soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
     })
   VideoPlayer.initPorts(app)
+
+  app.ports.initAudioPlayer.subscribe((clientId) => {
+    audioPlayer = new SoundCloudAudio(clientId)
+  })
 }
