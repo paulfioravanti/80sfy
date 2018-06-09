@@ -17,15 +17,16 @@ init flags =
     let
         giphyApiKey =
             flags.giphyApiKey
-                |> fetchGiphyApiKey
+                |> extractStringValue ""
 
         soundCloudClientId =
             flags.soundCloudClientId
-                |> fetchSoundCloudClientId
+                |> extractStringValue ""
 
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
-                |> fetchSoundCloudPlaylistUrl
+                |> extractStringValue
+                    "http://api.soundcloud.com/playlists/193785575"
     in
         { giphyApiKey = giphyApiKey
         , soundCloudClientId = soundCloudClientId
@@ -34,46 +35,16 @@ init flags =
         }
 
 
-fetchGiphyApiKey : Value -> String
-fetchGiphyApiKey giphyApiKeyFlag =
+extractStringValue : String -> Value -> String
+extractStringValue fallbackString flag =
     let
-        giphyApiKey =
-            giphyApiKeyFlag
+        stringValue =
+            flag
                 |> Decode.decodeValue Decode.string
     in
-        case giphyApiKey of
-            Ok apiKey ->
-                apiKey
+        case stringValue of
+            Ok string ->
+                string
 
             Err _ ->
-                ""
-
-
-fetchSoundCloudClientId : Value -> String
-fetchSoundCloudClientId soundCloudClientIdFlag =
-    let
-        soundCloudClientId =
-            soundCloudClientIdFlag
-                |> Decode.decodeValue Decode.string
-    in
-        case soundCloudClientId of
-            Ok clientId ->
-                clientId
-
-            Err _ ->
-                ""
-
-
-fetchSoundCloudPlaylistUrl : Value -> String
-fetchSoundCloudPlaylistUrl soundCloudPlaylistUrlFlag =
-    let
-        soundCloudPlaylistUrl =
-            soundCloudPlaylistUrlFlag
-                |> Decode.decodeValue Decode.string
-    in
-        case soundCloudPlaylistUrl of
-            Ok playlistUrl ->
-                playlistUrl
-
-            Err _ ->
-                "http://api.soundcloud.com/playlists/193785575"
+                fallbackString
