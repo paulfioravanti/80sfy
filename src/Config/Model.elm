@@ -6,6 +6,7 @@ import Json.Decode as Decode exposing (Value)
 
 type alias Config =
     { giphyApiKey : String
+    , soundCloudClientId : String
     , soundCloudPlaylistUrl : String
     , tags : List String
     }
@@ -18,11 +19,16 @@ init flags =
             flags.giphyApiKey
                 |> fetchGiphyApiKey
 
+        soundCloudClientId =
+            flags.soundCloudClientId
+                |> fetchSoundCloudClientId
+
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
                 |> fetchSoundCloudPlaylistUrl
     in
         { giphyApiKey = giphyApiKey
+        , soundCloudClientId = soundCloudClientId
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = []
         }
@@ -38,6 +44,21 @@ fetchGiphyApiKey giphyApiKeyFlag =
         case giphyApiKey of
             Ok apiKey ->
                 apiKey
+
+            Err _ ->
+                ""
+
+
+fetchSoundCloudClientId : Value -> String
+fetchSoundCloudClientId soundCloudClientIdFlag =
+    let
+        soundCloudClientId =
+            soundCloudClientIdFlag
+                |> Decode.decodeValue Decode.string
+    in
+        case soundCloudClientId of
+            Ok clientId ->
+                clientId
 
             Err _ ->
                 ""
