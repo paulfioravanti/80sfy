@@ -27,7 +27,14 @@ update msg audioPlayer =
                 )
 
         ToggleMute ->
-            ( { audioPlayer | muted = not audioPlayer.muted }, Cmd.none )
+            let
+                cmd =
+                    if audioPlayer.muted then
+                        Ports.setVolume audioPlayer.volume
+                    else
+                        Ports.setVolume 0
+            in
+                ( { audioPlayer | muted = not audioPlayer.muted }, cmd )
 
         TogglePlayPause ->
             let
