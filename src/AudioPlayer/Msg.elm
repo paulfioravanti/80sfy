@@ -7,7 +7,7 @@ type Msg
     | AudioPlaying
     | GeneratePlaylistTrackOrder (List Int)
     | NextTrack
-    | NextTrackNumberRequested
+    | NextTrackNumberRequested ()
     | PauseAudio
     | PlayAudio
     | ToggleMute

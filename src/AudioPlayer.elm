@@ -6,7 +6,6 @@ module AudioPlayer
         , initAudioPlayer
         , adjustVolumeMsg
         , generatePlaylistTrackOrder
-        , generatePlaylistTrackOrderMsg
         , nextTrackMsg
         , pauseAudioMsg
         , playAudioMsg
@@ -20,9 +19,8 @@ import AudioPlayer.Msg as Msg exposing (Msg(GeneratePlaylistTrackOrder))
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
+import AudioPlayer.Utils as Utils
 import MsgRouter exposing (MsgRouter)
-import Random
-import Random.List
 
 
 type alias AudioPlayer =
@@ -45,20 +43,7 @@ adjustVolumeMsg =
 
 generatePlaylistTrackOrder : (Msg -> msg) -> Cmd msg
 generatePlaylistTrackOrder audioPlayerMsg =
-    let
-        trackList =
-            List.range 0 (155 - 1)
-
-        generator =
-            Random.List.shuffle trackList
-    in
-        generator
-            |> Random.generate (audioPlayerMsg << GeneratePlaylistTrackOrder)
-
-
-generatePlaylistTrackOrderMsg : List Int -> Msg
-generatePlaylistTrackOrderMsg =
-    Msg.GeneratePlaylistTrackOrder
+    Utils.generatePlaylistTrackOrder audioPlayerMsg
 
 
 initAudioPlayer : Int -> Cmd msg
@@ -91,6 +76,6 @@ toggleMuteMsg =
     Msg.ToggleMute
 
 
-update : Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update msg audioPlayer =
-    Update.update msg audioPlayer
+update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update msgRouter msg audioPlayer =
+    Update.update msgRouter msg audioPlayer

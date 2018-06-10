@@ -28,7 +28,7 @@ update msgRouter msg model =
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msg
+                        |> AudioPlayer.update msgRouter msg
             in
                 ( { model | audioPlayer = audioPlayer }
                 , cmd

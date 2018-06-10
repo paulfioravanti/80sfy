@@ -16,10 +16,13 @@ import AudioPlayer.Msg
             )
         )
 import AudioPlayer.Ports as Ports
+import AudioPlayer.Utils as Utils
+import MsgRouter exposing (MsgRouter)
+import Task
 
 
-update : AudioPlayer.Msg.Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update msg audioPlayer =
+update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update msgRouter msg audioPlayer =
     case msg of
         AdjustVolume sliderVolume ->
             let
@@ -44,20 +47,36 @@ update msg audioPlayer =
             )
 
         NextTrack ->
-            ( { audioPlayer | playing = True }, Ports.nextTrack () )
+            ( { audioPlayer | playing = True }
+            , Task.succeed ()
+                |> Task.perform
+                    (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
+            )
 
-        NextTrackNumberRequested ->
+        NextTrackNumberRequested () ->
             let
-                ( head, tail ) =
+                ( playlistTrackOrder, cmd ) =
                     case audioPlayer.playlistTrackOrder of
-                        head :: tail ->
-                            ( head, tail )
-
                         [] ->
-                            ( 0, [] )
+                            ( []
+                            , Utils.generatePlaylistTrackOrder
+                                msgRouter.audioPlayerMsg
+                            )
+
+                        head :: [] ->
+                            ( []
+                            , Cmd.batch
+                                [ Utils.generatePlaylistTrackOrder
+                                    msgRouter.audioPlayerMsg
+                                , Ports.skipToTrack head
+                                ]
+                            )
+
+                        head :: tail ->
+                            ( tail, Ports.skipToTrack head )
             in
-                ( { audioPlayer | playlistTrackOrder = tail }
-                , Ports.skipToTrack head
+                ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
+                , cmd
                 )
 
         PauseAudio ->

@@ -33,5 +33,5 @@ subscriptions { audioPlayerMsg } audioPlayer =
         Sub.batch
             [ playingSubscription
             , requestNextTrackNumber
-                (always (audioPlayerMsg NextTrackNumberRequested))
+                (always (audioPlayerMsg (NextTrackNumberRequested ())))
             ]
