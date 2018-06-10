@@ -28,6 +28,7 @@ import Html.Styled.Attributes as Attributes
         , css
         , fromUnstyled
         , href
+        , id
         , src
         , step
         , target
@@ -89,6 +90,7 @@ trackInfo { soundCloudIframeUrl } =
         [ iframe
             [ css [ Styles.trackPlayer ]
             , attribute "data-name" "track-player"
+            , id "track-player"
             , src soundCloudIframeUrl
             ]
             []

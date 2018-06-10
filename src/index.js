@@ -16,20 +16,22 @@ import SoundCloudAudio from "soundcloud-audio"
 import { Main } from "./Main"
 import * as VideoPlayer from "./videoPlayer"
 
-const appContainer = document.querySelector("#root")
-let audioPlayer
+document.addEventListener("DOMContentLoaded", () => {
+  const appContainer = document.querySelector("#root")
+  let scPlayer
 
-if (appContainer) {
-  const app =
-    Main.embed(appContainer, {
-      giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
-      soundCloudClientId: process.env.ELM_APP_SOUNDCLOUD_CLIENT_ID,
-      soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+  if (appContainer) {
+    const app =
+      Main.embed(appContainer, {
+        giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+        soundCloudClientId: process.env.ELM_APP_SOUNDCLOUD_CLIENT_ID,
+        soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+      })
+
+    VideoPlayer.initPorts(app)
+
+    app.ports.initAudioPlayer.subscribe((clientId) => {
+      scPlayer = SC.Widget("track-player")
     })
-
-  VideoPlayer.initPorts(app)
-
-  app.ports.initAudioPlayer.subscribe((clientId) => {
-    audioPlayer = new SoundCloudAudio(clientId)
-  })
-}
+  }
+})
