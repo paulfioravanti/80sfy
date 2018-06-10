@@ -10,8 +10,13 @@ let scPlayer
 
 function initAudioPlayer(app) {
   app.ports.initAudioPlayer.subscribe((volume) => {
-    scPlayer = SC.Widget("track-player")
-    scPlayer.setVolume(volume)
+    window.requestAnimationFrame(() => {
+      scPlayer = SC.Widget("track-player")
+      scPlayer.setVolume(volume)
+      scPlayer.bind(SC.Widget.Events.PLAY, () => {
+        app.ports.pauseAudioPlayer.send()
+      })
+    })
   })
 }
 

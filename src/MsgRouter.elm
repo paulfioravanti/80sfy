@@ -1,6 +1,6 @@
 module MsgRouter exposing (MsgRouter, init)
 
-import AudioPlayer
+import AudioPlayer.Msg
 import Config.Msg
 import ControlPanel.Msg
 import SecretConfig.Msg
@@ -8,7 +8,7 @@ import VideoPlayer.Msg
 
 
 type alias MsgRouter msg =
-    { audioPlayerMsg : AudioPlayer.Msg -> msg
+    { audioPlayerMsg : AudioPlayer.Msg.Msg -> msg
     , configMsg : Config.Msg.Msg -> msg
     , controlPanelMsg : ControlPanel.Msg.Msg -> msg
     , secretConfigMsg : SecretConfig.Msg.Msg -> msg
@@ -17,7 +17,7 @@ type alias MsgRouter msg =
 
 
 init :
-    (AudioPlayer.Msg -> msg)
+    (AudioPlayer.Msg.Msg -> msg)
     -> (Config.Msg.Msg -> msg)
     -> (ControlPanel.Msg.Msg -> msg)
     -> (SecretConfig.Msg.Msg -> msg)

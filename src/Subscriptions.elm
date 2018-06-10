@@ -1,5 +1,6 @@
 module Subscriptions exposing (subscriptions)
 
+import AudioPlayer
 import ControlPanel
 import Model exposing (Model)
 import MsgRouter exposing (MsgRouter)
@@ -7,14 +8,17 @@ import VideoPlayer
 
 
 subscriptions : MsgRouter msg -> Model -> Sub msg
-subscriptions msgRouter { controlPanel, secretConfig, videoPlayer1 } =
+subscriptions msgRouter model =
     Sub.batch
-        [ VideoPlayer.subscriptions
+        [ AudioPlayer.subscriptions
             msgRouter
-            secretConfig.fetchNextGif
-            videoPlayer1
+            model.audioPlayer
         , ControlPanel.subscriptions
             msgRouter
-            secretConfig.overrideInactivityPause
-            controlPanel
+            model.secretConfig.overrideInactivityPause
+            model.controlPanel
+        , VideoPlayer.subscriptions
+            msgRouter
+            model.secretConfig.fetchNextGif
+            model.videoPlayer1
         ]

@@ -8,6 +8,7 @@ module AudioPlayer
         , nextTrackMsg
         , pauseAudioMsg
         , playAudioMsg
+        , subscriptions
         , toggleMuteMsg
         , update
         )
@@ -15,7 +16,9 @@ module AudioPlayer
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg
 import AudioPlayer.Ports as Ports
+import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
+import MsgRouter exposing (MsgRouter)
 
 
 type alias AudioPlayer =
@@ -54,6 +57,11 @@ pauseAudioMsg =
 playAudioMsg : Msg
 playAudioMsg =
     Msg.PlayAudio
+
+
+subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
+subscriptions msgRouter audioPlayer =
+    Subscriptions.subscriptions msgRouter audioPlayer
 
 
 toggleMuteMsg : Msg
