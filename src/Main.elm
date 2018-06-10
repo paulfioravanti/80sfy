@@ -53,6 +53,6 @@ init msgConfig flags =
         ( model
         , Cmd.batch
             [ Tags.init (msgConfig.configMsg << Config.initTagsMsg)
-            , AudioPlayer.initAudioPlayer config.soundCloudClientId
+            , AudioPlayer.initAudioPlayer
             ]
         )

@@ -6,7 +6,6 @@ import Json.Decode as Decode exposing (Value)
 
 type alias Config =
     { giphyApiKey : String
-    , soundCloudClientId : String
     , soundCloudPlaylistUrl : String
     , tags : List String
     }
@@ -19,17 +18,12 @@ init flags =
             flags.giphyApiKey
                 |> extractStringValue ""
 
-        soundCloudClientId =
-            flags.soundCloudClientId
-                |> extractStringValue ""
-
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
                 |> extractStringValue
                     "http://api.soundcloud.com/playlists/193785575"
     in
         { giphyApiKey = giphyApiKey
-        , soundCloudClientId = soundCloudClientId
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = []
         }

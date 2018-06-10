@@ -23,13 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const app =
       Main.embed(appContainer, {
         giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
-        soundCloudClientId: process.env.ELM_APP_SOUNDCLOUD_CLIENT_ID,
         soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
       })
 
     VideoPlayer.initPorts(app)
 
-    app.ports.initAudioPlayer.subscribe((clientId) => {
+    app.ports.initAudioPlayer.subscribe(() => {
       scPlayer = SC.Widget("track-player")
     })
   }

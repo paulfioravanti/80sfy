@@ -34,9 +34,9 @@ adjustVolumeMsg =
     Msg.AdjustVolume
 
 
-initAudioPlayer : String -> Cmd msg
-initAudioPlayer soundCloudClientId =
-    Ports.initAudioPlayer soundCloudClientId
+initAudioPlayer : Cmd msg
+initAudioPlayer =
+    Ports.initAudioPlayer ()
 
 
 toggleMuteMsg : Msg
