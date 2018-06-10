@@ -4,6 +4,7 @@ export function initPorts(app) {
   pauseAudio(app)
   playAudio(app)
   setVolume(app)
+  skipToTrack(app)
 }
 
 let scPlayer
@@ -19,9 +20,13 @@ function initAudioPlayer(app) {
       scPlayer.bind(SC.Widget.Events.PLAY, () => {
         app.ports.playAudioPlayer.send(null)
       })
+      scPlayer.bind(SC.Widget.Events.READY, () => {
+        app.ports.audioPlayerReady.send(null)
+      })
     })
   })
 }
+
 
 function nextTrack(app) {
   app.ports.nextTrack.subscribe(() => {
@@ -44,5 +49,11 @@ function playAudio(app) {
 function setVolume(app) {
   app.ports.setVolume.subscribe((volume) => {
     scPlayer.setVolume(volume)
+  })
+}
+
+function skipToTrack(app) {
+  app.ports.skipToTrack.subscribe((trackNumber) => {
+    scPlayer.skip(trackNumber)
   })
 }

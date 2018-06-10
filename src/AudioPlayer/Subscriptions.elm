@@ -1,8 +1,18 @@
 port module AudioPlayer.Subscriptions exposing (subscriptions)
 
-import AudioPlayer.Msg exposing (Msg(AudioPaused, AudioPlaying))
+import AudioPlayer.Msg
+    exposing
+        ( Msg
+            ( AudioPaused
+            , AudioPlayerReady
+            , AudioPlaying
+            )
+        )
 import AudioPlayer.Model exposing (AudioPlayer)
 import MsgRouter exposing (MsgRouter)
+
+
+port audioPlayerReady : (() -> msg) -> Sub msg
 
 
 port pauseAudioPlayer : (() -> msg) -> Sub msg
@@ -20,4 +30,7 @@ subscriptions { audioPlayerMsg } audioPlayer =
             else
                 playAudioPlayer (always (audioPlayerMsg AudioPlaying))
     in
-        playingSubscription
+        Sub.batch
+            [ playingSubscription
+            , audioPlayerReady (always (audioPlayerMsg AudioPlayerReady))
+            ]

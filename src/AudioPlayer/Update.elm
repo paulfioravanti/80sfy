@@ -6,6 +6,7 @@ import AudioPlayer.Msg
         ( Msg
             ( AdjustVolume
             , AudioPaused
+            , AudioPlayerReady
             , AudioPlaying
             , GeneratePlaylistTrackOrder
             , NextTrack
@@ -33,6 +34,20 @@ update msg audioPlayer =
 
         AudioPaused ->
             ( { audioPlayer | playing = False }, Cmd.none )
+
+        AudioPlayerReady ->
+            let
+                ( head, tail ) =
+                    case audioPlayer.playlistTrackOrder of
+                        head :: tail ->
+                            ( head, tail )
+
+                        [] ->
+                            ( 0, [] )
+            in
+                ( { audioPlayer | playlistTrackOrder = tail }
+                , Ports.skipToTrack head
+                )
 
         AudioPlaying ->
             ( { audioPlayer | playing = True }, Cmd.none )

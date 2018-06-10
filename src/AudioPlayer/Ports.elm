@@ -5,6 +5,7 @@ port module AudioPlayer.Ports
         , pauseAudio
         , playAudio
         , setVolume
+        , skipToTrack
         )
 
 
@@ -21,3 +22,6 @@ port playAudio : () -> Cmd msg
 
 
 port setVolume : Int -> Cmd msg
+
+
+port skipToTrack : Int -> Cmd msg
