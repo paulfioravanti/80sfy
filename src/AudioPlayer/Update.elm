@@ -67,16 +67,6 @@ update msgRouter msg audioPlayer =
                                 audioPlayer.playlistLength
                             )
 
-                        head :: [] ->
-                            ( []
-                            , Cmd.batch
-                                [ Utils.generatePlaylistTrackOrder
-                                    msgRouter.audioPlayerMsg
-                                    audioPlayer.playlistLength
-                                , Ports.skipToTrack head
-                                ]
-                            )
-
                         head :: tail ->
                             ( tail, Ports.skipToTrack head )
             in
