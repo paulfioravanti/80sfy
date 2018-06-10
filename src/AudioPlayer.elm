@@ -16,7 +16,7 @@ module AudioPlayer
         )
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
-import AudioPlayer.Msg as Msg
+import AudioPlayer.Msg as Msg exposing (Msg(GeneratePlaylistTrackOrder))
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
@@ -43,8 +43,8 @@ adjustVolumeMsg =
     Msg.AdjustVolume
 
 
-generatePlaylistTrackOrder : (List Int -> msg) -> Cmd msg
-generatePlaylistTrackOrder generatePlaylistTrackOrderMsg =
+generatePlaylistTrackOrder : (Msg -> msg) -> Cmd msg
+generatePlaylistTrackOrder audioPlayerMsg =
     let
         trackList =
             List.range 0 (155 - 1)
@@ -53,7 +53,7 @@ generatePlaylistTrackOrder generatePlaylistTrackOrderMsg =
             Random.List.shuffle trackList
     in
         generator
-            |> Random.generate generatePlaylistTrackOrderMsg
+            |> Random.generate (audioPlayerMsg << GeneratePlaylistTrackOrder)
 
 
 generatePlaylistTrackOrderMsg : List Int -> Msg

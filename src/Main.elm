@@ -56,9 +56,6 @@ init msgRouter flags =
         , Cmd.batch
             [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
             , AudioPlayer.initAudioPlayer model.audioPlayer.volume
-            , AudioPlayer.generatePlaylistTrackOrder
-                (msgRouter.audioPlayerMsg
-                    << AudioPlayer.generatePlaylistTrackOrderMsg
-                )
+            , AudioPlayer.generatePlaylistTrackOrder msgRouter.audioPlayerMsg
             ]
         )
