@@ -12,7 +12,7 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import SecretConfig
 import VideoPlayer.Model exposing (VideoPlayer)
@@ -20,8 +20,8 @@ import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
 import VideoPlayer.Styles as Styles
 
 
-view : MsgConfig msg -> VideoPlayer -> Html msg
-view msgConfig videoPlayer =
+view : MsgRouter msg -> VideoPlayer -> Html msg
+view msgRouter videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -32,17 +32,17 @@ view msgConfig videoPlayer =
                     videoPlayer.fallbackGifUrl
 
         childElements =
-            gifVideoPlayer msgConfig gifUrl videoPlayer
+            gifVideoPlayer msgRouter gifUrl videoPlayer
                 :: if not videoPlayer.playing then
                     [ playerPausedOverlay ]
                    else
                     []
     in
-        div (attributes msgConfig videoPlayer) childElements
+        div (attributes msgRouter videoPlayer) childElements
 
 
-attributes : MsgConfig msg -> VideoPlayer -> List (Html.Attribute msg)
-attributes msgConfig videoPlayer =
+attributes : MsgRouter msg -> VideoPlayer -> List (Html.Attribute msg)
+attributes msgRouter videoPlayer =
     let
         animations =
             videoPlayer.style
@@ -52,13 +52,13 @@ attributes msgConfig videoPlayer =
         attributes =
             [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
-            , onDoubleClick (msgConfig.videoPlayerMsg ToggleFullScreen)
+            , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
             ]
     in
         List.append animations attributes
 
 
-gifVideoPlayer : MsgConfig msg -> String -> VideoPlayer -> Html msg
+gifVideoPlayer : MsgRouter msg -> String -> VideoPlayer -> Html msg
 gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
     let
         true =

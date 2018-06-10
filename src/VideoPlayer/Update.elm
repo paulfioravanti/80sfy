@@ -1,7 +1,7 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import Task
 import VideoPlayer.Context exposing (Context)
@@ -20,13 +20,13 @@ import VideoPlayer.Ports as Ports
 
 
 update :
-    MsgConfig msg
+    MsgRouter msg
     -> Context msg
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgConfig { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
+update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
     case msg of
         AnimateVideoPlayer msg ->
             ( { videoPlayer1 | style = Animation.update msg videoPlayer1.style }

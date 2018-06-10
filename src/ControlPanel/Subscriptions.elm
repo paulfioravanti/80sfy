@@ -11,11 +11,11 @@ import ControlPanel.Msg
             )
         )
 import Mouse
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import Time exposing (every, second)
 
 
-subscriptions : MsgConfig msg -> Bool -> ControlPanel -> Sub msg
+subscriptions : MsgRouter msg -> Bool -> ControlPanel -> Sub msg
 subscriptions { controlPanelMsg } overrideInactivityPause controlPanel =
     let
         visibilitySubscription =

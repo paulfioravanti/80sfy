@@ -2,19 +2,19 @@ module Subscriptions exposing (subscriptions)
 
 import ControlPanel
 import Model exposing (Model)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import VideoPlayer
 
 
-subscriptions : MsgConfig msg -> Model -> Sub msg
-subscriptions msgConfig { controlPanel, secretConfig, videoPlayer1 } =
+subscriptions : MsgRouter msg -> Model -> Sub msg
+subscriptions msgRouter { controlPanel, secretConfig, videoPlayer1 } =
     Sub.batch
         [ VideoPlayer.subscriptions
-            msgConfig
+            msgRouter
             secretConfig.fetchNextGif
             videoPlayer1
         , ControlPanel.subscriptions
-            msgConfig
+            msgRouter
             secretConfig.overrideInactivityPause
             controlPanel
         ]

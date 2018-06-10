@@ -13,7 +13,7 @@ import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 
 
 type alias Config =
@@ -39,6 +39,6 @@ generateRandomGifMsg =
     Msg.GenerateRandomGif
 
 
-update : MsgConfig msg -> Msg -> Config -> ( Config, Cmd msg )
-update msgConfig msg config =
-    Update.update msgConfig msg config
+update : MsgRouter msg -> Msg -> Config -> ( Config, Cmd msg )
+update msgRouter msg config =
+    Update.update msgRouter msg config

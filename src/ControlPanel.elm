@@ -15,7 +15,7 @@ import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.Update as Update
 import ControlPanel.View as View
 import Html.Styled exposing (Html)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 
 
 type alias ControlPanel =
@@ -31,16 +31,16 @@ init =
     Model.init
 
 
-subscriptions : MsgConfig msg -> Bool -> ControlPanel -> Sub msg
-subscriptions msgConfig overrideInactivityPause controlPanel =
-    Subscriptions.subscriptions msgConfig overrideInactivityPause controlPanel
+subscriptions : MsgRouter msg -> Bool -> ControlPanel -> Sub msg
+subscriptions msgRouter overrideInactivityPause controlPanel =
+    Subscriptions.subscriptions msgRouter overrideInactivityPause controlPanel
 
 
-update : MsgConfig msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
-update msgConfig msg controlPanel =
-    Update.update msgConfig msg controlPanel
+update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update msgRouter msg controlPanel =
+    Update.update msgRouter msg controlPanel
 
 
-view : MsgConfig msg -> AudioPlayer -> ControlPanel -> Html msg
-view msgConfig audioPlayer controlPanel =
-    View.view msgConfig audioPlayer controlPanel
+view : MsgRouter msg -> AudioPlayer -> ControlPanel -> Html msg
+view msgRouter audioPlayer controlPanel =
+    View.view msgRouter audioPlayer controlPanel

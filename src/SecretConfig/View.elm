@@ -18,7 +18,7 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
@@ -33,15 +33,15 @@ import SecretConfig.Msg
 import SecretConfig.Styles as Styles
 
 
-view : MsgConfig msg -> SecretConfig -> Html msg
-view msgConfig secretConfig =
+view : MsgRouter msg -> SecretConfig -> Html msg
+view msgRouter secretConfig =
     div [ attribute "data-name" "secret-config" ]
-        [ secretConfigButton msgConfig
-        , secretConfigSettings msgConfig secretConfig
+        [ secretConfigButton msgRouter
+        , secretConfigSettings msgRouter secretConfig
         ]
 
 
-secretConfigButton : MsgConfig msg -> Html msg
+secretConfigButton : MsgRouter msg -> Html msg
 secretConfigButton { secretConfigMsg } =
     div
         [ css [ Styles.secretConfigButton ]
@@ -51,29 +51,29 @@ secretConfigButton { secretConfigMsg } =
         []
 
 
-secretConfigSettings : MsgConfig msg -> SecretConfig -> Html msg
-secretConfigSettings msgConfig { soundCloudPlaylistUrl, tags, visible } =
+secretConfigSettings : MsgRouter msg -> SecretConfig -> Html msg
+secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
     div
         [ css [ Styles.secretConfig visible ]
         , attribute "data-name" "secret-config-settings"
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput msgConfig tags
+        , gifTagsInput msgRouter tags
         , span []
             [ text "Playlist:" ]
-        , soundCloudPlaylistUrlInput msgConfig soundCloudPlaylistUrl
-        , saveSettingsButton msgConfig soundCloudPlaylistUrl tags
+        , soundCloudPlaylistUrlInput msgRouter soundCloudPlaylistUrl
+        , saveSettingsButton msgRouter soundCloudPlaylistUrl tags
         , showStateButton
-        , overrideInactivityPauseButton msgConfig
-        , pauseGifRotationButton msgConfig
-        , playGifRotationButton msgConfig
+        , overrideInactivityPauseButton msgRouter
+        , pauseGifRotationButton msgRouter
+        , playGifRotationButton msgRouter
         , playAudioButton
         , pauseAudioButton
         ]
 
 
-gifTagsInput : MsgConfig msg -> String -> Html msg
+gifTagsInput : MsgRouter msg -> String -> Html msg
 gifTagsInput { secretConfigMsg } tags =
     textarea
         [ css [ Styles.gifTags ]
@@ -83,7 +83,7 @@ gifTagsInput { secretConfigMsg } tags =
         [ text tags ]
 
 
-soundCloudPlaylistUrlInput : MsgConfig msg -> String -> Html msg
+soundCloudPlaylistUrlInput : MsgRouter msg -> String -> Html msg
 soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
     input
         [ css [ Styles.playlist ]
@@ -94,7 +94,7 @@ soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
         []
 
 
-saveSettingsButton : MsgConfig msg -> String -> String -> Html msg
+saveSettingsButton : MsgRouter msg -> String -> String -> Html msg
 saveSettingsButton { configMsg } soundCloudPlaylistUrl tags =
     button
         [ css [ Styles.configButton ]
@@ -109,7 +109,7 @@ showStateButton =
         [ text "Show State" ]
 
 
-overrideInactivityPauseButton : MsgConfig msg -> Html msg
+overrideInactivityPauseButton : MsgRouter msg -> Html msg
 overrideInactivityPauseButton { secretConfigMsg } =
     button
         [ css [ Styles.configButton ]
@@ -118,7 +118,7 @@ overrideInactivityPauseButton { secretConfigMsg } =
         [ text "Override Inactivity Pause" ]
 
 
-pauseGifRotationButton : MsgConfig msg -> Html msg
+pauseGifRotationButton : MsgRouter msg -> Html msg
 pauseGifRotationButton { secretConfigMsg } =
     button
         [ css [ Styles.configButton ]
@@ -127,7 +127,7 @@ pauseGifRotationButton { secretConfigMsg } =
         [ text "Pause Gif Rotation" ]
 
 
-playGifRotationButton : MsgConfig msg -> Html msg
+playGifRotationButton : MsgRouter msg -> Html msg
 playGifRotationButton { secretConfigMsg } =
     button
         [ css [ Styles.configButton ]

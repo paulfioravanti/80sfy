@@ -15,7 +15,7 @@ import Msg
             , VideoPlayerMsg
             )
         )
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import Subscriptions
 import Tags
 import Update
@@ -25,8 +25,8 @@ import View
 main : Program Flags Model Msg
 main =
     let
-        msgConfig =
-            MsgConfig.init
+        msgRouter =
+            MsgRouter.init
                 AudioPlayerMsg
                 ConfigMsg
                 ControlPanelMsg
@@ -34,15 +34,15 @@ main =
                 VideoPlayerMsg
     in
         Html.programWithFlags
-            { init = init msgConfig
-            , update = Update.update msgConfig
-            , view = View.view msgConfig
-            , subscriptions = Subscriptions.subscriptions msgConfig
+            { init = init msgRouter
+            , update = Update.update msgRouter
+            , view = View.view msgRouter
+            , subscriptions = Subscriptions.subscriptions msgRouter
             }
 
 
-init : MsgConfig msg -> Flags -> ( Model, Cmd msg )
-init msgConfig flags =
+init : MsgRouter msg -> Flags -> ( Model, Cmd msg )
+init msgRouter flags =
     let
         config =
             Config.init flags
@@ -52,7 +52,7 @@ init msgConfig flags =
     in
         ( model
         , Cmd.batch
-            [ Tags.init (msgConfig.configMsg << Config.initTagsMsg)
+            [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
             , AudioPlayer.initAudioPlayer
             ]
         )

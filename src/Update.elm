@@ -14,13 +14,13 @@ import Msg
             , VideoPlayerMsg
             )
         )
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import VideoPlayer
 
 
-update : MsgConfig msg -> Msg -> Model -> ( Model, Cmd msg )
-update msgConfig msg model =
+update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
+update msgRouter msg model =
     case msg of
         AudioPlayerMsg msg ->
             let
@@ -36,7 +36,7 @@ update msgConfig msg model =
             let
                 ( config, cmd ) =
                     model.config
-                        |> Config.update msgConfig msg
+                        |> Config.update msgRouter msg
             in
                 ( { model | config = config }
                 , cmd
@@ -46,7 +46,7 @@ update msgConfig msg model =
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
-                        |> ControlPanel.update msgConfig msg
+                        |> ControlPanel.update msgRouter msg
             in
                 ( { model | controlPanel = controlPanel }
                 , cmd
@@ -56,7 +56,7 @@ update msgConfig msg model =
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
-                        |> SecretConfig.update msgConfig msg
+                        |> SecretConfig.update msgRouter msg
             in
                 ( { model | secretConfig = secretConfig }
                 , cmd
@@ -66,12 +66,12 @@ update msgConfig msg model =
             let
                 context =
                     { generateRandomGifMsg =
-                        msgConfig.configMsg << Config.generateRandomGifMsg
+                        msgRouter.configMsg << Config.generateRandomGifMsg
                     }
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        msgConfig
+                        msgRouter
                         context
                         msg
                         model.videoPlayer1

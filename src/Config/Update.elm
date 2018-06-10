@@ -12,19 +12,19 @@ import Config.Msg
         )
 import Debug
 import Gif
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import Task
 import VideoPlayer
 
 
-update : MsgConfig msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
-update msgConfig msg config =
+update : MsgRouter msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
+update msgRouter msg config =
     case msg of
         GenerateRandomGif videoPlayerId ->
             ( config
             , Gif.random
-                (msgConfig.configMsg << RandomTag videoPlayerId)
+                (msgRouter.configMsg << RandomTag videoPlayerId)
                 config.tags
             )
 
@@ -33,12 +33,12 @@ update msgConfig msg config =
                 randomGifForVideoPlayerId videoPlayerId =
                     Task.succeed videoPlayerId
                         |> Task.perform
-                            (msgConfig.configMsg << GenerateRandomGif)
+                            (msgRouter.configMsg << GenerateRandomGif)
 
                 initSecretConfigTags =
                     Task.succeed tags
                         |> Task.perform
-                            (msgConfig.secretConfigMsg
+                            (msgRouter.secretConfigMsg
                                 << SecretConfig.initTagsMsg
                             )
             in
@@ -60,7 +60,7 @@ update msgConfig msg config =
         RandomTag videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
-                    msgConfig.videoPlayerMsg
+                    msgRouter.videoPlayerMsg
                         << VideoPlayer.fetchRandomGifMsg videoPlayerId
             in
                 ( config

@@ -5,21 +5,21 @@ import ControlPanel.Styles as Styles
 import Html.Styled as Html exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import VideoPlayer
 
 
-view : MsgConfig msg -> AudioPlayer -> Html msg
-view msgConfig { muted, playing } =
+view : MsgRouter msg -> AudioPlayer -> Html msg
+view msgRouter { muted, playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
-        [ muteUnmuteButton msgConfig muted
-        , playPauseButton msgConfig playing
+        [ muteUnmuteButton msgRouter muted
+        , playPauseButton msgRouter playing
         , nextTrackButton
-        , fullscreenButton msgConfig
+        , fullscreenButton msgRouter
         ]
 
 
-muteUnmuteButton : MsgConfig msg -> Bool -> Html msg
+muteUnmuteButton : MsgRouter msg -> Bool -> Html msg
 muteUnmuteButton { audioPlayerMsg } muted =
     let
         iconClass =
@@ -38,7 +38,7 @@ muteUnmuteButton { audioPlayerMsg } muted =
             ]
 
 
-playPauseButton : MsgConfig msg -> Bool -> Html msg
+playPauseButton : MsgRouter msg -> Bool -> Html msg
 playPauseButton { audioPlayerMsg } playing =
     let
         iconClass =
@@ -65,7 +65,7 @@ nextTrackButton =
         ]
 
 
-fullscreenButton : MsgConfig msg -> Html msg
+fullscreenButton : MsgRouter msg -> Html msg
 fullscreenButton { videoPlayerMsg } =
     div
         [ css [ Styles.button ]

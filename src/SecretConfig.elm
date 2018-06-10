@@ -10,7 +10,7 @@ module SecretConfig
         )
 
 import Html.Styled exposing (Html)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model as Model
 import SecretConfig.Msg as Msg
 import SecretConfig.Update as Update
@@ -40,11 +40,11 @@ toggleGifRotationMsg =
     Msg.ToggleGifRotation
 
 
-update : MsgConfig msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
-update msgConfig msg secretConfig =
-    Update.update msgConfig msg secretConfig
+update : MsgRouter msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update msgRouter msg secretConfig =
+    Update.update msgRouter msg secretConfig
 
 
-view : MsgConfig msg -> SecretConfig -> Html msg
-view msgConfig secretConfig =
-    View.view msgConfig secretConfig
+view : MsgRouter msg -> SecretConfig -> Html msg
+view msgRouter secretConfig =
+    View.view msgRouter secretConfig

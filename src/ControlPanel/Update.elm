@@ -13,11 +13,11 @@ import ControlPanel.Msg
             , UseControlPanel
             )
         )
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import Task
 
 
-update : MsgConfig msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
 update { controlPanelMsg } msg controlPanel =
     case msg of
         AnimateControlPanel msg ->

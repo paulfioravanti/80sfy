@@ -1,6 +1,6 @@
 module SecretConfig.Update exposing (update)
 
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
@@ -18,7 +18,7 @@ import VideoPlayer.Msg exposing (Msg(TogglePlaying))
 
 
 update :
-    MsgConfig msg
+    MsgRouter msg
     -> SecretConfig.Msg.Msg
     -> SecretConfig
     -> ( SecretConfig, Cmd msg )

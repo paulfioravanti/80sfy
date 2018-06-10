@@ -4,16 +4,16 @@ import ControlPanel
 import Html.Styled exposing (Html, div)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import VideoPlayer
 
 
-view : MsgConfig msg -> Model -> Html msg
-view msgConfig model =
+view : MsgRouter msg -> Model -> Html msg
+view msgRouter model =
     div [ attribute "data-name" "container" ]
-        [ ControlPanel.view msgConfig model.audioPlayer model.controlPanel
-        , VideoPlayer.view msgConfig model.videoPlayer1
-        , VideoPlayer.view msgConfig model.videoPlayer2
-        , SecretConfig.view msgConfig model.secretConfig
+        [ ControlPanel.view msgRouter model.audioPlayer model.controlPanel
+        , VideoPlayer.view msgRouter model.videoPlayer1
+        , VideoPlayer.view msgRouter model.videoPlayer2
+        , SecretConfig.view msgRouter model.secretConfig
         ]

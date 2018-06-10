@@ -36,11 +36,11 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
-import MsgConfig exposing (MsgConfig)
+import MsgRouter exposing (MsgRouter)
 
 
-view : MsgConfig msg -> AudioPlayer -> ControlPanel -> Html msg
-view ({ controlPanelMsg } as msgConfig) audioPlayer controlPanel =
+view : MsgRouter msg -> AudioPlayer -> ControlPanel -> Html msg
+view ({ controlPanelMsg } as msgRouter) audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -61,8 +61,8 @@ view ({ controlPanelMsg } as msgConfig) audioPlayer controlPanel =
                 ]
                 [ logo
                 , trackInfo audioPlayer
-                , Controls.view msgConfig audioPlayer
-                , volumeControl msgConfig audioPlayer
+                , Controls.view msgRouter audioPlayer
+                , volumeControl msgRouter audioPlayer
                 , Credits.view
                 ]
             ]
@@ -97,7 +97,7 @@ trackInfo { soundCloudIframeUrl } =
         ]
 
 
-volumeControl : MsgConfig msg -> AudioPlayer -> Html msg
+volumeControl : MsgRouter msg -> AudioPlayer -> Html msg
 volumeControl { audioPlayerMsg } { muted, volume } =
     let
         volumeDisplayValue =
