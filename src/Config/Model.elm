@@ -21,7 +21,7 @@ init flags =
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
                 |> extractStringValue
-                    "http://api.soundcloud.com/playlists/193785575"
+                    "https://api.soundcloud.com/playlists/193785575"
     in
         { giphyApiKey = giphyApiKey
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl

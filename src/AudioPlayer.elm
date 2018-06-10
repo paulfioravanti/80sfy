@@ -34,9 +34,9 @@ adjustVolumeMsg =
     Msg.AdjustVolume
 
 
-initAudioPlayer : Cmd msg
-initAudioPlayer =
-    Ports.initAudioPlayer ()
+initAudioPlayer : Int -> Cmd msg
+initAudioPlayer volume =
+    Ports.initAudioPlayer volume
 
 
 toggleMuteMsg : Msg
