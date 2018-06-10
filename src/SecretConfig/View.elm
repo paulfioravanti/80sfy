@@ -1,6 +1,6 @@
 module SecretConfig.View exposing (view)
 
-import AudioPlayer.Msg exposing (Msg(PauseAudio, PlayAudio))
+import AudioPlayer
 import Config.Msg exposing (Msg(SaveConfig))
 import Html.Styled as Html
     exposing
@@ -141,7 +141,7 @@ playAudioButton : MsgRouter msg -> Html msg
 playAudioButton { audioPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg PlayAudio)
+        , onClick (audioPlayerMsg AudioPlayer.playAudioMsg)
         ]
         [ text "Play Audio" ]
 
@@ -150,6 +150,6 @@ pauseAudioButton : MsgRouter msg -> Html msg
 pauseAudioButton { audioPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg PauseAudio)
+        , onClick (audioPlayerMsg AudioPlayer.pauseAudioMsg)
         ]
         [ text "Pause Audio" ]

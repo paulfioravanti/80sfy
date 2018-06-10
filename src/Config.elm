@@ -5,6 +5,7 @@ module Config
         , init
         , initTagsMsg
         , generateRandomGifMsg
+        , saveConfigMsg
         , update
         )
 
@@ -37,6 +38,11 @@ initTagsMsg =
 generateRandomGifMsg : String -> Msg
 generateRandomGifMsg =
     Msg.GenerateRandomGif
+
+
+saveConfigMsg : String -> String -> Msg
+saveConfigMsg =
+    Msg.SaveConfig
 
 
 update : MsgRouter msg -> Msg -> Config -> ( Config, Cmd msg )

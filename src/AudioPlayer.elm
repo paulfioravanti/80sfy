@@ -6,6 +6,8 @@ module AudioPlayer
         , initAudioPlayer
         , adjustVolumeMsg
         , nextTrackMsg
+        , pauseAudioMsg
+        , playAudioMsg
         , toggleMuteMsg
         , togglePlayPauseMsg
         , update
@@ -43,6 +45,16 @@ initAudioPlayer volume =
 nextTrackMsg : Msg
 nextTrackMsg =
     Msg.NextTrack
+
+
+pauseAudioMsg : Msg
+pauseAudioMsg =
+    Msg.PauseAudio
+
+
+playAudioMsg : Msg
+playAudioMsg =
+    Msg.PlayAudio
 
 
 toggleMuteMsg : Msg
