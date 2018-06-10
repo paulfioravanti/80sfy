@@ -13,11 +13,11 @@
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Main } from "./Main"
+import * as AudioPlayer from "./audioPlayer"
 import * as VideoPlayer from "./videoPlayer"
 
 document.addEventListener("DOMContentLoaded", () => {
   const appContainer = document.querySelector("#root")
-  let scPlayer
 
   if (appContainer) {
     const app =
@@ -27,9 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
       })
 
     VideoPlayer.initPorts(app)
-
-    app.ports.initAudioPlayer.subscribe(() => {
-      scPlayer = SC.Widget("track-player")
-    })
+    AudioPlayer.initPorts(app)
   }
 })
