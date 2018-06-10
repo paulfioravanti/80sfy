@@ -14,7 +14,7 @@ view msgRouter { muted, playing } =
     div [ css [ Styles.controls ], attribute "data-name" "controls" ]
         [ muteUnmuteButton msgRouter muted
         , playPauseButton msgRouter playing
-        , nextTrackButton
+        , nextTrackButton msgRouter
         , fullscreenButton msgRouter
         ]
 
@@ -57,9 +57,13 @@ playPauseButton { audioPlayerMsg } playing =
             ]
 
 
-nextTrackButton : Html msg
-nextTrackButton =
-    div [ css [ Styles.button ], attribute "data-name" "next-track" ]
+nextTrackButton : MsgRouter msg -> Html msg
+nextTrackButton { audioPlayerMsg } =
+    div
+        [ css [ Styles.button ]
+        , attribute "data-name" "next-track"
+        , onClick (audioPlayerMsg AudioPlayer.nextTrackMsg)
+        ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-fast-forward" ] []
         ]

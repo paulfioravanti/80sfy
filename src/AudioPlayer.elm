@@ -5,6 +5,7 @@ module AudioPlayer
         , init
         , initAudioPlayer
         , adjustVolumeMsg
+        , nextTrackMsg
         , toggleMuteMsg
         , togglePlayPauseMsg
         , update
@@ -37,6 +38,11 @@ adjustVolumeMsg =
 initAudioPlayer : Int -> Cmd msg
 initAudioPlayer volume =
     Ports.initAudioPlayer volume
+
+
+nextTrackMsg : Msg
+nextTrackMsg =
+    Msg.NextTrack
 
 
 toggleMuteMsg : Msg

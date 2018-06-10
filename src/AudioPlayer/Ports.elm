@@ -1,6 +1,7 @@
 port module AudioPlayer.Ports
     exposing
         ( initAudioPlayer
+        , nextTrack
         , pauseAudio
         , playAudio
         , setVolume
@@ -8,6 +9,9 @@ port module AudioPlayer.Ports
 
 
 port initAudioPlayer : Int -> Cmd msg
+
+
+port nextTrack : () -> Cmd msg
 
 
 port pauseAudio : () -> Cmd msg

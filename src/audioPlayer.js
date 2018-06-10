@@ -1,5 +1,6 @@
 export function initPorts(app) {
   initAudioPlayer(app)
+  nextTrack(app)
   pauseAudio(app)
   playAudio(app)
   setVolume(app)
@@ -11,6 +12,12 @@ function initAudioPlayer(app) {
   app.ports.initAudioPlayer.subscribe((volume) => {
     scPlayer = SC.Widget("track-player")
     scPlayer.setVolume(volume)
+  })
+}
+
+function nextTrack(app) {
+  app.ports.nextTrack.subscribe(() => {
+    scPlayer.next()
   })
 }
 
