@@ -31,11 +31,25 @@ update msg audioPlayer =
         NextTrack ->
             ( { audioPlayer | playing = True }, Ports.nextTrack () )
 
-        PauseAudio ->
-            ( { audioPlayer | playing = False }, Ports.pauseAudio () )
+        PauseAudio callPort ->
+            let
+                cmd =
+                    if callPort then
+                        Ports.pauseAudio ()
+                    else
+                        Cmd.none
+            in
+                ( { audioPlayer | playing = False }, cmd )
 
-        PlayAudio ->
-            ( { audioPlayer | playing = True }, Ports.playAudio () )
+        PlayAudio callPort ->
+            let
+                cmd =
+                    if callPort then
+                        Ports.playAudio ()
+                    else
+                        Cmd.none
+            in
+                ( { audioPlayer | playing = True }, cmd )
 
         ToggleMute ->
             let

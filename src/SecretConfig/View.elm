@@ -141,7 +141,7 @@ playAudioButton : MsgRouter msg -> Html msg
 playAudioButton { audioPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg AudioPlayer.playAudioMsg)
+        , onClick (audioPlayerMsg (AudioPlayer.playAudioMsg True))
         ]
         [ text "Play Audio" ]
 
@@ -150,6 +150,6 @@ pauseAudioButton : MsgRouter msg -> Html msg
 pauseAudioButton { audioPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg AudioPlayer.pauseAudioMsg)
+        , onClick (audioPlayerMsg (AudioPlayer.pauseAudioMsg True))
         ]
         [ text "Pause Audio" ]
