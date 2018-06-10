@@ -12,4 +12,5 @@ type Msg
     | ConfigMsg Config.Msg
     | ControlPanelMsg ControlPanel.Msg
     | SecretConfigMsg SecretConfig.Msg
+    | ShowApplicationState
     | VideoPlayerMsg VideoPlayer.Msg

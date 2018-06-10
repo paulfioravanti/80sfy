@@ -12,6 +12,7 @@ type alias MsgRouter msg =
     , configMsg : Config.Msg.Msg -> msg
     , controlPanelMsg : ControlPanel.Msg.Msg -> msg
     , secretConfigMsg : SecretConfig.Msg.Msg -> msg
+    , showApplicationState : msg
     , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
     }
 
@@ -21,12 +22,14 @@ init :
     -> (Config.Msg.Msg -> msg)
     -> (ControlPanel.Msg.Msg -> msg)
     -> (SecretConfig.Msg.Msg -> msg)
+    -> msg
     -> (VideoPlayer.Msg.Msg -> msg)
     -> MsgRouter msg
-init audioPlayerMsg configMsg controlPanelMsg secretConfigMsg videoPlayerMsg =
+init audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationState videoPlayerMsg =
     { audioPlayerMsg = audioPlayerMsg
     , configMsg = configMsg
     , controlPanelMsg = controlPanelMsg
     , secretConfigMsg = secretConfigMsg
+    , showApplicationState = showApplicationState
     , videoPlayerMsg = videoPlayerMsg
     }

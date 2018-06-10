@@ -12,6 +12,7 @@ import Msg
             , ConfigMsg
             , ControlPanelMsg
             , SecretConfigMsg
+            , ShowApplicationState
             , VideoPlayerMsg
             )
         )
@@ -31,6 +32,7 @@ main =
                 ConfigMsg
                 ControlPanelMsg
                 SecretConfigMsg
+                ShowApplicationState
                 VideoPlayerMsg
     in
         Html.programWithFlags

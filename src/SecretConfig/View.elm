@@ -65,7 +65,7 @@ secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput msgRouter soundCloudPlaylistUrl
         , saveSettingsButton msgRouter soundCloudPlaylistUrl tags
-        , showStateButton
+        , showStateButton msgRouter
         , overrideInactivityPauseButton msgRouter
         , pauseGifRotationButton msgRouter
         , playGifRotationButton msgRouter
@@ -104,9 +104,12 @@ saveSettingsButton { configMsg } soundCloudPlaylistUrl tags =
         [ text "Save Settings" ]
 
 
-showStateButton : Html msg
-showStateButton =
-    button [ css [ Styles.configButton ] ]
+showStateButton : MsgRouter msg -> Html msg
+showStateButton { showApplicationState } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick showApplicationState
+        ]
         [ text "Show State" ]
 
 
