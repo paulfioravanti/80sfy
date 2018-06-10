@@ -18,7 +18,9 @@ update msg audioPlayer =
         AdjustVolume sliderVolume ->
             let
                 volume =
-                    Result.withDefault 80 (String.toInt sliderVolume)
+                    sliderVolume
+                        |> String.toInt
+                        |> Result.withDefault audioPlayer.volume
             in
                 ( { audioPlayer | muted = False, volume = volume }, Cmd.none )
 
