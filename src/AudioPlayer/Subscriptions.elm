@@ -1,6 +1,6 @@
 port module AudioPlayer.Subscriptions exposing (subscriptions)
 
-import AudioPlayer.Msg exposing (Msg(PauseAudio, PlayAudio))
+import AudioPlayer.Msg exposing (Msg(AudioPaused, AudioPlaying))
 import AudioPlayer.Model exposing (AudioPlayer)
 import MsgRouter exposing (MsgRouter)
 
@@ -16,8 +16,8 @@ subscriptions { audioPlayerMsg } audioPlayer =
     let
         playingSubscription =
             if audioPlayer.playing then
-                pauseAudioPlayer (always (audioPlayerMsg (PauseAudio False)))
+                pauseAudioPlayer (always (audioPlayerMsg AudioPaused))
             else
-                playAudioPlayer (always (audioPlayerMsg (PlayAudio False)))
+                playAudioPlayer (always (audioPlayerMsg AudioPlaying))
     in
         playingSubscription

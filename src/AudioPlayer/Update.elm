@@ -5,6 +5,8 @@ import AudioPlayer.Msg
     exposing
         ( Msg
             ( AdjustVolume
+            , AudioPaused
+            , AudioPlaying
             , NextTrack
             , PauseAudio
             , PlayAudio
@@ -28,28 +30,20 @@ update msg audioPlayer =
                 , Ports.setVolume volume
                 )
 
+        AudioPaused ->
+            ( { audioPlayer | playing = False }, Cmd.none )
+
+        AudioPlaying ->
+            ( { audioPlayer | playing = True }, Cmd.none )
+
         NextTrack ->
             ( { audioPlayer | playing = True }, Ports.nextTrack () )
 
-        PauseAudio callPort ->
-            let
-                cmd =
-                    if callPort then
-                        Ports.pauseAudio ()
-                    else
-                        Cmd.none
-            in
-                ( { audioPlayer | playing = False }, cmd )
+        PauseAudio ->
+            ( { audioPlayer | playing = False }, Ports.pauseAudio () )
 
-        PlayAudio callPort ->
-            let
-                cmd =
-                    if callPort then
-                        Ports.playAudio ()
-                    else
-                        Cmd.none
-            in
-                ( { audioPlayer | playing = True }, cmd )
+        PlayAudio ->
+            ( { audioPlayer | playing = True }, Ports.playAudio () )
 
         ToggleMute ->
             let

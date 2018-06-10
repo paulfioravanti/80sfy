@@ -3,7 +3,9 @@ module AudioPlayer.Msg exposing (Msg(..))
 
 type Msg
     = AdjustVolume String
+    | AudioPaused
+    | AudioPlaying
     | NextTrack
-    | PauseAudio Bool
-    | PlayAudio Bool
+    | PauseAudio
+    | PlayAudio
     | ToggleMute

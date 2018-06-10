@@ -49,12 +49,12 @@ nextTrackMsg =
     Msg.NextTrack
 
 
-pauseAudioMsg : Bool -> Msg
+pauseAudioMsg : Msg
 pauseAudioMsg =
     Msg.PauseAudio
 
 
-playAudioMsg : Bool -> Msg
+playAudioMsg : Msg
 playAudioMsg =
     Msg.PlayAudio
 
