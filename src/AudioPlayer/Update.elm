@@ -22,7 +22,9 @@ update msg audioPlayer =
                         |> String.toInt
                         |> Result.withDefault audioPlayer.volume
             in
-                ( { audioPlayer | muted = False, volume = volume }, Cmd.none )
+                ( { audioPlayer | muted = False, volume = volume }
+                , Ports.setVolume volume
+                )
 
         ToggleMute ->
             ( { audioPlayer | muted = not audioPlayer.muted }, Cmd.none )

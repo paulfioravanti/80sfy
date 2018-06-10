@@ -2,6 +2,7 @@ export function initPorts(app) {
   initAudioPlayer(app)
   pauseAudio(app)
   playAudio(app)
+  setVolume(app)
 }
 
 let scPlayer
@@ -25,6 +26,8 @@ function playAudio(app) {
   })
 }
 
-function setVolume(volume) {
-  scPlayer.setVolume(volume)
+function setVolume(app) {
+  app.ports.setVolume.subscribe((volume) => {
+    scPlayer.setVolume(volume)
+  })
 }
