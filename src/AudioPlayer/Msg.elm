@@ -10,4 +10,5 @@ type Msg
     | NextTrackNumberRequested ()
     | PauseAudio
     | PlayAudio
+    | SetPlaylistLength Int
     | ToggleMute

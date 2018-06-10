@@ -15,6 +15,9 @@ function initAudioPlayer(app) {
       scPlayer = SC.Widget("track-player")
       scPlayer.setVolume(volume)
       scPlayer.bind(SC.Widget.Events.READY, () => {
+        scPlayer.getSounds((sounds) => {
+          app.ports.setPlaylistLength.send(sounds.length)
+        })
         app.ports.requestNextTrackNumber.send(null)
       })
       scPlayer.bind(SC.Widget.Events.PLAY, () => {

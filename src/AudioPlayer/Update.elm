@@ -12,6 +12,7 @@ import AudioPlayer.Msg
             , NextTrackNumberRequested
             , PauseAudio
             , PlayAudio
+            , SetPlaylistLength
             , ToggleMute
             )
         )
@@ -84,6 +85,9 @@ update msgRouter msg audioPlayer =
 
         PlayAudio ->
             ( { audioPlayer | playing = True }, Ports.playAudio () )
+
+        SetPlaylistLength playlistLength ->
+            ( { audioPlayer | playlistLength = playlistLength }, Cmd.none )
 
         ToggleMute ->
             let

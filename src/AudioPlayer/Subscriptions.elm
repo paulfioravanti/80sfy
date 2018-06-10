@@ -6,6 +6,7 @@ import AudioPlayer.Msg
             ( AudioPaused
             , AudioPlaying
             , NextTrackNumberRequested
+            , SetPlaylistLength
             )
         )
 import AudioPlayer.Model exposing (AudioPlayer)
@@ -18,6 +19,9 @@ port pauseAudioPlayer : (() -> msg) -> Sub msg
 port playAudioPlayer : (() -> msg) -> Sub msg
 
 
+port setPlaylistLength : (Int -> msg) -> Sub msg
+
+
 port requestNextTrackNumber : (() -> msg) -> Sub msg
 
 
@@ -26,12 +30,13 @@ subscriptions { audioPlayerMsg } audioPlayer =
     let
         playingSubscription =
             if audioPlayer.playing then
-                pauseAudioPlayer (always (audioPlayerMsg AudioPaused))
+                pauseAudioPlayer (\() -> (audioPlayerMsg AudioPaused))
             else
-                playAudioPlayer (always (audioPlayerMsg AudioPlaying))
+                playAudioPlayer (\() -> (audioPlayerMsg AudioPlaying))
     in
         Sub.batch
             [ playingSubscription
             , requestNextTrackNumber
-                (always (audioPlayerMsg (NextTrackNumberRequested ())))
+                (\() -> (audioPlayerMsg (NextTrackNumberRequested ())))
+            , setPlaylistLength (audioPlayerMsg << SetPlaylistLength)
             ]
