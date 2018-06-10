@@ -104,7 +104,7 @@ volumeControl { audioPlayerMsg } { muted, volume } =
             if muted then
                 "0"
             else
-                volume
+                toString volume
     in
         div
             [ css [ Styles.volume ]

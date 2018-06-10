@@ -5,7 +5,7 @@ type alias AudioPlayer =
     { muted : Bool
     , playing : Bool
     , soundCloudIframeUrl : String
-    , volume : String
+    , volume : Int
     }
 
 
@@ -14,7 +14,7 @@ init soundCloudPlaylistUrl =
     { muted = False
     , playing = False
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
-    , volume = "80"
+    , volume = 80
     }
 
 

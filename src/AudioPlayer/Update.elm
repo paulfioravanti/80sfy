@@ -15,8 +15,12 @@ import AudioPlayer.Ports as Ports
 update : AudioPlayer.Msg.Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
 update msg audioPlayer =
     case msg of
-        AdjustVolume volume ->
-            ( { audioPlayer | muted = False, volume = volume }, Cmd.none )
+        AdjustVolume sliderVolume ->
+            let
+                volume =
+                    Result.withDefault 80 (String.toInt sliderVolume)
+            in
+                ( { audioPlayer | muted = False, volume = volume }, Cmd.none )
 
         ToggleMute ->
             ( { audioPlayer | muted = not audioPlayer.muted }, Cmd.none )
