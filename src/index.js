@@ -12,7 +12,6 @@
 // - https://github.com/parcel-bundler/parcel/issues/626#issuecomment-360371880
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
-import SoundCloudAudio from "soundcloud-audio"
 import { Main } from "./Main"
 import * as VideoPlayer from "./videoPlayer"
 
