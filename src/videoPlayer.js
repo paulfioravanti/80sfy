@@ -1,11 +1,13 @@
 export function initPorts(app) {
+  pauseVideos(app)
+  playVideos(app)
   toggleFullScreen(app)
-  toggleVideoPlay(app)
 }
+
 
 function toggleFullScreen(app) {
   app.ports.toggleFullScreen.subscribe(() => {
-    let fullScreenElement =
+    const fullScreenElement =
       document.fullscreenElement ||
       document.mozFullScreenElement ||
       document.webkitFullscreenElement
@@ -18,24 +20,26 @@ function toggleFullScreen(app) {
   })
 }
 
-function toggleVideoPlay(app) {
-  app.ports.toggleVideoPlay.subscribe((play) => {
-    let videos = Array.from(document.getElementsByTagName("video"))
+function pauseVideos(app) {
+  app.ports.pauseVideos.subscribe(() => {
+    const videos = [...document.getElementsByTagName("video")]
+    videos.forEach((video) => {
+      video.pause()
+    })
+  })
+}
 
-    if (play) {
-      videos.forEach((video) => {
-        video.play()
-      })
-    } else {
-      videos.forEach((video) => {
-        video.pause()
-      })
-    }
+function playVideos(app) {
+  app.ports.playVideos.subscribe(() => {
+    const videos = [...document.getElementsByTagName("video")]
+    videos.forEach((video) => {
+      video.play()
+    })
   })
 }
 
 function launchFullScreen() {
-  let documentElement = document.documentElement
+  const documentElement = document.documentElement
 
   if (documentElement.requestFullScreen) {
     documentElement.requestFullScreen()

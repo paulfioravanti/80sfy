@@ -95,8 +95,15 @@ update msgConfig { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
         ToggleFullScreen ->
             ( videoPlayer1, videoPlayer2, Ports.toggleFullScreen () )
 
-        TogglePlaying bool ->
-            ( { videoPlayer1 | playing = bool }
-            , { videoPlayer2 | playing = bool }
-            , Ports.toggleVideoPlay bool
-            )
+        TogglePlaying play ->
+            let
+                cmd =
+                    if play then
+                        Ports.playVideos ()
+                    else
+                        Ports.pauseVideos ()
+            in
+                ( { videoPlayer1 | playing = play }
+                , { videoPlayer2 | playing = play }
+                , cmd
+                )
