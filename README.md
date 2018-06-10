@@ -1,15 +1,16 @@
 # 80sfy
 
 [80sfy.com][] by [Art Sangurai][] ([original codebase repo][]) is a pretty cool
-site if you love [synthwave][], so I decided to see if I could re-create it
-using [Elm][].
+site if you love [synthwave][] music, so I decided to re-create it using
+[Elm][].
 
-I think I got most of the way there, but was hamstrung on the [Soundcloud][]
-audio integration since it is currently [not possible to register a
-new app][Soundcloud register new app], and hence get an API key :disappointed:
+You can see the results at:
 
-Therefore, it currently just cycles animated Gifs, but I will finish things off
-once Soundcloud starts handing out API keys again :pray:
+- Heroku: <https://elm-80sfy.herokuapp.com/>
+- Surge: <http://elm-80sfy.surge.sh/>
+
+Note that it's currently only optimised for the Google Chrome desktop browser,
+so it's probably best to view it with that.
 
 ## Development
 
@@ -57,13 +58,6 @@ elm-app start
 Now, you should be able to use the app at the following address:
 
 - <http://localhost:3000>
-
-## Deployment
-
-This project is currently deployed at the following sites:
-
-- Heroku: <https://elm-80sfy.herokuapp.com/>
-- Surge: <http://elm-80sfy.surge.sh/>
 
 ## Gotchas
 
