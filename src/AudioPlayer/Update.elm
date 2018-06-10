@@ -44,7 +44,9 @@ update msgRouter msg audioPlayer =
 
         GeneratePlaylistTrackOrder playlistTrackOrder ->
             ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
-            , Cmd.none
+            , Task.succeed ()
+                |> Task.perform
+                    (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
             )
 
         NextTrack ->
@@ -62,6 +64,7 @@ update msgRouter msg audioPlayer =
                             ( []
                             , Utils.generatePlaylistTrackOrder
                                 msgRouter.audioPlayerMsg
+                                audioPlayer.playlistLength
                             )
 
                         head :: [] ->
@@ -69,6 +72,7 @@ update msgRouter msg audioPlayer =
                             , Cmd.batch
                                 [ Utils.generatePlaylistTrackOrder
                                     msgRouter.audioPlayerMsg
+                                    audioPlayer.playlistLength
                                 , Ports.skipToTrack head
                                 ]
                             )
@@ -87,7 +91,11 @@ update msgRouter msg audioPlayer =
             ( { audioPlayer | playing = True }, Ports.playAudio () )
 
         SetPlaylistLength playlistLength ->
-            ( { audioPlayer | playlistLength = playlistLength }, Cmd.none )
+            ( { audioPlayer | playlistLength = playlistLength }
+            , Utils.generatePlaylistTrackOrder
+                msgRouter.audioPlayerMsg
+                playlistLength
+            )
 
         ToggleMute ->
             let

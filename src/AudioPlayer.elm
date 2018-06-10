@@ -41,9 +41,9 @@ adjustVolumeMsg =
     Msg.AdjustVolume
 
 
-generatePlaylistTrackOrder : (Msg -> msg) -> Cmd msg
-generatePlaylistTrackOrder audioPlayerMsg =
-    Utils.generatePlaylistTrackOrder audioPlayerMsg
+generatePlaylistTrackOrder : (Msg -> msg) -> Int -> Cmd msg
+generatePlaylistTrackOrder audioPlayerMsg playlistLength =
+    Utils.generatePlaylistTrackOrder audioPlayerMsg playlistLength
 
 
 initAudioPlayer : Int -> Cmd msg

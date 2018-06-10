@@ -5,11 +5,11 @@ import Random
 import Random.List
 
 
-generatePlaylistTrackOrder : (Msg -> msg) -> Cmd msg
-generatePlaylistTrackOrder audioPlayerMsg =
+generatePlaylistTrackOrder : (Msg -> msg) -> Int -> Cmd msg
+generatePlaylistTrackOrder audioPlayerMsg playlistLength =
     let
         trackList =
-            List.range 0 (155 - 1)
+            List.range 0 (playlistLength - 1)
 
         generator =
             Random.List.shuffle trackList
