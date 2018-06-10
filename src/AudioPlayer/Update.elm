@@ -6,6 +6,8 @@ import AudioPlayer.Msg
         ( Msg
             ( AdjustVolume
             , NextTrack
+            , PauseAudio
+            , PlayAudio
             , ToggleMute
             , TogglePlayPause
             )
@@ -29,6 +31,12 @@ update msg audioPlayer =
 
         NextTrack ->
             ( { audioPlayer | playing = True }, Ports.nextTrack () )
+
+        PauseAudio ->
+            ( { audioPlayer | playing = False }, Ports.pauseAudio () )
+
+        PlayAudio ->
+            ( { audioPlayer | playing = True }, Ports.playAudio () )
 
         ToggleMute ->
             let

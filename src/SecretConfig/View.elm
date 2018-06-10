@@ -1,5 +1,6 @@
 module SecretConfig.View exposing (view)
 
+import AudioPlayer.Msg exposing (Msg(PauseAudio, PlayAudio))
 import Config.Msg exposing (Msg(SaveConfig))
 import Html.Styled as Html
     exposing
@@ -68,8 +69,8 @@ secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
         , overrideInactivityPauseButton msgRouter
         , pauseGifRotationButton msgRouter
         , playGifRotationButton msgRouter
-        , playAudioButton
-        , pauseAudioButton
+        , playAudioButton msgRouter
+        , pauseAudioButton msgRouter
         ]
 
 
@@ -136,13 +137,19 @@ playGifRotationButton { secretConfigMsg } =
         [ text "Play Gif Rotation" ]
 
 
-playAudioButton : Html msg
-playAudioButton =
-    button [ css [ Styles.configButton ] ]
+playAudioButton : MsgRouter msg -> Html msg
+playAudioButton { audioPlayerMsg } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (audioPlayerMsg PlayAudio)
+        ]
         [ text "Play Audio" ]
 
 
-pauseAudioButton : Html msg
-pauseAudioButton =
-    button [ css [ Styles.configButton ] ]
+pauseAudioButton : MsgRouter msg -> Html msg
+pauseAudioButton { audioPlayerMsg } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (audioPlayerMsg PauseAudio)
+        ]
         [ text "Pause Audio" ]
