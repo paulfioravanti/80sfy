@@ -4,6 +4,7 @@ module AudioPlayer.Model exposing (AudioPlayer, init)
 type alias AudioPlayer =
     { muted : Bool
     , playing : Bool
+    , playlistTrackOrder : List Int
     , soundCloudIframeUrl : String
     , volume : Int
     }
@@ -13,6 +14,7 @@ init : String -> AudioPlayer
 init soundCloudPlaylistUrl =
     { muted = False
     , playing = False
+    , playlistTrackOrder = []
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
     , volume = 80
     }

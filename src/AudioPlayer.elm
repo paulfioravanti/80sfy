@@ -5,6 +5,8 @@ module AudioPlayer
         , init
         , initAudioPlayer
         , adjustVolumeMsg
+        , generatePlaylistTrackOrder
+        , generatePlaylistTrackOrderMsg
         , nextTrackMsg
         , pauseAudioMsg
         , playAudioMsg
@@ -19,6 +21,8 @@ import AudioPlayer.Ports as Ports
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
 import MsgRouter exposing (MsgRouter)
+import Random
+import Random.List
 
 
 type alias AudioPlayer =
@@ -37,6 +41,24 @@ init soundCloudPlaylistUrl =
 adjustVolumeMsg : String -> Msg
 adjustVolumeMsg =
     Msg.AdjustVolume
+
+
+generatePlaylistTrackOrder : (List Int -> msg) -> Cmd msg
+generatePlaylistTrackOrder generatePlaylistTrackOrderMsg =
+    let
+        trackList =
+            List.range 0 (155 - 1)
+
+        generator =
+            Random.List.shuffle trackList
+    in
+        generator
+            |> Random.generate generatePlaylistTrackOrderMsg
+
+
+generatePlaylistTrackOrderMsg : List Int -> Msg
+generatePlaylistTrackOrderMsg =
+    Msg.GeneratePlaylistTrackOrder
 
 
 initAudioPlayer : Int -> Cmd msg
