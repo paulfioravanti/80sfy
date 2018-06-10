@@ -4,21 +4,21 @@ import AudioPlayer.Msg
     exposing
         ( Msg
             ( AudioPaused
-            , AudioPlayerReady
             , AudioPlaying
+            , NextTrackNumberRequested
             )
         )
 import AudioPlayer.Model exposing (AudioPlayer)
 import MsgRouter exposing (MsgRouter)
 
 
-port audioPlayerReady : (() -> msg) -> Sub msg
-
-
 port pauseAudioPlayer : (() -> msg) -> Sub msg
 
 
 port playAudioPlayer : (() -> msg) -> Sub msg
+
+
+port requestNextTrackNumber : (() -> msg) -> Sub msg
 
 
 subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
@@ -32,5 +32,6 @@ subscriptions { audioPlayerMsg } audioPlayer =
     in
         Sub.batch
             [ playingSubscription
-            , audioPlayerReady (always (audioPlayerMsg AudioPlayerReady))
+            , requestNextTrackNumber
+                (always (audioPlayerMsg NextTrackNumberRequested))
             ]
