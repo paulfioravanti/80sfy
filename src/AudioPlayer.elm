@@ -9,7 +9,6 @@ module AudioPlayer
         , pauseAudioMsg
         , playAudioMsg
         , toggleMuteMsg
-        , togglePlayPauseMsg
         , update
         )
 
@@ -60,11 +59,6 @@ playAudioMsg =
 toggleMuteMsg : Msg
 toggleMuteMsg =
     Msg.ToggleMute
-
-
-togglePlayPauseMsg : Msg
-togglePlayPauseMsg =
-    Msg.TogglePlayPause
 
 
 update : Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )

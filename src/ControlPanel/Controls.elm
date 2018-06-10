@@ -41,16 +41,16 @@ muteUnmuteButton { audioPlayerMsg } muted =
 playPauseButton : MsgRouter msg -> Bool -> Html msg
 playPauseButton { audioPlayerMsg } playing =
     let
-        iconClass =
+        ( iconClass, msg ) =
             if playing then
-                "fas fa-pause"
+                ( "fas fa-pause", AudioPlayer.pauseAudioMsg )
             else
-                "fas fa-play"
+                ( "fas fa-play", AudioPlayer.playAudioMsg )
     in
         div
             [ css [ Styles.button ]
             , attribute "data-name" "play-pause"
-            , onClick (audioPlayerMsg AudioPlayer.togglePlayPauseMsg)
+            , onClick (audioPlayerMsg msg)
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []

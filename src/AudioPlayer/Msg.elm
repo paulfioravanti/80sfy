@@ -7,4 +7,3 @@ type Msg
     | PauseAudio
     | PlayAudio
     | ToggleMute
-    | TogglePlayPause
