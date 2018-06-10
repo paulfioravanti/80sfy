@@ -9,6 +9,7 @@ module AudioPlayer
         , nextTrackMsg
         , pauseAudioMsg
         , playAudioMsg
+        , reInitAudioPlayerMsg
         , subscriptions
         , toggleMuteMsg
         , update
@@ -64,6 +65,11 @@ pauseAudioMsg =
 playAudioMsg : Msg
 playAudioMsg =
     Msg.PlayAudio
+
+
+reInitAudioPlayerMsg : String -> Msg
+reInitAudioPlayerMsg =
+    Msg.ReInitAudioPlayer
 
 
 subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg

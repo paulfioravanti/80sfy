@@ -10,5 +10,6 @@ type Msg
     | NextTrackNumberRequested ()
     | PauseAudio
     | PlayAudio
+    | ReInitAudioPlayer String
     | SetPlaylistLength Int
     | ToggleMute

@@ -1,6 +1,6 @@
 module AudioPlayer.Update exposing (update)
 
-import AudioPlayer.Model exposing (AudioPlayer)
+import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg
     exposing
         ( Msg
@@ -12,6 +12,7 @@ import AudioPlayer.Msg
             , NextTrackNumberRequested
             , PauseAudio
             , PlayAudio
+            , ReInitAudioPlayer
             , SetPlaylistLength
             , ToggleMute
             )
@@ -79,6 +80,11 @@ update msgRouter msg audioPlayer =
 
         PlayAudio ->
             ( { audioPlayer | playing = True }, Ports.playAudio () )
+
+        ReInitAudioPlayer soundCloudPlaylistUrl ->
+            ( Model.init soundCloudPlaylistUrl
+            , Ports.initAudioPlayer audioPlayer.volume
+            )
 
         SetPlaylistLength playlistLength ->
             ( { audioPlayer | playlistLength = playlistLength }

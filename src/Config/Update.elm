@@ -1,5 +1,6 @@
 module Config.Update exposing (update)
 
+import AudioPlayer
 import Config.Model exposing (Config)
 import Config.Msg
     exposing
@@ -79,5 +80,9 @@ update msgRouter msg config =
                     | soundCloudPlaylistUrl = soundCloudPlaylistUrl
                     , tags = tags
                   }
-                , Cmd.none
+                , Task.succeed soundCloudPlaylistUrl
+                    |> Task.perform
+                        (msgRouter.audioPlayerMsg
+                            << AudioPlayer.reInitAudioPlayerMsg
+                        )
                 )
