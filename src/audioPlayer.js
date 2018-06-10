@@ -1,6 +1,5 @@
 export function initPorts(app) {
   initAudioPlayer(app)
-  nextTrack(app)
   pauseAudio(app)
   playAudio(app)
   setVolume(app)
@@ -29,13 +28,6 @@ function initAudioPlayer(app) {
         app.ports.requestNextTrackNumber.send(null)
       })
     })
-  })
-}
-
-
-function nextTrack(app) {
-  app.ports.nextTrack.subscribe(() => {
-    scPlayer.next()
   })
 }
 
