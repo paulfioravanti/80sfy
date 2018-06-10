@@ -9,6 +9,7 @@ import AudioPlayer.Msg
             , TogglePlayPause
             )
         )
+import AudioPlayer.Ports as Ports
 
 
 update : AudioPlayer.Msg.Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
@@ -21,4 +22,11 @@ update msg audioPlayer =
             ( { audioPlayer | muted = not audioPlayer.muted }, Cmd.none )
 
         TogglePlayPause ->
-            ( { audioPlayer | playing = not audioPlayer.playing }, Cmd.none )
+            let
+                cmd =
+                    if audioPlayer.playing then
+                        Ports.pauseAudio ()
+                    else
+                        Ports.playAudio ()
+            in
+                ( { audioPlayer | playing = not audioPlayer.playing }, cmd )
