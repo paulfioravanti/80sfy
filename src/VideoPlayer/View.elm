@@ -32,7 +32,7 @@ view msgRouter videoPlayer =
                     videoPlayer.fallbackGifUrl
 
         childElements =
-            gifVideoPlayer msgRouter gifUrl videoPlayer
+            gifVideoPlayer gifUrl videoPlayer
                 :: if not videoPlayer.playing then
                     [ playerPausedOverlay ]
                    else
@@ -52,14 +52,18 @@ attributes msgRouter videoPlayer =
         attributes =
             [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
+            , onClick
+                (msgRouter.secretConfigMsg
+                    (SecretConfig.toggleGifRotationMsg True)
+                )
             , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
             ]
     in
         List.append animations attributes
 
 
-gifVideoPlayer : MsgRouter msg -> String -> VideoPlayer -> Html msg
-gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
+gifVideoPlayer : String -> VideoPlayer -> Html msg
+gifVideoPlayer gifUrl videoPlayer =
     let
         true =
             Encode.string "1"
@@ -82,7 +86,6 @@ gifVideoPlayer { secretConfigMsg } gifUrl videoPlayer =
             [ src gifUrl
             , css [ Styles.videoPlayer ]
             , attribute "data-name" ("player-" ++ videoPlayer.id)
-            , onClick (secretConfigMsg (SecretConfig.toggleGifRotationMsg True))
             ]
     in
         video (attributes ++ playingAttributes) []
