@@ -75,14 +75,23 @@ update msgRouter msg config =
                     tagsString
                         |> String.split ", "
                         |> List.map String.trim
+
+                cmd =
+                    if
+                        soundCloudPlaylistUrl
+                            /= config.soundCloudPlaylistUrl
+                    then
+                        Task.succeed soundCloudPlaylistUrl
+                            |> Task.perform
+                                (msgRouter.audioPlayerMsg
+                                    << AudioPlayer.reInitAudioPlayerMsg
+                                )
+                    else
+                        Cmd.none
             in
                 ( { config
                     | soundCloudPlaylistUrl = soundCloudPlaylistUrl
                     , tags = tags
                   }
-                , Task.succeed soundCloudPlaylistUrl
-                    |> Task.perform
-                        (msgRouter.audioPlayerMsg
-                            << AudioPlayer.reInitAudioPlayerMsg
-                        )
+                , cmd
                 )

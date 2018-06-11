@@ -61,15 +61,15 @@ update msgRouter msg audioPlayer =
             let
                 ( playlistTrackOrder, cmd ) =
                     case audioPlayer.playlistTrackOrder of
+                        head :: tail ->
+                            ( tail, Ports.skipToTrack head )
+
                         [] ->
                             ( []
                             , Utils.generatePlaylistTrackOrder
                                 msgRouter.audioPlayerMsg
                                 audioPlayer.playlistLength
                             )
-
-                        head :: tail ->
-                            ( tail, Ports.skipToTrack head )
             in
                 ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
                 , cmd
