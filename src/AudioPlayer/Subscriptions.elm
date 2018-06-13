@@ -10,6 +10,7 @@ import AudioPlayer.Msg
             )
         )
 import AudioPlayer.Model exposing (AudioPlayer)
+import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 
 
@@ -19,7 +20,7 @@ port pauseAudioPlayer : (() -> msg) -> Sub msg
 port playAudioPlayer : (() -> msg) -> Sub msg
 
 
-port setPlaylistLength : (Int -> msg) -> Sub msg
+port setPlaylistLength : (Value -> msg) -> Sub msg
 
 
 port requestNextTrackNumber : (() -> msg) -> Sub msg
@@ -38,5 +39,21 @@ subscriptions { audioPlayerMsg } audioPlayer =
             [ playingSubscription
             , requestNextTrackNumber
                 (\() -> (audioPlayerMsg (NextTrackNumberRequested ())))
-            , setPlaylistLength (audioPlayerMsg << SetPlaylistLength)
+            , setPlaylistLength
+                (audioPlayerMsg << SetPlaylistLength << extractPlaylistValue)
             ]
+
+
+extractPlaylistValue : Value -> Int
+extractPlaylistValue playlistLengthFlag =
+    let
+        intValue =
+            playlistLengthFlag
+                |> Decode.decodeValue Decode.int
+    in
+        case intValue of
+            Ok playlistLength ->
+                playlistLength
+
+            Err _ ->
+                1
