@@ -18,7 +18,7 @@ type Key
 
 
 handleKeyPress : MsgRouter msg -> Model -> Int -> Cmd msg
-handleKeyPress msgRouter model keyCode =
+handleKeyPress { audioPlayerMsg, videoPlayerMsg } { audioPlayer } keyCode =
     case toKey keyCode of
         Escape ->
             VideoPlayer.exitFullScreen
@@ -26,7 +26,7 @@ handleKeyPress msgRouter model keyCode =
         Space ->
             let
                 ( audioMsg, videoMsg ) =
-                    if model.audioPlayer.playing then
+                    if audioPlayer.playing then
                         ( AudioPlayer.pauseAudioMsg
                         , VideoPlayer.pauseVideosMsg
                         )
@@ -37,33 +37,22 @@ handleKeyPress msgRouter model keyCode =
             in
                 Cmd.batch
                     [ Task.succeed ()
-                        |> Task.perform
-                            (msgRouter.audioPlayerMsg << audioMsg)
+                        |> Task.perform (audioPlayerMsg << audioMsg)
                     , Task.succeed ()
-                        |> Task.perform
-                            (msgRouter.videoPlayerMsg << videoMsg)
+                        |> Task.perform (videoPlayerMsg << videoMsg)
                     ]
 
         UpArrow ->
-            Task.succeed (toString (model.audioPlayer.volume + 20))
-                |> Task.perform
-                    (msgRouter.audioPlayerMsg
-                        << AudioPlayer.adjustVolumeMsg
-                    )
+            Task.succeed (toString (audioPlayer.volume + 20))
+                |> Task.perform (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
 
         RightArrow ->
             Task.succeed ()
-                |> Task.perform
-                    (msgRouter.audioPlayerMsg
-                        << AudioPlayer.nextTrackMsg
-                    )
+                |> Task.perform (audioPlayerMsg << AudioPlayer.nextTrackMsg)
 
         DownArrow ->
-            Task.succeed (toString (model.audioPlayer.volume - 20))
-                |> Task.perform
-                    (msgRouter.audioPlayerMsg
-                        << AudioPlayer.adjustVolumeMsg
-                    )
+            Task.succeed (toString (audioPlayer.volume - 20))
+                |> Task.perform (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
 
         _ ->
             Cmd.none

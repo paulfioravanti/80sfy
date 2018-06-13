@@ -15,10 +15,10 @@ function initWindowListeners(app) {
         switch (e.type) {
           case "blur":
             app.ports.haltVideos.send(null)
-            break;
+            break
           case "focus":
             app.ports.restartVideos.send(null)
-            break;
+            break
         }
       }
       window.sessionStorage.setItem("elm-80sfy-last-event-type", e.type)
