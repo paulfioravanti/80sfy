@@ -31,14 +31,6 @@ init flags =
 
 extractStringValue : String -> Value -> String
 extractStringValue fallbackString flag =
-    let
-        stringValue =
-            flag
-                |> Decode.decodeValue Decode.string
-    in
-        case stringValue of
-            Ok string ->
-                string
-
-            Err _ ->
-                fallbackString
+    flag
+        |> Decode.decodeValue Decode.string
+        |> Result.withDefault fallbackString

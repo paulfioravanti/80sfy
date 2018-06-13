@@ -46,14 +46,6 @@ subscriptions { audioPlayerMsg } audioPlayer =
 
 extractPlaylistValue : Value -> Int
 extractPlaylistValue playlistLengthFlag =
-    let
-        intValue =
-            playlistLengthFlag
-                |> Decode.decodeValue Decode.int
-    in
-        case intValue of
-            Ok playlistLength ->
-                playlistLength
-
-            Err _ ->
-                1
+    playlistLengthFlag
+        |> Decode.decodeValue Decode.int
+        |> Result.withDefault 1
