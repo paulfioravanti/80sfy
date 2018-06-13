@@ -12,6 +12,7 @@ import VideoPlayer.Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
             , FetchRandomGif
+            , HaltVideos
             , PauseVideos
             , PlayVideos
             , ToggleFullScreen
@@ -93,6 +94,12 @@ update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
             in
                 ( videoPlayer1, videoPlayer2, Cmd.none )
 
+        HaltVideos () ->
+            ( { videoPlayer1 | fetchNextGif = False }
+            , { videoPlayer2 | fetchNextGif = False }
+            , Ports.pauseVideos ()
+            )
+
         PauseVideos () ->
             ( { videoPlayer1 | playing = False }
             , { videoPlayer2 | playing = False }
@@ -100,8 +107,8 @@ update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
             )
 
         PlayVideos () ->
-            ( { videoPlayer1 | playing = True }
-            , { videoPlayer2 | playing = True }
+            ( { videoPlayer1 | playing = True, fetchNextGif = True }
+            , { videoPlayer2 | playing = True, fetchNextGif = True }
             , Ports.playVideos ()
             )
 

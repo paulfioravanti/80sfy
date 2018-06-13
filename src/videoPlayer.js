@@ -1,8 +1,29 @@
 export function initPorts(app) {
+  initWindowListeners(app)
   cancelFullScreen(app)
   pause(app)
   play(app)
   toggleFullScreen(app)
+}
+
+function initWindowListeners(app) {
+  ["focus", "blur"].forEach((event) => {
+    window.addEventListener(event, (e) => {
+      const prevType =
+        window.sessionStorage.getItem("elm-80sfy-last-event-type")
+      if (prevType != e.type) {
+        switch (e.type) {
+          case "blur":
+            app.ports.haltVideos.send(null)
+            break;
+          case "focus":
+            app.ports.restartVideos.send(null)
+            break;
+        }
+      }
+      window.sessionStorage.setItem("elm-80sfy-last-event-type", e.type)
+    })
+  })
 }
 
 function cancelFullScreen(app) {
@@ -75,3 +96,4 @@ function playVideos() {
     video.play()
   })
 }
+

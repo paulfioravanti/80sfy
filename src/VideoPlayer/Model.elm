@@ -6,6 +6,7 @@ import RemoteData exposing (RemoteData(NotRequested), WebData)
 
 type alias VideoPlayer =
     { fallbackGifUrl : String
+    , fetchNextGif : Bool
     , gifUrl : WebData String
     , id : String
     , playing : Bool
@@ -18,6 +19,7 @@ type alias VideoPlayer =
 init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     { fallbackGifUrl = "https://media3.giphy.com/media/OVlFjmEDhx9rG/giphy.mp4"
+    , fetchNextGif = True
     , gifUrl = NotRequested
     , id = id
     , playing = True
