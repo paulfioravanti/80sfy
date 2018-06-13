@@ -61,6 +61,20 @@ update msgRouter msg model =
                 27 ->
                     ( model, VideoPlayer.exitFullScreen )
 
+                32 ->
+                    let
+                        audioMsg =
+                            if model.audioPlayer.playing then
+                                AudioPlayer.pauseAudioMsg
+                            else
+                                AudioPlayer.playAudioMsg
+                    in
+                        ( model
+                        , Task.succeed ()
+                            |> Task.perform
+                                (msgRouter.audioPlayerMsg << audioMsg)
+                        )
+
                 38 ->
                     ( model
                     , Task.succeed (toString (model.audioPlayer.volume + 20))

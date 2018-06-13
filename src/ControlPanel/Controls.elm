@@ -43,9 +43,9 @@ playPauseButton { audioPlayerMsg } playing =
     let
         ( iconClass, msg ) =
             if playing then
-                ( "fas fa-pause", AudioPlayer.pauseAudioMsg )
+                ( "fas fa-pause", (AudioPlayer.pauseAudioMsg ()) )
             else
-                ( "fas fa-play", AudioPlayer.playAudioMsg )
+                ( "fas fa-play", (AudioPlayer.playAudioMsg ()) )
     in
         div
             [ css [ Styles.button ]

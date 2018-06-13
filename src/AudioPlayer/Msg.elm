@@ -8,8 +8,8 @@ type Msg
     | GeneratePlaylistTrackOrder (List Int)
     | NextTrack ()
     | NextTrackNumberRequested ()
-    | PauseAudio
-    | PlayAudio
+    | PauseAudio ()
+    | PlayAudio ()
     | ReInitAudioPlayer String
     | SetPlaylistLength Int
     | ToggleMute
