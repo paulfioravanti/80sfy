@@ -61,12 +61,30 @@ update msgRouter msg model =
                 27 ->
                     ( model, VideoPlayer.exitFullScreen )
 
+                38 ->
+                    ( model
+                    , Task.succeed (toString (model.audioPlayer.volume + 20))
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << AudioPlayer.adjustVolumeMsg
+                            )
+                    )
+
                 39 ->
                     ( model
                     , Task.succeed ()
                         |> Task.perform
                             (msgRouter.audioPlayerMsg
                                 << AudioPlayer.nextTrackMsg
+                            )
+                    )
+
+                40 ->
+                    ( model
+                    , Task.succeed (toString (model.audioPlayer.volume - 20))
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << AudioPlayer.adjustVolumeMsg
                             )
                     )
 

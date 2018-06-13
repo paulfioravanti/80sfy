@@ -28,10 +28,25 @@ update msgRouter msg audioPlayer =
     case msg of
         AdjustVolume sliderVolume ->
             let
+                maxVolume =
+                    100
+
+                minVolume =
+                    0
+
+                containVolume volume =
+                    if volume < minVolume then
+                        minVolume
+                    else if volume > maxVolume then
+                        maxVolume
+                    else
+                        volume
+
                 volume =
                     sliderVolume
                         |> String.toInt
                         |> Result.withDefault audioPlayer.volume
+                        |> containVolume
             in
                 ( { audioPlayer | muted = False, volume = volume }
                 , Ports.setVolume volume
