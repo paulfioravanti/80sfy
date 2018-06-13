@@ -62,7 +62,7 @@ nextTrackButton { audioPlayerMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "next-track"
-        , onClick (audioPlayerMsg AudioPlayer.nextTrackMsg)
+        , onClick (audioPlayerMsg (AudioPlayer.nextTrackMsg ()))
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-fast-forward" ] []

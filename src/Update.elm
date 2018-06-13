@@ -19,6 +19,7 @@ import Msg
         )
 import MsgRouter exposing (MsgRouter)
 import SecretConfig
+import Task
 import VideoPlayer
 
 
@@ -59,6 +60,15 @@ update msgRouter msg model =
             case code of
                 27 ->
                     ( model, VideoPlayer.exitFullScreen )
+
+                39 ->
+                    ( model
+                    , Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << AudioPlayer.nextTrackMsg
+                            )
+                    )
 
                 _ ->
                     ( model, Cmd.none )

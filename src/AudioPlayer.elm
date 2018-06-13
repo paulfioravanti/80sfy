@@ -52,7 +52,7 @@ initAudioPlayer volume =
     Ports.initAudioPlayer volume
 
 
-nextTrackMsg : Msg
+nextTrackMsg : () -> Msg
 nextTrackMsg =
     Msg.NextTrack
 

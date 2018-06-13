@@ -50,7 +50,7 @@ update msgRouter msg audioPlayer =
                     (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
             )
 
-        NextTrack ->
+        NextTrack () ->
             ( { audioPlayer | playing = True }
             , Task.succeed ()
                 |> Task.perform
