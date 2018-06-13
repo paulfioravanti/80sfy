@@ -11,6 +11,7 @@ import Msg
             ( AudioPlayerMsg
             , ConfigMsg
             , ControlPanelMsg
+            , KeyMsg
             , SecretConfigMsg
             , ShowApplicationState
             , VideoPlayerMsg
@@ -53,6 +54,14 @@ update msgRouter msg model =
                 ( { model | controlPanel = controlPanel }
                 , cmd
                 )
+
+        KeyMsg code ->
+            case code of
+                27 ->
+                    ( model, VideoPlayer.exitFullScreen )
+
+                _ ->
+                    ( model, Cmd.none )
 
         SecretConfigMsg msg ->
             let

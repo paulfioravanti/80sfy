@@ -1,9 +1,13 @@
 port module VideoPlayer.Ports
     exposing
-        ( pauseVideos
+        ( exitFullScreen
+        , pauseVideos
         , playVideos
         , toggleFullScreen
         )
+
+
+port exitFullScreen : () -> Cmd msg
 
 
 port pauseVideos : () -> Cmd msg

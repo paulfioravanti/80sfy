@@ -2,6 +2,7 @@ module VideoPlayer
     exposing
         ( Msg
         , VideoPlayer
+        , exitFullScreen
         , fetchRandomGifMsg
         , init
         , subscriptions
@@ -18,6 +19,7 @@ import VideoPlayer.Context exposing (Context)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Subscriptions as Subscriptions
+import VideoPlayer.Ports as Ports
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
@@ -33,6 +35,11 @@ type alias Msg =
 init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
     Model.init id visible zIndex
+
+
+exitFullScreen : Cmd msg
+exitFullScreen =
+    Ports.exitFullScreen ()
 
 
 fetchRandomGifMsg : String -> Result Error String -> Msg
