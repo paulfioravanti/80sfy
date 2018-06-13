@@ -9,5 +9,6 @@ type Msg
     = AnimateVideoPlayer Animation.Msg
     | CrossFadePlayers Time
     | FetchRandomGif String (Result Error String)
+    | PauseVideos ()
+    | PlayVideos ()
     | ToggleFullScreen
-    | TogglePlaying Bool

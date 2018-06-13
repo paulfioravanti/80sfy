@@ -12,8 +12,9 @@ import VideoPlayer.Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
             , FetchRandomGif
+            , PauseVideos
+            , PlayVideos
             , ToggleFullScreen
-            , TogglePlaying
             )
         )
 import VideoPlayer.Ports as Ports
@@ -92,18 +93,17 @@ update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
             in
                 ( videoPlayer1, videoPlayer2, Cmd.none )
 
+        PauseVideos () ->
+            ( { videoPlayer1 | playing = False }
+            , { videoPlayer2 | playing = False }
+            , Ports.pauseVideos ()
+            )
+
+        PlayVideos () ->
+            ( { videoPlayer1 | playing = True }
+            , { videoPlayer2 | playing = True }
+            , Ports.playVideos ()
+            )
+
         ToggleFullScreen ->
             ( videoPlayer1, videoPlayer2, Ports.toggleFullScreen () )
-
-        TogglePlaying play ->
-            let
-                cmd =
-                    if play then
-                        Ports.playVideos ()
-                    else
-                        Ports.pauseVideos ()
-            in
-                ( { videoPlayer1 | playing = play }
-                , { videoPlayer2 | playing = play }
-                , cmd
-                )

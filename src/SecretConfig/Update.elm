@@ -14,7 +14,7 @@ import SecretConfig.Msg
             )
         )
 import Task
-import VideoPlayer.Msg exposing (Msg(TogglePlaying))
+import VideoPlayer.Msg exposing (Msg(PauseVideos, PlayVideos))
 
 
 update :
@@ -33,10 +33,17 @@ update { videoPlayerMsg } msg secretConfig =
                 ( { secretConfig | tags = tags }, Cmd.none )
 
         ToggleGifRotation bool ->
-            ( { secretConfig | fetchNextGif = bool }
-            , Task.succeed bool
-                |> Task.perform (videoPlayerMsg << TogglePlaying)
-            )
+            let
+                videoMsg =
+                    if bool then
+                        PlayVideos
+                    else
+                        PauseVideos
+            in
+                ( { secretConfig | fetchNextGif = bool }
+                , Task.succeed ()
+                    |> Task.perform (videoPlayerMsg << videoMsg)
+                )
 
         ToggleInactivityPause ->
             ( { secretConfig
