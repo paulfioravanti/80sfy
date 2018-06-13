@@ -79,6 +79,6 @@ update msgRouter context msg videoPlayer1 videoPlayer2 =
     Update.update msgRouter context msg videoPlayer1 videoPlayer2
 
 
-view : MsgRouter msg -> VideoPlayer -> Html msg
-view msgRouter videoPlayer =
-    View.view msgRouter videoPlayer
+view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
+view msgRouter videoPlayer audioPlaying =
+    View.view msgRouter videoPlayer audioPlaying

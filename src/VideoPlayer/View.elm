@@ -20,8 +20,8 @@ import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
 import VideoPlayer.Styles as Styles
 
 
-view : MsgRouter msg -> VideoPlayer -> Html msg
-view msgRouter videoPlayer =
+view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
+view msgRouter videoPlayer audioPlaying =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -33,7 +33,7 @@ view msgRouter videoPlayer =
 
         childElements =
             gifVideoPlayer gifUrl videoPlayer
-                :: if not videoPlayer.playing then
+                :: if audioPlaying && not videoPlayer.playing then
                     [ playerPausedOverlay ]
                    else
                     []
