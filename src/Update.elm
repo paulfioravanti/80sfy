@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import App
 import AudioPlayer
 import Config
 import ControlPanel
@@ -127,19 +128,7 @@ update msgRouter msg model =
         ShowApplicationState ->
             let
                 _ =
-                    Debug.log "Config" model.secretConfig
-
-                _ =
-                    Debug.log "Control Panel" model.controlPanel
-
-                _ =
-                    Debug.log "VideoPlayer 2" model.videoPlayer2
-
-                _ =
-                    Debug.log "VideoPlayer 1" model.videoPlayer1
-
-                _ =
-                    Debug.log "Audio Player" model.audioPlayer
+                    App.showApplicationState model
             in
                 ( model, Cmd.none )
 
