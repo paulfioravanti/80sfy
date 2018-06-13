@@ -7,7 +7,6 @@ module VideoPlayer
         , init
         , subscriptions
         , toggleFullScreenMsg
-        , togglePlayingMsg
         , update
         , view
         )
@@ -55,11 +54,6 @@ subscriptions msgRouter fetchNextGif videoPlayer1 =
 toggleFullScreenMsg : Msg
 toggleFullScreenMsg =
     Msg.ToggleFullScreen
-
-
-togglePlayingMsg : Bool -> Msg
-togglePlayingMsg =
-    Msg.TogglePlaying
 
 
 update :
