@@ -58,9 +58,9 @@ playVideosMsg =
     Msg.PlayVideos
 
 
-subscriptions : MsgRouter msg -> VideoPlayer -> Sub msg
-subscriptions msgRouter videoPlayer1 =
-    Subscriptions.subscriptions msgRouter videoPlayer1
+subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
+subscriptions msgRouter overrideInactivityPause videoPlayer1 =
+    Subscriptions.subscriptions msgRouter overrideInactivityPause videoPlayer1
 
 
 toggleFullScreenMsg : Msg

@@ -25,7 +25,7 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
         ( Msg
-            ( ToggleInactivityPause
+            ( ToggleInactivityPauseOverride
             , ToggleVisibility
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
@@ -68,6 +68,7 @@ secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
         , saveSettingsButton msgRouter soundCloudPlaylistUrl tags
         , showStateButton msgRouter
         , overrideControlPanelHideButton msgRouter
+        , overrideInactivityPauseButton msgRouter
         , pauseGifRotationButton msgRouter
         , playGifRotationButton msgRouter
         , playAudioButton msgRouter
@@ -121,6 +122,15 @@ overrideControlPanelHideButton { controlPanelMsg } =
         , onClick (controlPanelMsg ControlPanel.toggleHideWhenInactiveMsg)
         ]
         [ text "Override Control Panel Hide" ]
+
+
+overrideInactivityPauseButton : MsgRouter msg -> Html msg
+overrideInactivityPauseButton { secretConfigMsg } =
+    button
+        [ css [ Styles.configButton ]
+        , onClick (secretConfigMsg ToggleInactivityPauseOverride)
+        ]
+        [ text "Toggle Inactivity Pause" ]
 
 
 pauseGifRotationButton : MsgRouter msg -> Html msg

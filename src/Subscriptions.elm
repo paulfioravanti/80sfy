@@ -18,5 +18,8 @@ subscriptions msgRouter model =
             msgRouter
             model.controlPanel
         , Keyboard.downs msgRouter.keyMsg
-        , VideoPlayer.subscriptions msgRouter model.videoPlayer1
+        , VideoPlayer.subscriptions
+            msgRouter
+            model.secretConfig.overrideInactivityPause
+            model.videoPlayer1
         ]

@@ -21,8 +21,8 @@ port restartVideos : (() -> msg) -> Sub msg
 port haltVideos : (() -> msg) -> Sub msg
 
 
-subscriptions : MsgRouter msg -> VideoPlayer -> Sub msg
-subscriptions { videoPlayerMsg } videoPlayer1 =
+subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
+subscriptions { videoPlayerMsg } overrideInactivityPause videoPlayer1 =
     let
         fetchNextGifSubscription =
             if videoPlayer1.playing && videoPlayer1.fetchNextGif then
@@ -35,11 +35,17 @@ subscriptions { videoPlayerMsg } videoPlayer1 =
                 restartVideos (\() -> (videoPlayerMsg (PlayVideos ())))
             else
                 Sub.none
+
+        haltVideosSubscription =
+            if not overrideInactivityPause then
+                haltVideos (\() -> (videoPlayerMsg (HaltVideos ())))
+            else
+                Sub.none
     in
         Sub.batch
             [ fetchNextGifSubscription
             , videoPlaySubscription
-            , haltVideos (\() -> (videoPlayerMsg (HaltVideos ())))
+            , haltVideosSubscription
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]

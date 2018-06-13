@@ -6,7 +6,7 @@ import SecretConfig.Msg
     exposing
         ( Msg
             ( InitTags
-            , ToggleInactivityPause
+            , ToggleInactivityPauseOverride
             , ToggleVisibility
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
@@ -29,7 +29,7 @@ update { videoPlayerMsg } msg secretConfig =
             in
                 ( { secretConfig | tags = tags }, Cmd.none )
 
-        ToggleInactivityPause ->
+        ToggleInactivityPauseOverride ->
             ( { secretConfig
                 | overrideInactivityPause =
                     not secretConfig.overrideInactivityPause
