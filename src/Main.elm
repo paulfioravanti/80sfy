@@ -12,6 +12,8 @@ import Msg
             , ConfigMsg
             , ControlPanelMsg
             , KeyMsg
+            , Pause
+            , Play
             , SecretConfigMsg
             , ShowApplicationState
             , VideoPlayerMsg
@@ -33,6 +35,8 @@ main =
                 ConfigMsg
                 ControlPanelMsg
                 KeyMsg
+                Pause
+                Play
                 SecretConfigMsg
                 ShowApplicationState
                 VideoPlayerMsg

@@ -12,6 +12,8 @@ import Msg
             , ConfigMsg
             , ControlPanelMsg
             , KeyMsg
+            , Pause
+            , Play
             , SecretConfigMsg
             , ShowApplicationState
             , VideoPlayerMsg
@@ -19,6 +21,7 @@ import Msg
         )
 import MsgRouter exposing (MsgRouter)
 import SecretConfig
+import Task
 import VideoPlayer
 
 
@@ -62,6 +65,38 @@ update msgRouter msg model =
                         |> App.handleKeyPress msgRouter model
             in
                 ( model, cmd )
+
+        Pause () ->
+            ( model
+            , Cmd.batch
+                [ Task.succeed ()
+                    |> Task.perform
+                        (msgRouter.audioPlayerMsg
+                            << AudioPlayer.pauseAudioMsg
+                        )
+                , Task.succeed ()
+                    |> Task.perform
+                        (msgRouter.videoPlayerMsg
+                            << VideoPlayer.pauseVideosMsg
+                        )
+                ]
+            )
+
+        Play () ->
+            ( model
+            , Cmd.batch
+                [ Task.succeed ()
+                    |> Task.perform
+                        (msgRouter.audioPlayerMsg
+                            << AudioPlayer.playAudioMsg
+                        )
+                , Task.succeed ()
+                    |> Task.perform
+                        (msgRouter.videoPlayerMsg
+                            << VideoPlayer.playVideosMsg
+                        )
+                ]
+            )
 
         SecretConfigMsg msg ->
             let

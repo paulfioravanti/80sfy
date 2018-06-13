@@ -11,7 +11,10 @@ import VideoPlayer
 
 view : MsgRouter msg -> AudioPlayer -> Html msg
 view msgRouter { muted, playing } =
-    div [ css [ Styles.controls ], attribute "data-name" "controls" ]
+    div
+        [ css [ Styles.controls ]
+        , attribute "data-name" "controls"
+        ]
         [ muteUnmuteButton msgRouter muted
         , playPauseButton msgRouter playing
         , nextTrackButton msgRouter
@@ -39,18 +42,18 @@ muteUnmuteButton { audioPlayerMsg } muted =
 
 
 playPauseButton : MsgRouter msg -> Bool -> Html msg
-playPauseButton { audioPlayerMsg } playing =
+playPauseButton { pauseMsg, playMsg } playing =
     let
-        ( iconClass, msg ) =
+        ( iconClass, playPauseMsg ) =
             if playing then
-                ( "fas fa-pause", (AudioPlayer.pauseAudioMsg ()) )
+                ( "fas fa-pause", pauseMsg )
             else
-                ( "fas fa-play", (AudioPlayer.playAudioMsg ()) )
+                ( "fas fa-play", playMsg )
     in
         div
             [ css [ Styles.button ]
             , attribute "data-name" "play-pause"
-            , onClick (audioPlayerMsg msg)
+            , onClick (playPauseMsg ())
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []

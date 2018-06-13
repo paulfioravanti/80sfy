@@ -13,6 +13,8 @@ type Msg
     | ConfigMsg Config.Msg
     | ControlPanelMsg ControlPanel.Msg
     | KeyMsg KeyCode
+    | Pause ()
+    | Play ()
     | SecretConfigMsg SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayerMsg VideoPlayer.Msg
