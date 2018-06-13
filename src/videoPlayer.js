@@ -6,6 +6,7 @@ export function initPorts(app) {
   toggleFullScreen(app)
 }
 
+// REF: https://stackoverflow.com/questions/1760250/how-to-tell-if-browser-tab-is-active
 function initWindowListeners(app) {
   ["focus", "blur"].forEach((event) => {
     window.addEventListener(event, (e) => {
