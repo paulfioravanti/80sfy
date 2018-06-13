@@ -4,7 +4,6 @@ module SecretConfig
         , SecretConfig
         , init
         , initTagsMsg
-        , toggleGifRotationMsg
         , update
         , view
         )
@@ -33,11 +32,6 @@ init soundCloudPlaylistUrl =
 initTagsMsg : List String -> Msg
 initTagsMsg =
     Msg.InitTags
-
-
-toggleGifRotationMsg : Bool -> Msg
-toggleGifRotationMsg =
-    Msg.ToggleGifRotation
 
 
 update : MsgRouter msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )

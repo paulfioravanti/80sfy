@@ -24,14 +24,14 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
         ( Msg
-            ( ToggleGifRotation
-            , ToggleInactivityPause
+            ( ToggleInactivityPause
             , ToggleVisibility
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
             )
         )
 import SecretConfig.Styles as Styles
+import VideoPlayer
 
 
 view : MsgRouter msg -> SecretConfig -> Html msg
@@ -123,19 +123,19 @@ overrideInactivityPauseButton { secretConfigMsg } =
 
 
 pauseGifRotationButton : MsgRouter msg -> Html msg
-pauseGifRotationButton { secretConfigMsg } =
+pauseGifRotationButton { videoPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg (ToggleGifRotation False))
+        , onClick (videoPlayerMsg (VideoPlayer.pauseVideosMsg ()))
         ]
         [ text "Pause Gif Rotation" ]
 
 
 playGifRotationButton : MsgRouter msg -> Html msg
-playGifRotationButton { secretConfigMsg } =
+playGifRotationButton { videoPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg (ToggleGifRotation True))
+        , onClick (videoPlayerMsg (VideoPlayer.playVideosMsg ()))
         ]
         [ text "Play Gif Rotation" ]
 

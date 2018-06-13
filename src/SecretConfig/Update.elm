@@ -6,15 +6,12 @@ import SecretConfig.Msg
     exposing
         ( Msg
             ( InitTags
-            , ToggleGifRotation
             , ToggleInactivityPause
             , ToggleVisibility
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
             )
         )
-import Task
-import VideoPlayer.Msg exposing (Msg(PauseVideos, PlayVideos))
 
 
 update :
@@ -31,19 +28,6 @@ update { videoPlayerMsg } msg secretConfig =
                         |> String.join ", "
             in
                 ( { secretConfig | tags = tags }, Cmd.none )
-
-        ToggleGifRotation bool ->
-            let
-                videoMsg =
-                    if bool then
-                        PlayVideos
-                    else
-                        PauseVideos
-            in
-                ( secretConfig
-                , Task.succeed ()
-                    |> Task.perform (videoPlayerMsg << videoMsg)
-                )
 
         ToggleInactivityPause ->
             ( { secretConfig

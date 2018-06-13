@@ -14,9 +14,8 @@ import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
-import SecretConfig
 import VideoPlayer.Model exposing (VideoPlayer)
-import VideoPlayer.Msg exposing (Msg(ToggleFullScreen))
+import VideoPlayer.Msg exposing (Msg(PlayVideos, ToggleFullScreen))
 import VideoPlayer.Styles as Styles
 
 
@@ -52,10 +51,7 @@ attributes msgRouter videoPlayer =
         attributes =
             [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
-            , onClick
-                (msgRouter.secretConfigMsg
-                    (SecretConfig.toggleGifRotationMsg True)
-                )
+            , onClick (msgRouter.videoPlayerMsg (PlayVideos ()))
             , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
             ]
     in
