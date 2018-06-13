@@ -4,7 +4,6 @@ import App
 import AudioPlayer
 import Config
 import ControlPanel
-import Debug
 import Model exposing (Model)
 import Msg
     exposing
@@ -20,7 +19,6 @@ import Msg
         )
 import MsgRouter exposing (MsgRouter)
 import SecretConfig
-import Task
 import VideoPlayer
 
 
@@ -58,62 +56,12 @@ update msgRouter msg model =
                 )
 
         KeyMsg code ->
-            case code of
-                27 ->
-                    ( model, VideoPlayer.exitFullScreen )
-
-                32 ->
-                    let
-                        ( audioMsg, videoMsg ) =
-                            if model.audioPlayer.playing then
-                                ( AudioPlayer.pauseAudioMsg
-                                , VideoPlayer.pauseVideosMsg
-                                )
-                            else
-                                ( AudioPlayer.playAudioMsg
-                                , VideoPlayer.playVideosMsg
-                                )
-                    in
-                        ( model
-                        , Cmd.batch
-                            [ Task.succeed ()
-                                |> Task.perform
-                                    (msgRouter.audioPlayerMsg << audioMsg)
-                            , Task.succeed ()
-                                |> Task.perform
-                                    (msgRouter.videoPlayerMsg << videoMsg)
-                            ]
-                        )
-
-                38 ->
-                    ( model
-                    , Task.succeed (toString (model.audioPlayer.volume + 20))
-                        |> Task.perform
-                            (msgRouter.audioPlayerMsg
-                                << AudioPlayer.adjustVolumeMsg
-                            )
-                    )
-
-                39 ->
-                    ( model
-                    , Task.succeed ()
-                        |> Task.perform
-                            (msgRouter.audioPlayerMsg
-                                << AudioPlayer.nextTrackMsg
-                            )
-                    )
-
-                40 ->
-                    ( model
-                    , Task.succeed (toString (model.audioPlayer.volume - 20))
-                        |> Task.perform
-                            (msgRouter.audioPlayerMsg
-                                << AudioPlayer.adjustVolumeMsg
-                            )
-                    )
-
-                _ ->
-                    ( model, Cmd.none )
+            let
+                cmd =
+                    code
+                        |> App.handleKeyPress msgRouter model
+            in
+                ( model, cmd )
 
         SecretConfigMsg msg ->
             let
