@@ -15,11 +15,11 @@ import MsgRouter exposing (MsgRouter)
 import Time exposing (every, second)
 
 
-subscriptions : MsgRouter msg -> Bool -> ControlPanel -> Sub msg
-subscriptions { controlPanelMsg } overrideInactivityPause controlPanel =
+subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
+subscriptions { controlPanelMsg } controlPanel =
     let
         visibilitySubscription =
-            if overrideInactivityPause then
+            if not controlPanel.hideWhenInactive then
                 Sub.none
             else if controlPanel.visible && not controlPanel.inUse then
                 every second (controlPanelMsg << CountdownToHideControlPanel)

@@ -10,6 +10,7 @@ import ControlPanel.Msg
             , CountdownToHideControlPanel
             , HideControlPanel
             , ShowControlPanel
+            , ToggleHideWhenInactive
             , UseControlPanel
             )
         )
@@ -67,6 +68,13 @@ update { controlPanelMsg } msg controlPanel =
                 ( { controlPanel | style = animateToVisible, visible = True }
                 , Cmd.none
                 )
+
+        ToggleHideWhenInactive ->
+            ( { controlPanel
+                | hideWhenInactive = not controlPanel.hideWhenInactive
+              }
+            , Cmd.none
+            )
 
         UseControlPanel bool ->
             ( { controlPanel | inUse = bool }, Cmd.none )

@@ -16,7 +16,6 @@ subscriptions msgRouter model =
             model.audioPlayer
         , ControlPanel.subscriptions
             msgRouter
-            model.secretConfig.overrideInactivityPause
             model.controlPanel
         , Keyboard.downs msgRouter.keyMsg
         , VideoPlayer.subscriptions msgRouter model.videoPlayer1

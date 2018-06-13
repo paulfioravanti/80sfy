@@ -4,6 +4,7 @@ module ControlPanel
         , Msg
         , init
         , subscriptions
+        , toggleHideWhenInactiveMsg
         , update
         , view
         )
@@ -31,9 +32,14 @@ init =
     Model.init
 
 
-subscriptions : MsgRouter msg -> Bool -> ControlPanel -> Sub msg
-subscriptions msgRouter overrideInactivityPause controlPanel =
-    Subscriptions.subscriptions msgRouter overrideInactivityPause controlPanel
+subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
+subscriptions msgRouter controlPanel =
+    Subscriptions.subscriptions msgRouter controlPanel
+
+
+toggleHideWhenInactiveMsg : Msg
+toggleHideWhenInactiveMsg =
+    Msg.ToggleHideWhenInactive
 
 
 update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )

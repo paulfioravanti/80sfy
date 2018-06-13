@@ -2,6 +2,7 @@ module SecretConfig.View exposing (view)
 
 import AudioPlayer
 import Config.Msg exposing (Msg(SaveConfig))
+import ControlPanel
 import Html.Styled as Html
     exposing
         ( Html
@@ -66,7 +67,7 @@ secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
         , soundCloudPlaylistUrlInput msgRouter soundCloudPlaylistUrl
         , saveSettingsButton msgRouter soundCloudPlaylistUrl tags
         , showStateButton msgRouter
-        , overrideInactivityPauseButton msgRouter
+        , overrideControlPanelHideButton msgRouter
         , pauseGifRotationButton msgRouter
         , playGifRotationButton msgRouter
         , playAudioButton msgRouter
@@ -113,13 +114,13 @@ showStateButton { showApplicationState } =
         [ text "Show State" ]
 
 
-overrideInactivityPauseButton : MsgRouter msg -> Html msg
-overrideInactivityPauseButton { secretConfigMsg } =
+overrideControlPanelHideButton : MsgRouter msg -> Html msg
+overrideControlPanelHideButton { controlPanelMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg ToggleInactivityPause)
+        , onClick (controlPanelMsg ControlPanel.toggleHideWhenInactiveMsg)
         ]
-        [ text "Override Inactivity Pause" ]
+        [ text "Override Control Panel Hide" ]
 
 
 pauseGifRotationButton : MsgRouter msg -> Html msg

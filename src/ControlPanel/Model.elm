@@ -5,7 +5,8 @@ import ControlPanel.Animations as Animations
 
 
 type alias ControlPanel =
-    { inUse : Bool
+    { hideWhenInactive : Bool
+    , inUse : Bool
     , secondsOpen : Int
     , style : State
     , visible : Bool
@@ -14,7 +15,8 @@ type alias ControlPanel =
 
 init : ControlPanel
 init =
-    { inUse = False
+    { hideWhenInactive = True
+    , inUse = False
     , secondsOpen = 0
     , style = Animation.style Animations.visible
     , visible = True

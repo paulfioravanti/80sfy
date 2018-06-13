@@ -9,4 +9,5 @@ type Msg
     | CountdownToHideControlPanel Time
     | HideControlPanel ()
     | ShowControlPanel
+    | ToggleHideWhenInactive
     | UseControlPanel Bool
