@@ -8,13 +8,22 @@ import Task
 import VideoPlayer
 
 
+type Key
+    = DownArrow
+    | Escape
+    | RightArrow
+    | Space
+    | Unknown
+    | UpArrow
+
+
 handleKeyPress : MsgRouter msg -> Model -> Int -> Cmd msg
 handleKeyPress msgRouter model keyCode =
-    case keyCode of
-        27 ->
+    case toKey keyCode of
+        Escape ->
             VideoPlayer.exitFullScreen
 
-        32 ->
+        Space ->
             let
                 ( audioMsg, videoMsg ) =
                     if model.audioPlayer.playing then
@@ -35,21 +44,21 @@ handleKeyPress msgRouter model keyCode =
                             (msgRouter.videoPlayerMsg << videoMsg)
                     ]
 
-        38 ->
+        UpArrow ->
             Task.succeed (toString (model.audioPlayer.volume + 20))
                 |> Task.perform
                     (msgRouter.audioPlayerMsg
                         << AudioPlayer.adjustVolumeMsg
                     )
 
-        39 ->
+        RightArrow ->
             Task.succeed ()
                 |> Task.perform
                     (msgRouter.audioPlayerMsg
                         << AudioPlayer.nextTrackMsg
                     )
 
-        40 ->
+        DownArrow ->
             Task.succeed (toString (model.audioPlayer.volume - 20))
                 |> Task.perform
                     (msgRouter.audioPlayerMsg
@@ -79,3 +88,25 @@ showApplicationState model =
             Debug.log "Audio Player" model.audioPlayer
     in
         ()
+
+
+toKey : Int -> Key
+toKey keyCode =
+    case keyCode of
+        27 ->
+            Escape
+
+        32 ->
+            Space
+
+        38 ->
+            UpArrow
+
+        39 ->
+            RightArrow
+
+        40 ->
+            DownArrow
+
+        _ ->
+            Unknown
