@@ -40,7 +40,7 @@ update { videoPlayerMsg } msg secretConfig =
                     else
                         PauseVideos
             in
-                ( { secretConfig | fetchNextGif = bool }
+                ( secretConfig
                 , Task.succeed ()
                     |> Task.perform (videoPlayerMsg << videoMsg)
                 )

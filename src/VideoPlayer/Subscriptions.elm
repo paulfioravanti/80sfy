@@ -7,11 +7,11 @@ import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg exposing (Msg(AnimateVideoPlayer, CrossFadePlayers))
 
 
-subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
-subscriptions { videoPlayerMsg } fetchNextGif videoPlayer1 =
+subscriptions : MsgRouter msg -> VideoPlayer -> Sub msg
+subscriptions { videoPlayerMsg } videoPlayer1 =
     let
         fetchNextGifSubscription =
-            if fetchNextGif then
+            if videoPlayer1.playing then
                 Time.every (4 * second) (videoPlayerMsg << CrossFadePlayers)
             else
                 Sub.none

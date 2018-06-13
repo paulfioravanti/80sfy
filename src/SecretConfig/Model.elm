@@ -2,8 +2,7 @@ module SecretConfig.Model exposing (SecretConfig, init)
 
 
 type alias SecretConfig =
-    { fetchNextGif : Bool
-    , overrideInactivityPause : Bool
+    { overrideInactivityPause : Bool
     , soundCloudPlaylistUrl : String
     , tags : String
     , visible : Bool
@@ -12,8 +11,7 @@ type alias SecretConfig =
 
 init : String -> SecretConfig
 init soundCloudPlaylistUrl =
-    { fetchNextGif = True
-    , overrideInactivityPause = False
+    { overrideInactivityPause = False
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = ""
     , visible = False

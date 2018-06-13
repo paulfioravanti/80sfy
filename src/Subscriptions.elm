@@ -19,8 +19,5 @@ subscriptions msgRouter model =
             model.secretConfig.overrideInactivityPause
             model.controlPanel
         , Keyboard.downs msgRouter.keyMsg
-        , VideoPlayer.subscriptions
-            msgRouter
-            model.secretConfig.fetchNextGif
-            model.videoPlayer1
+        , VideoPlayer.subscriptions msgRouter model.videoPlayer1
         ]

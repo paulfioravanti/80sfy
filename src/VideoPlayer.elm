@@ -58,9 +58,9 @@ playVideosMsg =
     Msg.PlayVideos
 
 
-subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
-subscriptions msgRouter fetchNextGif videoPlayer1 =
-    Subscriptions.subscriptions msgRouter fetchNextGif videoPlayer1
+subscriptions : MsgRouter msg -> VideoPlayer -> Sub msg
+subscriptions msgRouter videoPlayer1 =
+    Subscriptions.subscriptions msgRouter videoPlayer1
 
 
 toggleFullScreenMsg : Msg
