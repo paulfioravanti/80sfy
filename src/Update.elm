@@ -63,16 +63,25 @@ update msgRouter msg model =
 
                 32 ->
                     let
-                        audioMsg =
+                        ( audioMsg, videoMsg ) =
                             if model.audioPlayer.playing then
-                                AudioPlayer.pauseAudioMsg
+                                ( AudioPlayer.pauseAudioMsg
+                                , VideoPlayer.pauseVideosMsg
+                                )
                             else
-                                AudioPlayer.playAudioMsg
+                                ( AudioPlayer.playAudioMsg
+                                , VideoPlayer.playVideosMsg
+                                )
                     in
                         ( model
-                        , Task.succeed ()
-                            |> Task.perform
-                                (msgRouter.audioPlayerMsg << audioMsg)
+                        , Cmd.batch
+                            [ Task.succeed ()
+                                |> Task.perform
+                                    (msgRouter.audioPlayerMsg << audioMsg)
+                            , Task.succeed ()
+                                |> Task.perform
+                                    (msgRouter.videoPlayerMsg << videoMsg)
+                            ]
                         )
 
                 38 ->

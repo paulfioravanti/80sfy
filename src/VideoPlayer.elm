@@ -5,6 +5,8 @@ module VideoPlayer
         , exitFullScreen
         , fetchRandomGifMsg
         , init
+        , pauseVideosMsg
+        , playVideosMsg
         , subscriptions
         , toggleFullScreenMsg
         , update
@@ -44,6 +46,16 @@ exitFullScreen =
 fetchRandomGifMsg : String -> Result Error String -> Msg
 fetchRandomGifMsg =
     Msg.FetchRandomGif
+
+
+pauseVideosMsg : () -> Msg
+pauseVideosMsg =
+    Msg.PauseVideos
+
+
+playVideosMsg : () -> Msg
+playVideosMsg =
+    Msg.PlayVideos
 
 
 subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
