@@ -5,7 +5,7 @@ import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import Task
 import VideoPlayer.Context exposing (Context)
-import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Model exposing (Status(Playing, Paused, Halted), VideoPlayer)
 import VideoPlayer.Msg
     exposing
         ( Msg
@@ -95,20 +95,20 @@ update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
                 ( videoPlayer1, videoPlayer2, Cmd.none )
 
         HaltVideos () ->
-            ( { videoPlayer1 | fetchNextGif = False }
-            , { videoPlayer2 | fetchNextGif = False }
+            ( { videoPlayer1 | status = Halted }
+            , { videoPlayer2 | status = Halted }
             , Ports.pauseVideos ()
             )
 
         PauseVideos () ->
-            ( { videoPlayer1 | playing = False }
-            , { videoPlayer2 | playing = False }
+            ( { videoPlayer1 | status = Paused }
+            , { videoPlayer2 | status = Paused }
             , Ports.pauseVideos ()
             )
 
         PlayVideos () ->
-            ( { videoPlayer1 | playing = True, fetchNextGif = True }
-            , { videoPlayer2 | playing = True, fetchNextGif = True }
+            ( { videoPlayer1 | status = Playing }
+            , { videoPlayer2 | status = Playing }
             , Ports.playVideos ()
             )
 

@@ -14,7 +14,7 @@ import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
-import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Model exposing (Status(Playing), VideoPlayer)
 import VideoPlayer.Msg exposing (Msg(PlayVideos, ToggleFullScreen))
 import VideoPlayer.Styles as Styles
 
@@ -32,7 +32,7 @@ view msgRouter videoPlayer audioPlaying =
 
         childElements =
             gifVideoPlayer gifUrl videoPlayer
-                :: if audioPlaying && not videoPlayer.playing then
+                :: if audioPlaying && not (videoPlayer.status == Playing) then
                     [ playerPausedOverlay ]
                    else
                     []
@@ -71,7 +71,7 @@ gifVideoPlayer gifUrl videoPlayer =
             [ property "muted" true
             , property "autopause" false
             ]
-                ++ if videoPlayer.playing then
+                ++ if videoPlayer.status == Playing then
                     [ property "autoplay" true
                     , property "loop" true
                     ]
