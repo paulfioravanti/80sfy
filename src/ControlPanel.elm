@@ -11,7 +11,7 @@ module ControlPanel
 
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Model as Model exposing (ControlPanel)
-import ControlPanel.Msg as Msg exposing (Msg(HideControlPanel))
+import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.Update as Update
 import ControlPanel.View as View

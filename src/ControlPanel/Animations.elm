@@ -1,7 +1,6 @@
 module ControlPanel.Animations exposing (hidden, visible)
 
-import Animation exposing (px)
-import Animation exposing (Property)
+import Animation exposing (Property, px)
 
 
 hidden : List Property
