@@ -16,7 +16,7 @@ module AudioPlayer
         )
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
-import AudioPlayer.Msg as Msg exposing (Msg(GeneratePlaylistTrackOrder))
+import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update

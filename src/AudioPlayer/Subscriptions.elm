@@ -31,14 +31,14 @@ subscriptions { audioPlayerMsg } audioPlayer =
     let
         playingSubscription =
             if audioPlayer.playing then
-                pauseAudioPlayer (\() -> (audioPlayerMsg AudioPaused))
+                pauseAudioPlayer (\() -> audioPlayerMsg AudioPaused)
             else
-                playAudioPlayer (\() -> (audioPlayerMsg AudioPlaying))
+                playAudioPlayer (\() -> audioPlayerMsg AudioPlaying)
     in
         Sub.batch
             [ playingSubscription
             , requestNextTrackNumber
-                (\() -> (audioPlayerMsg (NextTrackNumberRequested ())))
+                (\() -> audioPlayerMsg (NextTrackNumberRequested ()))
             , setPlaylistLength
                 (audioPlayerMsg << SetPlaylistLength << extractPlaylistValue)
             ]
