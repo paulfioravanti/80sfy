@@ -2,7 +2,7 @@ module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Styles as Styles
-import Html.Styled as Html exposing (Html, div, i)
+import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
 import MsgRouter exposing (MsgRouter)

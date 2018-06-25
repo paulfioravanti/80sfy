@@ -30,8 +30,7 @@ module ControlPanel.Styles
 import ControlPanel.Colors as Colors
 import Css
     exposing
-        ( Color
-        , Style
+        ( Style
         , active
         , absolute
         , after
@@ -48,12 +47,10 @@ import Css
         , borderRadius
         , borderStyle
         , borderWidth
-        , both
         , boxShadow4
         , boxSizing
         , center
         , color
-        , content
         , cursor
         , default
         , display
@@ -76,8 +73,6 @@ import Css
         , marginLeft
         , marginRight
         , marginTop
-        , minHeight
-        , minWidth
         , none
         , noRepeat
         , outline
@@ -273,13 +268,6 @@ creditsPorterCopyright =
     fontSize (pct 60)
 
 
-creditsPorterLink : Style
-creditsPorterLink =
-    Css.batch
-        [ fontSize (pct 70)
-        ]
-
-
 icon : Style
 icon =
     Css.batch
@@ -288,7 +276,7 @@ icon =
                 toBottom
                 (stop2 Colors.yellow (pct 0))
                 (stop2 Colors.pastelOrange (pct 50))
-                [ (stop2 Colors.yellow (pct 100)) ]
+                [ stop2 Colors.yellow (pct 100) ]
             )
         , color Colors.white
         , fontSize (px 18)
@@ -366,17 +354,6 @@ trackPlayer =
         , overflow hidden
         , property "scrolling" "no"
         , width (pct 100)
-        ]
-
-
-videoPlayer : Style
-videoPlayer =
-    Css.batch
-        [ height auto
-        , minHeight (pct 100)
-        , minWidth (pct 100)
-        , width auto
-        , zIndex (int -100)
         ]
 
 

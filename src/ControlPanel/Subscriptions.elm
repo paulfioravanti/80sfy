@@ -24,7 +24,7 @@ subscriptions { controlPanelMsg } controlPanel =
             else if controlPanel.visible && not controlPanel.inUse then
                 every second (controlPanelMsg << CountdownToHideControlPanel)
             else
-                Mouse.moves (\_ -> (controlPanelMsg ShowControlPanel))
+                Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
     in
         Sub.batch
             [ visibilitySubscription
