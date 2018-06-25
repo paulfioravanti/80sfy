@@ -3,7 +3,7 @@ module SecretConfig.View exposing (view)
 import AudioPlayer
 import Config.Msg exposing (Msg(SaveConfig))
 import ControlPanel
-import Html.Styled as Html
+import Html.Styled
     exposing
         ( Html
         , button
@@ -13,7 +13,7 @@ import Html.Styled as Html
         , text
         , textarea
         )
-import Html.Styled.Attributes as Attributes
+import Html.Styled.Attributes
     exposing
         ( attribute
         , css

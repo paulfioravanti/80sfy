@@ -1,7 +1,7 @@
 module Tags exposing (init, numToTag)
 
 import Http exposing (Error)
-import Json.Decode as Decode exposing (Decoder)
+import Json.Decode as Decode
 
 
 init : (Result Error (List String) -> msg) -> Cmd msg

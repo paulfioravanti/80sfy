@@ -1,6 +1,5 @@
 module SecretConfig.Update exposing (update)
 
-import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg
     exposing
