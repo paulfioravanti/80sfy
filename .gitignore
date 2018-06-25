@@ -16,3 +16,6 @@ node_modules
 
 # Ignore secret information
 .env
+
+# Ignore asdf config
+.tool-versions
