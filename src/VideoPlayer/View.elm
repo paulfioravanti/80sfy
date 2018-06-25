@@ -24,8 +24,8 @@ view msgRouter videoPlayer audioPlaying =
     let
         gifUrl =
             case videoPlayer.gifUrl of
-                Success gifUrl ->
-                    gifUrl
+                Success url ->
+                    url
 
                 _ ->
                     videoPlayer.fallbackGifUrl
@@ -48,14 +48,14 @@ attributes msgRouter videoPlayer =
                 |> Animation.render
                 |> List.map fromUnstyled
 
-        attributes =
+        videoPlayerAttributes =
             [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
             , onClick (msgRouter.videoPlayerMsg (PlayVideos ()))
             , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
             ]
     in
-        List.append animations attributes
+        List.append animations videoPlayerAttributes
 
 
 gifVideoPlayer : String -> VideoPlayer -> Html msg

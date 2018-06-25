@@ -3,7 +3,7 @@ port module VideoPlayer.Subscriptions exposing (subscriptions)
 import Animation
 import MsgRouter exposing (MsgRouter)
 import Time exposing (second)
-import VideoPlayer.Model exposing (Status(Playing, Paused, Halted), VideoPlayer)
+import VideoPlayer.Model exposing (Status(Playing, Halted), VideoPlayer)
 import VideoPlayer.Msg
     exposing
         ( Msg
@@ -32,7 +32,7 @@ subscriptions { videoPlayerMsg } overrideInactivityPause videoPlayer1 =
 
         videoPlaySubscription =
             if videoPlayer1.status == Halted then
-                restartVideos (\() -> (videoPlayerMsg (PlayVideos ())))
+                restartVideos (\() -> videoPlayerMsg (PlayVideos ()))
             else
                 Sub.none
 
@@ -41,7 +41,7 @@ subscriptions { videoPlayerMsg } overrideInactivityPause videoPlayer1 =
                 (videoPlayer1.status == Playing)
                     && not overrideInactivityPause
             then
-                haltVideos (\() -> (videoPlayerMsg (HaltVideos ())))
+                haltVideos (\() -> videoPlayerMsg (HaltVideos ()))
             else
                 Sub.none
     in

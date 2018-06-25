@@ -28,31 +28,31 @@ import VideoPlayer
 update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
 update msgRouter msg model =
     case msg of
-        AudioPlayerMsg msg ->
+        AudioPlayerMsg audioPlayerMsg ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msgRouter msg
+                        |> AudioPlayer.update msgRouter audioPlayerMsg
             in
                 ( { model | audioPlayer = audioPlayer }
                 , cmd
                 )
 
-        ConfigMsg msg ->
+        ConfigMsg configMsg ->
             let
                 ( config, cmd ) =
                     model.config
-                        |> Config.update msgRouter msg
+                        |> Config.update msgRouter configMsg
             in
                 ( { model | config = config }
                 , cmd
                 )
 
-        ControlPanelMsg msg ->
+        ControlPanelMsg controlPanelMsg ->
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
-                        |> ControlPanel.update msgRouter msg
+                        |> ControlPanel.update msgRouter controlPanelMsg
             in
                 ( { model | controlPanel = controlPanel }
                 , cmd
@@ -98,11 +98,11 @@ update msgRouter msg model =
                 ]
             )
 
-        SecretConfigMsg msg ->
+        SecretConfigMsg secretConfigMsg ->
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
-                        |> SecretConfig.update msg
+                        |> SecretConfig.update secretConfigMsg
             in
                 ( { model | secretConfig = secretConfig }
                 , cmd
@@ -115,7 +115,7 @@ update msgRouter msg model =
             in
                 ( model, Cmd.none )
 
-        VideoPlayerMsg msg ->
+        VideoPlayerMsg videoPlayerMsg ->
             let
                 context =
                     { generateRandomGifMsg =
@@ -126,7 +126,7 @@ update msgRouter msg model =
                     VideoPlayer.update
                         msgRouter
                         context
-                        msg
+                        videoPlayerMsg
                         model.videoPlayer1
                         model.videoPlayer2
             in
