@@ -8,15 +8,15 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( AudioPlayerMsg
-            , ConfigMsg
-            , ControlPanelMsg
-            , KeyMsg
+            ( AudioPlayer
+            , Config
+            , ControlPanel
+            , Key
             , Pause
             , Play
-            , SecretConfigMsg
+            , SecretConfig
             , ShowApplicationState
-            , VideoPlayerMsg
+            , VideoPlayer
             )
         )
 import MsgRouter exposing (MsgRouter)
@@ -31,15 +31,15 @@ main =
     let
         msgRouter =
             MsgRouter.init
-                AudioPlayerMsg
-                ConfigMsg
-                ControlPanelMsg
-                KeyMsg
+                AudioPlayer
+                Config
+                ControlPanel
+                Key
                 Pause
                 Play
-                SecretConfigMsg
+                SecretConfig
                 ShowApplicationState
-                VideoPlayerMsg
+                VideoPlayer
     in
         Html.programWithFlags
             { init = init msgRouter

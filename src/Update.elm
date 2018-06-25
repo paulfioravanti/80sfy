@@ -8,15 +8,15 @@ import Model exposing (Model)
 import Msg
     exposing
         ( Msg
-            ( AudioPlayerMsg
-            , ConfigMsg
-            , ControlPanelMsg
-            , KeyMsg
+            ( AudioPlayer
+            , Config
+            , ControlPanel
+            , Key
             , Pause
             , Play
-            , SecretConfigMsg
+            , SecretConfig
             , ShowApplicationState
-            , VideoPlayerMsg
+            , VideoPlayer
             )
         )
 import MsgRouter exposing (MsgRouter)
@@ -28,7 +28,7 @@ import VideoPlayer
 update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
 update msgRouter msg model =
     case msg of
-        AudioPlayerMsg audioPlayerMsg ->
+        AudioPlayer audioPlayerMsg ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
@@ -38,7 +38,7 @@ update msgRouter msg model =
                 , cmd
                 )
 
-        ConfigMsg configMsg ->
+        Config configMsg ->
             let
                 ( config, cmd ) =
                     model.config
@@ -48,7 +48,7 @@ update msgRouter msg model =
                 , cmd
                 )
 
-        ControlPanelMsg controlPanelMsg ->
+        ControlPanel controlPanelMsg ->
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
@@ -58,7 +58,7 @@ update msgRouter msg model =
                 , cmd
                 )
 
-        KeyMsg code ->
+        Key code ->
             let
                 cmd =
                     code
@@ -98,7 +98,7 @@ update msgRouter msg model =
                 ]
             )
 
-        SecretConfigMsg secretConfigMsg ->
+        SecretConfig secretConfigMsg ->
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
@@ -115,7 +115,7 @@ update msgRouter msg model =
             in
                 ( model, Cmd.none )
 
-        VideoPlayerMsg videoPlayerMsg ->
+        VideoPlayer videoPlayerMsg ->
             let
                 generateRandomGifMsg =
                     msgRouter.configMsg << Config.generateRandomGifMsg

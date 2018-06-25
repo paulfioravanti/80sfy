@@ -9,12 +9,12 @@ import VideoPlayer
 
 
 type Msg
-    = AudioPlayerMsg AudioPlayer.Msg
-    | ConfigMsg Config.Msg
-    | ControlPanelMsg ControlPanel.Msg
-    | KeyMsg KeyCode
+    = AudioPlayer AudioPlayer.Msg
+    | Config Config.Msg
+    | ControlPanel ControlPanel.Msg
+    | Key KeyCode
     | Pause ()
     | Play ()
-    | SecretConfigMsg SecretConfig.Msg
+    | SecretConfig SecretConfig.Msg
     | ShowApplicationState
-    | VideoPlayerMsg VideoPlayer.Msg
+    | VideoPlayer VideoPlayer.Msg
