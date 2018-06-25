@@ -23,7 +23,7 @@ type alias VideoPlayer =
 
 init : String -> Bool -> Int -> VideoPlayer
 init id visible zIndex =
-    { fallbackGifUrl = "https://media3.giphy.com/media/OVlFjmEDhx9rG/giphy.mp4"
+    { fallbackGifUrl = "/assets/tv-static.mp4"
     , gifUrl = NotRequested
     , id = id
     , status = Playing
