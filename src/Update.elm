@@ -124,7 +124,6 @@ update msgRouter msg model =
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        msgRouter
                         context
                         videoPlayerMsg
                         model.videoPlayer1

@@ -1,7 +1,6 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import Task
 import VideoPlayer.Context exposing (Context)
@@ -22,21 +21,23 @@ import VideoPlayer.Ports as Ports
 
 
 update :
-    MsgRouter msg
-    -> Context msg
+    Context msg
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgRouter { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
+update { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
     case msg of
-        AnimateVideoPlayer msg ->
-            ( { videoPlayer1 | style = Animation.update msg videoPlayer1.style }
+        AnimateVideoPlayer animationMsg ->
+            ( { videoPlayer1
+                | style = Animation.update animationMsg videoPlayer1.style
+              }
             , videoPlayer2
             , Cmd.none
             )
 
-        CrossFadePlayers time ->
+        -- unused variable is `time`
+        CrossFadePlayers _ ->
             let
                 ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId ) =
                     if videoPlayer1.visible then

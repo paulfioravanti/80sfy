@@ -69,14 +69,13 @@ toggleFullScreenMsg =
 
 
 update :
-    MsgRouter msg
-    -> Context msg
+    Context msg
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgRouter context msg videoPlayer1 videoPlayer2 =
-    Update.update msgRouter context msg videoPlayer1 videoPlayer2
+update context msg videoPlayer1 videoPlayer2 =
+    Update.update context msg videoPlayer1 videoPlayer2
 
 
 view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
