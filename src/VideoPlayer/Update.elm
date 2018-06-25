@@ -3,7 +3,6 @@ module VideoPlayer.Update exposing (update)
 import Animation
 import RemoteData exposing (RemoteData(Success))
 import Task
-import VideoPlayer.Context exposing (Context)
 import VideoPlayer.Model exposing (Status(Playing, Paused, Halted), VideoPlayer)
 import VideoPlayer.Msg
     exposing
@@ -21,12 +20,12 @@ import VideoPlayer.Ports as Ports
 
 
 update :
-    Context msg
+    (String -> msg)
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update { generateRandomGifMsg } msg videoPlayer1 videoPlayer2 =
+update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     case msg of
         AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1

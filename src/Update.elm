@@ -117,14 +117,12 @@ update msgRouter msg model =
 
         VideoPlayerMsg videoPlayerMsg ->
             let
-                context =
-                    { generateRandomGifMsg =
-                        msgRouter.configMsg << Config.generateRandomGifMsg
-                    }
+                generateRandomGifMsg =
+                    msgRouter.configMsg << Config.generateRandomGifMsg
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        context
+                        generateRandomGifMsg
                         videoPlayerMsg
                         model.videoPlayer1
                         model.videoPlayer2

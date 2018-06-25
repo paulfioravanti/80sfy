@@ -16,7 +16,6 @@ module VideoPlayer
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
-import VideoPlayer.Context exposing (Context)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Subscriptions as Subscriptions
@@ -69,13 +68,13 @@ toggleFullScreenMsg =
 
 
 update :
-    Context msg
+    (String -> msg)
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update context msg videoPlayer1 videoPlayer2 =
-    Update.update context msg videoPlayer1 videoPlayer2
+update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
+    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
 view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
