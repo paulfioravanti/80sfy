@@ -17,7 +17,7 @@ so it's probably best to view it with that.
 ### Dependencies
 
 - [Elm][] 0.18.0
-- [NodeJS][] 10.2.1
+- [NodeJS][] 10.5.0
 
 ## Setup
 
