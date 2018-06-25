@@ -102,7 +102,7 @@ update msgRouter msg model =
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
-                        |> SecretConfig.update msgRouter msg
+                        |> SecretConfig.update msg
             in
                 ( { model | secretConfig = secretConfig }
                 , cmd

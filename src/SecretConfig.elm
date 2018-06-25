@@ -34,9 +34,9 @@ initTagsMsg =
     Msg.InitTags
 
 
-update : MsgRouter msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
-update msgRouter msg secretConfig =
-    Update.update msgRouter msg secretConfig
+update : Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update msg secretConfig =
+    Update.update msg secretConfig
 
 
 view : MsgRouter msg -> SecretConfig -> Html msg

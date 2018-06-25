@@ -14,12 +14,8 @@ import SecretConfig.Msg
         )
 
 
-update :
-    MsgRouter msg
-    -> SecretConfig.Msg.Msg
-    -> SecretConfig
-    -> ( SecretConfig, Cmd msg )
-update { videoPlayerMsg } msg secretConfig =
+update : Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update msg secretConfig =
     case msg of
         InitTags tagList ->
             let
