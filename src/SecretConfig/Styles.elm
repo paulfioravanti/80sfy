@@ -22,10 +22,8 @@ import Css
         , height
         , inherit
         , int
-        , lineHeight
         , margin
         , none
-        , normal
         , overflow
         , pct
         , pointer

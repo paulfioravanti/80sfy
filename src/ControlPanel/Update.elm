@@ -21,16 +21,17 @@ import Task
 update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
 update { controlPanelMsg } msg controlPanel =
     case msg of
-        AnimateControlPanel msg ->
+        AnimateControlPanel animateMsg ->
             ( { controlPanel
                 | style =
                     controlPanel.style
-                        |> Animation.update msg
+                        |> Animation.update animateMsg
               }
             , Cmd.none
             )
 
-        CountdownToHideControlPanel time ->
+        -- unused variable is `time`
+        CountdownToHideControlPanel _ ->
             let
                 timeoutSeconds =
                     2

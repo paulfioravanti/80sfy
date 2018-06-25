@@ -7,31 +7,22 @@ import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg exposing (Msg(UseControlPanel))
 import ControlPanel.Styles as Styles
-import Html.Styled as Html
+import Html.Styled
     exposing
         ( Html
-        , a
-        , br
         , div
-        , i
         , iframe
         , img
         , input
-        , span
-        , text
-        , video
         )
 import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
-        , class
         , css
         , fromUnstyled
-        , href
         , id
         , src
         , step
-        , target
         , type_
         , value
         )
