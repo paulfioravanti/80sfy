@@ -20,6 +20,7 @@ subscriptions msgRouter model =
         , Keyboard.downs msgRouter.keyMsg
         , VideoPlayer.subscriptions
             msgRouter
+            model.config.gifDisplaySeconds
             model.secretConfig.overrideInactivityPause
             model.videoPlayer1
         ]

@@ -21,12 +21,14 @@ port restartVideos : (() -> msg) -> Sub msg
 port haltVideos : (() -> msg) -> Sub msg
 
 
-subscriptions : MsgRouter msg -> Bool -> VideoPlayer -> Sub msg
-subscriptions { videoPlayerMsg } overrideInactivityPause videoPlayer1 =
+subscriptions : MsgRouter msg -> Float -> Bool -> VideoPlayer -> Sub msg
+subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause videoPlayer1 =
     let
         fetchNextGifSubscription =
             if videoPlayer1.status == Playing then
-                Time.every (4 * second) (videoPlayerMsg << CrossFadePlayers)
+                Time.every
+                    (gifDisplaySeconds * second)
+                    (videoPlayerMsg << CrossFadePlayers)
             else
                 Sub.none
 

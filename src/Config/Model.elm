@@ -5,7 +5,8 @@ import Json.Decode as Decode exposing (Value)
 
 
 type alias Config =
-    { giphyApiKey : String
+    { gifDisplaySeconds : Float
+    , giphyApiKey : String
     , soundCloudPlaylistUrl : String
     , tags : List String
     , volumeAdjustmentRate : Int
@@ -24,7 +25,8 @@ init flags =
                 |> extractStringValue
                     "https://api.soundcloud.com/playlists/193785575"
     in
-        { giphyApiKey = giphyApiKey
+        { gifDisplaySeconds = 4
+        , giphyApiKey = giphyApiKey
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = []
         , volumeAdjustmentRate = 20
