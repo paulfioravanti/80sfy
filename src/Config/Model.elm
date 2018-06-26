@@ -8,6 +8,7 @@ type alias Config =
     { giphyApiKey : String
     , soundCloudPlaylistUrl : String
     , tags : List String
+    , volumeAdjustmentRate : Int
     }
 
 
@@ -26,6 +27,7 @@ init flags =
         { giphyApiKey = giphyApiKey
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = []
+        , volumeAdjustmentRate = 20
         }
 
 

@@ -17,7 +17,7 @@ type Key
 
 
 pressed : MsgRouter msg -> Model -> Int -> Cmd msg
-pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer } keyCode =
+pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
     case toKey keyCode of
         Escape ->
             VideoPlayer.exitFullScreen
@@ -42,16 +42,30 @@ pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer } keyCode =
                     ]
 
         UpArrow ->
-            Task.succeed (toString (audioPlayer.volume + 20))
-                |> Task.perform (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
+            let
+                newVolume =
+                    audioPlayer.volume
+                        + config.volumeAdjustmentRate
+                        |> toString
+            in
+                Task.succeed newVolume
+                    |> Task.perform
+                        (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
 
         RightArrow ->
             Task.succeed ()
                 |> Task.perform (audioPlayerMsg << AudioPlayer.nextTrackMsg)
 
         DownArrow ->
-            Task.succeed (toString (audioPlayer.volume - 20))
-                |> Task.perform (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
+            let
+                newVolume =
+                    audioPlayer.volume
+                        - config.volumeAdjustmentRate
+                        |> toString
+            in
+                Task.succeed newVolume
+                    |> Task.perform
+                        (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
 
         _ ->
             Cmd.none
