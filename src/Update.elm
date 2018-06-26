@@ -1,9 +1,9 @@
 module Update exposing (update)
 
-import App
 import AudioPlayer
 import Config
 import ControlPanel
+import Key
 import Model exposing (Model)
 import Msg
     exposing
@@ -22,6 +22,7 @@ import Msg
 import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import Task
+import Utils
 import VideoPlayer
 
 
@@ -34,9 +35,7 @@ update msgRouter msg model =
                     model.audioPlayer
                         |> AudioPlayer.update msgRouter audioPlayerMsg
             in
-                ( { model | audioPlayer = audioPlayer }
-                , cmd
-                )
+                ( { model | audioPlayer = audioPlayer }, cmd )
 
         Config configMsg ->
             let
@@ -44,9 +43,7 @@ update msgRouter msg model =
                     model.config
                         |> Config.update msgRouter configMsg
             in
-                ( { model | config = config }
-                , cmd
-                )
+                ( { model | config = config }, cmd )
 
         ControlPanel controlPanelMsg ->
             let
@@ -54,49 +51,51 @@ update msgRouter msg model =
                     model.controlPanel
                         |> ControlPanel.update msgRouter controlPanelMsg
             in
-                ( { model | controlPanel = controlPanel }
-                , cmd
-                )
+                ( { model | controlPanel = controlPanel }, cmd )
 
         Key code ->
             let
                 cmd =
                     code
-                        |> App.handleKeyPress msgRouter model
+                        |> Key.pressed msgRouter model
             in
                 ( model, cmd )
 
         Pause () ->
-            ( model
-            , Cmd.batch
-                [ Task.succeed ()
-                    |> Task.perform
-                        (msgRouter.audioPlayerMsg
-                            << AudioPlayer.pauseAudioMsg
-                        )
-                , Task.succeed ()
-                    |> Task.perform
-                        (msgRouter.videoPlayerMsg
-                            << VideoPlayer.pauseVideosMsg
-                        )
-                ]
-            )
+            let
+                pauseAudio =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << AudioPlayer.pauseAudioMsg
+                            )
+
+                pauseVideo =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.videoPlayerMsg
+                                << VideoPlayer.pauseVideosMsg
+                            )
+            in
+                ( model, Cmd.batch [ pauseAudio, pauseVideo ] )
 
         Play () ->
-            ( model
-            , Cmd.batch
-                [ Task.succeed ()
-                    |> Task.perform
-                        (msgRouter.audioPlayerMsg
-                            << AudioPlayer.playAudioMsg
-                        )
-                , Task.succeed ()
-                    |> Task.perform
-                        (msgRouter.videoPlayerMsg
-                            << VideoPlayer.playVideosMsg
-                        )
-                ]
-            )
+            let
+                playAudio =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << AudioPlayer.playAudioMsg
+                            )
+
+                playVideo =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.videoPlayerMsg
+                                << VideoPlayer.playVideosMsg
+                            )
+            in
+                ( model, Cmd.batch [ playAudio, playVideo ] )
 
         SecretConfig secretConfigMsg ->
             let
@@ -104,14 +103,12 @@ update msgRouter msg model =
                     model.secretConfig
                         |> SecretConfig.update secretConfigMsg
             in
-                ( { model | secretConfig = secretConfig }
-                , cmd
-                )
+                ( { model | secretConfig = secretConfig }, cmd )
 
         ShowApplicationState ->
             let
                 _ =
-                    App.showApplicationState model
+                    Utils.showApplicationState model
             in
                 ( model, Cmd.none )
 
