@@ -32,9 +32,9 @@ type alias Msg =
     Msg.Msg
 
 
-init : String -> Bool -> Int -> VideoPlayer
-init id visible zIndex =
-    Model.init id visible zIndex
+init : String -> Int -> VideoPlayer
+init id zIndex =
+    Model.init id zIndex
 
 
 exitFullScreen : Cmd msg

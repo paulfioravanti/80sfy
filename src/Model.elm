@@ -24,6 +24,6 @@ init config =
     , controlPanel = ControlPanel.init
     , secretConfig =
         SecretConfig.init config.soundCloudPlaylistUrl config.gifDisplaySeconds
-    , videoPlayer1 = VideoPlayer.init "1" True -4
-    , videoPlayer2 = VideoPlayer.init "2" True -5
+    , videoPlayer1 = VideoPlayer.init "1" -4
+    , videoPlayer2 = VideoPlayer.init "2" -5
     }

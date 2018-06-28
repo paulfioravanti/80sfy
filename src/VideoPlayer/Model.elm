@@ -21,13 +21,13 @@ type alias VideoPlayer =
     }
 
 
-init : String -> Bool -> Int -> VideoPlayer
-init id visible zIndex =
+init : String -> Int -> VideoPlayer
+init id zIndex =
     { fallbackGifUrl = "/assets/tv-static.mp4"
     , gifUrl = NotRequested
     , id = id
     , status = Paused
     , style = Animation.style [ Animation.opacity 1 ]
-    , visible = visible
+    , visible = True
     , zIndex = zIndex
     }
