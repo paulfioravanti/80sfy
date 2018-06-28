@@ -67,29 +67,31 @@ update msgRouter msg audioPlayer =
             )
 
         NextTrack () ->
-            ( { audioPlayer | playing = True }
-            , Task.succeed ()
-                |> Task.perform
-                    (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
-            )
+            let
+                requestNextTrack =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.audioPlayerMsg
+                                << NextTrackNumberRequested
+                            )
+
+                playVideos =
+                    Task.succeed ()
+                        |> Task.perform
+                            (msgRouter.videoPlayerMsg
+                                << VideoPlayer.playVideosMsg
+                            )
+            in
+                ( { audioPlayer | playing = True }
+                , Cmd.batch [ requestNextTrack, playVideos ]
+                )
 
         NextTrackNumberRequested () ->
             let
                 ( playlistTrackOrder, cmd ) =
                     case audioPlayer.playlistTrackOrder of
                         head :: tail ->
-                            let
-                                playVideos =
-                                    Task.succeed ()
-                                        |> Task.perform
-                                            (msgRouter.videoPlayerMsg
-                                                << VideoPlayer.playVideosMsg
-                                            )
-                            in
-                                ( tail
-                                , Cmd.batch
-                                    [ Ports.skipToTrack head, playVideos ]
-                                )
+                            ( tail, Ports.skipToTrack head )
 
                         [] ->
                             ( []
