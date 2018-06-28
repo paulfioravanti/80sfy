@@ -7,6 +7,7 @@ import SecretConfig.Msg
             ( InitTags
             , ToggleInactivityPauseOverride
             , ToggleVisibility
+            , UpdateGifDisplaySeconds
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
             )
@@ -34,6 +35,9 @@ update msg secretConfig =
 
         ToggleVisibility ->
             ( { secretConfig | visible = not secretConfig.visible }, Cmd.none )
+
+        UpdateGifDisplaySeconds seconds ->
+            ( { secretConfig | gifDisplaySeconds = seconds }, Cmd.none )
 
         UpdateSoundCloudPlaylistUrl url ->
             ( { secretConfig | soundCloudPlaylistUrl = url }, Cmd.none )

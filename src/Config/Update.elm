@@ -69,12 +69,24 @@ update msgRouter msg config =
                     |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
                 )
 
-        SaveConfig soundCloudPlaylistUrl tagsString ->
+        SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
                 tags =
                     tagsString
                         |> String.split ", "
                         |> List.map String.trim
+
+                gifDisplaySeconds =
+                    gifDisplaySecondsString
+                        |> String.toFloat
+                        |> Result.map
+                            (\seconds ->
+                                if seconds < 1 then
+                                    config.gifDisplaySeconds
+                                else
+                                    seconds
+                            )
+                        |> Result.withDefault config.gifDisplaySeconds
 
                 cmd =
                     if
@@ -90,7 +102,8 @@ update msgRouter msg config =
                         Cmd.none
             in
                 ( { config
-                    | soundCloudPlaylistUrl = soundCloudPlaylistUrl
+                    | gifDisplaySeconds = gifDisplaySeconds
+                    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
                     , tags = tags
                   }
                 , cmd

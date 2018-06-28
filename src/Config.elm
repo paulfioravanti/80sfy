@@ -40,7 +40,7 @@ generateRandomGifMsg =
     Msg.GenerateRandomGif
 
 
-saveConfigMsg : String -> String -> Msg
+saveConfigMsg : String -> String -> String -> Msg
 saveConfigMsg =
     Msg.SaveConfig
 

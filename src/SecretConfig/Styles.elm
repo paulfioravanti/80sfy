@@ -1,8 +1,8 @@
 module SecretConfig.Styles
     exposing
         ( configButton
+        , configInput
         , gifTags
-        , playlist
         , secretConfig
         , secretConfigButton
         )
@@ -47,8 +47,8 @@ configButton =
         ]
 
 
-playlist : Style
-playlist =
+configInput : Style
+configInput =
     Css.batch
         [ color inherit
         , fontFamilies [ "Source Code Pro", "sans-serif" ]

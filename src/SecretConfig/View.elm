@@ -27,6 +27,7 @@ import SecretConfig.Msg
         ( Msg
             ( ToggleInactivityPauseOverride
             , ToggleVisibility
+            , UpdateGifDisplaySeconds
             , UpdateSoundCloudPlaylistUrl
             , UpdateTags
             )
@@ -54,18 +55,27 @@ secretConfigButton { secretConfigMsg } =
 
 
 secretConfigSettings : MsgRouter msg -> SecretConfig -> Html msg
-secretConfigSettings msgRouter { soundCloudPlaylistUrl, tags, visible } =
+secretConfigSettings msgRouter secretConfig =
     div
-        [ css [ Styles.secretConfig visible ]
+        [ css [ Styles.secretConfig secretConfig.visible ]
         , attribute "data-name" "secret-config-settings"
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput msgRouter tags
+        , gifTagsInput msgRouter secretConfig.tags
         , span []
             [ text "Playlist:" ]
-        , soundCloudPlaylistUrlInput msgRouter soundCloudPlaylistUrl
-        , saveSettingsButton msgRouter soundCloudPlaylistUrl tags
+        , soundCloudPlaylistUrlInput
+            msgRouter
+            secretConfig.soundCloudPlaylistUrl
+        , span []
+            [ text "Gif Display Seconds:" ]
+        , gifDisplaySecondsInput msgRouter secretConfig.gifDisplaySeconds
+        , saveSettingsButton
+            msgRouter
+            secretConfig.soundCloudPlaylistUrl
+            secretConfig.tags
+            secretConfig.gifDisplaySeconds
         , showStateButton msgRouter
         , overrideControlPanelHideButton msgRouter
         , overrideInactivityPauseButton msgRouter
@@ -89,7 +99,7 @@ gifTagsInput { secretConfigMsg } tags =
 soundCloudPlaylistUrlInput : MsgRouter msg -> String -> Html msg
 soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
     input
-        [ css [ Styles.playlist ]
+        [ css [ Styles.configInput ]
         , attribute "data-name" "playlist-input"
         , value soundCloudPlaylistUrl
         , onInput (secretConfigMsg << UpdateSoundCloudPlaylistUrl)
@@ -97,11 +107,25 @@ soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
         []
 
 
-saveSettingsButton : MsgRouter msg -> String -> String -> Html msg
-saveSettingsButton { configMsg } soundCloudPlaylistUrl tags =
+gifDisplaySecondsInput : MsgRouter msg -> String -> Html msg
+gifDisplaySecondsInput { secretConfigMsg } gifDisplaySeconds =
+    input
+        [ css [ Styles.configInput ]
+        , attribute "data-name" "gif-display-seconds-input"
+        , value gifDisplaySeconds
+        , onInput (secretConfigMsg << UpdateGifDisplaySeconds)
+        ]
+        []
+
+
+saveSettingsButton : MsgRouter msg -> String -> String -> String -> Html msg
+saveSettingsButton { configMsg } soundCloudPlaylistUrl tags gifDisplaySeconds =
     button
         [ css [ Styles.configButton ]
-        , onClick (configMsg (SaveConfig soundCloudPlaylistUrl tags))
+        , onClick
+            (configMsg
+                (SaveConfig soundCloudPlaylistUrl tags gifDisplaySeconds)
+            )
         ]
         [ text "Save Settings" ]
 

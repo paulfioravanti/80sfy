@@ -24,9 +24,9 @@ type alias Msg =
     Msg.Msg
 
 
-init : String -> SecretConfig
-init soundCloudPlaylistUrl =
-    Model.init soundCloudPlaylistUrl
+init : String -> Float -> SecretConfig
+init soundCloudPlaylistUrl gifDisplaySeconds =
+    Model.init soundCloudPlaylistUrl gifDisplaySeconds
 
 
 initTagsMsg : List String -> Msg
