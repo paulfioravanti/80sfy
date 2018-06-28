@@ -21,6 +21,7 @@ import AudioPlayer.Ports as Ports
 import AudioPlayer.Utils as Utils
 import MsgRouter exposing (MsgRouter)
 import Task
+import VideoPlayer
 
 
 update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
@@ -77,7 +78,18 @@ update msgRouter msg audioPlayer =
                 ( playlistTrackOrder, cmd ) =
                     case audioPlayer.playlistTrackOrder of
                         head :: tail ->
-                            ( tail, Ports.skipToTrack head )
+                            let
+                                playVideos =
+                                    Task.succeed ()
+                                        |> Task.perform
+                                            (msgRouter.videoPlayerMsg
+                                                << VideoPlayer.playVideosMsg
+                                            )
+                            in
+                                ( tail
+                                , Cmd.batch
+                                    [ Ports.skipToTrack head, playVideos ]
+                                )
 
                         [] ->
                             ( []
