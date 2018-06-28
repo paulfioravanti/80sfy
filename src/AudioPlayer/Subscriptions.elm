@@ -15,16 +15,10 @@ import MsgRouter exposing (MsgRouter)
 import VideoPlayer
 
 
-port pauseAudioPlayer : (() -> msg) -> Sub msg
+port pause : (() -> msg) -> Sub msg
 
 
-port pauseVideoPlayer : (() -> msg) -> Sub msg
-
-
-port playAudioPlayer : (() -> msg) -> Sub msg
-
-
-port playVideoPlayer : (() -> msg) -> Sub msg
+port play : (() -> msg) -> Sub msg
 
 
 port setPlaylistLength : (Value -> msg) -> Sub msg
@@ -39,14 +33,14 @@ subscriptions { audioPlayerMsg, videoPlayerMsg } audioPlayer =
         playingSubscription =
             if audioPlayer.playing then
                 Sub.batch
-                    [ pauseAudioPlayer (\() -> audioPlayerMsg AudioPaused)
-                    , pauseVideoPlayer
+                    [ pause (\() -> audioPlayerMsg AudioPaused)
+                    , pause
                         (\() -> videoPlayerMsg (VideoPlayer.pauseVideosMsg ()))
                     ]
             else
                 Sub.batch
-                    [ playAudioPlayer (\() -> audioPlayerMsg AudioPlaying)
-                    , playVideoPlayer
+                    [ play (\() -> audioPlayerMsg AudioPlaying)
+                    , play
                         (\() -> videoPlayerMsg (VideoPlayer.playVideosMsg ()))
                     ]
     in
