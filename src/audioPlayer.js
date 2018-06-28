@@ -20,9 +20,11 @@ function initAudioPlayer(app) {
       })
       scPlayer.bind(SC.Widget.Events.PLAY, () => {
         app.ports.playAudioPlayer.send(null)
+        app.ports.playVideoPlayer.send(null)
       })
       scPlayer.bind(SC.Widget.Events.PAUSE, () => {
         app.ports.pauseAudioPlayer.send(null)
+        app.ports.pauseVideoPlayer.send(null)
       })
       scPlayer.bind(SC.Widget.Events.FINISH, () => {
         app.ports.requestNextTrackNumber.send(null)

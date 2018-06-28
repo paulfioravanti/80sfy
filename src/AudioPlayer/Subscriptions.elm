@@ -12,12 +12,19 @@ import AudioPlayer.Msg
 import AudioPlayer.Model exposing (AudioPlayer)
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
+import VideoPlayer
 
 
 port pauseAudioPlayer : (() -> msg) -> Sub msg
 
 
+port pauseVideoPlayer : (() -> msg) -> Sub msg
+
+
 port playAudioPlayer : (() -> msg) -> Sub msg
+
+
+port playVideoPlayer : (() -> msg) -> Sub msg
 
 
 port setPlaylistLength : (Value -> msg) -> Sub msg
@@ -27,13 +34,21 @@ port requestNextTrackNumber : (() -> msg) -> Sub msg
 
 
 subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
-subscriptions { audioPlayerMsg } audioPlayer =
+subscriptions { audioPlayerMsg, videoPlayerMsg } audioPlayer =
     let
         playingSubscription =
             if audioPlayer.playing then
-                pauseAudioPlayer (\() -> audioPlayerMsg AudioPaused)
+                Sub.batch
+                    [ pauseAudioPlayer (\() -> audioPlayerMsg AudioPaused)
+                    , pauseVideoPlayer
+                        (\() -> videoPlayerMsg (VideoPlayer.pauseVideosMsg ()))
+                    ]
             else
-                playAudioPlayer (\() -> audioPlayerMsg AudioPlaying)
+                Sub.batch
+                    [ playAudioPlayer (\() -> audioPlayerMsg AudioPlaying)
+                    , playVideoPlayer
+                        (\() -> videoPlayerMsg (VideoPlayer.playVideosMsg ()))
+                    ]
     in
         Sub.batch
             [ playingSubscription
