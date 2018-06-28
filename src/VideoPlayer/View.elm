@@ -48,15 +48,18 @@ attributes msgRouter audioPlaying videoPlayer =
                 |> Animation.render
                 |> List.map fromUnstyled
 
+        clickOnPlayAttribute =
+            if audioPlaying && not (videoPlayer.status == Playing) then
+                [ onClick (msgRouter.videoPlayerMsg (PlayVideos ())) ]
+            else
+                []
+
         videoPlayerAttributes =
-            [ css [ Styles.gifContainer videoPlayer.zIndex ]
-            , attribute "data-name" "player-gif-container"
-            , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
-            ]
-                ++ if audioPlaying && not (videoPlayer.status == Playing) then
-                    [ onClick (msgRouter.videoPlayerMsg (PlayVideos ())) ]
-                   else
-                    []
+            clickOnPlayAttribute
+                ++ [ css [ Styles.gifContainer videoPlayer.zIndex ]
+                   , attribute "data-name" "player-gif-container"
+                   , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
+                   ]
     in
         List.append animations videoPlayerAttributes
 
