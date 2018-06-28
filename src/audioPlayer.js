@@ -17,15 +17,15 @@ function initAudioPlayer(app) {
         scPlayer.getSounds((sounds) => {
           app.ports.setPlaylistLength.send(sounds.length)
         })
-      })
-      scPlayer.bind(SC.Widget.Events.PLAY, () => {
-        app.ports.play.send(null)
-      })
-      scPlayer.bind(SC.Widget.Events.PAUSE, () => {
-        app.ports.pause.send(null)
-      })
-      scPlayer.bind(SC.Widget.Events.FINISH, () => {
-        app.ports.requestNextTrackNumber.send(null)
+        scPlayer.bind(SC.Widget.Events.PLAY, () => {
+          app.ports.play.send(null)
+        })
+        scPlayer.bind(SC.Widget.Events.PAUSE, () => {
+          app.ports.pause.send(null)
+        })
+        scPlayer.bind(SC.Widget.Events.FINISH, () => {
+          app.ports.requestNextTrackNumber.send(null)
+        })
       })
     })
   })
