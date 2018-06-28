@@ -81,6 +81,6 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
-view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
-view msgRouter videoPlayer audioPlaying =
-    View.view msgRouter videoPlayer audioPlaying
+view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg
+view msgRouter audioPlaying videoPlayer =
+    View.view msgRouter audioPlaying videoPlayer

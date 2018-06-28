@@ -19,8 +19,8 @@ import VideoPlayer.Msg exposing (Msg(PlayVideos, ToggleFullScreen))
 import VideoPlayer.Styles as Styles
 
 
-view : MsgRouter msg -> VideoPlayer -> Bool -> Html msg
-view msgRouter videoPlayer audioPlaying =
+view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg
+view msgRouter audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -37,11 +37,11 @@ view msgRouter videoPlayer audioPlaying =
                    else
                     []
     in
-        div (attributes msgRouter videoPlayer) childElements
+        div (attributes msgRouter audioPlaying videoPlayer) childElements
 
 
-attributes : MsgRouter msg -> VideoPlayer -> List (Html.Attribute msg)
-attributes msgRouter videoPlayer =
+attributes : MsgRouter msg -> Bool -> VideoPlayer -> List (Html.Attribute msg)
+attributes msgRouter audioPlaying videoPlayer =
     let
         animations =
             videoPlayer.style
@@ -51,9 +51,12 @@ attributes msgRouter videoPlayer =
         videoPlayerAttributes =
             [ css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
-            , onClick (msgRouter.videoPlayerMsg (PlayVideos ()))
             , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
             ]
+                ++ if audioPlaying && not (videoPlayer.status == Playing) then
+                    [ onClick (msgRouter.videoPlayerMsg (PlayVideos ())) ]
+                   else
+                    []
     in
         List.append animations videoPlayerAttributes
 

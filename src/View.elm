@@ -15,11 +15,11 @@ view msgRouter model =
         [ ControlPanel.view msgRouter model.audioPlayer model.controlPanel
         , VideoPlayer.view
             msgRouter
-            model.videoPlayer1
             model.audioPlayer.playing
+            model.videoPlayer1
         , VideoPlayer.view
             msgRouter
-            model.videoPlayer2
             model.audioPlayer.playing
+            model.videoPlayer2
         , SecretConfig.view msgRouter model.secretConfig
         ]
