@@ -72,7 +72,7 @@ update { controlPanelMsg } msg controlPanel =
 
         ToggleHideWhenInactive ->
             let
-                -- "Toggle" secondsOpen between -Infinity to 0.
+                -- "Toggle" secondsOpen between -Infinity and 0.
                 -- When it's -Infinity, the
                 -- (controlPanel.secondsOpen > timeoutSeconds) condition
                 -- from the CountdownToHideControlPanel msg will never
