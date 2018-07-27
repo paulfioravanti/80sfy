@@ -3,4 +3,4 @@ git add .
 git commit --amend --no-edit --no-verify
 git push
 git push heroku
-surge -p build
+surge build elm-80sfy.surge.sh
