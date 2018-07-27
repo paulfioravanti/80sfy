@@ -4,7 +4,7 @@ import Animation
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
-import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse))
 import ControlPanel.Msg exposing (Msg(UseControlPanel))
 import ControlPanel.Styles as Styles
 import Html.Styled

@@ -1,7 +1,7 @@
 module ControlPanel.Subscriptions exposing (subscriptions)
 
 import Animation
-import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse, Invisible))
 import ControlPanel.Msg
     exposing
         ( Msg
@@ -19,10 +19,16 @@ subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
 subscriptions { controlPanelMsg } controlPanel =
     let
         visibilitySubscription =
-            if controlPanel.visible && not controlPanel.inUse then
-                every second (controlPanelMsg << CountdownToHideControlPanel)
-            else
-                Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
+            case controlPanel.state of
+                Idle ->
+                    every second
+                        (controlPanelMsg << CountdownToHideControlPanel)
+
+                InUse ->
+                    Sub.none
+
+                Invisible ->
+                    Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
     in
         Sub.batch
             [ visibilitySubscription

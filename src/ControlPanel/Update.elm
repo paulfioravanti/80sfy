@@ -2,7 +2,7 @@ module ControlPanel.Update exposing (update)
 
 import Animation
 import ControlPanel.Animations as Animations
-import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse, Invisible))
 import ControlPanel.Msg
     exposing
         ( Msg
@@ -55,7 +55,7 @@ update { controlPanelMsg } msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.hidden ]
             in
-                ( { controlPanel | style = animateToHidden, visible = False }
+                ( { controlPanel | style = animateToHidden, visible = False, state = Invisible }
                 , Cmd.none
                 )
 
@@ -66,7 +66,7 @@ update { controlPanelMsg } msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.visible ]
             in
-                ( { controlPanel | style = animateToVisible, visible = True }
+                ( { controlPanel | style = animateToVisible, visible = True, state = Idle }
                 , Cmd.none
                 )
 
@@ -89,4 +89,11 @@ update { controlPanelMsg } msg controlPanel =
                 )
 
         UseControlPanel bool ->
-            ( { controlPanel | inUse = bool }, Cmd.none )
+            let
+                state =
+                    if bool then
+                        InUse
+                    else
+                        Idle
+            in
+                ( { controlPanel | inUse = bool, state = state }, Cmd.none )
