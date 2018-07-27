@@ -71,11 +71,22 @@ update { controlPanelMsg } msg controlPanel =
                 )
 
         ToggleHideWhenInactive ->
-            ( { controlPanel
-                | hideWhenInactive = not controlPanel.hideWhenInactive
-              }
-            , Cmd.none
-            )
+            let
+                -- "Toggle" secondsOpen between -Infinity to 0.
+                -- When it's -Infinity, the
+                -- (controlPanel.secondsOpen > timeoutSeconds) condition
+                -- from the CountdownToHideControlPanel msg will never
+                -- be satisfied, and hence the controlPanel will always stay
+                -- visible.
+                secondsOpen =
+                    if isInfinite controlPanel.secondsOpen then
+                        0
+                    else
+                        -1 / 0
+            in
+                ( { controlPanel | secondsOpen = secondsOpen }
+                , Cmd.none
+                )
 
         UseControlPanel bool ->
             ( { controlPanel | inUse = bool }, Cmd.none )

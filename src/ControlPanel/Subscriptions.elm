@@ -19,9 +19,7 @@ subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
 subscriptions { controlPanelMsg } controlPanel =
     let
         visibilitySubscription =
-            if not controlPanel.hideWhenInactive then
-                Sub.none
-            else if controlPanel.visible && not controlPanel.inUse then
+            if controlPanel.visible && not controlPanel.inUse then
                 every second (controlPanelMsg << CountdownToHideControlPanel)
             else
                 Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
