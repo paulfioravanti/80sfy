@@ -9,6 +9,7 @@ import ControlPanel.Msg
             ( AnimateControlPanel
             , CountdownToHideControlPanel
             , HideControlPanel
+            , LeaveControlPanel
             , ShowControlPanel
             , ToggleHideWhenInactive
             , UseControlPanel
@@ -55,9 +56,12 @@ update { controlPanelMsg } msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.hidden ]
             in
-                ( { controlPanel | style = animateToHidden, visible = False, state = Invisible }
+                ( { controlPanel | style = animateToHidden, state = Invisible }
                 , Cmd.none
                 )
+
+        LeaveControlPanel ->
+            ( { controlPanel | state = Idle }, Cmd.none )
 
         ShowControlPanel ->
             let
@@ -66,7 +70,7 @@ update { controlPanelMsg } msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.visible ]
             in
-                ( { controlPanel | style = animateToVisible, visible = True, state = Idle }
+                ( { controlPanel | style = animateToVisible, state = Idle }
                 , Cmd.none
                 )
 
@@ -88,12 +92,5 @@ update { controlPanelMsg } msg controlPanel =
                 , Cmd.none
                 )
 
-        UseControlPanel bool ->
-            let
-                state =
-                    if bool then
-                        InUse
-                    else
-                        Idle
-            in
-                ( { controlPanel | inUse = bool, state = state }, Cmd.none )
+        UseControlPanel ->
+            ( { controlPanel | state = InUse }, Cmd.none )

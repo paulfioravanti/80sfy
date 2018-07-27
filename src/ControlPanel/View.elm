@@ -4,8 +4,8 @@ import Animation
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
-import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse))
-import ControlPanel.Msg exposing (Msg(UseControlPanel))
+import ControlPanel.Model exposing (ControlPanel)
+import ControlPanel.Msg exposing (Msg(LeaveControlPanel, UseControlPanel))
 import ControlPanel.Styles as Styles
 import Html.Styled
     exposing
@@ -41,8 +41,8 @@ view ({ controlPanelMsg } as msgRouter) audioPlayer controlPanel =
         attributes =
             [ css [ Styles.controlPanel ]
             , attribute "data-name" "control-panel"
-            , onMouseEnter (controlPanelMsg (UseControlPanel True))
-            , onMouseLeave (controlPanelMsg (UseControlPanel False))
+            , onMouseEnter (controlPanelMsg UseControlPanel)
+            , onMouseLeave (controlPanelMsg LeaveControlPanel)
             ]
     in
         div (animations ++ attributes)

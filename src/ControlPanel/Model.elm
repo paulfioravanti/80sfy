@@ -11,19 +11,15 @@ type State
 
 
 type alias ControlPanel =
-    { inUse : Bool
-    , secondsOpen : Float
+    { secondsOpen : Float
     , state : State
     , style : Animation.State
-    , visible : Bool
     }
 
 
 init : ControlPanel
 init =
-    { inUse = False
-    , secondsOpen = 0
+    { secondsOpen = 0
     , state = Idle
     , style = Animation.style Animations.visible
-    , visible = True
     }

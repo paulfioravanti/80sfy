@@ -8,6 +8,7 @@ type Msg
     = AnimateControlPanel Animation.Msg
     | CountdownToHideControlPanel Time
     | HideControlPanel ()
+    | LeaveControlPanel
     | ShowControlPanel
     | ToggleHideWhenInactive
-    | UseControlPanel Bool
+    | UseControlPanel
