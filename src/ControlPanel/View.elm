@@ -7,14 +7,7 @@ import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg exposing (Msg(LeaveControlPanel, UseControlPanel))
 import ControlPanel.Styles as Styles
-import Html.Styled
-    exposing
-        ( Html
-        , div
-        , iframe
-        , img
-        , input
-        )
+import Html.Styled exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
