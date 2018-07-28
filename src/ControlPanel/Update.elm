@@ -2,7 +2,16 @@ module ControlPanel.Update exposing (update)
 
 import Animation
 import ControlPanel.Animations as Animations
-import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse, Invisible))
+import ControlPanel.Model
+    exposing
+        ( ControlPanel
+        , State
+            ( Idle
+            , InUse
+            , Invisible
+            , KeepVisible
+            )
+        )
 import ControlPanel.Msg
     exposing
         ( Msg
@@ -82,13 +91,19 @@ update { controlPanelMsg } msg controlPanel =
                 -- from the CountdownToHideControlPanel msg will never
                 -- be satisfied, and hence the controlPanel will always stay
                 -- visible.
-                secondsOpen =
-                    if isInfinite controlPanel.secondsOpen then
-                        0
+                -- secondsOpen =
+                --     if isInfinite controlPanel.secondsOpen then
+                --         0
+                --     else
+                -- -1 / 0
+                state =
+                    if controlPanel.state == KeepVisible then
+                        Idle
                     else
-                        -1 / 0
+                        KeepVisible
             in
-                ( { controlPanel | secondsOpen = secondsOpen }
+                -- ( { controlPanel | secondsOpen = secondsOpen }
+                ( { controlPanel | state = state }
                 , Cmd.none
                 )
 

@@ -8,6 +8,7 @@ type State
     = Idle
     | InUse
     | Invisible
+    | KeepVisible
 
 
 type alias ControlPanel =

@@ -1,7 +1,16 @@
 module ControlPanel.Subscriptions exposing (subscriptions)
 
 import Animation
-import ControlPanel.Model exposing (ControlPanel, State(Idle, InUse, Invisible))
+import ControlPanel.Model
+    exposing
+        ( ControlPanel
+        , State
+            ( Idle
+            , InUse
+            , Invisible
+            , KeepVisible
+            )
+        )
 import ControlPanel.Msg
     exposing
         ( Msg
@@ -29,6 +38,9 @@ subscriptions { controlPanelMsg } controlPanel =
 
                 Invisible ->
                     Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
+
+                KeepVisible ->
+                    Sub.none
     in
         Sub.batch
             [ visibilitySubscription
