@@ -39,6 +39,7 @@ function cancelFullScreen(app) {
 function pause(app) {
   app.ports.pauseVideos.subscribe(() => {
     pauseVideos()
+    app.ports.videosPaused.send(null)
   })
 }
 

@@ -11,11 +11,15 @@ import VideoPlayer.Msg
             , CrossFadePlayers
             , PlayVideos
             , VideosHalted
+            , VideosPaused
             )
         )
 
 
 port videosHalted : (() -> msg) -> Sub msg
+
+
+port videosPaused : (() -> msg) -> Sub msg
 
 
 port videosPlaying : (() -> msg) -> Sub msg
@@ -51,6 +55,7 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
             [ fetchNextGifSubscription
             , videosPlayingSubscription
             , videosHaltedSubscription
+            , videosPaused (\() -> videoPlayerMsg VideosPaused)
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]

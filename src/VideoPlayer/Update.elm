@@ -14,6 +14,7 @@ import VideoPlayer.Msg
             , PlayVideos
             , ToggleFullScreen
             , VideosHalted
+            , VideosPaused
             )
         )
 import VideoPlayer.Ports as Ports
@@ -89,10 +90,7 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
                 ( videoPlayer1, videoPlayer2, Cmd.none )
 
         PauseVideos () ->
-            ( { videoPlayer1 | status = Paused }
-            , { videoPlayer2 | status = Paused }
-            , Ports.pauseVideos ()
-            )
+            ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
 
         PlayVideos () ->
             ( { videoPlayer1 | status = Playing }
@@ -106,5 +104,11 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
         VideosHalted ->
             ( { videoPlayer1 | status = Halted }
             , { videoPlayer2 | status = Halted }
+            , Cmd.none
+            )
+
+        VideosPaused ->
+            ( { videoPlayer1 | status = Paused }
+            , { videoPlayer2 | status = Paused }
             , Cmd.none
             )
