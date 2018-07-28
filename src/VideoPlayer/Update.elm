@@ -10,6 +10,7 @@ import VideoPlayer.Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
             , FetchRandomGif
+            , HaltVideos
             , PauseVideos
             , PlayVideos
             , ToggleFullScreen
@@ -89,6 +90,9 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
                         error
             in
                 ( videoPlayer1, videoPlayer2, Cmd.none )
+
+        HaltVideos ->
+            ( videoPlayer1, videoPlayer2, Ports.haltVideos () )
 
         PauseVideos () ->
             ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )

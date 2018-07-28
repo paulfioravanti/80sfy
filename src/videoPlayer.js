@@ -1,6 +1,7 @@
 export function initPorts(app) {
   initWindowListeners(app)
   cancelFullScreen(app)
+  halt(app)
   pause(app)
   play(app)
   toggleFullScreen(app)
@@ -15,12 +16,10 @@ function initWindowListeners(app) {
       if (prevType != e.type) {
         switch (e.type) {
           case "blur":
-            pauseVideos()
-            app.ports.videosHalted.send(null)
+            app.ports.windowBlurred.send(null)
             break
           case "focus":
-            playVideos()
-            app.ports.videosPlaying.send(null)
+            app.ports.windowFocused.send(null)
             break
         }
       }
@@ -35,6 +34,12 @@ function cancelFullScreen(app) {
   })
 }
 
+function halt(app) {
+  app.ports.haltVideos.subscribe(() => {
+    pauseVideos()
+    app.ports.videosHalted.send(null)
+  })
+}
 
 function pause(app) {
   app.ports.pauseVideos.subscribe(() => {

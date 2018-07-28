@@ -9,6 +9,7 @@ import VideoPlayer.Msg
         ( Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
+            , HaltVideos
             , PlayVideos
             , VideosHalted
             , VideosPaused
@@ -24,6 +25,12 @@ port videosPaused : (() -> msg) -> Sub msg
 
 
 port videosPlaying : (() -> msg) -> Sub msg
+
+
+port windowBlurred : (() -> msg) -> Sub msg
+
+
+port windowFocused : (() -> msg) -> Sub msg
 
 
 subscriptions : MsgRouter msg -> Float -> Bool -> VideoPlayer -> Sub msg
@@ -45,12 +52,20 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
                 videosHalted (\() -> videoPlayerMsg VideosHalted)
             else
                 Sub.none
+
+        windowFocusedSubscription =
+            if videoPlayer1.status == Halted then
+                windowFocused (\() -> videoPlayerMsg (PlayVideos ()))
+            else
+                Sub.none
     in
         Sub.batch
             [ fetchNextGifSubscription
             , videosHaltedSubscription
             , videosPaused (\() -> videoPlayerMsg VideosPaused)
             , videosPlaying (\() -> videoPlayerMsg VideosPlaying)
+            , windowBlurred (\() -> videoPlayerMsg HaltVideos)
+            , windowFocusedSubscription
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]
