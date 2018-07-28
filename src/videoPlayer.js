@@ -1,9 +1,9 @@
 export function initPorts(app) {
   initWindowListeners(app)
   cancelFullScreen(app)
-  halt(app)
-  pause(app)
-  play(app)
+  haltVideos(app)
+  pauseVideos(app)
+  playVideos(app)
   toggleFullScreen(app)
 }
 
@@ -34,23 +34,23 @@ function cancelFullScreen(app) {
   })
 }
 
-function halt(app) {
+function haltVideos(app) {
   app.ports.haltVideos.subscribe(() => {
-    pauseVideos()
+    pauseVideoPlayers()
     app.ports.videosHalted.send(null)
   })
 }
 
-function pause(app) {
+function pauseVideos(app) {
   app.ports.pauseVideos.subscribe(() => {
-    pauseVideos()
+    pauseVideoPlayers()
     app.ports.videosPaused.send(null)
   })
 }
 
-function play(app) {
+function playVideos(app) {
   app.ports.playVideos.subscribe(() => {
-    playVideos()
+    playVideoPlayers()
     app.ports.videosPlaying.send(null)
   })
 }
@@ -93,14 +93,14 @@ function exitFullScreen() {
   }
 }
 
-function pauseVideos() {
+function pauseVideoPlayers() {
   const videos = [...document.getElementsByTagName("video")]
   videos.forEach((video) => {
     video.pause()
   })
 }
 
-function playVideos() {
+function playVideoPlayers() {
   const videos = [...document.getElementsByTagName("video")]
   videos.forEach((video) => {
     video.play()

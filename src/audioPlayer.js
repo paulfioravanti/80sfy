@@ -1,7 +1,7 @@
 export function initPorts(app) {
   initAudioPlayer(app)
-  pause(app)
-  play(app)
+  pauseAudio(app)
+  playAudio(app)
   setVolume(app)
   skipToTrack(app)
 }
@@ -31,13 +31,13 @@ function initAudioPlayer(app) {
   })
 }
 
-function pause(app) {
+function pauseAudio(app) {
   app.ports.pauseAudio.subscribe(() => {
     scPlayer.pause()
   })
 }
 
-function play(app) {
+function playAudio(app) {
   app.ports.playAudio.subscribe(() => {
     scPlayer.play()
   })
