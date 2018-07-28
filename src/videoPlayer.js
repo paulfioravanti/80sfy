@@ -15,7 +15,8 @@ function initWindowListeners(app) {
       if (prevType != e.type) {
         switch (e.type) {
           case "blur":
-            app.ports.haltVideos.send(null)
+            pauseVideos()
+            app.ports.videosHalted.send(null)
             break
           case "focus":
             app.ports.restartVideos.send(null)
