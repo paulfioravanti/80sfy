@@ -12,8 +12,14 @@ function initAudioPlayer(app) {
   app.ports.initAudioPlayer.subscribe((volume) => {
     window.requestAnimationFrame(() => {
       scPlayer = SC.Widget("track-player")
-      scPlayer.setVolume(volume)
+      // NOTE: Events need to be placed under the READY event, even though
+      // doing so currently seems to halt the videoplayer when the app first
+      // loads. Moving the other event bindings outside of the READY scope
+      // does enable the video player to keep on playing, but the call to
+      // `getSounds` fails and hence the audio player only ever ends up with
+      // one track in it.
       scPlayer.bind(SC.Widget.Events.READY, () => {
+        scPlayer.setVolume(volume)
         scPlayer.getSounds((sounds) => {
           app.ports.setPlaylistLength.send(sounds.length)
         })
