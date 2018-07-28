@@ -103,7 +103,22 @@ function pauseVideoPlayers() {
 function playVideoPlayers() {
   const videos = [...document.getElementsByTagName("video")]
   videos.forEach((video) => {
-    video.play()
+    const videoPlaying =
+      !(video.paused ||
+      video.ended ||
+      video.seeking ||
+      video.readyState > video.HAVE_FUTURE_DATA)
+    const name = video.dataset.name
+
+    if (!videoPlaying) {
+      video.play().then(() => {
+        console.log(name + " playback successful")
+      }).catch((error) => {
+        console.log(name + " playback failed")
+      })
+    } else {
+      console.log("Apparently, " + name + " is currently playing...")
+    }
   })
 }
 
