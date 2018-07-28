@@ -38,17 +38,11 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
         -- unused variable is `time`
         CrossFadePlayers _ ->
             let
-                ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId ) =
+                ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId, newOpacity ) =
                     if videoPlayer1.visible then
-                        ( False, "1" )
+                        ( False, "1", 0 )
                     else
-                        ( True, "2" )
-
-                newOpacity =
-                    if videoPlayer1.visible then
-                        0
-                    else
-                        1
+                        ( True, "2", 1 )
 
                 animateToNewOpacity =
                     Animation.interrupt
