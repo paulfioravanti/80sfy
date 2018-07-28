@@ -18,8 +18,8 @@ import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
-import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Ports as Ports
+import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
