@@ -18,10 +18,10 @@ function initAudioPlayer(app) {
           app.ports.setPlaylistLength.send(sounds.length)
         })
         scPlayer.bind(SC.Widget.Events.PLAY, () => {
-          app.ports.play.send(null)
+          app.ports.audioPlaying.send(null)
         })
         scPlayer.bind(SC.Widget.Events.PAUSE, () => {
-          app.ports.pause.send(null)
+          app.ports.audioPaused.send(null)
         })
         scPlayer.bind(SC.Widget.Events.FINISH, () => {
           app.ports.requestNextTrackNumber.send(null)
