@@ -5,22 +5,20 @@ import ControlPanel.Animations as Animations
 
 
 type State
-    = Idle
+    = Idle Int
     | InUse
     | Invisible
     | KeepVisible
 
 
 type alias ControlPanel =
-    { secondsOpen : Float
-    , state : State
+    { state : State
     , style : Animation.State
     }
 
 
 init : ControlPanel
 init =
-    { secondsOpen = 0
-    , state = Idle
+    { state = Idle 0
     , style = Animation.style Animations.visible
     }

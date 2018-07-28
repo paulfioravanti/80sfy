@@ -45,16 +45,22 @@ update { controlPanelMsg } msg controlPanel =
             let
                 timeoutSeconds =
                     2
+
+                secondsOpen =
+                    case controlPanel.state of
+                        Idle numSeconds ->
+                            numSeconds
+
+                        _ ->
+                            0
             in
-                if controlPanel.secondsOpen > timeoutSeconds then
-                    ( { controlPanel | secondsOpen = 0 }
+                if secondsOpen > timeoutSeconds then
+                    ( controlPanel
                     , Task.succeed ()
                         |> Task.perform (controlPanelMsg << HideControlPanel)
                     )
                 else
-                    ( { controlPanel
-                        | secondsOpen = controlPanel.secondsOpen + 1
-                      }
+                    ( { controlPanel | state = Idle (secondsOpen + 1) }
                     , Cmd.none
                     )
 
@@ -70,7 +76,7 @@ update { controlPanelMsg } msg controlPanel =
                 )
 
         LeaveControlPanel ->
-            ( { controlPanel | state = Idle }, Cmd.none )
+            ( { controlPanel | state = Idle 0 }, Cmd.none )
 
         ShowControlPanel ->
             let
@@ -79,30 +85,18 @@ update { controlPanelMsg } msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.visible ]
             in
-                ( { controlPanel | style = animateToVisible, state = Idle }
+                ( { controlPanel | style = animateToVisible, state = Idle 0 }
                 , Cmd.none
                 )
 
         ToggleHideWhenInactive ->
             let
-                -- "Toggle" secondsOpen between -Infinity and 0.
-                -- When it's -Infinity, the
-                -- (controlPanel.secondsOpen > timeoutSeconds) condition
-                -- from the CountdownToHideControlPanel msg will never
-                -- be satisfied, and hence the controlPanel will always stay
-                -- visible.
-                -- secondsOpen =
-                --     if isInfinite controlPanel.secondsOpen then
-                --         0
-                --     else
-                -- -1 / 0
                 state =
                     if controlPanel.state == KeepVisible then
-                        Idle
+                        Idle 0
                     else
                         KeepVisible
             in
-                -- ( { controlPanel | secondsOpen = secondsOpen }
                 ( { controlPanel | state = state }
                 , Cmd.none
                 )
