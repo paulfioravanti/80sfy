@@ -6,9 +6,7 @@ import ControlPanel.Model
         ( ControlPanel
         , State
             ( Idle
-            , InUse
             , Invisible
-            , KeepVisible
             )
         )
 import ControlPanel.Msg
@@ -40,7 +38,7 @@ visibilitySubscription controlPanelMsg state =
         Idle secondsVisible ->
             every second
                 (controlPanelMsg
-                    << (CountdownToHideControlPanel secondsVisible)
+                    << CountdownToHideControlPanel secondsVisible
                 )
 
         Invisible ->
