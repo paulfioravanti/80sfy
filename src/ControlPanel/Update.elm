@@ -41,26 +41,18 @@ update { controlPanelMsg } msg controlPanel =
             )
 
         -- unused variable is `time`
-        CountdownToHideControlPanel _ ->
+        CountdownToHideControlPanel secondsVisible _ ->
             let
                 timeoutSeconds =
                     2
-
-                secondsOpen =
-                    case controlPanel.state of
-                        Idle numSeconds ->
-                            numSeconds
-
-                        _ ->
-                            0
             in
-                if secondsOpen > timeoutSeconds then
+                if secondsVisible > timeoutSeconds then
                     ( controlPanel
                     , Task.succeed ()
                         |> Task.perform (controlPanelMsg << HideControlPanel)
                     )
                 else
-                    ( { controlPanel | state = Idle (secondsOpen + 1) }
+                    ( { controlPanel | state = Idle (secondsVisible + 1) }
                     , Cmd.none
                     )
 

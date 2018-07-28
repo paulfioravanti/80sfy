@@ -6,7 +6,7 @@ import Time exposing (Time)
 
 type Msg
     = AnimateControlPanel Animation.Msg
-    | CountdownToHideControlPanel Time
+    | CountdownToHideControlPanel Int Time
     | HideControlPanel ()
     | LeaveControlPanel
     | ShowControlPanel

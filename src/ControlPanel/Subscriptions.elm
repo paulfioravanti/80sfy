@@ -29,9 +29,11 @@ subscriptions { controlPanelMsg } controlPanel =
     let
         visibilitySubscription =
             case controlPanel.state of
-                Idle _ ->
+                Idle secondsVisible ->
                     every second
-                        (controlPanelMsg << CountdownToHideControlPanel)
+                        (controlPanelMsg
+                            << (CountdownToHideControlPanel secondsVisible)
+                        )
 
                 InUse ->
                     Sub.none
