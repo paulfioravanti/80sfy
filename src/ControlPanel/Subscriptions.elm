@@ -26,27 +26,25 @@ import Time exposing (every, second)
 
 subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
 subscriptions { controlPanelMsg } controlPanel =
-    let
-        visibilitySubscription =
-            case controlPanel.state of
-                Idle secondsVisible ->
-                    every second
-                        (controlPanelMsg
-                            << (CountdownToHideControlPanel secondsVisible)
-                        )
+    Sub.batch
+        [ visibilitySubscription controlPanelMsg controlPanel.state
+        , Animation.subscription
+            (controlPanelMsg << AnimateControlPanel)
+            [ controlPanel.style ]
+        ]
 
-                InUse ->
-                    Sub.none
 
-                Invisible ->
-                    Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
+visibilitySubscription : (Msg -> msg) -> State -> Sub msg
+visibilitySubscription controlPanelMsg state =
+    case state of
+        Idle secondsVisible ->
+            every second
+                (controlPanelMsg
+                    << (CountdownToHideControlPanel secondsVisible)
+                )
 
-                KeepVisible ->
-                    Sub.none
-    in
-        Sub.batch
-            [ visibilitySubscription
-            , Animation.subscription
-                (controlPanelMsg << AnimateControlPanel)
-                [ controlPanel.style ]
-            ]
+        Invisible ->
+            Mouse.moves (\_ -> controlPanelMsg ShowControlPanel)
+
+        _ ->
+            Sub.none
