@@ -46,6 +46,7 @@ function pause(app) {
 function play(app) {
   app.ports.playVideos.subscribe(() => {
     playVideos()
+    app.ports.videosPlaying.send(null)
   })
 }
 

@@ -14,3 +14,4 @@ type Msg
     | ToggleFullScreen
     | VideosHalted
     | VideosPaused
+    | VideosPlaying

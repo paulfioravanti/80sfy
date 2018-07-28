@@ -12,6 +12,7 @@ import VideoPlayer.Msg
             , PlayVideos
             , VideosHalted
             , VideosPaused
+            , VideosPlaying
             )
         )
 
@@ -36,12 +37,6 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
             else
                 Sub.none
 
-        videosPlayingSubscription =
-            if videoPlayer1.status == Halted then
-                videosPlaying (\() -> videoPlayerMsg (PlayVideos ()))
-            else
-                Sub.none
-
         videosHaltedSubscription =
             if
                 (videoPlayer1.status == Playing)
@@ -53,9 +48,9 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
     in
         Sub.batch
             [ fetchNextGifSubscription
-            , videosPlayingSubscription
             , videosHaltedSubscription
             , videosPaused (\() -> videoPlayerMsg VideosPaused)
+            , videosPlaying (\() -> videoPlayerMsg VideosPlaying)
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]
