@@ -19,7 +19,8 @@ function initWindowListeners(app) {
             app.ports.videosHalted.send(null)
             break
           case "focus":
-            app.ports.restartVideos.send(null)
+            playVideos()
+            app.ports.videosPlaying.send(null)
             break
         }
       }

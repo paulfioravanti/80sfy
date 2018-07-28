@@ -15,10 +15,10 @@ import VideoPlayer.Msg
         )
 
 
-port restartVideos : (() -> msg) -> Sub msg
-
-
 port videosHalted : (() -> msg) -> Sub msg
+
+
+port videosPlaying : (() -> msg) -> Sub msg
 
 
 subscriptions : MsgRouter msg -> Float -> Bool -> VideoPlayer -> Sub msg
@@ -32,9 +32,9 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
             else
                 Sub.none
 
-        videoPlaySubscription =
+        videosPlayingSubscription =
             if videoPlayer1.status == Halted then
-                restartVideos (\() -> videoPlayerMsg (PlayVideos ()))
+                videosPlaying (\() -> videoPlayerMsg (PlayVideos ()))
             else
                 Sub.none
 
@@ -49,7 +49,7 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
     in
         Sub.batch
             [ fetchNextGifSubscription
-            , videoPlaySubscription
+            , videosPlayingSubscription
             , videosHaltedSubscription
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
