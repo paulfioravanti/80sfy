@@ -53,19 +53,23 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
             else
                 Sub.none
 
-        windowFocusedSubscription =
-            if videoPlayer1.status == Halted then
-                windowFocused (\() -> videoPlayerMsg (PlayVideos ()))
-            else
-                Sub.none
+        windowSubscription =
+            case videoPlayer1.status of
+                Playing ->
+                    windowBlurred (\() -> videoPlayerMsg HaltVideos)
+
+                Halted ->
+                    windowFocused (\() -> videoPlayerMsg (PlayVideos ()))
+
+                _ ->
+                    Sub.none
     in
         Sub.batch
             [ fetchNextGifSubscription
             , videosHaltedSubscription
+            , windowSubscription
             , videosPaused (\() -> videoPlayerMsg VideosPaused)
             , videosPlaying (\() -> videoPlayerMsg VideosPlaying)
-            , windowBlurred (\() -> videoPlayerMsg HaltVideos)
-            , windowFocusedSubscription
             , Animation.subscription
                 (videoPlayerMsg << AnimateVideoPlayer)
                 [ videoPlayer1.style ]
