@@ -105,10 +105,10 @@ update msgRouter msg audioPlayer =
                 )
 
         PauseAudio () ->
-            ( { audioPlayer | playing = False }, Ports.pauseAudio () )
+            ( audioPlayer, Ports.pauseAudio () )
 
         PlayAudio () ->
-            ( { audioPlayer | playing = True }, Ports.playAudio () )
+            ( audioPlayer, Ports.playAudio () )
 
         ReInitAudioPlayer soundCloudPlaylistUrl ->
             ( Model.init soundCloudPlaylistUrl
