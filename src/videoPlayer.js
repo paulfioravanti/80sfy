@@ -9,12 +9,14 @@ export function initPorts(app) {
 
 // REF: https://stackoverflow.com/questions/1760250/how-to-tell-if-browser-tab-is-active
 function initWindowListeners(app) {
-  ["focus", "blur"].forEach((event) => {
-    window.addEventListener(event, (e) => {
-      const prevType =
+  ["focus", "blur"].forEach((eventType) => {
+    window.addEventListener(eventType, (event) => {
+      const previousEventType =
         window.sessionStorage.getItem("elm-80sfy-last-event-type")
-      if (prevType != e.type) {
-        switch (e.type) {
+      const currentEventType = event.type
+
+      if (previousEventType != currentEventType) {
+        switch (currentEventType) {
           case "blur":
             app.ports.windowBlurred.send(null)
             break
@@ -23,7 +25,9 @@ function initWindowListeners(app) {
             break
         }
       }
-      window.sessionStorage.setItem("elm-80sfy-last-event-type", e.type)
+      window.sessionStorage.setItem(
+        "elm-80sfy-last-event-type", currentEventType
+      )
     })
   })
 }
@@ -57,12 +61,7 @@ function playVideos(app) {
 
 function toggleFullScreen(app) {
   app.ports.toggleFullScreen.subscribe(() => {
-    const fullScreenElement =
-      document.fullscreenElement ||
-      document.mozFullScreenElement ||
-      document.webkitFullscreenElement
-
-    if (fullScreenElement) {
+    if (fullScreenElement()) {
       exitFullScreen()
     } else {
       launchFullScreen()
@@ -77,9 +76,8 @@ function launchFullScreen() {
     documentElement.requestFullScreen()
   } else if (documentElement.mozRequestFullScreen) {
     documentElement.mozRequestFullScreen()
-  } else {
-    documentElement.webkitRequestFullScreen &&
-      documentElement.webkitRequestFullScreen()
+  } else if (documentElement.webkitRequestFullScreen) {
+    documentElement.webkitRequestFullScreen()
   }
 }
 
@@ -88,37 +86,42 @@ function exitFullScreen() {
     document.exitFullscreen()
   } else if (document.mozCancelFullScreen) {
     document.mozCancelFullScreen()
-  } else {
-    document.webkitExitFullscreen && document.webkitExitFullscreen()
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen()
   }
 }
 
 function pauseVideoPlayers() {
-  const videos = [...document.getElementsByTagName("video")]
-  videos.forEach((video) => {
+  videos().forEach(video => {
     video.pause()
   })
 }
 
 function playVideoPlayers() {
-  const videos = [...document.getElementsByTagName("video")]
-  videos.forEach((video) => {
-    const videoPlaying =
-      !(video.paused ||
-      video.ended ||
-      video.seeking ||
-      video.readyState > video.HAVE_FUTURE_DATA)
-    const name = video.dataset.name
-
-    if (!videoPlaying) {
-      video.play().then(() => {
-        console.log(name + " playback successful")
-      }).catch((error) => {
-        console.log(name + " playback failed")
-      })
-    } else {
-      console.log("Apparently, " + name + " is currently playing...")
+  videos().forEach(video => {
+    if (videoPlayable(video)) {
+      video.play()
     }
   })
 }
 
+function videos() {
+  return [...document.getElementsByTagName("video")]
+}
+
+function fullScreenElement() {
+  return (
+    document.fullscreenElement ||
+    document.mozFullScreenElement ||
+    document.webkitFullscreenElement
+  )
+}
+
+function videoPlayable(video) {
+  return (
+    video.paused ||
+    video.ended ||
+    video.seeking ||
+    video.readyState > video.HAVE_FUTURE_DATA
+  )
+}
