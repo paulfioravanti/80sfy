@@ -104,10 +104,10 @@ update msgRouter msg audioPlayer =
                 , cmd
                 )
 
-        PauseAudio () ->
+        PauseAudio ->
             ( audioPlayer, Ports.pauseAudio () )
 
-        PlayAudio () ->
+        PlayAudio ->
             ( audioPlayer, Ports.playAudio () )
 
         ReInitAudioPlayer soundCloudPlaylistUrl ->

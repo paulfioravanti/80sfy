@@ -57,12 +57,12 @@ nextTrackMsg =
     Msg.NextTrack
 
 
-pauseAudioMsg : () -> Msg
+pauseAudioMsg : Msg
 pauseAudioMsg =
     Msg.PauseAudio
 
 
-playAudioMsg : () -> Msg
+playAudioMsg : Msg
 playAudioMsg =
     Msg.PlayAudio
 
