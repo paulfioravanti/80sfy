@@ -1,4 +1,4 @@
-export function initPorts(app) {
+export function init(app) {
   initWindowListeners(app)
   cancelFullScreen(app)
   haltVideos(app)

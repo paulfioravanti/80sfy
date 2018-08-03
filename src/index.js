@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
       })
 
-    VideoPlayer.initPorts(app)
-    AudioPlayer.initPorts(app)
+    VideoPlayer.init(app)
+    AudioPlayer.init(app)
   }
 })
