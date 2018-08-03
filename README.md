@@ -6,8 +6,8 @@ site if you love [synthwave][] music, so I decided to re-create it using
 
 You can see the results at:
 
-- Heroku: <https://elm-80sfy.herokuapp.com/>
-- Surge: <http://elm-80sfy.surge.sh/>
+- [Heroku][]: <https://elm-80sfy.herokuapp.com/>
+- [Surge][]: <http://elm-80sfy.surge.sh/>
 
 Note that it's currently only optimised for the Google Chrome desktop browser,
 so it's probably best to view it with that.
@@ -83,9 +83,11 @@ Now, you should be able to use the app at the following address:
 [Create Elm App]: https://github.com/halfzebra/create-elm-app
 [Elm]: http://elm-lang.org/
 [Giphy Developers]: https://developers.giphy.com/
+[Heroku]: https://www.heroku.com/
 [NodeJS]: https://nodejs.org/en/
 [original codebase repo]: https://bitbucket.org/asangurai/80sfy/src/master/
 [Soundcloud]: https://soundcloud.com
 [Soundcloud register new app]: http://soundcloud.com/you/apps/new
+[Surge]: https://surge.sh/
 [synthwave]: https://en.wikipedia.org/wiki/Synthwave
 [Video Speed Controller]: https://chrome.google.com/webstore/detail/video-speed-controller/nffaoalbilbmmfgbnbgppjihopabppdk?hl=en
