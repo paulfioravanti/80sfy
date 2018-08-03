@@ -53,14 +53,18 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
                             [ Animation.opacity newOpacity ]
                         ]
                         videoPlayer1.style
+
+                generateRandomGifForHiddenVideoPlayer =
+                    generateRandomGifMsg nowHiddenVideoPlayerId
+                        |> Task.succeed
+                        |> Task.perform identity
             in
                 ( { videoPlayer1
                     | style = animateToNewOpacity
                     , visible = newVideoPlayer1Visibility
                   }
                 , videoPlayer2
-                , Task.succeed nowHiddenVideoPlayerId
-                    |> Task.perform generateRandomGifMsg
+                , generateRandomGifForHiddenVideoPlayer
                 )
 
         FetchRandomGif videoPlayerId (Ok url) ->

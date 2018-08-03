@@ -48,9 +48,9 @@ pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
                         + config.volumeAdjustmentRate
                         |> toString
             in
-                Task.succeed newVolume
-                    |> Task.perform
-                        (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
+                audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+                    |> Task.succeed
+                    |> Task.perform identity
 
         RightArrow ->
             audioPlayerMsg AudioPlayer.nextTrackMsg
@@ -64,9 +64,9 @@ pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
                         - config.volumeAdjustmentRate
                         |> toString
             in
-                Task.succeed newVolume
-                    |> Task.perform
-                        (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
+                audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+                    |> Task.succeed
+                    |> Task.perform identity
 
         _ ->
             Cmd.none

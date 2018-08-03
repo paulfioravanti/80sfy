@@ -37,11 +37,9 @@ update msgRouter msg config =
                         |> Task.perform identity
 
                 initSecretConfigTags =
-                    Task.succeed tags
-                        |> Task.perform
-                            (msgRouter.secretConfigMsg
-                                << SecretConfig.initTagsMsg
-                            )
+                    msgRouter.secretConfigMsg (SecretConfig.initTagsMsg tags)
+                        |> Task.succeed
+                        |> Task.perform identity
             in
                 ( { config | tags = tags }
                 , Cmd.batch
@@ -93,11 +91,12 @@ update msgRouter msg config =
                         soundCloudPlaylistUrl
                             /= config.soundCloudPlaylistUrl
                     then
-                        Task.succeed soundCloudPlaylistUrl
-                            |> Task.perform
-                                (msgRouter.audioPlayerMsg
-                                    << AudioPlayer.reInitAudioPlayerMsg
-                                )
+                        msgRouter.audioPlayerMsg
+                            (AudioPlayer.reInitAudioPlayerMsg
+                                soundCloudPlaylistUrl
+                            )
+                            |> Task.succeed
+                            |> Task.perform identity
                     else
                         Cmd.none
             in
