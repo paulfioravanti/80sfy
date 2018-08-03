@@ -66,14 +66,18 @@ update msgRouter msg model =
                 pauseAudio =
                     msgRouter.audioPlayerMsg AudioPlayer.pauseAudioMsg
                         |> Task.succeed
-                        |> Task.perform identity
 
                 pauseVideo =
                     msgRouter.videoPlayerMsg VideoPlayer.pauseVideosMsg
                         |> Task.succeed
+
+                pauseAudioThenVideo =
+                    [ pauseAudio, pauseVideo ]
+                        |> Task.sequence
+                        |> Task.andThen (\_ -> pauseAudio)
                         |> Task.perform identity
             in
-                ( model, Cmd.batch [ pauseAudio, pauseVideo ] )
+                ( model, pauseAudioThenVideo )
 
         Play ->
             let
