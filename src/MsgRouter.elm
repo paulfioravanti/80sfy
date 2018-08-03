@@ -13,8 +13,8 @@ type alias MsgRouter msg =
     , configMsg : Config.Msg.Msg -> msg
     , controlPanelMsg : ControlPanel.Msg.Msg -> msg
     , keyMsg : KeyCode -> msg
-    , pauseMsg : () -> msg
-    , playMsg : () -> msg
+    , pauseMsg : msg
+    , playMsg : msg
     , secretConfigMsg : SecretConfig.Msg.Msg -> msg
     , showApplicationState : msg
     , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
@@ -26,8 +26,8 @@ init :
     -> (Config.Msg.Msg -> msg)
     -> (ControlPanel.Msg.Msg -> msg)
     -> (KeyCode -> msg)
-    -> (() -> msg)
-    -> (() -> msg)
+    -> msg
+    -> msg
     -> (SecretConfig.Msg.Msg -> msg)
     -> msg
     -> (VideoPlayer.Msg.Msg -> msg)

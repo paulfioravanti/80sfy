@@ -53,7 +53,7 @@ playPauseButton { pauseMsg, playMsg } playing =
         div
             [ css [ Styles.button ]
             , attribute "data-name" "play-pause"
-            , onClick (playPauseMsg ())
+            , onClick playPauseMsg
             ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class iconClass ] []

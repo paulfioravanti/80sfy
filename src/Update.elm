@@ -61,7 +61,7 @@ update msgRouter msg model =
             in
                 ( model, cmd )
 
-        Pause () ->
+        Pause ->
             let
                 pauseAudio =
                     msgRouter.audioPlayerMsg AudioPlayer.pauseAudioMsg
@@ -75,7 +75,7 @@ update msgRouter msg model =
             in
                 ( model, Cmd.batch [ pauseAudio, pauseVideo ] )
 
-        Play () ->
+        Play ->
             let
                 playAudio =
                     msgRouter.audioPlayerMsg AudioPlayer.playAudioMsg
@@ -87,7 +87,7 @@ update msgRouter msg model =
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( model, Cmd.batch [ playAudio, playVideo ] )
+                ( model, Cmd.batch [ playVideo, playAudio ] )
 
         SecretConfig secretConfigMsg ->
             let
