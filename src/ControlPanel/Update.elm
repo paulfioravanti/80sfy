@@ -47,16 +47,19 @@ update { controlPanelMsg } msg controlPanel =
                     2
             in
                 if secondsVisible > timeoutSeconds then
-                    ( controlPanel
-                    , Task.succeed ()
-                        |> Task.perform (controlPanelMsg << HideControlPanel)
-                    )
+                    let
+                        hideControlPanel =
+                            controlPanelMsg HideControlPanel
+                                |> Task.succeed
+                                |> Task.perform identity
+                    in
+                        ( controlPanel, hideControlPanel )
                 else
                     ( { controlPanel | state = Idle (secondsVisible + 1) }
                     , Cmd.none
                     )
 
-        HideControlPanel () ->
+        HideControlPanel ->
             let
                 animateToHidden =
                     controlPanel.style
