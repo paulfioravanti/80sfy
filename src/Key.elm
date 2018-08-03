@@ -53,8 +53,9 @@ pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
                         (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
 
         RightArrow ->
-            Task.succeed ()
-                |> Task.perform (audioPlayerMsg << AudioPlayer.nextTrackMsg)
+            (audioPlayerMsg AudioPlayer.nextTrackMsg)
+                |> Task.succeed
+                |> Task.perform identity
 
         DownArrow ->
             let

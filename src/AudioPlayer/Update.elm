@@ -66,7 +66,7 @@ update msgRouter msg audioPlayer =
                     (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
             )
 
-        NextTrack () ->
+        NextTrack ->
             let
                 requestNextTrack =
                     Task.succeed ()
