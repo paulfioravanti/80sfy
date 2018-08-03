@@ -1,23 +1,16 @@
 export function init(app) {
-  app.ports.initAudioPlayer.subscribe((volume) => {
+  app.ports.initAudioPlayer.subscribe(volume => {
     window.requestAnimationFrame(() => {
       const scPlayer = SC.Widget("track-player")
       scPlayer.bind(SC.Widget.Events.READY, () => {
-        getSounds(scPlayer, app)
         playAudio(scPlayer, app)
         pauseAudio(scPlayer, app)
         setVolume(scPlayer, app)
         skipToTrack(scPlayer, app)
         trackFinished(scPlayer, app)
-        initPlayerState(scPlayer, volume, app)
+        initAudioPlayer(scPlayer, volume, app)
       })
     })
-  })
-}
-
-function getSounds(scPlayer, app) {
-  scPlayer.getSounds(sounds => {
-    app.ports.setPlaylistLength.send(sounds.length)
   })
 }
 
@@ -48,13 +41,13 @@ function pauseAudio(scPlayer, app) {
 }
 
 function setVolume(scPlayer, app, volume) {
-  app.ports.setVolume.subscribe((volume) => {
+  app.ports.setVolume.subscribe(volume => {
     scPlayer.setVolume(volume)
   })
 }
 
 function skipToTrack(scPlayer, app) {
-  app.ports.skipToTrack.subscribe((trackNumber) => {
+  app.ports.skipToTrack.subscribe(trackNumber => {
     scPlayer.skip(trackNumber)
   })
 }
@@ -65,8 +58,11 @@ function trackFinished(scPlayer, app) {
   })
 }
 
-function initPlayerState(scPlayer, volume, app) {
+function initAudioPlayer(scPlayer, volume, app) {
   scPlayer.setVolume(volume)
+  scPlayer.getSounds(sounds => {
+    app.ports.setPlaylistLength.send(sounds.length)
+  })
   // NOTE: This call is to make sure that when the site is first loaded,
   // the videos play (without sound), but the control panel button shows
   // the play button to start the SoundCloud player (and technically the
