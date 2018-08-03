@@ -47,7 +47,7 @@ subscriptions { audioPlayerMsg, videoPlayerMsg } audioPlayer =
         Sub.batch
             [ playingSubscription
             , requestNextTrackNumber
-                (\() -> audioPlayerMsg (NextTrackNumberRequested ()))
+                (\() -> audioPlayerMsg NextTrackNumberRequested)
             , setPlaylistLength
                 (audioPlayerMsg << SetPlaylistLength << extractPlaylistValue)
             ]

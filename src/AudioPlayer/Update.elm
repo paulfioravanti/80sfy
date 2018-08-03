@@ -61,19 +61,17 @@ update msgRouter msg audioPlayer =
 
         GeneratePlaylistTrackOrder playlistTrackOrder ->
             ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
-            , Task.succeed ()
-                |> Task.perform
-                    (msgRouter.audioPlayerMsg << NextTrackNumberRequested)
+            , (msgRouter.audioPlayerMsg NextTrackNumberRequested)
+                |> Task.succeed
+                |> Task.perform identity
             )
 
         NextTrack ->
             let
                 requestNextTrack =
-                    Task.succeed ()
-                        |> Task.perform
-                            (msgRouter.audioPlayerMsg
-                                << NextTrackNumberRequested
-                            )
+                    (msgRouter.audioPlayerMsg NextTrackNumberRequested)
+                        |> Task.succeed
+                        |> Task.perform identity
 
                 playVideos =
                     (msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg)
@@ -84,7 +82,7 @@ update msgRouter msg audioPlayer =
                 , Cmd.batch [ requestNextTrack, playVideos ]
                 )
 
-        NextTrackNumberRequested () ->
+        NextTrackNumberRequested ->
             let
                 ( playlistTrackOrder, cmd ) =
                     case audioPlayer.playlistTrackOrder of
