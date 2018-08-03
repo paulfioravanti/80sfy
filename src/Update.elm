@@ -64,12 +64,12 @@ update msgRouter msg model =
         Pause () ->
             let
                 pauseAudio =
-                    (msgRouter.audioPlayerMsg AudioPlayer.pauseAudioMsg)
+                    msgRouter.audioPlayerMsg AudioPlayer.pauseAudioMsg
                         |> Task.succeed
                         |> Task.perform identity
 
                 pauseVideo =
-                    (msgRouter.videoPlayerMsg VideoPlayer.pauseVideosMsg)
+                    msgRouter.videoPlayerMsg VideoPlayer.pauseVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -78,12 +78,12 @@ update msgRouter msg model =
         Play () ->
             let
                 playAudio =
-                    (msgRouter.audioPlayerMsg AudioPlayer.playAudioMsg)
+                    msgRouter.audioPlayerMsg AudioPlayer.playAudioMsg
                         |> Task.succeed
                         |> Task.perform identity
 
                 playVideo =
-                    (msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg)
+                    msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in

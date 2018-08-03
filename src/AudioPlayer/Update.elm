@@ -61,7 +61,7 @@ update msgRouter msg audioPlayer =
 
         GeneratePlaylistTrackOrder playlistTrackOrder ->
             ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
-            , (msgRouter.audioPlayerMsg NextTrackNumberRequested)
+            , msgRouter.audioPlayerMsg NextTrackNumberRequested
                 |> Task.succeed
                 |> Task.perform identity
             )
@@ -69,12 +69,12 @@ update msgRouter msg audioPlayer =
         NextTrack ->
             let
                 requestNextTrack =
-                    (msgRouter.audioPlayerMsg NextTrackNumberRequested)
+                    msgRouter.audioPlayerMsg NextTrackNumberRequested
                         |> Task.succeed
                         |> Task.perform identity
 
                 playVideos =
-                    (msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg)
+                    msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in
