@@ -12,6 +12,7 @@ import Msg
             , Config
             , ControlPanel
             , Key
+            , NoOp
             , Pause
             , Play
             , SecretConfig
@@ -60,6 +61,9 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         |> Key.pressed msgRouter model
             in
                 ( model, cmd )
+
+        NoOp ->
+            ( model, Cmd.none )
 
         Pause ->
             let

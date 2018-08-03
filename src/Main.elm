@@ -12,6 +12,7 @@ import Msg
             , Config
             , ControlPanel
             , Key
+            , NoOp
             , Pause
             , Play
             , SecretConfig
@@ -35,6 +36,7 @@ main =
                 Config
                 ControlPanel
                 Key
+                NoOp
                 Pause
                 Play
                 SecretConfig

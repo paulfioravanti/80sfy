@@ -1,44 +1,13 @@
 export function init(app) {
-  initWindowListeners(app)
   cancelFullScreen(app)
   haltVideos(app)
   pauseVideos(app)
   playVideos(app)
   toggleFullScreen(app)
+  windowBlurred(app)
+  windowFocused(app)
 }
 
-// REF: https://stackoverflow.com/questions/1760250/how-to-tell-if-browser-tab-is-active
-function initWindowListeners(app) {
-  ["focus", "blur"].forEach((eventType) => {
-    window.addEventListener(eventType, event => {
-      const previousEventType =
-        window.sessionStorage.getItem("elm-80sfy-last-event-type")
-      const currentEventType = event.type
-      const audioPlayerNotInFocus =
-        event.target.document.activeElement.id !== "track-player"
-
-      if (previousEventType != currentEventType) {
-        switch (currentEventType) {
-          case "blur":
-            // NOTE: If the document target has "blurred" from the video player
-            // to the SoundCloud iframe, then the Elm app does not need to
-            // consider this a "real" blur for purposes of displaying the
-            // "Gifs Paused" overlay.
-            if (audioPlayerNotInFocus) {
-              app.ports.windowBlurred.send(null)
-            }
-            break
-          case "focus":
-            app.ports.windowFocused.send(null)
-            break
-        }
-      }
-      window.sessionStorage.setItem(
-        "elm-80sfy-last-event-type", currentEventType
-      )
-    })
-  })
-}
 
 function cancelFullScreen(app) {
   app.ports.exitFullScreen.subscribe(() => {
@@ -74,6 +43,19 @@ function toggleFullScreen(app) {
     } else {
       launchFullScreen()
     }
+  })
+}
+
+function windowBlurred(app) {
+  window.addEventListener("blur", event => {
+    const activeElementId = event.target.document.activeElement.id
+    app.ports.windowBlurred.send(activeElementId)
+  })
+}
+
+function windowFocused(app) {
+  window.addEventListener("focus", () => {
+    app.ports.windowFocused.send(null)
   })
 }
 

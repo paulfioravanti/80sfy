@@ -13,6 +13,7 @@ type Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | Key KeyCode
+    | NoOp
     | Pause
     | Play
     | SecretConfig SecretConfig.Msg
