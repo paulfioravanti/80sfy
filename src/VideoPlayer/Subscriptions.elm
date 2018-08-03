@@ -59,7 +59,7 @@ subscriptions { videoPlayerMsg } gifDisplaySeconds overrideInactivityPause video
                     windowBlurred (\() -> videoPlayerMsg HaltVideos)
 
                 Halted ->
-                    windowFocused (\() -> videoPlayerMsg (PlayVideos ()))
+                    windowFocused (\() -> videoPlayerMsg PlayVideos)
 
                 _ ->
                     Sub.none

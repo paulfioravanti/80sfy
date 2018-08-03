@@ -94,10 +94,10 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
         HaltVideos ->
             ( videoPlayer1, videoPlayer2, Ports.haltVideos () )
 
-        PauseVideos () ->
+        PauseVideos ->
             ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
 
-        PlayVideos () ->
+        PlayVideos ->
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
 
         ToggleFullScreen ->

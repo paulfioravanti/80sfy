@@ -50,7 +50,7 @@ attributes msgRouter audioPlaying videoPlayer =
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Playing) then
-                [ onClick (msgRouter.videoPlayerMsg (PlayVideos ())) ]
+                [ onClick (msgRouter.videoPlayerMsg PlayVideos) ]
             else
                 []
 

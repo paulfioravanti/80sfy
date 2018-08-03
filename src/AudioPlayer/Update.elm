@@ -76,11 +76,9 @@ update msgRouter msg audioPlayer =
                             )
 
                 playVideos =
-                    Task.succeed ()
-                        |> Task.perform
-                            (msgRouter.videoPlayerMsg
-                                << VideoPlayer.playVideosMsg
-                            )
+                    (msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg)
+                        |> Task.succeed
+                        |> Task.perform identity
             in
                 ( { audioPlayer | playing = True }
                 , Cmd.batch [ requestNextTrack, playVideos ]

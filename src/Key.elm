@@ -37,8 +37,8 @@ pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
                 Cmd.batch
                     [ Task.succeed (audioPlayerMsg audioMsg)
                         |> Task.perform identity
-                    , Task.succeed ()
-                        |> Task.perform (videoPlayerMsg << videoMsg)
+                    , Task.succeed (videoPlayerMsg videoMsg)
+                        |> Task.perform identity
                     ]
 
         UpArrow ->

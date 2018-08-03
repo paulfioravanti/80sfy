@@ -47,12 +47,12 @@ fetchRandomGifMsg =
     Msg.FetchRandomGif
 
 
-pauseVideosMsg : () -> Msg
+pauseVideosMsg : Msg
 pauseVideosMsg =
     Msg.PauseVideos
 
 
-playVideosMsg : () -> Msg
+playVideosMsg : Msg
 playVideosMsg =
     Msg.PlayVideos
 

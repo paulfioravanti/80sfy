@@ -161,7 +161,7 @@ pauseGifRotationButton : MsgRouter msg -> Html msg
 pauseGifRotationButton { videoPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (videoPlayerMsg (VideoPlayer.pauseVideosMsg ()))
+        , onClick (videoPlayerMsg VideoPlayer.pauseVideosMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
@@ -170,7 +170,7 @@ playGifRotationButton : MsgRouter msg -> Html msg
 playGifRotationButton { videoPlayerMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (videoPlayerMsg (VideoPlayer.playVideosMsg ()))
+        , onClick (videoPlayerMsg VideoPlayer.playVideosMsg)
         ]
         [ text "Play Gif Rotation" ]
 

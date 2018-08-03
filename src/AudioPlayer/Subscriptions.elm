@@ -35,13 +35,13 @@ subscriptions { audioPlayerMsg, videoPlayerMsg } audioPlayer =
                 Sub.batch
                     [ audioPaused (\() -> audioPlayerMsg AudioPaused)
                     , audioPaused
-                        (\() -> videoPlayerMsg (VideoPlayer.pauseVideosMsg ()))
+                        (\() -> videoPlayerMsg VideoPlayer.pauseVideosMsg)
                     ]
             else
                 Sub.batch
                     [ audioPlaying (\() -> audioPlayerMsg AudioPlaying)
                     , audioPlaying
-                        (\() -> videoPlayerMsg (VideoPlayer.playVideosMsg ()))
+                        (\() -> videoPlayerMsg VideoPlayer.playVideosMsg)
                     ]
     in
         Sub.batch

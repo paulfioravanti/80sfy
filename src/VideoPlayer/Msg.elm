@@ -10,8 +10,8 @@ type Msg
     | CrossFadePlayers Time
     | FetchRandomGif String (Result Error String)
     | HaltVideos
-    | PauseVideos ()
-    | PlayVideos ()
+    | PauseVideos
+    | PlayVideos
     | ToggleFullScreen
     | VideosHalted
     | VideosPaused
