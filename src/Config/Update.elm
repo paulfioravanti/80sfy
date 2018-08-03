@@ -32,9 +32,9 @@ update msgRouter msg config =
         InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    Task.succeed videoPlayerId
-                        |> Task.perform
-                            (msgRouter.configMsg << GenerateRandomGif)
+                    msgRouter.configMsg (GenerateRandomGif videoPlayerId)
+                        |> Task.succeed
+                        |> Task.perform identity
 
                 initSecretConfigTags =
                     Task.succeed tags

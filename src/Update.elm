@@ -29,27 +29,27 @@ import VideoPlayer
 update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
 update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
     case msg of
-        AudioPlayer audioPlayerMsg ->
+        AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msgRouter audioPlayerMsg
+                        |> AudioPlayer.update msgRouter msgForAudioPlayer
             in
                 ( { model | audioPlayer = audioPlayer }, cmd )
 
-        Config configMsg ->
+        Config msgForConfig ->
             let
                 ( config, cmd ) =
                     model.config
-                        |> Config.update msgRouter configMsg
+                        |> Config.update msgRouter msgForConfig
             in
                 ( { model | config = config }, cmd )
 
-        ControlPanel controlPanelMsg ->
+        ControlPanel msgForControlPanel ->
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
-                        |> ControlPanel.update msgRouter controlPanelMsg
+                        |> ControlPanel.update msgRouter msgForControlPanel
             in
                 ( { model | controlPanel = controlPanel }, cmd )
 
@@ -95,11 +95,11 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             in
                 ( model, Cmd.batch [ playVideo, playAudio ] )
 
-        SecretConfig secretConfigMsg ->
+        SecretConfig msgForSecretConfig ->
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
-                        |> SecretConfig.update secretConfigMsg
+                        |> SecretConfig.update msgForSecretConfig
             in
                 ( { model | secretConfig = secretConfig }, cmd )
 
@@ -110,7 +110,7 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             in
                 ( model, Cmd.none )
 
-        VideoPlayer videoPlayerMsg ->
+        VideoPlayer msgForVideoPlayer ->
             let
                 -- NOTE: The Config module cannot be imported in
                 -- VideoPlayer.Update due to circular dependencies, so the
@@ -122,7 +122,7 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
                         generateRandomGifMsg
-                        videoPlayerMsg
+                        msgForVideoPlayer
                         model.videoPlayer1
                         model.videoPlayer2
             in
