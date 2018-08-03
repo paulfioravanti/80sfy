@@ -19,11 +19,7 @@ function playAudio(scPlayer, app) {
     scPlayer.play()
   })
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
-    // Only let Elm know about SoundCloud player play events if at least
-    // some of the sound has been loaded and can therefore actually play.
-    if (sound.loadedProgress > 0) {
-      app.ports.audioPlaying.send(null)
-    }
+    app.ports.audioPlaying.send(sound.loadedProgress)
   })
 }
 
@@ -32,15 +28,11 @@ function pauseAudio(scPlayer, app) {
     scPlayer.pause()
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
-    // Only let Elm know about SoundCloud player pause events if the
-    // sound has actually first been played.
-    if (sound.currentPosition > 0) {
-      app.ports.audioPaused.send(null)
-    }
+    app.ports.audioPaused.send(sound.currentPosition)
   })
 }
 
-function setVolume(scPlayer, app, volume) {
+function setVolume(scPlayer, app) {
   app.ports.setVolume.subscribe(volume => {
     scPlayer.setVolume(volume)
   })
