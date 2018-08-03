@@ -71,13 +71,16 @@ update msgRouter msg model =
                     msgRouter.videoPlayerMsg VideoPlayer.pauseVideosMsg
                         |> Task.succeed
 
-                pauseAudioThenVideo =
-                    [ pauseAudio, pauseVideo ]
-                        |> Task.sequence
+                -- NOTE: These tasks need to be ordered in hopes of reducing the
+                -- chance of the player paused overlay being displayed when the
+                -- pause button is pressed either on the app player or
+                -- Soundcloud iframe player.
+                pauseMedia =
+                    pauseVideo
                         |> Task.andThen (\_ -> pauseAudio)
                         |> Task.perform identity
             in
-                ( model, pauseAudioThenVideo )
+                ( model, pauseMedia )
 
         Play ->
             let
