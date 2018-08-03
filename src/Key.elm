@@ -17,29 +17,21 @@ type Key
 
 
 pressed : MsgRouter msg -> Model -> Int -> Cmd msg
-pressed { audioPlayerMsg, videoPlayerMsg } { audioPlayer, config } keyCode =
+pressed { audioPlayerMsg, pauseMsg, playMsg } { audioPlayer, config } keyCode =
     case toKey keyCode of
         Escape ->
             VideoPlayer.exitFullScreen
 
         Space ->
             let
-                ( audioMsg, videoMsg ) =
+                msg =
                     if audioPlayer.playing then
-                        ( AudioPlayer.pauseAudioMsg
-                        , VideoPlayer.pauseVideosMsg
-                        )
+                        pauseMsg
                     else
-                        ( AudioPlayer.playAudioMsg
-                        , VideoPlayer.playVideosMsg
-                        )
+                        playMsg
             in
-                Cmd.batch
-                    [ Task.succeed (audioPlayerMsg audioMsg)
-                        |> Task.perform identity
-                    , Task.succeed (videoPlayerMsg videoMsg)
-                        |> Task.perform identity
-                    ]
+                Task.succeed msg
+                    |> Task.perform identity
 
         UpArrow ->
             let
