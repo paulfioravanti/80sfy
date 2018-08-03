@@ -1,5 +1,6 @@
 module View exposing (view)
 
+import AudioPlayer
 import ControlPanel
 import Html.Styled exposing (Html, div)
 import Html.Styled.Attributes exposing (attribute)
@@ -15,11 +16,11 @@ view msgRouter model =
         [ ControlPanel.view msgRouter model.audioPlayer model.controlPanel
         , VideoPlayer.view
             msgRouter
-            model.audioPlayer.playing
+            (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer1
         , VideoPlayer.view
             msgRouter
-            model.audioPlayer.playing
+            (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer2
         , SecretConfig.view msgRouter model.secretConfig
         ]

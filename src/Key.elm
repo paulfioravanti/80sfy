@@ -25,7 +25,7 @@ pressed { audioPlayerMsg, pauseMsg, playMsg } { audioPlayer, config } keyCode =
         Space ->
             let
                 msg =
-                    if audioPlayer.playing then
+                    if AudioPlayer.isPlaying audioPlayer then
                         pauseMsg
                     else
                         playMsg

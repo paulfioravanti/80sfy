@@ -1,6 +1,13 @@
 module AudioPlayer.Update exposing (update)
 
-import AudioPlayer.Model as Model exposing (AudioPlayer)
+import AudioPlayer.Model as Model
+    exposing
+        ( AudioPlayer
+        , Status
+            ( Paused
+            , Playing
+            )
+        )
 import AudioPlayer.Msg
     exposing
         ( Msg
@@ -54,10 +61,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 )
 
         AudioPaused ->
-            ( { audioPlayer | playing = False }, Cmd.none )
+            ( { audioPlayer | status = Paused }, Cmd.none )
 
         AudioPlaying ->
-            ( { audioPlayer | playing = True }, Cmd.none )
+            ( { audioPlayer | status = Playing }, Cmd.none )
 
         GeneratePlaylistTrackOrder playlistTrackOrder ->
             let
@@ -82,7 +89,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( { audioPlayer | playing = True }
+                ( { audioPlayer | status = Playing }
                 , Cmd.batch [ requestNextTrack, playVideos ]
                 )
 

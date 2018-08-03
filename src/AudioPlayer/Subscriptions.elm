@@ -9,7 +9,7 @@ import AudioPlayer.Msg
             , SetPlaylistLength
             )
         )
-import AudioPlayer.Model exposing (AudioPlayer)
+import AudioPlayer.Model exposing (AudioPlayer, Status(Playing))
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer
@@ -31,7 +31,7 @@ subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
 subscriptions ({ audioPlayerMsg } as msgRouter) audioPlayer =
     let
         playingSubscription =
-            if audioPlayer.playing then
+            if audioPlayer.status == Playing then
                 audioPausedSubscriptions msgRouter
             else
                 audioPlayingSubscriptions msgRouter

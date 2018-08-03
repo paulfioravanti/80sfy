@@ -1,12 +1,17 @@
-module AudioPlayer.Model exposing (AudioPlayer, init)
+module AudioPlayer.Model exposing (AudioPlayer, Status(..), init, isPlaying)
+
+
+type Status
+    = Playing
+    | Paused
 
 
 type alias AudioPlayer =
     { muted : Bool
-    , playing : Bool
     , playlistLength : Int
     , playlistTrackOrder : List Int
     , soundCloudIframeUrl : String
+    , status : Status
     , volume : Int
     }
 
@@ -14,10 +19,10 @@ type alias AudioPlayer =
 init : String -> AudioPlayer
 init soundCloudPlaylistUrl =
     { muted = False
-    , playing = False
     , playlistLength = 0
     , playlistTrackOrder = []
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
+    , status = Paused
     , volume = 80
     }
 
@@ -39,3 +44,8 @@ iframeUrl soundCloudPlaylistUrl =
         ++ "&hide_related=false"
         ++ "&visual=false"
         ++ "&callback=true"
+
+
+isPlaying : AudioPlayer -> Bool
+isPlaying { status } =
+    status == Playing
