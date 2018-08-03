@@ -60,11 +60,15 @@ update msgRouter msg audioPlayer =
             ( { audioPlayer | playing = True }, Cmd.none )
 
         GeneratePlaylistTrackOrder playlistTrackOrder ->
-            ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
-            , msgRouter.audioPlayerMsg NextTrackNumberRequested
-                |> Task.succeed
-                |> Task.perform identity
-            )
+            let
+                requestNextTrack =
+                    msgRouter.audioPlayerMsg NextTrackNumberRequested
+                        |> Task.succeed
+                        |> Task.perform identity
+            in
+                ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
+                , requestNextTrack
+                )
 
         NextTrack ->
             let
@@ -112,11 +116,15 @@ update msgRouter msg audioPlayer =
             )
 
         SetPlaylistLength playlistLength ->
-            ( { audioPlayer | playlistLength = playlistLength }
-            , Utils.generatePlaylistTrackOrder
-                msgRouter.audioPlayerMsg
-                playlistLength
-            )
+            let
+                generatePlaylistTrackOrder =
+                    playlistLength
+                        |> Utils.generatePlaylistTrackOrder
+                            msgRouter.audioPlayerMsg
+            in
+                ( { audioPlayer | playlistLength = playlistLength }
+                , generatePlaylistTrackOrder
+                )
 
         ToggleMute ->
             let
