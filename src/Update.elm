@@ -27,7 +27,7 @@ import VideoPlayer
 
 
 update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
-update msgRouter msg model =
+update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
     case msg of
         AudioPlayer audioPlayerMsg ->
             let
@@ -64,17 +64,16 @@ update msgRouter msg model =
         Pause ->
             let
                 pauseAudio =
-                    msgRouter.audioPlayerMsg AudioPlayer.pauseAudioMsg
+                    audioPlayerMsg AudioPlayer.pauseAudioMsg
                         |> Task.succeed
 
                 pauseVideo =
-                    msgRouter.videoPlayerMsg VideoPlayer.pauseVideosMsg
+                    videoPlayerMsg VideoPlayer.pauseVideosMsg
                         |> Task.succeed
 
-                -- NOTE: These tasks need to be ordered in hopes of reducing the
-                -- chance of the player paused overlay being displayed when the
-                -- pause button is pressed either on the app player or
-                -- Soundcloud iframe player.
+                -- NOTE: These tasks need to be specifically ordered so that
+                -- the player paused overlay is not displayed when the
+                -- pause button is pressed on the app player.
                 pauseMedia =
                     pauseVideo
                         |> Task.andThen (\_ -> pauseAudio)
@@ -85,12 +84,12 @@ update msgRouter msg model =
         Play ->
             let
                 playAudio =
-                    msgRouter.audioPlayerMsg AudioPlayer.playAudioMsg
+                    audioPlayerMsg AudioPlayer.playAudioMsg
                         |> Task.succeed
                         |> Task.perform identity
 
                 playVideo =
-                    msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg
+                    videoPlayerMsg VideoPlayer.playVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -113,8 +112,12 @@ update msgRouter msg model =
 
         VideoPlayer videoPlayerMsg ->
             let
+                -- NOTE: The Config module cannot be imported in
+                -- VideoPlayer.Update due to circular dependencies, so the
+                -- generateRandomGifMsg is created here and passed to
+                -- VideoPlayer.update as a parameter
                 generateRandomGifMsg =
-                    msgRouter.configMsg << Config.generateRandomGifMsg
+                    configMsg << Config.generateRandomGifMsg
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update

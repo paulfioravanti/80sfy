@@ -25,7 +25,7 @@ import VideoPlayer
 
 
 update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update msgRouter msg audioPlayer =
+update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
     case msg of
         AdjustVolume sliderVolume ->
             let
@@ -62,7 +62,7 @@ update msgRouter msg audioPlayer =
         GeneratePlaylistTrackOrder playlistTrackOrder ->
             let
                 requestNextTrack =
-                    msgRouter.audioPlayerMsg NextTrackNumberRequested
+                    audioPlayerMsg NextTrackNumberRequested
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -73,12 +73,12 @@ update msgRouter msg audioPlayer =
         NextTrack ->
             let
                 requestNextTrack =
-                    msgRouter.audioPlayerMsg NextTrackNumberRequested
+                    audioPlayerMsg NextTrackNumberRequested
                         |> Task.succeed
                         |> Task.perform identity
 
                 playVideos =
-                    msgRouter.videoPlayerMsg VideoPlayer.playVideosMsg
+                    videoPlayerMsg VideoPlayer.playVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -96,7 +96,7 @@ update msgRouter msg audioPlayer =
                         [] ->
                             ( []
                             , Utils.generatePlaylistTrackOrder
-                                msgRouter.audioPlayerMsg
+                                audioPlayerMsg
                                 audioPlayer.playlistLength
                             )
             in
@@ -119,8 +119,7 @@ update msgRouter msg audioPlayer =
             let
                 generatePlaylistTrackOrder =
                     playlistLength
-                        |> Utils.generatePlaylistTrackOrder
-                            msgRouter.audioPlayerMsg
+                        |> Utils.generatePlaylistTrackOrder audioPlayerMsg
             in
                 ( { audioPlayer | playlistLength = playlistLength }
                 , generatePlaylistTrackOrder
