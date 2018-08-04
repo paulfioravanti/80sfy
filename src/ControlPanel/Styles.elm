@@ -14,7 +14,6 @@ module ControlPanel.Styles
         , creditsIconImage
         , creditsLink
         , creditsPorter
-        , creditsPorterCopyright
         , icon
         , iconBackground
         , logo
@@ -187,7 +186,7 @@ credits =
         , color Colors.white
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (pct 80)
-        , height (px 200)
+        , height (px 210)
         , padding (px 10)
         , position relative
         , textAlign center
@@ -257,15 +256,9 @@ creditsLink =
 creditsPorter : Style
 creditsPorter =
     Css.batch
-        [ fontSize (pct 70)
-        , marginBottom (px 5)
+        [ marginBottom (px 5)
         , marginTop (px 10)
         ]
-
-
-creditsPorterCopyright : Style
-creditsPorterCopyright =
-    fontSize (pct 60)
 
 
 icon : Style

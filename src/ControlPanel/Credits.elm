@@ -45,7 +45,11 @@ creator =
         [ css [ Styles.creditsCreator ]
         , attribute "data-name" "credit-creator"
         ]
-        [ span []
+        [ a
+            [ css [ Styles.creditsLink ]
+            , href "https://80sfy.com"
+            , target "_blank"
+            ]
             [ text "Created by" ]
         , br [] []
         , a
@@ -106,7 +110,7 @@ porter =
 porterCopyright : Html msg
 porterCopyright =
     div
-        [ css [ Styles.creditsPorterCopyright ]
+        [ css [ Styles.creditsCopyright ]
         , attribute "data-name" "credit-porter-copyright"
         ]
         [ text "Copyright 2018" ]
