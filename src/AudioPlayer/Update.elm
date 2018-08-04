@@ -15,7 +15,7 @@ import AudioPlayer.Msg
             ( AdjustVolume
             , AudioPaused
             , AudioPlaying
-            , GeneratePlaylistTrackOrder
+            , GeneratePlaylist
             , NextTrack
             , NextTrackNumberRequested
             , PauseAudio
@@ -71,14 +71,14 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             in
                 ( { audioPlayer | status = status }, Cmd.none )
 
-        GeneratePlaylistTrackOrder playlistTrackOrder ->
+        GeneratePlaylist playlist ->
             let
                 requestNextTrack =
                     audioPlayerMsg NextTrackNumberRequested
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
+                ( { audioPlayer | playlist = playlist }
                 , requestNextTrack
                 )
 
@@ -106,19 +106,19 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         NextTrackNumberRequested ->
             let
-                ( playlistTrackOrder, cmd ) =
-                    case audioPlayer.playlistTrackOrder of
+                ( playlist, cmd ) =
+                    case audioPlayer.playlist of
                         head :: tail ->
                             ( tail, Ports.skipToTrack head )
 
                         [] ->
                             ( []
-                            , Utils.generatePlaylistTrackOrder
+                            , Utils.generatePlaylist
                                 audioPlayerMsg
                                 audioPlayer.playlistLength
                             )
             in
-                ( { audioPlayer | playlistTrackOrder = playlistTrackOrder }
+                ( { audioPlayer | playlist = playlist }
                 , cmd
                 )
 
@@ -135,12 +135,12 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         SetPlaylistLength playlistLength ->
             let
-                generatePlaylistTrackOrder =
+                generatePlaylist =
                     playlistLength
-                        |> Utils.generatePlaylistTrackOrder audioPlayerMsg
+                        |> Utils.generatePlaylist audioPlayerMsg
             in
                 ( { audioPlayer | playlistLength = playlistLength }
-                , generatePlaylistTrackOrder
+                , generatePlaylist
                 )
 
         ToggleMute ->

@@ -1,12 +1,12 @@
-module AudioPlayer.Utils exposing (generatePlaylistTrackOrder)
+module AudioPlayer.Utils exposing (generatePlaylist)
 
-import AudioPlayer.Msg exposing (Msg(GeneratePlaylistTrackOrder))
+import AudioPlayer.Msg exposing (Msg(GeneratePlaylist))
 import Random
 import Random.List
 
 
-generatePlaylistTrackOrder : (Msg -> msg) -> Int -> Cmd msg
-generatePlaylistTrackOrder audioPlayerMsg playlistLength =
+generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
+generatePlaylist audioPlayerMsg playlistLength =
     let
         trackList =
             List.range 0 (playlistLength - 1)
@@ -15,4 +15,4 @@ generatePlaylistTrackOrder audioPlayerMsg playlistLength =
             Random.List.shuffle trackList
     in
         generator
-            |> Random.generate (audioPlayerMsg << GeneratePlaylistTrackOrder)
+            |> Random.generate (audioPlayerMsg << GeneratePlaylist)

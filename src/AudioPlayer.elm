@@ -5,7 +5,7 @@ module AudioPlayer
         , init
         , initAudioPlayer
         , adjustVolumeMsg
-        , generatePlaylistTrackOrder
+        , generatePlaylist
         , isMuted
         , isPlaying
         , nextTrackMsg
@@ -44,9 +44,9 @@ adjustVolumeMsg =
     Msg.AdjustVolume
 
 
-generatePlaylistTrackOrder : (Msg -> msg) -> Int -> Cmd msg
-generatePlaylistTrackOrder audioPlayerMsg playlistLength =
-    Utils.generatePlaylistTrackOrder audioPlayerMsg playlistLength
+generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
+generatePlaylist audioPlayerMsg playlistLength =
+    Utils.generatePlaylist audioPlayerMsg playlistLength
 
 
 initAudioPlayer : Int -> Cmd msg

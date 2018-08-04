@@ -5,7 +5,7 @@ type Msg
     = AdjustVolume String
     | AudioPaused
     | AudioPlaying
-    | GeneratePlaylistTrackOrder (List Int)
+    | GeneratePlaylist (List Int)
     | NextTrack
     | NextTrackNumberRequested
     | PauseAudio
