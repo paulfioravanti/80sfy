@@ -90,28 +90,21 @@ trackInfo { soundCloudIframeUrl } =
 
 
 volumeControl : MsgRouter msg -> AudioPlayer -> Html msg
-volumeControl { audioPlayerMsg } { muted, volume } =
-    let
-        volumeDisplayValue =
-            if muted then
-                "0"
-            else
-                toString volume
-    in
-        div
-            [ css [ Styles.volume ]
-            , attribute "data-name" "volume"
+volumeControl { audioPlayerMsg } { volume } =
+    div
+        [ css [ Styles.volume ]
+        , attribute "data-name" "volume"
+        ]
+        [ div [ css [ Styles.volumeBackground ] ]
+            []
+        , input
+            [ css [ Styles.volumeControl ]
+            , type_ "range"
+            , Attributes.min "0"
+            , Attributes.max "100"
+            , step "5"
+            , value (toString volume)
+            , onInput (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
             ]
-            [ div [ css [ Styles.volumeBackground ] ]
-                []
-            , input
-                [ css [ Styles.volumeControl ]
-                , type_ "range"
-                , Attributes.min "0"
-                , Attributes.max "100"
-                , step "5"
-                , value volumeDisplayValue
-                , onInput (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
-                ]
-                []
-            ]
+            []
+        ]

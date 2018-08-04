@@ -6,6 +6,7 @@ module AudioPlayer
         , initAudioPlayer
         , adjustVolumeMsg
         , generatePlaylistTrackOrder
+        , isMuted
         , isPlaying
         , nextTrackMsg
         , pauseAudioMsg
@@ -51,6 +52,11 @@ generatePlaylistTrackOrder audioPlayerMsg playlistLength =
 initAudioPlayer : Int -> Cmd msg
 initAudioPlayer volume =
     Ports.initAudioPlayer volume
+
+
+isMuted : AudioPlayer -> Bool
+isMuted audioPlayer =
+    Model.isMuted audioPlayer
 
 
 isPlaying : AudioPlayer -> Bool
