@@ -9,7 +9,7 @@ import AudioPlayer.Msg
             , SetPlaylistLength
             )
         )
-import AudioPlayer.Model as Model exposing (AudioPlayer, Status(Muted, Playing))
+import AudioPlayer.Model as Model exposing (AudioPlayer)
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer
