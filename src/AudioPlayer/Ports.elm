@@ -9,7 +9,7 @@ port module AudioPlayer.Ports
         )
 
 
-port initAudioPlayer : Int -> Cmd msg
+port initAudioPlayer : ( Int, String ) -> Cmd msg
 
 
 port nextTrack : () -> Cmd msg

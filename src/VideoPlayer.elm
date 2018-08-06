@@ -57,10 +57,11 @@ playVideosMsg =
     Msg.PlayVideos
 
 
-subscriptions : MsgRouter msg -> Float -> Bool -> VideoPlayer -> Sub msg
-subscriptions msgRouter gifDisplaySeconds overrideInactivityPause videoPlayer1 =
+subscriptions : MsgRouter msg -> String -> Float -> Bool -> VideoPlayer -> Sub msg
+subscriptions msgRouter audioPlayerId gifDisplaySeconds overrideInactivityPause videoPlayer1 =
     Subscriptions.subscriptions
         msgRouter
+        audioPlayerId
         gifDisplaySeconds
         overrideInactivityPause
         videoPlayer1

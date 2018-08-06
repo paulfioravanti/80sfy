@@ -13,7 +13,6 @@ import Html.Styled.Attributes as Attributes
         ( attribute
         , css
         , fromUnstyled
-        , id
         , src
         , step
         , type_
@@ -74,15 +73,15 @@ logo =
 
 
 trackInfo : AudioPlayer -> Html msg
-trackInfo { soundCloudIframeUrl } =
+trackInfo { id, soundCloudIframeUrl } =
     div
         [ css [ Styles.trackInfo ]
         , attribute "data-name" "track-info"
         ]
         [ iframe
             [ css [ Styles.trackPlayer ]
-            , attribute "data-name" "track-player"
-            , id "track-player"
+            , attribute "data-name" id
+            , Attributes.id id
             , src soundCloudIframeUrl
             ]
             []

@@ -39,8 +39,8 @@ port windowBlurred : (Value -> msg) -> Sub msg
 port windowFocused : (() -> msg) -> Sub msg
 
 
-subscriptions : MsgRouter msg -> Float -> Bool -> VideoPlayer -> Sub msg
-subscriptions { noOpMsg, videoPlayerMsg } gifDisplaySeconds overrideInactivityPause videoPlayer1 =
+subscriptions : MsgRouter msg -> String -> Float -> Bool -> VideoPlayer -> Sub msg
+subscriptions { noOpMsg, videoPlayerMsg } audioPlayerId gifDisplaySeconds overrideInactivityPause videoPlayer1 =
     let
         fetchNextGif =
             fetchNextGifSubscription
@@ -58,7 +58,11 @@ subscriptions { noOpMsg, videoPlayerMsg } gifDisplaySeconds overrideInactivityPa
                 overrideInactivityPause
 
         windowEvent =
-            windowEventSubscription videoPlayerMsg noOpMsg videoPlayer1.status
+            windowEventSubscription
+                videoPlayerMsg
+                noOpMsg
+                audioPlayerId
+                videoPlayer1.status
     in
         Sub.batch
             [ fetchNextGif
@@ -102,8 +106,8 @@ videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
         Sub.none
 
 
-windowEventSubscription : (Msg -> msg) -> msg -> Status -> Sub msg
-windowEventSubscription videoPlayerMsg noOpMsg status =
+windowEventSubscription : (Msg -> msg) -> msg -> String -> Status -> Sub msg
+windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
     case status of
         Playing ->
             -- NOTE: If the document target has "blurred" from the video player
@@ -112,7 +116,7 @@ windowEventSubscription videoPlayerMsg noOpMsg status =
             -- "Gifs Paused" overlay.
             windowBlurred
                 (\activeElementIdFlag ->
-                    if audioPlayerActive activeElementIdFlag then
+                    if audioPlayerActive activeElementIdFlag audioPlayerId then
                         noOpMsg
                     else
                         videoPlayerMsg HaltVideos
@@ -125,15 +129,15 @@ windowEventSubscription videoPlayerMsg noOpMsg status =
             Sub.none
 
 
-audioPlayerActive : Value -> Bool
-audioPlayerActive activeElementIdFlag =
+audioPlayerActive : Value -> String -> Bool
+audioPlayerActive activeElementIdFlag audioPlayerId =
     let
         activeElementId =
             activeElementIdFlag
                 |> Decode.decodeValue Decode.string
                 |> Result.withDefault ""
     in
-        activeElementId == "track-player"
+        activeElementId == audioPlayerId
 
 
 extractBoolValue : Value -> Bool

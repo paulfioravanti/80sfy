@@ -63,6 +63,7 @@ init msgRouter flags =
         ( model
         , Cmd.batch
             [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
-            , AudioPlayer.initAudioPlayer model.audioPlayer.volume
+            , AudioPlayer.initAudioPlayer
+                ( model.audioPlayer.volume, model.audioPlayer.id )
             ]
         )

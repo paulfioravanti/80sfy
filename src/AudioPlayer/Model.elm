@@ -15,7 +15,8 @@ type Status
 
 
 type alias AudioPlayer =
-    { playlist : List Int
+    { id : String
+    , playlist : List Int
     , playlistLength : Int
     , soundCloudIframeUrl : String
     , status : Status
@@ -25,7 +26,8 @@ type alias AudioPlayer =
 
 init : String -> AudioPlayer
 init soundCloudPlaylistUrl =
-    { playlist = []
+    { id = "track-player"
+    , playlist = []
     , playlistLength = 0
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
     , status = Paused

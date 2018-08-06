@@ -1,7 +1,8 @@
 export function init(app) {
-  app.ports.initAudioPlayer.subscribe(volume => {
+  app.ports.initAudioPlayer.subscribe(tuple => {
+    const [volume, id] = tuple
     window.requestAnimationFrame(() => {
-      const scPlayer = SC.Widget("track-player")
+      const scPlayer = SC.Widget(id)
       scPlayer.bind(SC.Widget.Events.READY, () => {
         playAudio(scPlayer, app)
         pauseAudio(scPlayer, app)

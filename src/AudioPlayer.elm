@@ -49,9 +49,9 @@ generatePlaylist audioPlayerMsg playlistLength =
     Utils.generatePlaylist audioPlayerMsg playlistLength
 
 
-initAudioPlayer : Int -> Cmd msg
-initAudioPlayer volume =
-    Ports.initAudioPlayer volume
+initAudioPlayer : ( Int, String ) -> Cmd msg
+initAudioPlayer tuple =
+    Ports.initAudioPlayer tuple
 
 
 isMuted : AudioPlayer -> Bool
