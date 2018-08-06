@@ -5,12 +5,7 @@ import ControlPanel.Animations as Animations
 import ControlPanel.Model
     exposing
         ( ControlPanel
-        , State
-            ( Idle
-            , InUse
-            , Invisible
-            , KeepVisible
-            )
+        , State(Idle, InUse, Invisible, KeepVisible)
         )
 import ControlPanel.Msg
     exposing

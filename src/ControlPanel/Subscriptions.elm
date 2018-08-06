@@ -4,10 +4,7 @@ import Animation
 import ControlPanel.Model
     exposing
         ( ControlPanel
-        , State
-            ( Idle
-            , Invisible
-            )
+        , State(Idle, Invisible)
         )
 import ControlPanel.Msg
     exposing

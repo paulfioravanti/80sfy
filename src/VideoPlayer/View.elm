@@ -96,20 +96,22 @@ gifVideoPlayer gifUrl videoPlayer =
 
 playerPausedOverlay : Html msg
 playerPausedOverlay =
-    div
-        [ css [ Styles.videoPlayerPaused ]
-        , attribute "data-name" "player-paused"
-        ]
-        [ div
-            [ css [ Styles.videoPlayerPausedContent ]
-            , attribute "data-name" "player-paused-content"
+    let
+        overlayText =
+            "Click here to make this the active window and continue GIFs"
+    in
+        div
+            [ css [ Styles.videoPlayerPaused ]
+            , attribute "data-name" "player-paused"
             ]
-            [ span [] [ text "[GIFs Paused]" ]
-            , br [] []
-            , br [] []
-            , span []
-                [ text """Click here to make this the
-                          active window and continue GIFs"""
+            [ div
+                [ css [ Styles.videoPlayerPausedContent ]
+                , attribute "data-name" "player-paused-content"
+                ]
+                [ span [] [ text "[GIFs Paused]" ]
+                , br [] []
+                , br [] []
+                , span []
+                    [ text overlayText ]
                 ]
             ]
-        ]
