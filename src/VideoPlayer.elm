@@ -6,9 +6,9 @@ module VideoPlayer
         , fetchRandomGifMsg
         , init
         , pauseVideosMsg
+        , performFullScreenToggleMsg
         , playVideosMsg
         , subscriptions
-        , toggleFullScreenMsg
         , update
         , view
         )
@@ -66,9 +66,9 @@ subscriptions msgRouter gifDisplaySeconds overrideInactivityPause videoPlayer1 =
         videoPlayer1
 
 
-toggleFullScreenMsg : Msg
-toggleFullScreenMsg =
-    Msg.ToggleFullScreen
+performFullScreenToggleMsg : Msg
+performFullScreenToggleMsg =
+    Msg.PerformFullScreenToggle
 
 
 update :

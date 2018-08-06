@@ -84,7 +84,7 @@ fullscreenButton { videoPlayerMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "fullscreen"
-        , onClick (videoPlayerMsg VideoPlayer.toggleFullScreenMsg)
+        , onClick (videoPlayerMsg VideoPlayer.performFullScreenToggleMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []

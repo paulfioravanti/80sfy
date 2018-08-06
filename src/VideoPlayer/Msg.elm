@@ -11,8 +11,8 @@ type Msg
     | FetchRandomGif String (Result Error String)
     | HaltVideos
     | PauseVideos
+    | PerformFullScreenToggle
     | PlayVideos
-    | ToggleFullScreen
     | VideosHalted
     | VideosPaused
     | VideosPlaying

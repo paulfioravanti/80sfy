@@ -15,7 +15,7 @@ import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import VideoPlayer.Model exposing (Status(Playing), VideoPlayer)
-import VideoPlayer.Msg exposing (Msg(PlayVideos, ToggleFullScreen))
+import VideoPlayer.Msg exposing (Msg(PlayVideos, PerformFullScreenToggle))
 import VideoPlayer.Styles as Styles
 
 
@@ -58,7 +58,8 @@ attributes msgRouter audioPlaying videoPlayer =
             clickOnPlayAttribute
                 ++ [ css [ Styles.gifContainer videoPlayer.zIndex ]
                    , attribute "data-name" "player-gif-container"
-                   , onDoubleClick (msgRouter.videoPlayerMsg ToggleFullScreen)
+                   , onDoubleClick
+                        (msgRouter.videoPlayerMsg PerformFullScreenToggle)
                    ]
     in
         List.append animations videoPlayerAttributes

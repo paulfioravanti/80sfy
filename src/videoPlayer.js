@@ -2,8 +2,8 @@ export function init(app) {
   cancelFullScreen(app)
   haltVideos(app)
   pauseVideos(app)
+  performFullScreenToggle(app)
   playVideos(app)
-  toggleFullScreen(app)
   windowBlurred(app)
   windowFocused(app)
 }
@@ -36,8 +36,8 @@ function playVideos(app) {
   })
 }
 
-function toggleFullScreen(app) {
-  app.ports.toggleFullScreen.subscribe(() => {
+function performFullScreenToggle(app) {
+  app.ports.performFullScreenToggle.subscribe(() => {
     if (fullScreenElement()) {
       exitFullScreen()
     } else {
