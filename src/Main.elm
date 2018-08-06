@@ -31,17 +31,17 @@ main : Program Flags Model Msg
 main =
     let
         msgRouter =
-            MsgRouter.init
-                AudioPlayer
-                Config
-                ControlPanel
-                Key
-                NoOp
-                Pause
-                Play
-                SecretConfig
-                ShowApplicationState
-                VideoPlayer
+            { audioPlayerMsg = AudioPlayer
+            , configMsg = Config
+            , controlPanelMsg = ControlPanel
+            , keyMsg = Key
+            , noOpMsg = NoOp
+            , pauseMsg = Pause
+            , playMsg = Play
+            , secretConfigMsg = SecretConfig
+            , showApplicationState = ShowApplicationState
+            , videoPlayerMsg = VideoPlayer
+            }
     in
         Html.programWithFlags
             { init = init msgRouter

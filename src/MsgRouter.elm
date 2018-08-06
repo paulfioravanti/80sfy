@@ -1,4 +1,4 @@
-module MsgRouter exposing (MsgRouter, init)
+module MsgRouter exposing (MsgRouter)
 
 import AudioPlayer.Msg
 import Config.Msg
@@ -19,30 +19,4 @@ type alias MsgRouter msg =
     , secretConfigMsg : SecretConfig.Msg.Msg -> msg
     , showApplicationState : msg
     , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
-    }
-
-
-init :
-    (AudioPlayer.Msg.Msg -> msg)
-    -> (Config.Msg.Msg -> msg)
-    -> (ControlPanel.Msg.Msg -> msg)
-    -> (KeyCode -> msg)
-    -> msg
-    -> msg
-    -> msg
-    -> (SecretConfig.Msg.Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg.Msg -> msg)
-    -> MsgRouter msg
-init audioPlayerMsg configMsg controlPanelMsg keyMsg noOpMsg pauseMsg playMsg secretConfigMsg showApplicationState videoPlayerMsg =
-    { audioPlayerMsg = audioPlayerMsg
-    , configMsg = configMsg
-    , controlPanelMsg = controlPanelMsg
-    , keyMsg = keyMsg
-    , noOpMsg = noOpMsg
-    , pauseMsg = pauseMsg
-    , playMsg = playMsg
-    , secretConfigMsg = secretConfigMsg
-    , showApplicationState = showApplicationState
-    , videoPlayerMsg = videoPlayerMsg
     }
