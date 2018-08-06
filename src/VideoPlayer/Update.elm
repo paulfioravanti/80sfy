@@ -9,11 +9,13 @@ import VideoPlayer.Msg
         ( Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
+            , ExitFullScreen
             , FetchRandomGif
             , HaltVideos
             , PauseVideos
             , PlayVideos
             , PerformFullScreenToggle
+            , RequestFullScreen
             , VideosHalted
             , VideosPaused
             , VideosPlaying
@@ -67,6 +69,9 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
                 , generateRandomGifForHiddenVideoPlayer
                 )
 
+        ExitFullScreen ->
+            ( videoPlayer1, videoPlayer2, Ports.exitFullScreen () )
+
         FetchRandomGif videoPlayerId (Ok url) ->
             let
                 cmd =
@@ -106,6 +111,9 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
 
         PlayVideos ->
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
+
+        RequestFullScreen ->
+            ( videoPlayer1, videoPlayer2, Ports.requestFullScreen () )
 
         VideosHalted ->
             ( { videoPlayer1 | status = Halted }

@@ -10,13 +10,18 @@ import VideoPlayer.Msg
         ( Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
+            , ExitFullScreen
             , HaltVideos
             , PlayVideos
+            , RequestFullScreen
             , VideosHalted
             , VideosPaused
             , VideosPlaying
             )
         )
+
+
+port toggleFullScreen : (Value -> msg) -> Sub msg
 
 
 port videosHalted : (() -> msg) -> Sub msg
@@ -43,6 +48,9 @@ subscriptions { noOpMsg, videoPlayerMsg } gifDisplaySeconds overrideInactivityPa
                 videoPlayer1.status
                 gifDisplaySeconds
 
+        toggleFullScreen =
+            toggleFullScreenSubscription videoPlayerMsg
+
         videosHalted =
             videosHaltedSubscription
                 videoPlayerMsg
@@ -54,6 +62,7 @@ subscriptions { noOpMsg, videoPlayerMsg } gifDisplaySeconds overrideInactivityPa
     in
         Sub.batch
             [ fetchNextGif
+            , toggleFullScreen
             , videosHalted
             , windowEvent
             , videosPaused (\() -> videoPlayerMsg VideosPaused)
@@ -72,6 +81,17 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
             (videoPlayerMsg << CrossFadePlayers)
     else
         Sub.none
+
+
+toggleFullScreenSubscription : (Msg -> msg) -> Sub msg
+toggleFullScreenSubscription videoPlayerMsg =
+    toggleFullScreen
+        (\isFullScreenFlag ->
+            if extractBoolValue isFullScreenFlag then
+                videoPlayerMsg ExitFullScreen
+            else
+                videoPlayerMsg RequestFullScreen
+        )
 
 
 videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
@@ -114,3 +134,10 @@ audioPlayerActive activeElementIdFlag =
                 |> Result.withDefault ""
     in
         activeElementId == "track-player"
+
+
+extractBoolValue : Value -> Bool
+extractBoolValue boolFlag =
+    boolFlag
+        |> Decode.decodeValue Decode.bool
+        |> Result.withDefault False

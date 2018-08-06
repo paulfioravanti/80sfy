@@ -1,59 +1,63 @@
 export function init(app) {
-  cancelFullScreen(app)
-  haltVideos(app)
-  pauseVideos(app)
-  performFullScreenToggle(app)
-  playVideos(app)
-  windowBlurred(app)
-  windowFocused(app)
+  initExitFullScreen(app)
+  initRequestFullScreen(app)
+  initHaltVideos(app)
+  initPauseVideos(app)
+  initPerformFullScreenToggle(app)
+  initPlayVideos(app)
+  initRequestFullScreen(app)
+  initWindowBlurred(app)
+  initWindowFocused(app)
 }
 
-
-function cancelFullScreen(app) {
+function initExitFullScreen(app) {
   app.ports.exitFullScreen.subscribe(() => {
     exitFullScreen()
   })
 }
 
-function haltVideos(app) {
+function initHaltVideos(app) {
   app.ports.haltVideos.subscribe(() => {
     pauseVideoPlayers()
     app.ports.videosHalted.send(null)
   })
 }
 
-function pauseVideos(app) {
+function initPauseVideos(app) {
   app.ports.pauseVideos.subscribe(() => {
     pauseVideoPlayers()
     app.ports.videosPaused.send(null)
   })
 }
 
-function playVideos(app) {
+function initPerformFullScreenToggle(app) {
+  app.ports.performFullScreenToggle.subscribe(() => {
+    const isFullScreen = !!fullScreenElement()
+    app.ports.toggleFullScreen.send(isFullScreen)
+  })
+}
+
+function initPlayVideos(app) {
   app.ports.playVideos.subscribe(() => {
     playVideoPlayers()
     app.ports.videosPlaying.send(null)
   })
 }
 
-function performFullScreenToggle(app) {
-  app.ports.performFullScreenToggle.subscribe(() => {
-    if (fullScreenElement()) {
-      exitFullScreen()
-    } else {
-      requestFullScreen()
-    }
+function initRequestFullScreen(app) {
+  app.ports.requestFullScreen.subscribe(() => {
+    requestFullScreen()
   })
 }
 
-function windowBlurred(app) {
+function initWindowBlurred(app) {
   window.addEventListener("blur", event => {
     const activeElementId = event.target.document.activeElement.id
     app.ports.windowBlurred.send(activeElementId)
   })
 }
 
-function windowFocused(app) {
+function initWindowFocused(app) {
   window.addEventListener("focus", () => {
     app.ports.windowFocused.send(null)
   })
