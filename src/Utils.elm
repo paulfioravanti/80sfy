@@ -10,16 +10,13 @@ showApplicationState model =
         _ =
             Debug.log "Secret Config" model.secretConfig
 
-        -- don't output Giphy API key
-        { gifDisplaySeconds, soundCloudPlaylistUrl, tags, volumeAdjustmentRate } =
-            model.config
-
         _ =
+            -- don't output Giphy API key
             Debug.log "Config"
-                { gifDisplaySeconds = gifDisplaySeconds
-                , soundCloudPlaylisturl = soundCloudPlaylistUrl
-                , tags = tags
-                , volumeAdjustmentRate = volumeAdjustmentRate
+                { gifDisplaySeconds = model.config.gifDisplaySeconds
+                , soundCloudPlaylisturl = model.config.soundCloudPlaylistUrl
+                , tags = model.config.tags
+                , volumeAdjustmentRate = model.config.volumeAdjustmentRate
                 }
 
         _ =
