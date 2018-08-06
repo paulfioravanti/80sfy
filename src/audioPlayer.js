@@ -4,50 +4,14 @@ export function init(app) {
     window.requestAnimationFrame(() => {
       const scPlayer = SC.Widget(id)
       scPlayer.bind(SC.Widget.Events.READY, () => {
-        playAudio(scPlayer, app)
-        pauseAudio(scPlayer, app)
-        setVolume(scPlayer, app)
-        skipToTrack(scPlayer, app)
-        trackFinished(scPlayer, app)
         initAudioPlayer(scPlayer, volume, app)
+        initPlayAudio(scPlayer, app)
+        initPauseAudio(scPlayer, app)
+        initSetVolume(scPlayer, app)
+        initSkipToTrack(scPlayer, app)
+        initTrackFinished(scPlayer, app)
       })
     })
-  })
-}
-
-function playAudio(scPlayer, app) {
-  app.ports.playAudio.subscribe(() => {
-    scPlayer.play()
-  })
-  scPlayer.bind(SC.Widget.Events.PLAY, sound => {
-    app.ports.audioPlaying.send(sound.loadedProgress)
-  })
-}
-
-function pauseAudio(scPlayer, app) {
-  app.ports.pauseAudio.subscribe(() => {
-    scPlayer.pause()
-  })
-  scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
-    app.ports.audioPaused.send(sound.currentPosition)
-  })
-}
-
-function setVolume(scPlayer, app) {
-  app.ports.setVolume.subscribe(volume => {
-    scPlayer.setVolume(volume)
-  })
-}
-
-function skipToTrack(scPlayer, app) {
-  app.ports.skipToTrack.subscribe(trackNumber => {
-    scPlayer.skip(trackNumber)
-  })
-}
-
-function trackFinished(scPlayer, app) {
-  scPlayer.bind(SC.Widget.Events.FINISH, () => {
-    app.ports.requestNextTrackNumber.send(null)
   })
 }
 
@@ -67,4 +31,40 @@ function initAudioPlayer(scPlayer, volume, app) {
   // the controls on the control panel and the video playback itself should
   // be "out of sync".
   app.ports.videosPlaying.send(null)
+}
+
+function initPlayAudio(scPlayer, app) {
+  app.ports.playAudio.subscribe(() => {
+    scPlayer.play()
+  })
+  scPlayer.bind(SC.Widget.Events.PLAY, sound => {
+    app.ports.audioPlaying.send(sound.loadedProgress)
+  })
+}
+
+function initPauseAudio(scPlayer, app) {
+  app.ports.pauseAudio.subscribe(() => {
+    scPlayer.pause()
+  })
+  scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
+    app.ports.audioPaused.send(sound.currentPosition)
+  })
+}
+
+function initSetVolume(scPlayer, app) {
+  app.ports.setVolume.subscribe(volume => {
+    scPlayer.setVolume(volume)
+  })
+}
+
+function initSkipToTrack(scPlayer, app) {
+  app.ports.skipToTrack.subscribe(trackNumber => {
+    scPlayer.skip(trackNumber)
+  })
+}
+
+function initTrackFinished(scPlayer, app) {
+  scPlayer.bind(SC.Widget.Events.FINISH, () => {
+    app.ports.requestNextTrackNumber.send(null)
+  })
 }
