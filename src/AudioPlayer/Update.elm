@@ -3,11 +3,7 @@ module AudioPlayer.Update exposing (update)
 import AudioPlayer.Model as Model
     exposing
         ( AudioPlayer
-        , Status
-            ( Paused
-            , Playing
-            , Muted
-            )
+        , Status(Paused, Playing, Muted)
         )
 import AudioPlayer.Msg
     exposing
@@ -74,9 +70,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         GeneratePlaylist playlist ->
             let
                 requestNextTrack =
-                    audioPlayerMsg NextTrackNumberRequested
-                        |> Task.succeed
-                        |> Task.perform identity
+                    nextTrackNumberRequested audioPlayerMsg
             in
                 ( { audioPlayer | playlist = playlist }
                 , requestNextTrack
@@ -85,9 +79,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         NextTrack ->
             let
                 requestNextTrack =
-                    audioPlayerMsg NextTrackNumberRequested
-                        |> Task.succeed
-                        |> Task.perform identity
+                    nextTrackNumberRequested audioPlayerMsg
 
                 playVideos =
                     videoPlayerMsg VideoPlayer.playVideosMsg
@@ -171,3 +163,10 @@ containVolume volume =
             maxVolume
         else
             volume
+
+
+nextTrackNumberRequested : (Msg -> msg) -> Cmd msg
+nextTrackNumberRequested audioPlayerMsg =
+    audioPlayerMsg NextTrackNumberRequested
+        |> Task.succeed
+        |> Task.perform identity
