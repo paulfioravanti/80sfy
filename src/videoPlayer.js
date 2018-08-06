@@ -1,6 +1,5 @@
 export function init(app) {
   initExitFullScreen(app)
-  initRequestFullScreen(app)
   initHaltVideos(app)
   initPauseVideos(app)
   initPerformFullScreenToggle(app)
