@@ -10,18 +10,24 @@ import VideoPlayer
 
 subscriptions : MsgRouter msg -> Model -> Sub msg
 subscriptions msgRouter model =
-    Sub.batch
-        [ AudioPlayer.subscriptions
-            msgRouter
-            model.audioPlayer
-        , ControlPanel.subscriptions
-            msgRouter
-            model.controlPanel
-        , Keyboard.downs msgRouter.keyMsg
-        , VideoPlayer.subscriptions
-            msgRouter
-            model.audioPlayer.id
-            model.config.gifDisplaySeconds
-            model.secretConfig.overrideInactivityPause
-            model.videoPlayer1
-        ]
+    let
+        videoPlayerContext =
+            { audioPlayerId = model.audioPlayer.id
+            , gifDisplaySeconds = model.config.gifDisplaySeconds
+            , overrideInactivityPause =
+                model.secretConfig.overrideInactivityPause
+            }
+    in
+        Sub.batch
+            [ AudioPlayer.subscriptions
+                msgRouter
+                model.audioPlayer
+            , ControlPanel.subscriptions
+                msgRouter
+                model.controlPanel
+            , Keyboard.downs msgRouter.keyMsg
+            , VideoPlayer.subscriptions
+                msgRouter
+                videoPlayerContext
+                model.videoPlayer1
+            ]

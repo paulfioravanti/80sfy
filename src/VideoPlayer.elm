@@ -19,7 +19,7 @@ import MsgRouter exposing (MsgRouter)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Ports as Ports
-import VideoPlayer.Subscriptions as Subscriptions
+import VideoPlayer.Subscriptions as Subscriptions exposing (Context)
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
@@ -57,14 +57,9 @@ playVideosMsg =
     Msg.PlayVideos
 
 
-subscriptions : MsgRouter msg -> String -> Float -> Bool -> VideoPlayer -> Sub msg
-subscriptions msgRouter audioPlayerId gifDisplaySeconds overrideInactivityPause videoPlayer1 =
-    Subscriptions.subscriptions
-        msgRouter
-        audioPlayerId
-        gifDisplaySeconds
-        overrideInactivityPause
-        videoPlayer1
+subscriptions : MsgRouter msg -> Context -> VideoPlayer -> Sub msg
+subscriptions msgRouter context videoPlayer1 =
+    Subscriptions.subscriptions msgRouter context videoPlayer1
 
 
 performFullScreenToggleMsg : Msg

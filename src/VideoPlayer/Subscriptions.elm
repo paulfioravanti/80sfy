@@ -1,4 +1,4 @@
-port module VideoPlayer.Subscriptions exposing (subscriptions)
+port module VideoPlayer.Subscriptions exposing (Context, subscriptions)
 
 import Animation
 import Json.Decode as Decode exposing (Value)
@@ -39,14 +39,21 @@ port windowBlurred : (Value -> msg) -> Sub msg
 port windowFocused : (() -> msg) -> Sub msg
 
 
-subscriptions : MsgRouter msg -> String -> Float -> Bool -> VideoPlayer -> Sub msg
-subscriptions { noOpMsg, videoPlayerMsg } audioPlayerId gifDisplaySeconds overrideInactivityPause videoPlayer1 =
+type alias Context =
+    { audioPlayerId : String
+    , gifDisplaySeconds : Float
+    , overrideInactivityPause : Bool
+    }
+
+
+subscriptions : MsgRouter msg -> Context -> VideoPlayer -> Sub msg
+subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
     let
         fetchNextGif =
             fetchNextGifSubscription
                 videoPlayerMsg
                 videoPlayer1.status
-                gifDisplaySeconds
+                context.gifDisplaySeconds
 
         toggleFullScreen =
             toggleFullScreenSubscription videoPlayerMsg
@@ -55,13 +62,13 @@ subscriptions { noOpMsg, videoPlayerMsg } audioPlayerId gifDisplaySeconds overri
             videosHaltedSubscription
                 videoPlayerMsg
                 videoPlayer1.status
-                overrideInactivityPause
+                context.overrideInactivityPause
 
         windowEvent =
             windowEventSubscription
                 videoPlayerMsg
                 noOpMsg
-                audioPlayerId
+                context.audioPlayerId
                 videoPlayer1.status
     in
         Sub.batch
