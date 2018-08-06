@@ -41,7 +41,7 @@ function performFullScreenToggle(app) {
     if (fullScreenElement()) {
       exitFullScreen()
     } else {
-      launchFullScreen()
+      requestFullScreen()
     }
   })
 }
@@ -59,7 +59,7 @@ function windowFocused(app) {
   })
 }
 
-function launchFullScreen() {
+function requestFullScreen() {
   const documentElement = document.documentElement
 
   if (documentElement.requestFullScreen) {
