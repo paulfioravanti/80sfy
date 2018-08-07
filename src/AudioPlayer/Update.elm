@@ -121,9 +121,15 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             ( audioPlayer, Ports.playAudio () )
 
         ReInitAudioPlayer soundCloudPlaylistUrl ->
-            ( Model.init soundCloudPlaylistUrl
-            , Ports.initAudioPlayer ( audioPlayer.volume, audioPlayer.id )
-            )
+            let
+                initAudioPlayerFlags =
+                    { id = audioPlayer.id
+                    , volume = audioPlayer.volume
+                    }
+            in
+                ( Model.init soundCloudPlaylistUrl
+                , Ports.initAudioPlayer initAudioPlayerFlags
+                )
 
         SetPlaylistLength playlistLength ->
             let

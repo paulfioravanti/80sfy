@@ -1,6 +1,5 @@
 export function init(app) {
-  app.ports.initAudioPlayer.subscribe(tuple => {
-    const [volume, id] = tuple
+  app.ports.initAudioPlayer.subscribe(({ id: id, volume: volume }) => {
     window.requestAnimationFrame(() => {
       const scPlayer = SC.Widget(id)
       scPlayer.bind(SC.Widget.Events.READY, () => {

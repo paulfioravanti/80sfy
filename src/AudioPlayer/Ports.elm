@@ -1,6 +1,7 @@
 port module AudioPlayer.Ports
     exposing
-        ( initAudioPlayer
+        ( InitAudioPlayerFlags
+        , initAudioPlayer
         , nextTrack
         , pauseAudio
         , playAudio
@@ -9,7 +10,13 @@ port module AudioPlayer.Ports
         )
 
 
-port initAudioPlayer : ( Int, String ) -> Cmd msg
+type alias InitAudioPlayerFlags =
+    { id : String
+    , volume : Int
+    }
+
+
+port initAudioPlayer : InitAudioPlayerFlags -> Cmd msg
 
 
 port nextTrack : () -> Cmd msg
