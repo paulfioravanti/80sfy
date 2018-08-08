@@ -11,7 +11,6 @@ module Browser
 
 import Browser.Model as Model
 import Browser.Msg as Msg
-import Browser.Ports as Ports
 import Browser.Subscriptions as Subscriptions
 import Browser.Update as Update
 import Flags exposing (Flags)
