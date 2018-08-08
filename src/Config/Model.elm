@@ -1,7 +1,7 @@
 module Config.Model exposing (Config, init)
 
-import Flags exposing (Flags)
 import Json.Decode as Decode exposing (Value)
+import Flags exposing (Flags)
 
 
 type alias Config =

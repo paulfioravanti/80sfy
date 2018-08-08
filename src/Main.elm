@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 import AudioPlayer
+import Browser
 import Config
 import Flags exposing (Flags)
 import Html.Styled as Html
@@ -57,8 +58,11 @@ init msgRouter flags =
         config =
             Config.init flags
 
+        browser =
+            Browser.init flags
+
         ({ audioPlayer } as model) =
-            Model.init config
+            Model.init config browser
 
         audioPlayerFlags =
             { id = audioPlayer.id

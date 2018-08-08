@@ -24,9 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
       Main.embed(appContainer, {
         giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
         soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+        browser: determineBrowser()
       })
 
     VideoPlayer.init(app)
     AudioPlayer.init(app)
   }
 })
+
+function determineBrowser() {
+  if (document.exitFullscreen) {
+    return "unknown"
+  } else if (document.mozCancelFullScreen) {
+    return "mozilla"
+  } else if (document.webkitExitFullscreen) {
+    return "webkit"
+  }
+}

@@ -1,11 +1,10 @@
 module Utils exposing (showApplicationState)
 
-import Debug
 import Model exposing (Model)
 
 
 showApplicationState : Model -> ()
-showApplicationState model =
+showApplicationState ({ config } as model) =
     let
         _ =
             Debug.log "Secret Config" model.secretConfig
@@ -13,10 +12,10 @@ showApplicationState model =
         _ =
             -- don't output Giphy API key
             Debug.log "Config"
-                { gifDisplaySeconds = model.config.gifDisplaySeconds
-                , soundCloudPlaylisturl = model.config.soundCloudPlaylistUrl
-                , tags = model.config.tags
-                , volumeAdjustmentRate = model.config.volumeAdjustmentRate
+                { gifDisplaySeconds = config.gifDisplaySeconds
+                , soundCloudPlaylisturl = config.soundCloudPlaylistUrl
+                , tags = config.tags
+                , volumeAdjustmentRate = config.volumeAdjustmentRate
                 }
 
         _ =
