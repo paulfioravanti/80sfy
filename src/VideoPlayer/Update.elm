@@ -109,7 +109,7 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
             ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
 
         PerformFullScreenToggle ->
-            ( videoPlayer1, videoPlayer2, Browser.performFullScreenToggle () )
+            ( videoPlayer1, videoPlayer2, Browser.performFullScreenToggle browser )
 
         PlayVideos ->
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )

@@ -14,22 +14,28 @@ import Flags exposing (Flags)
 port exitFullScreen : () -> Cmd msg
 
 
+port fullScreenToggle : () -> Cmd msg
+
+
 port mozCancelFullScreen : () -> Cmd msg
+
+
+port mozFullScreenToggle : () -> Cmd msg
 
 
 port mozRequestFullScreen : () -> Cmd msg
 
 
-port performFullScreenToggle : () -> Cmd msg
-
-
 port requestFullScreen : () -> Cmd msg
 
 
-port webkitRequestFullScreen : () -> Cmd msg
-
-
 port webkitExitFullScreen : () -> Cmd msg
+
+
+port webkitFullScreenToggle : () -> Cmd msg
+
+
+port webkitRequestFullScreen : () -> Cmd msg
 
 
 type Browser
@@ -68,6 +74,19 @@ enterFullScreen browser =
 
         Webkit ->
             webkitRequestFullScreen ()
+
+
+performFullScreenToggle : Browser -> Cmd msg
+performFullScreenToggle browser =
+    case browser of
+        Mozilla ->
+            mozFullScreenToggle ()
+
+        Unknown ->
+            fullScreenToggle ()
+
+        Webkit ->
+            webkitFullScreenToggle ()
 
 
 leaveFullScreen : Browser -> Cmd msg

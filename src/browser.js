@@ -1,16 +1,27 @@
 export function init(app) {
-  initExitFullScreen(app)
-  initMozCancelFullScreen(app)
-  initMozRequestFullScreen(app)
-  initPerformFullScreenToggle(app)
+  initFullScreenToggle(app)
   initRequestFullScreen(app)
-  initWebkitExitFullScreen(app)
+  initExitFullScreen(app)
+
+  initMozFullScreenToggle(app)
+  initMozRequestFullScreen(app)
+  initMozCancelFullScreen(app)
+
+  initWebkitFullScreenToggle(app)
   initWebkitRequestFullScreen(app)
+  initWebkitExitFullScreen(app)
 }
 
 function initExitFullScreen(app) {
   app.ports.exitFullScreen.subscribe(() => {
     document.exitFullscreen()
+  })
+}
+
+function initFullScreenToggle(app) {
+  app.ports.fullScreenToggle.subscribe(() => {
+    const isFullScreen = !!document.fullscreenElement
+    app.ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
@@ -20,16 +31,16 @@ function initMozCancelFullScreen(app) {
   })
 }
 
-function initMozRequestFullScreen(app) {
-  app.ports.mozRequestFullScreen.subscribe(() => {
-    document.documentElement.mozRequestFullScreen()
+function initMozFullScreenToggle(app) {
+  app.ports.mozFullScreenToggle.subscribe(() => {
+    const isFullScreen = !!document.mozFullScreenElement
+    app.ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
-function initPerformFullScreenToggle(app) {
-  app.ports.performFullScreenToggle.subscribe(() => {
-    const isFullScreen = !!fullScreenElement()
-    app.ports.toggleFullScreen.send(isFullScreen)
+function initMozRequestFullScreen(app) {
+  app.ports.mozRequestFullScreen.subscribe(() => {
+    document.documentElement.mozRequestFullScreen()
   })
 }
 
@@ -45,16 +56,15 @@ function initWebkitExitFullScreen(app) {
   })
 }
 
+function initWebkitFullScreenToggle(app) {
+  app.ports.webkitFullScreenToggle.subscribe(() => {
+    const isFullScreen = !!document.webkitFullscreenElement
+    app.ports.toggleFullScreen.send(isFullScreen)
+  })
+}
+
 function initWebkitRequestFullScreen(app) {
   app.ports.webkitRequestFullScreen.subscribe(() => {
     document.documentElement.webkitRequestFullScreen()
   })
-}
-
-function fullScreenElement() {
-  return (
-    document.fullscreenElement ||
-    document.mozFullScreenElement ||
-    document.webkitFullscreenElement
-  )
 }
