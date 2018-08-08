@@ -5,7 +5,7 @@ port module Browser.Ports
         , leaveFullScreen
         )
 
-import Browser.Model as Model exposing (Browser(Mozilla, Unknown, Webkit))
+import Browser.Model exposing (Browser(Mozilla, Unknown, Webkit))
 
 
 port exitFullScreen : () -> Cmd msg

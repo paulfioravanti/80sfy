@@ -10,10 +10,8 @@ import VideoPlayer.Msg
         ( Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
-            , ExitFullScreen
             , HaltVideos
             , PlayVideos
-            , RequestFullScreen
             , VideosHalted
             , VideosPaused
             , VideosPlaying

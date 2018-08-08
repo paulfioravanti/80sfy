@@ -17,51 +17,57 @@ type Key
 
 
 pressed : MsgRouter msg -> Model -> Int -> Cmd msg
-pressed { audioPlayerMsg, pauseMsg, playMsg } { audioPlayer, browser, config } keyCode =
-    case toKey keyCode of
-        Escape ->
-            Browser.leaveFullScreen browser
-
-        Space ->
-            let
-                msg =
-                    if AudioPlayer.isPlaying audioPlayer then
-                        pauseMsg
-                    else
-                        playMsg
-            in
-                Task.succeed msg
-                    |> Task.perform identity
-
-        UpArrow ->
-            let
-                newVolume =
-                    audioPlayer.volume
-                        + config.volumeAdjustmentRate
-                        |> toString
-            in
-                audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+pressed msgRouter { audioPlayer, config } keyCode =
+    let
+        { audioPlayerMsg, browserMsg, pauseMsg, playMsg } =
+            msgRouter
+    in
+        case toKey keyCode of
+            Escape ->
+                browserMsg Browser.leaveFullScreenMsg
                     |> Task.succeed
                     |> Task.perform identity
 
-        RightArrow ->
-            audioPlayerMsg AudioPlayer.nextTrackMsg
-                |> Task.succeed
-                |> Task.perform identity
+            Space ->
+                let
+                    msg =
+                        if AudioPlayer.isPlaying audioPlayer then
+                            pauseMsg
+                        else
+                            playMsg
+                in
+                    Task.succeed msg
+                        |> Task.perform identity
 
-        DownArrow ->
-            let
-                newVolume =
-                    audioPlayer.volume
-                        - config.volumeAdjustmentRate
-                        |> toString
-            in
-                audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+            UpArrow ->
+                let
+                    newVolume =
+                        audioPlayer.volume
+                            + config.volumeAdjustmentRate
+                            |> toString
+                in
+                    audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+                        |> Task.succeed
+                        |> Task.perform identity
+
+            RightArrow ->
+                audioPlayerMsg AudioPlayer.nextTrackMsg
                     |> Task.succeed
                     |> Task.perform identity
 
-        _ ->
-            Cmd.none
+            DownArrow ->
+                let
+                    newVolume =
+                        audioPlayer.volume
+                            - config.volumeAdjustmentRate
+                            |> toString
+                in
+                    audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+                        |> Task.succeed
+                        |> Task.perform identity
+
+            _ ->
+                Cmd.none
 
 
 toKey : Int -> Key

@@ -1,6 +1,7 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
+import Browser
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
@@ -15,7 +16,7 @@ import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
 import RemoteData exposing (RemoteData(Success))
 import VideoPlayer.Model exposing (Status(Playing), VideoPlayer)
-import VideoPlayer.Msg exposing (Msg(PlayVideos, PerformFullScreenToggle))
+import VideoPlayer.Msg exposing (Msg(PlayVideos))
 import VideoPlayer.Styles as Styles
 
 
@@ -59,7 +60,9 @@ attributes msgRouter audioPlaying videoPlayer =
                 ++ [ css [ Styles.gifContainer videoPlayer.zIndex ]
                    , attribute "data-name" "player-gif-container"
                    , onDoubleClick
-                        (msgRouter.videoPlayerMsg PerformFullScreenToggle)
+                        (msgRouter.browserMsg
+                            Browser.performFullScreenToggleMsg
+                        )
                    ]
     in
         List.append animations videoPlayerAttributes

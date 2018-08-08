@@ -5,14 +5,12 @@ module VideoPlayer
         , fetchRandomGifMsg
         , init
         , pauseVideosMsg
-        , performFullScreenToggleMsg
         , playVideosMsg
         , subscriptions
         , update
         , view
         )
 
-import Browser exposing (Browser)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
@@ -56,24 +54,14 @@ subscriptions msgRouter context videoPlayer1 =
     Subscriptions.subscriptions msgRouter context videoPlayer1
 
 
-performFullScreenToggleMsg : Msg
-performFullScreenToggleMsg =
-    Msg.PerformFullScreenToggle
-
-
-
--- FIXME: Passing browser is temporary
-
-
 update :
     (String -> msg)
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
-    -> Browser
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
-    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser
+update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
+    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
 view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg

@@ -139,8 +139,6 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         msgForVideoPlayer
                         model.videoPlayer1
                         model.videoPlayer2
-                        -- FIXME: Extract into it's own top-level component
-                        model.browser
             in
                 ( { model
                     | videoPlayer1 = videoPlayer1

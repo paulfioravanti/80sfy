@@ -1,12 +1,12 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
+import Browser
 import ControlPanel.Styles as Styles
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
 import MsgRouter exposing (MsgRouter)
-import VideoPlayer
 
 
 view : MsgRouter msg -> AudioPlayer -> Html msg
@@ -80,11 +80,11 @@ nextTrackButton { audioPlayerMsg } =
 
 
 fullscreenButton : MsgRouter msg -> Html msg
-fullscreenButton { videoPlayerMsg } =
+fullscreenButton { browserMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "fullscreen"
-        , onClick (videoPlayerMsg VideoPlayer.performFullScreenToggleMsg)
+        , onClick (browserMsg Browser.performFullScreenToggleMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []

@@ -1,7 +1,6 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import Browser exposing (Browser)
 import RemoteData exposing (RemoteData(Success))
 import Task
 import VideoPlayer.Model exposing (Status(Playing, Paused, Halted), VideoPlayer)
@@ -10,13 +9,10 @@ import VideoPlayer.Msg
         ( Msg
             ( AnimateVideoPlayer
             , CrossFadePlayers
-            , ExitFullScreen
             , FetchRandomGif
             , HaltVideos
             , PauseVideos
             , PlayVideos
-            , PerformFullScreenToggle
-            , RequestFullScreen
             , VideosHalted
             , VideosPaused
             , VideosPlaying
@@ -30,9 +26,8 @@ update :
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
-    -> Browser
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
+update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     case msg of
         AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
@@ -71,9 +66,6 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
                 , generateRandomGifForHiddenVideoPlayer
                 )
 
-        ExitFullScreen ->
-            ( videoPlayer1, videoPlayer2, Browser.leaveFullScreen browser )
-
         FetchRandomGif videoPlayerId (Ok url) ->
             let
                 cmd =
@@ -108,14 +100,8 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
         PauseVideos ->
             ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
 
-        PerformFullScreenToggle ->
-            ( videoPlayer1, videoPlayer2, Browser.performFullScreenToggle browser )
-
         PlayVideos ->
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
-
-        RequestFullScreen ->
-            ( videoPlayer1, videoPlayer2, Browser.enterFullScreen browser )
 
         VideosHalted ->
             ( { videoPlayer1 | status = Halted }
