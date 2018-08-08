@@ -14,6 +14,7 @@ import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Main } from "./Main"
 import * as AudioPlayer from "./audioPlayer"
+import * as Browser from "./browser"
 import * as VideoPlayer from "./videoPlayer"
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     VideoPlayer.init(app)
     AudioPlayer.init(app)
+    Browser.init(app)
   }
 })
 
