@@ -1,7 +1,35 @@
-module Browser exposing (Browser, init)
+port module Browser
+    exposing
+        ( Browser
+        , init
+        , enterFullScreen
+        , leaveFullScreen
+        , performFullScreenToggle
+        )
 
 import Json.Decode as Decode exposing (Value)
 import Flags exposing (Flags)
+
+
+port exitFullScreen : () -> Cmd msg
+
+
+port mozCancelFullScreen : () -> Cmd msg
+
+
+port mozRequestFullScreen : () -> Cmd msg
+
+
+port performFullScreenToggle : () -> Cmd msg
+
+
+port requestFullScreen : () -> Cmd msg
+
+
+port webkitRequestFullScreen : () -> Cmd msg
+
+
+port webkitExitFullScreen : () -> Cmd msg
 
 
 type Browser
@@ -27,3 +55,29 @@ init flags =
 
             _ ->
                 Unknown
+
+
+enterFullScreen : Browser -> Cmd msg
+enterFullScreen browser =
+    case browser of
+        Mozilla ->
+            mozRequestFullScreen ()
+
+        Unknown ->
+            requestFullScreen ()
+
+        Webkit ->
+            webkitRequestFullScreen ()
+
+
+leaveFullScreen : Browser -> Cmd msg
+leaveFullScreen browser =
+    case browser of
+        Mozilla ->
+            mozCancelFullScreen ()
+
+        Unknown ->
+            exitFullScreen ()
+
+        Webkit ->
+            webkitExitFullScreen ()

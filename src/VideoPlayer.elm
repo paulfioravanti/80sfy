@@ -2,7 +2,6 @@ module VideoPlayer
     exposing
         ( Msg
         , VideoPlayer
-        , exitFullScreen
         , fetchRandomGifMsg
         , init
         , pauseVideosMsg
@@ -13,12 +12,12 @@ module VideoPlayer
         , view
         )
 
+import Browser exposing (Browser)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
-import VideoPlayer.Ports as Ports
 import VideoPlayer.Subscriptions as Subscriptions exposing (Context)
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
@@ -35,11 +34,6 @@ type alias Msg =
 init : String -> Int -> VideoPlayer
 init id zIndex =
     Model.init id zIndex
-
-
-exitFullScreen : Cmd msg
-exitFullScreen =
-    Ports.exitFullScreen ()
 
 
 fetchRandomGifMsg : String -> Result Error String -> Msg
@@ -67,14 +61,19 @@ performFullScreenToggleMsg =
     Msg.PerformFullScreenToggle
 
 
+
+-- FIXME: Passing browser is temporary
+
+
 update :
     (String -> msg)
     -> Msg
     -> VideoPlayer
     -> VideoPlayer
+    -> Browser
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
-    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
+update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser =
+    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2 browser
 
 
 view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg

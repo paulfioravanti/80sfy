@@ -1,17 +1,21 @@
 export function init(app) {
   initExitFullScreen(app)
   initHaltVideos(app)
+  initMozCancelFullScreen(app)
+  initMozRequestFullScreen(app)
   initPauseVideos(app)
   initPerformFullScreenToggle(app)
   initPlayVideos(app)
   initRequestFullScreen(app)
+  initWebkitExitFullScreen(app)
+  initWebkitRequestFullScreen(app)
   initWindowBlurred(app)
   initWindowFocused(app)
 }
 
 function initExitFullScreen(app) {
   app.ports.exitFullScreen.subscribe(() => {
-    exitFullScreen()
+    document.exitFullscreen()
   })
 }
 
@@ -19,6 +23,18 @@ function initHaltVideos(app) {
   app.ports.haltVideos.subscribe(() => {
     pauseVideoPlayers()
     app.ports.videosHalted.send(null)
+  })
+}
+
+function initMozCancelFullScreen(app) {
+  app.ports.mozCancelFullScreen.subscribe(() => {
+    document.mozCancelFullScreen()
+  })
+}
+
+function initMozRequestFullScreen(app) {
+  app.ports.mozRequestFullScreen.subscribe(() => {
+    document.documentElement.mozRequestFullScreen()
   })
 }
 
@@ -45,7 +61,19 @@ function initPlayVideos(app) {
 
 function initRequestFullScreen(app) {
   app.ports.requestFullScreen.subscribe(() => {
-    requestFullScreen()
+    document.documentElement.requestFullScreen()
+  })
+}
+
+function initWebkitExitFullScreen(app) {
+  app.ports.webkitExitFullScreen.subscribe(() => {
+    document.webkitExitFullscreen()
+  })
+}
+
+function initWebkitRequestFullScreen(app) {
+  app.ports.webkitRequestFullScreen.subscribe(() => {
+    document.documentElement.webkitRequestFullScreen()
   })
 }
 
@@ -60,28 +88,6 @@ function initWindowFocused(app) {
   window.addEventListener("focus", () => {
     app.ports.windowFocused.send(null)
   })
-}
-
-function requestFullScreen() {
-  const documentElement = document.documentElement
-
-  if (documentElement.requestFullScreen) {
-    documentElement.requestFullScreen()
-  } else if (documentElement.mozRequestFullScreen) {
-    documentElement.mozRequestFullScreen()
-  } else if (documentElement.webkitRequestFullScreen) {
-    documentElement.webkitRequestFullScreen()
-  }
-}
-
-function exitFullScreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen()
-  } else if (document.mozCancelFullScreen) {
-    document.mozCancelFullScreen()
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen()
-  }
 }
 
 function pauseVideoPlayers() {
