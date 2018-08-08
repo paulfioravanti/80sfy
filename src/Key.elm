@@ -5,7 +5,6 @@ import Browser
 import Model exposing (Model)
 import MsgRouter exposing (MsgRouter)
 import Task
-import VideoPlayer
 
 
 type Key

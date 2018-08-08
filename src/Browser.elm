@@ -7,7 +7,7 @@ port module Browser
         , performFullScreenToggle
         )
 
-import Json.Decode as Decode exposing (Value)
+import Json.Decode as Decode
 import Flags exposing (Flags)
 
 
