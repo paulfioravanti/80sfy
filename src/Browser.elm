@@ -1,4 +1,4 @@
-port module Browser
+module Browser
     exposing
         ( Browser
         , init
@@ -7,96 +7,31 @@ port module Browser
         , performFullScreenToggle
         )
 
+import Browser.Model as Model
+import Browser.Ports as Ports
 import Json.Decode as Decode
 import Flags exposing (Flags)
 
 
-port exitFullScreen : () -> Cmd msg
-
-
-port fullScreenToggle : () -> Cmd msg
-
-
-port mozCancelFullScreen : () -> Cmd msg
-
-
-port mozFullScreenToggle : () -> Cmd msg
-
-
-port mozRequestFullScreen : () -> Cmd msg
-
-
-port requestFullScreen : () -> Cmd msg
-
-
-port webkitExitFullScreen : () -> Cmd msg
-
-
-port webkitFullScreenToggle : () -> Cmd msg
-
-
-port webkitRequestFullScreen : () -> Cmd msg
-
-
-type Browser
-    = Mozilla
-    | Unknown
-    | Webkit
+type alias Browser =
+    Model.Browser
 
 
 init : Flags -> Browser
 init flags =
-    let
-        browser =
-            flags.browser
-                |> Decode.decodeValue Decode.string
-                |> Result.withDefault "unknown"
-    in
-        case browser of
-            "mozilla" ->
-                Mozilla
-
-            "webkit" ->
-                Webkit
-
-            _ ->
-                Unknown
+    Model.init flags
 
 
 enterFullScreen : Browser -> Cmd msg
 enterFullScreen browser =
-    case browser of
-        Mozilla ->
-            mozRequestFullScreen ()
-
-        Unknown ->
-            requestFullScreen ()
-
-        Webkit ->
-            webkitRequestFullScreen ()
+    Ports.enterFullScreen browser
 
 
 performFullScreenToggle : Browser -> Cmd msg
 performFullScreenToggle browser =
-    case browser of
-        Mozilla ->
-            mozFullScreenToggle ()
-
-        Unknown ->
-            fullScreenToggle ()
-
-        Webkit ->
-            webkitFullScreenToggle ()
+    Ports.performFullScreenToggle browser
 
 
 leaveFullScreen : Browser -> Cmd msg
 leaveFullScreen browser =
-    case browser of
-        Mozilla ->
-            mozCancelFullScreen ()
-
-        Unknown ->
-            exitFullScreen ()
-
-        Webkit ->
-            webkitExitFullScreen ()
+    Ports.leaveFullScreen browser
