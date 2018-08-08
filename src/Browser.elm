@@ -3,10 +3,6 @@ module Browser
         ( Browser
         , Msg
         , init
-        , enterFullScreen
-        , leaveFullScreen
-        , performFullScreenToggle
-        , enterFullScreenMsg
         , leaveFullScreenMsg
         , performFullScreenToggleMsg
         , subscriptions
@@ -35,29 +31,9 @@ init flags =
     Model.init flags
 
 
-enterFullScreen : Browser -> Cmd msg
-enterFullScreen browser =
-    Ports.enterFullScreen browser
-
-
-enterFullScreenMsg : Msg
-enterFullScreenMsg =
-    Msg.EnterFullScreen
-
-
-performFullScreenToggle : Browser -> Cmd msg
-performFullScreenToggle browser =
-    Ports.performFullScreenToggle browser
-
-
 performFullScreenToggleMsg : Msg
 performFullScreenToggleMsg =
     Msg.PerformFullScreenToggle
-
-
-leaveFullScreen : Browser -> Cmd msg
-leaveFullScreen browser =
-    Ports.leaveFullScreen browser
 
 
 leaveFullScreenMsg : Msg
