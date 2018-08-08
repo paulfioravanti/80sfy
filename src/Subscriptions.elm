@@ -1,6 +1,7 @@
 module Subscriptions exposing (subscriptions)
 
 import AudioPlayer
+import Browser
 import ControlPanel
 import Keyboard
 import Model exposing (Model)
@@ -22,6 +23,7 @@ subscriptions msgRouter model =
             [ AudioPlayer.subscriptions
                 msgRouter
                 model.audioPlayer
+            , Browser.subscriptions msgRouter
             , ControlPanel.subscriptions
                 msgRouter
                 model.controlPanel

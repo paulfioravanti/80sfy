@@ -21,9 +21,6 @@ import VideoPlayer.Msg
         )
 
 
-port toggleFullScreen : (Value -> msg) -> Sub msg
-
-
 port videosHalted : (() -> msg) -> Sub msg
 
 
@@ -55,9 +52,6 @@ subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
                 videoPlayer1.status
                 context.gifDisplaySeconds
 
-        toggleFullScreen =
-            toggleFullScreenSubscription videoPlayerMsg
-
         videosHalted =
             videosHaltedSubscription
                 videoPlayerMsg
@@ -73,7 +67,6 @@ subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
     in
         Sub.batch
             [ fetchNextGif
-            , toggleFullScreen
             , videosHalted
             , windowEvent
             , videosPaused (\() -> videoPlayerMsg VideosPaused)
@@ -92,17 +85,6 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
             (videoPlayerMsg << CrossFadePlayers)
     else
         Sub.none
-
-
-toggleFullScreenSubscription : (Msg -> msg) -> Sub msg
-toggleFullScreenSubscription videoPlayerMsg =
-    toggleFullScreen
-        (\isFullScreenFlag ->
-            if extractBoolValue isFullScreenFlag then
-                videoPlayerMsg ExitFullScreen
-            else
-                videoPlayerMsg RequestFullScreen
-        )
 
 
 videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
@@ -145,10 +127,3 @@ audioPlayerActive activeElementIdFlag audioPlayerId =
                 |> Result.withDefault ""
     in
         activeElementId == audioPlayerId
-
-
-extractBoolValue : Value -> Bool
-extractBoolValue boolFlag =
-    boolFlag
-        |> Decode.decodeValue Decode.bool
-        |> Result.withDefault False
