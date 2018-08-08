@@ -12,14 +12,14 @@ import Browser.Msg
 import Browser.Ports as Ports
 
 
-update : Msg -> Browser -> ( Browser, Cmd msg )
+update : Msg -> Browser -> Cmd msg
 update msg browser =
     case msg of
         EnterFullScreen ->
-            ( browser, Ports.enterFullScreen browser )
+            Ports.enterFullScreen browser
 
         LeaveFullScreen ->
-            ( browser, Ports.leaveFullScreen browser )
+            Ports.leaveFullScreen browser
 
         PerformFullScreenToggle ->
-            ( browser, Ports.performFullScreenToggle browser )
+            Ports.performFullScreenToggle browser

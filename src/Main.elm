@@ -10,6 +10,7 @@ import Msg
     exposing
         ( Msg
             ( AudioPlayer
+            , Browser
             , Config
             , ControlPanel
             , Key
@@ -33,6 +34,7 @@ main =
     let
         msgRouter =
             { audioPlayerMsg = AudioPlayer
+            , browserMsg = Browser
             , configMsg = Config
             , controlPanelMsg = ControlPanel
             , keyMsg = Key

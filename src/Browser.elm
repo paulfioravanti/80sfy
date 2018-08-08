@@ -1,20 +1,27 @@
 module Browser
     exposing
         ( Browser
+        , Msg
         , init
         , enterFullScreen
         , leaveFullScreen
         , performFullScreenToggle
+        , update
         )
 
 import Browser.Model as Model
+import Browser.Msg as Msg
 import Browser.Ports as Ports
-import Json.Decode as Decode
+import Browser.Update as Update
 import Flags exposing (Flags)
 
 
 type alias Browser =
     Model.Browser
+
+
+type alias Msg =
+    Msg.Msg
 
 
 init : Flags -> Browser
@@ -35,3 +42,8 @@ performFullScreenToggle browser =
 leaveFullScreen : Browser -> Cmd msg
 leaveFullScreen browser =
     Ports.leaveFullScreen browser
+
+
+update : Msg -> Browser -> Cmd msg
+update msg browser =
+    Update.update msg browser

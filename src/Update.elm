@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import AudioPlayer
+import Browser
 import Config
 import ControlPanel
 import Key
@@ -9,6 +10,7 @@ import Msg
     exposing
         ( Msg
             ( AudioPlayer
+            , Browser
             , Config
             , ControlPanel
             , Key
@@ -37,6 +39,14 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         |> AudioPlayer.update msgRouter msgForAudioPlayer
             in
                 ( { model | audioPlayer = audioPlayer }, cmd )
+
+        Browser msgForBrowser ->
+            let
+                cmd =
+                    model.browser
+                        |> Browser.update msgForBrowser
+            in
+                ( model, cmd )
 
         Config msgForConfig ->
             let

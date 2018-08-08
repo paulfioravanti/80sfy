@@ -1,6 +1,7 @@
 module MsgRouter exposing (MsgRouter)
 
 import AudioPlayer.Msg
+import Browser.Msg
 import Config.Msg
 import ControlPanel.Msg
 import Keyboard exposing (KeyCode)
@@ -10,6 +11,7 @@ import VideoPlayer.Msg
 
 type alias MsgRouter msg =
     { audioPlayerMsg : AudioPlayer.Msg.Msg -> msg
+    , browserMsg : Browser.Msg.Msg -> msg
     , configMsg : Config.Msg.Msg -> msg
     , controlPanelMsg : ControlPanel.Msg.Msg -> msg
     , keyMsg : KeyCode -> msg
