@@ -4,6 +4,7 @@ export function init(app) {
   initExitFullScreen(app)
 
   initMozFullScreenToggle(app)
+  initMozFullScreenToggleHack()
   initMozRequestFullScreen(app)
   initMozCancelFullScreen(app)
 
@@ -60,6 +61,26 @@ function initMozFullScreenToggle(app) {
     const isFullScreen = !!document.mozFullScreenElement
     app.ports.toggleFullScreen.send(isFullScreen)
   })
+}
+
+// Hopefully this function can be removed in later versions of Elm, but the
+// issue is that the Elm-style initMozFullScreenToggle function above does not
+// seem to work as Firefox requires the fullscreen event to occur in the same
+// clock tick as the user click. If you use the function above, in the console,
+// you will see "Request for fullscreen was denied because
+// Element.requestFullscreen() was not called from inside a short running
+// user-generated event handler.". I don't currently know how to fix this.
+// More information can be found in this message on the Elm mailing list:
+// https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ
+function initMozFullScreenToggleHack() {
+  window.mozFullScreenToggleHack = function () {
+    const isFullScreen = !!document.mozFullScreenElement
+    if (isFullScreen) {
+      document.mozCancelFullScreen()
+    } else {
+      document.documentElement.mozRequestFullScreen()
+    }
+  }
 }
 
 function initMozRequestFullScreen(app) {
