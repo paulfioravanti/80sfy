@@ -9,8 +9,11 @@ You can see the results at:
 - [Heroku][]: <https://elm-80sfy.herokuapp.com/>
 - [Surge][]: <http://elm-80sfy.surge.sh/>
 
-Note that it's currently only optimised for the Google Chrome desktop browser,
-so it's probably best to view it with that.
+Note that it's currently only optimised for the Google Chrome and Firefox
+desktop browsers, so it's probably best to view it with either of those.
+
+The only real difference between them should be that Chrome does not allow
+audio auto play by default.
 
 ## Development
 
