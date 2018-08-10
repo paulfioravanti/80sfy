@@ -1,7 +1,7 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import Browser
+import Browser exposing (Vendor)
 import ControlPanel.Styles as Styles
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
@@ -9,8 +9,8 @@ import Html.Styled.Events exposing (onClick)
 import MsgRouter exposing (MsgRouter)
 
 
-view : MsgRouter msg -> AudioPlayer -> Html msg
-view msgRouter audioPlayer =
+view : MsgRouter msg -> Vendor -> AudioPlayer -> Html msg
+view msgRouter vendor audioPlayer =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -25,7 +25,7 @@ view msgRouter audioPlayer =
             [ muteUnmuteButton msgRouter muted
             , playPauseButton msgRouter playing
             , nextTrackButton msgRouter
-            , fullscreenButton msgRouter
+            , fullscreenButton msgRouter vendor
             ]
 
 
@@ -79,13 +79,21 @@ nextTrackButton { audioPlayerMsg } =
         ]
 
 
-fullscreenButton : MsgRouter msg -> Html msg
-fullscreenButton { browserMsg } =
-    div
-        [ css [ Styles.button ]
-        , attribute "data-name" "fullscreen"
-        , onClick (browserMsg Browser.performFullScreenToggleMsg)
-        ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
-        ]
+fullscreenButton : MsgRouter msg -> Vendor -> Html msg
+fullscreenButton { browserMsg, noOpMsg } vendor =
+    let
+        onClickAttribute =
+            if vendor == Browser.mozilla then
+                attribute "onClick" "window.mozFullScreenToggleHack()"
+            else
+                onClick (browserMsg Browser.performFullScreenToggleMsg)
+    in
+        div
+            (onClickAttribute
+                :: [ css [ Styles.button ]
+                   , attribute "data-name" "fullscreen"
+                   ]
+            )
+            [ div [ css [ Styles.iconBackground ] ] []
+            , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
+            ]

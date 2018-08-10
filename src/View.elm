@@ -13,7 +13,11 @@ import VideoPlayer
 view : MsgRouter msg -> Model -> Html msg
 view msgRouter model =
     div [ attribute "data-name" "container" ]
-        [ ControlPanel.view msgRouter model.audioPlayer model.controlPanel
+        [ ControlPanel.view
+            msgRouter
+            model.browser
+            model.audioPlayer
+            model.controlPanel
         , VideoPlayer.view
             msgRouter
             (AudioPlayer.isPlaying model.audioPlayer)

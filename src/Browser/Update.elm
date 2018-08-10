@@ -1,6 +1,5 @@
 module Browser.Update exposing (update)
 
-import Browser.Model exposing (Browser)
 import Browser.Msg
     exposing
         ( Msg
@@ -10,16 +9,17 @@ import Browser.Msg
             )
         )
 import Browser.Ports as Ports
+import Browser.Vendor exposing (Vendor)
 
 
-update : Msg -> Browser -> Cmd msg
-update msg browser =
+update : Msg -> Vendor -> Cmd msg
+update msg vendor =
     case msg of
         EnterFullScreen ->
-            Ports.enterFullScreen browser
+            Ports.enterFullScreen vendor
 
         LeaveFullScreen ->
-            Ports.leaveFullScreen browser
+            Ports.leaveFullScreen vendor
 
         PerformFullScreenToggle ->
-            Ports.performFullScreenToggle browser
+            Ports.performFullScreenToggle vendor

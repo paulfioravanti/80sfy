@@ -10,6 +10,7 @@ module ControlPanel
         )
 
 import AudioPlayer exposing (AudioPlayer)
+import Browser exposing (Vendor)
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.Subscriptions as Subscriptions
@@ -47,6 +48,6 @@ update msgRouter msg controlPanel =
     Update.update msgRouter msg controlPanel
 
 
-view : MsgRouter msg -> AudioPlayer -> ControlPanel -> Html msg
-view msgRouter audioPlayer controlPanel =
-    View.view msgRouter audioPlayer controlPanel
+view : MsgRouter msg -> Vendor -> AudioPlayer -> ControlPanel -> Html msg
+view msgRouter vendor audioPlayer controlPanel =
+    View.view msgRouter vendor audioPlayer controlPanel

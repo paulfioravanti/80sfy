@@ -1,33 +1,39 @@
 module Browser
     exposing
-        ( Browser
-        , Msg
+        ( Msg
+        , Vendor
         , init
         , leaveFullScreenMsg
+        , mozilla
         , performFullScreenToggleMsg
         , subscriptions
         , update
         )
 
-import Browser.Model as Model
 import Browser.Msg as Msg
 import Browser.Subscriptions as Subscriptions
 import Browser.Update as Update
+import Browser.Vendor as Vendor
 import Flags exposing (Flags)
 import MsgRouter exposing (MsgRouter)
-
-
-type alias Browser =
-    Model.Browser
 
 
 type alias Msg =
     Msg.Msg
 
 
-init : Flags -> Browser
+type alias Vendor =
+    Vendor.Vendor
+
+
+init : Flags -> Vendor
 init flags =
-    Model.init flags
+    Vendor.init flags
+
+
+mozilla : Vendor
+mozilla =
+    Vendor.Mozilla
 
 
 performFullScreenToggleMsg : Msg
@@ -45,6 +51,6 @@ subscriptions msgRouter =
     Subscriptions.subscriptions msgRouter
 
 
-update : Msg -> Browser -> Cmd msg
-update msg browser =
-    Update.update msg browser
+update : Msg -> Vendor -> Cmd msg
+update msg vendor =
+    Update.update msg vendor

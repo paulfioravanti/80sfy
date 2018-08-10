@@ -2,6 +2,7 @@ module ControlPanel.View exposing (view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
+import Browser exposing (Vendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel, State(KeepVisible))
@@ -22,8 +23,8 @@ import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
 import MsgRouter exposing (MsgRouter)
 
 
-view : MsgRouter msg -> AudioPlayer -> ControlPanel -> Html msg
-view ({ controlPanelMsg } as msgRouter) audioPlayer controlPanel =
+view : MsgRouter msg -> Vendor -> AudioPlayer -> ControlPanel -> Html msg
+view ({ controlPanelMsg } as msgRouter) vendor audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -52,7 +53,7 @@ view ({ controlPanelMsg } as msgRouter) audioPlayer controlPanel =
                 ]
                 [ logo
                 , trackInfo audioPlayer
-                , Controls.view msgRouter audioPlayer
+                , Controls.view msgRouter vendor audioPlayer
                 , volumeControl msgRouter audioPlayer
                 , Credits.view
                 ]

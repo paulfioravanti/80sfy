@@ -1,16 +1,16 @@
-module Browser.Model exposing (Browser(..), init)
+module Browser.Vendor exposing (Vendor(..), init)
 
 import Json.Decode as Decode
 import Flags exposing (Flags)
 
 
-type Browser
+type Vendor
     = Mozilla
     | Other
     | Webkit
 
 
-init : Flags -> Browser
+init : Flags -> Vendor
 init flags =
     let
         browser =
