@@ -10,9 +10,9 @@ import Task
 type Key
     = DownArrow
     | Escape
+    | Other
     | RightArrow
     | Space
-    | Unknown
     | UpArrow
 
 
@@ -89,4 +89,4 @@ toKey keyCode =
             DownArrow
 
         _ ->
-            Unknown
+            Other

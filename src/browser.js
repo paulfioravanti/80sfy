@@ -12,6 +12,30 @@ export function init(app) {
   initWebkitExitFullScreen(app)
 }
 
+export function isMozilla() {
+  return (
+    document.mozFullScreenElement !== "undefined" &&
+    document.documentElement.mozRequestFullScreen &&
+    document.mozCancelFullscreen
+  )
+}
+
+export function isOtherFullScreenCapableBrowser() {
+  return (
+    document.fullScreenElement !== "undefined" &&
+    document.documentElement.requestFullScreen &&
+    document.exitFullscreen
+  )
+}
+
+export function isWebkit() {
+  return (
+    document.webkitFullscreenElement !== "undefined" &&
+    document.documentElement.webkitRequestFullScreen &&
+    document.webkitExitFullscreen
+  )
+}
+
 function initExitFullScreen(app) {
   app.ports.exitFullScreen.subscribe(() => {
     document.exitFullscreen()

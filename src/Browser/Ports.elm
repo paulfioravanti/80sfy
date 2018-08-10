@@ -5,7 +5,7 @@ port module Browser.Ports
         , leaveFullScreen
         )
 
-import Browser.Model exposing (Browser(Mozilla, Unknown, Webkit))
+import Browser.Model exposing (Browser(Mozilla, Other, Webkit))
 
 
 port exitFullScreen : () -> Cmd msg
@@ -49,7 +49,7 @@ enterFullScreen browser =
         Mozilla ->
             mozRequestFullScreen ()
 
-        Unknown ->
+        Other ->
             requestFullScreen ()
 
         Webkit ->
@@ -62,7 +62,7 @@ performFullScreenToggle browser =
         Mozilla ->
             mozFullScreenToggle ()
 
-        Unknown ->
+        Other ->
             fullScreenToggle ()
 
         Webkit ->
@@ -75,7 +75,7 @@ leaveFullScreen browser =
         Mozilla ->
             mozCancelFullScreen ()
 
-        Unknown ->
+        Other ->
             exitFullScreen ()
 
         Webkit ->

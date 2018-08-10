@@ -35,11 +35,11 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function determineBrowser() {
-  if (document.exitFullscreen) {
-    return "unknown"
-  } else if (document.mozCancelFullScreen) {
-    return "mozilla"
-  } else if (document.webkitExitFullscreen) {
+  if (Browser.isWebkit()) {
     return "webkit"
+  } else if (Browser.isMozilla()) {
+    return "mozilla"
+  } else if (Browser.isOtherFullScreenCapableBrowser()) {
+    return "other"
   }
 }

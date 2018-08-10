@@ -6,7 +6,7 @@ import Flags exposing (Flags)
 
 type Browser
     = Mozilla
-    | Unknown
+    | Other
     | Webkit
 
 
@@ -16,7 +16,7 @@ init flags =
         browser =
             flags.browser
                 |> Decode.decodeValue Decode.string
-                |> Result.withDefault "unknown"
+                |> Result.withDefault "other"
     in
         case browser of
             "mozilla" ->
@@ -26,4 +26,4 @@ init flags =
                 Webkit
 
             _ ->
-                Unknown
+                Other
