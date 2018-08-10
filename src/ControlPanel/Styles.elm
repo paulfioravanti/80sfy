@@ -374,6 +374,31 @@ volumeControl =
         , marginTop (px 0)
         , marginRight (px -0.15)
         , property "-webkit-appearance" "none"
+        , pseudoElement "-moz-range-track"
+            [ backgroundColor Colors.blue
+            , border3 (px 0) solid Colors.black
+            , borderRadius (px 0)
+            , boxShadow4 (px 0) (px 0) (px 2) (Colors.whiteWithAlpha 0.12)
+            , boxShadow4 (px 2) (px 2) (px 1) (Colors.whiteWithAlpha 0.12)
+            , cursor pointer
+            , height (px 18)
+            , width (pct 100)
+            ]
+        , pseudoElement "-moz-range-thumb"
+            [ backgroundColor (Colors.yellowWithAlpha 0.96)
+            , border3 (px 0) solid Colors.yellow
+            , borderRadius (px 0)
+            , boxShadow4 (px 0) (px 0) (px 1.8) Colors.paleYellow
+            , boxShadow4
+                (px 1.8)
+                (px 1.8)
+                (px 5.9)
+                (Colors.yellowWithAlpha 0.49)
+            , cursor pointer
+            , height (px 18)
+            , marginTop (px 0.15)
+            , width (px 18)
+            ]
         , pseudoElement "-webkit-slider-runnable-track"
             [ backgroundColor Colors.blue
             , border3 (px 0) solid Colors.black
