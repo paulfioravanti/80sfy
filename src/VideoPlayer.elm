@@ -11,6 +11,7 @@ module VideoPlayer
         , view
         )
 
+import Browser exposing (Vendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
@@ -64,6 +65,6 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
-view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg
-view msgRouter audioPlaying videoPlayer =
-    View.view msgRouter audioPlaying videoPlayer
+view : MsgRouter msg -> Vendor -> Bool -> VideoPlayer -> Html msg
+view msgRouter vendor audioPlaying videoPlayer =
+    View.view msgRouter vendor audioPlaying videoPlayer

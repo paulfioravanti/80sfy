@@ -1,7 +1,7 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
-import Browser
+import Browser exposing (Vendor)
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
@@ -20,8 +20,8 @@ import VideoPlayer.Msg exposing (Msg(PlayVideos))
 import VideoPlayer.Styles as Styles
 
 
-view : MsgRouter msg -> Bool -> VideoPlayer -> Html msg
-view msgRouter audioPlaying videoPlayer =
+view : MsgRouter msg -> Vendor -> Bool -> VideoPlayer -> Html msg
+view msgRouter vendor audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -38,26 +38,41 @@ view msgRouter audioPlaying videoPlayer =
                    else
                     []
     in
-        div (attributes msgRouter audioPlaying videoPlayer) childElements
+        div (attributes msgRouter vendor audioPlaying videoPlayer) childElements
 
 
-attributes : MsgRouter msg -> Bool -> VideoPlayer -> List (Html.Attribute msg)
-attributes msgRouter audioPlaying videoPlayer =
+attributes :
+    MsgRouter msg
+    -> Vendor
+    -> Bool
+    -> VideoPlayer
+    -> List (Html.Attribute msg)
+attributes msgRouter vendor audioPlaying videoPlayer =
     let
         animations =
             videoPlayer.style
                 |> Animation.render
                 |> List.map fromUnstyled
 
+        onDoubleClickAttribute =
+            if vendor == Browser.mozilla then
+                attribute "onDblClick" "window.mozFullScreenToggleHack()"
+            else
+                onDoubleClick
+                    (msgRouter.browserMsg
+                        Browser.performFullScreenToggleMsg
+                    )
+
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Playing) then
-                [ onClick (msgRouter.videoPlayerMsg PlayVideos) ]
+                onClick (msgRouter.videoPlayerMsg PlayVideos)
             else
-                []
+                onClick (msgRouter.noOpMsg)
 
         videoPlayerAttributes =
-            clickOnPlayAttribute
-                ++ [ css [ Styles.gifContainer videoPlayer.zIndex ]
+            onDoubleClickAttribute
+                :: clickOnPlayAttribute
+                :: [ css [ Styles.gifContainer videoPlayer.zIndex ]
                    , attribute "data-name" "player-gif-container"
                    , onDoubleClick
                         (msgRouter.browserMsg

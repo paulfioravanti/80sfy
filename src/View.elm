@@ -20,10 +20,12 @@ view msgRouter model =
             model.controlPanel
         , VideoPlayer.view
             msgRouter
+            model.browser
             (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer1
         , VideoPlayer.view
             msgRouter
+            model.browser
             (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer2
         , SecretConfig.view msgRouter model.secretConfig
