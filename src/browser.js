@@ -16,7 +16,7 @@ export function isMozilla() {
   return (
     document.mozFullScreenElement !== "undefined" &&
     document.documentElement.mozRequestFullScreen &&
-    document.mozCancelFullscreen
+    document.mozCancelFullScreen
   )
 }
 
