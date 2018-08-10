@@ -80,7 +80,7 @@ nextTrackButton { audioPlayerMsg } =
 
 
 fullscreenButton : MsgRouter msg -> Vendor -> Html msg
-fullscreenButton { browserMsg, noOpMsg } vendor =
+fullscreenButton { browserMsg } vendor =
     let
         onClickAttribute =
             if vendor == Browser.mozilla then
@@ -89,11 +89,10 @@ fullscreenButton { browserMsg, noOpMsg } vendor =
                 onClick (browserMsg Browser.performFullScreenToggleMsg)
     in
         div
-            (onClickAttribute
-                :: [ css [ Styles.button ]
-                   , attribute "data-name" "fullscreen"
-                   ]
-            )
+            [ onClickAttribute
+            , css [ Styles.button ]
+            , attribute "data-name" "fullscreen"
+            ]
             [ div [ css [ Styles.iconBackground ] ] []
             , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
             ]

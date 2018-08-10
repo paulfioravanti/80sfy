@@ -67,18 +67,18 @@ attributes msgRouter vendor audioPlaying videoPlayer =
             if audioPlaying && not (videoPlayer.status == Playing) then
                 onClick (msgRouter.videoPlayerMsg PlayVideos)
             else
-                onClick (msgRouter.noOpMsg)
+                onClick msgRouter.noOpMsg
 
         videoPlayerAttributes =
-            onDoubleClickAttribute
-                :: clickOnPlayAttribute
-                :: [ css [ Styles.gifContainer videoPlayer.zIndex ]
-                   , attribute "data-name" "player-gif-container"
-                   , onDoubleClick
-                        (msgRouter.browserMsg
-                            Browser.performFullScreenToggleMsg
-                        )
-                   ]
+            [ onDoubleClickAttribute
+            , clickOnPlayAttribute
+            , css [ Styles.gifContainer videoPlayer.zIndex ]
+            , attribute "data-name" "player-gif-container"
+            , onDoubleClick
+                (msgRouter.browserMsg
+                    Browser.performFullScreenToggleMsg
+                )
+            ]
     in
         List.append animations videoPlayerAttributes
 
