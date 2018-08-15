@@ -18,20 +18,16 @@ import * as Browser from "./browser"
 import * as VideoPlayer from "./videoPlayer"
 
 document.addEventListener("DOMContentLoaded", () => {
-  const appContainer = document.querySelector("#root")
+  const app =
+    Main.fullscreen({
+      giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+      soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+      browser: determineBrowser()
+    })
 
-  if (appContainer) {
-    const app =
-      Main.embed(appContainer, {
-        giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
-        soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
-        browser: determineBrowser()
-      })
-
-    VideoPlayer.init(app)
-    AudioPlayer.init(app)
-    Browser.init(app)
-  }
+  VideoPlayer.init(app)
+  AudioPlayer.init(app)
+  Browser.init(app)
 })
 
 function determineBrowser() {
