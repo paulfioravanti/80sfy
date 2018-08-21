@@ -1,21 +1,26 @@
 module FullScreen
     exposing
         ( Msg
+        , cmd
         , leaveFullScreenMsg
         , performFullScreenToggleMsg
         , subscriptions
-        , update
         )
 
 import BrowserVendor exposing (Vendor)
+import FullScreen.Cmd as Cmd
 import FullScreen.Msg as Msg
 import FullScreen.Subscriptions as Subscriptions
-import FullScreen.Update as Update
 import MsgRouter exposing (MsgRouter)
 
 
 type alias Msg =
     Msg.Msg
+
+
+cmd : Msg -> Vendor -> Cmd msg
+cmd msg vendor =
+    Cmd.cmd msg vendor
 
 
 performFullScreenToggleMsg : Msg
@@ -31,8 +36,3 @@ leaveFullScreenMsg =
 subscriptions : MsgRouter msg -> Sub msg
 subscriptions msgRouter =
     Subscriptions.subscriptions msgRouter
-
-
-update : Msg -> Vendor -> Cmd msg
-update msg vendor =
-    Update.update msg vendor

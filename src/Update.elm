@@ -60,7 +60,7 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             let
                 cmd =
                     model.browserVendor
-                        |> FullScreen.update fullScreenMsg
+                        |> FullScreen.cmd fullScreenMsg
             in
                 ( model, cmd )
 
