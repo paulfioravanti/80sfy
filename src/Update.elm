@@ -1,18 +1,18 @@
 module Update exposing (update)
 
 import AudioPlayer
-import Browser
 import Config
 import ControlPanel
+import FullScreen
 import Key
 import Model exposing (Model)
 import Msg
     exposing
         ( Msg
             ( AudioPlayer
-            , Browser
             , Config
             , ControlPanel
+            , FullScreen
             , Key
             , NoOp
             , Pause
@@ -40,14 +40,6 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             in
                 ( { model | audioPlayer = audioPlayer }, cmd )
 
-        Browser msgForBrowser ->
-            let
-                cmd =
-                    model.browser
-                        |> Browser.update msgForBrowser
-            in
-                ( model, cmd )
-
         Config msgForConfig ->
             let
                 ( config, cmd ) =
@@ -63,6 +55,14 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         |> ControlPanel.update msgRouter msgForControlPanel
             in
                 ( { model | controlPanel = controlPanel }, cmd )
+
+        FullScreen fullScreenMsg ->
+            let
+                cmd =
+                    model.browserVendor
+                        |> FullScreen.update fullScreenMsg
+            in
+                ( model, cmd )
 
         Key code ->
             let

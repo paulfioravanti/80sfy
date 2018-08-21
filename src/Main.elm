@@ -1,18 +1,19 @@
 module Main exposing (main)
 
 import AudioPlayer
-import Browser
+import BrowserVendor
 import Config
 import Flags exposing (Flags)
+import FullScreen
 import Html.Styled as Html
 import Model exposing (Model)
 import Msg
     exposing
         ( Msg
             ( AudioPlayer
-            , Browser
             , Config
             , ControlPanel
+            , FullScreen
             , Key
             , NoOp
             , Pause
@@ -34,9 +35,9 @@ main =
     let
         msgRouter =
             { audioPlayerMsg = AudioPlayer
-            , browserMsg = Browser
             , configMsg = Config
             , controlPanelMsg = ControlPanel
+            , fullScreenMsg = FullScreen
             , keyMsg = Key
             , noOpMsg = NoOp
             , pauseMsg = Pause
@@ -60,11 +61,11 @@ init msgRouter flags =
         config =
             Config.init flags
 
-        browser =
-            Browser.init flags
+        browserVendor =
+            BrowserVendor.init flags
 
         ({ audioPlayer } as model) =
-            Model.init config browser
+            Model.init config browserVendor
 
         audioPlayerFlags =
             { id = audioPlayer.id

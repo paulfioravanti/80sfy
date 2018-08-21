@@ -4,7 +4,7 @@ import Json.Decode exposing (Value)
 
 
 type alias Flags =
-    { browser : Value
+    { browserVendor : Value
     , giphyApiKey : Value
     , soundCloudPlaylistUrl : Value
     }

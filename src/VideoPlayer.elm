@@ -11,7 +11,7 @@ module VideoPlayer
         , view
         )
 
-import Browser exposing (Vendor)
+import BrowserVendor exposing (Vendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)

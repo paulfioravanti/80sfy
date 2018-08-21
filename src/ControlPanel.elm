@@ -10,7 +10,7 @@ module ControlPanel
         )
 
 import AudioPlayer exposing (AudioPlayer)
-import Browser exposing (Vendor)
+import BrowserVendor exposing (Vendor)
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.Subscriptions as Subscriptions

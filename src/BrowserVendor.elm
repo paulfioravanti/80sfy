@@ -1,4 +1,4 @@
-module Browser.Vendor exposing (Vendor(..), init)
+module BrowserVendor exposing (Vendor(..), init)
 
 import Json.Decode as Decode
 import Flags exposing (Flags)
@@ -14,7 +14,7 @@ init : Flags -> Vendor
 init flags =
     let
         browser =
-            flags.browser
+            flags.browserVendor
                 |> Decode.decodeValue Decode.string
                 |> Result.withDefault "other"
     in

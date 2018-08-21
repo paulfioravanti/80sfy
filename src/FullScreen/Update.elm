@@ -1,6 +1,7 @@
-module Browser.Update exposing (update)
+module FullScreen.Update exposing (update)
 
-import Browser.Msg
+import BrowserVendor exposing (Vendor)
+import FullScreen.Msg
     exposing
         ( Msg
             ( EnterFullScreen
@@ -8,8 +9,7 @@ import Browser.Msg
             , PerformFullScreenToggle
             )
         )
-import Browser.Ports as Ports
-import Browser.Vendor exposing (Vendor)
+import FullScreen.Ports as Ports
 
 
 update : Msg -> Vendor -> Cmd msg

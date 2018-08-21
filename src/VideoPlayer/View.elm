@@ -1,7 +1,8 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
-import Browser exposing (Vendor)
+import BrowserVendor exposing (Vendor(Mozilla))
+import FullScreen
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
@@ -55,12 +56,12 @@ attributes msgRouter vendor audioPlaying videoPlayer =
                 |> List.map fromUnstyled
 
         onDoubleClickAttribute =
-            if vendor == Browser.mozilla then
+            if vendor == Mozilla then
                 attribute "onDblClick" "window.mozFullScreenToggleHack()"
             else
                 onDoubleClick
-                    (msgRouter.browserMsg
-                        Browser.performFullScreenToggleMsg
+                    (msgRouter.fullScreenMsg
+                        FullScreen.performFullScreenToggleMsg
                     )
 
         clickOnPlayAttribute =
@@ -75,8 +76,8 @@ attributes msgRouter vendor audioPlaying videoPlayer =
             , css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
             , onDoubleClick
-                (msgRouter.browserMsg
-                    Browser.performFullScreenToggleMsg
+                (msgRouter.fullScreenMsg
+                    FullScreen.performFullScreenToggleMsg
                 )
             ]
     in

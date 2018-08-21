@@ -14,7 +14,7 @@ import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Main } from "./Main"
 import * as AudioPlayer from "./audioPlayer"
-import * as Browser from "./browser"
+import * as BrowserFullScreen from "./browserFullScreen"
 import * as VideoPlayer from "./videoPlayer"
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -22,20 +22,20 @@ document.addEventListener("DOMContentLoaded", () => {
     Main.fullscreen({
       giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
       soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
-      browser: determineBrowser()
+      browserVendor: determineBrowserVendor()
     })
 
   VideoPlayer.init(app)
   AudioPlayer.init(app)
-  Browser.init(app)
+  BrowserFullScreen.init(app)
 })
 
-function determineBrowser() {
-  if (Browser.isWebkit()) {
+function determineBrowserVendor() {
+  if (BrowserFullScreen.isWebkit()) {
     return "webkit"
-  } else if (Browser.isMozilla()) {
+  } else if (BrowserFullScreen.isMozilla()) {
     return "mozilla"
-  } else if (Browser.isOtherFullScreenCapableBrowser()) {
+  } else if (BrowserFullScreen.isOtherFullScreenCapableBrowser()) {
     return "other"
   }
 }

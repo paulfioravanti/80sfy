@@ -1,6 +1,6 @@
-port module Browser.Subscriptions exposing (subscriptions)
+port module FullScreen.Subscriptions exposing (subscriptions)
 
-import Browser.Msg exposing (Msg(EnterFullScreen, LeaveFullScreen))
+import FullScreen.Msg exposing (Msg(EnterFullScreen, LeaveFullScreen))
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 
@@ -9,13 +9,13 @@ port toggleFullScreen : (Value -> msg) -> Sub msg
 
 
 subscriptions : MsgRouter msg -> Sub msg
-subscriptions { browserMsg } =
+subscriptions { fullScreenMsg } =
     toggleFullScreen
         (\isFullScreenFlag ->
             if extractBoolValue isFullScreenFlag then
-                browserMsg LeaveFullScreen
+                fullScreenMsg LeaveFullScreen
             else
-                browserMsg EnterFullScreen
+                fullScreenMsg EnterFullScreen
         )
 
 

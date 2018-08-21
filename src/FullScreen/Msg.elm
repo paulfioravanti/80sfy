@@ -1,4 +1,4 @@
-module Browser.Msg exposing (Msg(..))
+module FullScreen.Msg exposing (Msg(..))
 
 
 type Msg

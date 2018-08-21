@@ -2,7 +2,7 @@ module ControlPanel.View exposing (view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import Browser exposing (Vendor)
+import BrowserVendor exposing (Vendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel, State(KeepVisible))

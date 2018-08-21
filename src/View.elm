@@ -15,17 +15,17 @@ view msgRouter model =
     div [ attribute "data-name" "container" ]
         [ ControlPanel.view
             msgRouter
-            model.browser
+            model.browserVendor
             model.audioPlayer
             model.controlPanel
         , VideoPlayer.view
             msgRouter
-            model.browser
+            model.browserVendor
             (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer1
         , VideoPlayer.view
             msgRouter
-            model.browser
+            model.browserVendor
             (AudioPlayer.isPlaying model.audioPlayer)
             model.videoPlayer2
         , SecretConfig.view msgRouter model.secretConfig

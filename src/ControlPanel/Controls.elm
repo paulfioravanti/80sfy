@@ -1,8 +1,9 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import Browser exposing (Vendor)
+import BrowserVendor exposing (Vendor(Mozilla))
 import ControlPanel.Styles as Styles
+import FullScreen
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
@@ -80,13 +81,13 @@ nextTrackButton { audioPlayerMsg } =
 
 
 fullscreenButton : MsgRouter msg -> Vendor -> Html msg
-fullscreenButton { browserMsg } vendor =
+fullscreenButton { fullScreenMsg } vendor =
     let
         onClickAttribute =
-            if vendor == Browser.mozilla then
+            if vendor == Mozilla then
                 attribute "onClick" "window.mozFullScreenToggleHack()"
             else
-                onClick (browserMsg Browser.performFullScreenToggleMsg)
+                onClick (fullScreenMsg FullScreen.performFullScreenToggleMsg)
     in
         div
             [ onClickAttribute

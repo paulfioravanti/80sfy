@@ -1,11 +1,11 @@
-port module Browser.Ports
+port module FullScreen.Ports
     exposing
         ( enterFullScreen
         , performFullScreenToggle
         , leaveFullScreen
         )
 
-import Browser.Vendor exposing (Vendor(Mozilla, Other, Webkit))
+import BrowserVendor exposing (Vendor(Mozilla, Other, Webkit))
 
 
 port exitFullScreen : () -> Cmd msg

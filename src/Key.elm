@@ -1,7 +1,7 @@
 module Key exposing (pressed)
 
 import AudioPlayer
-import Browser
+import FullScreen
 import Model exposing (Model)
 import MsgRouter exposing (MsgRouter)
 import Task
@@ -19,12 +19,12 @@ type Key
 pressed : MsgRouter msg -> Model -> Int -> Cmd msg
 pressed msgRouter { audioPlayer, config } keyCode =
     let
-        { audioPlayerMsg, browserMsg, pauseMsg, playMsg } =
+        { audioPlayerMsg, fullScreenMsg, pauseMsg, playMsg } =
             msgRouter
     in
         case toKey keyCode of
             Escape ->
-                browserMsg Browser.leaveFullScreenMsg
+                fullScreenMsg FullScreen.leaveFullScreenMsg
                     |> Task.succeed
                     |> Task.perform identity
 
