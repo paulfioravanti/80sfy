@@ -74,7 +74,7 @@ function initMozFullScreenToggle(app) {
 // - https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ
 // - https://stackoverflow.com/q/43240352/567863
 function initMozFullScreenToggleHack() {
-  window.mozFullScreenToggleHack = function () {
+  window.mozFullScreenToggleHack = () => {
     const isFullScreen = !!document.mozFullScreenElement
     if (isFullScreen) {
       document.mozCancelFullScreen()
