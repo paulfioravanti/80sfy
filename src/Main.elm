@@ -4,7 +4,6 @@ import AudioPlayer
 import BrowserVendor
 import Config
 import Flags exposing (Flags)
-import FullScreen
 import Html.Styled as Html
 import Model exposing (Model)
 import Msg
@@ -47,12 +46,12 @@ main =
             , videoPlayerMsg = VideoPlayer
             }
     in
-        Html.programWithFlags
-            { init = init msgRouter
-            , update = Update.update msgRouter
-            , view = View.view msgRouter
-            , subscriptions = Subscriptions.subscriptions msgRouter
-            }
+    Html.programWithFlags
+        { init = init msgRouter
+        , update = Update.update msgRouter
+        , view = View.view msgRouter
+        , subscriptions = Subscriptions.subscriptions msgRouter
+        }
 
 
 init : MsgRouter msg -> Flags -> ( Model, Cmd msg )
@@ -72,9 +71,9 @@ init msgRouter flags =
             , volume = audioPlayer.volume
             }
     in
-        ( model
-        , Cmd.batch
-            [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
-            , AudioPlayer.initAudioPlayer audioPlayerFlags
-            ]
-        )
+    ( model
+    , Cmd.batch
+        [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
+        , AudioPlayer.initAudioPlayer audioPlayerFlags
+        ]
+    )
