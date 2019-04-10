@@ -1,27 +1,12 @@
 module Main exposing (main)
 
 import AudioPlayer
+import Browser
 import BrowserVendor
 import Config
 import Flags exposing (Flags)
-import Html.Styled as Html
 import Model exposing (Model)
-import Msg
-    exposing
-        ( Msg
-            ( AudioPlayer
-            , Config
-            , ControlPanel
-            , FullScreen
-            , Key
-            , NoOp
-            , Pause
-            , Play
-            , SecretConfig
-            , ShowApplicationState
-            , VideoPlayer
-            )
-        )
+import Msg exposing (Msg)
 import MsgRouter exposing (MsgRouter)
 import Subscriptions
 import Tags
@@ -33,20 +18,20 @@ main : Program Flags Model Msg
 main =
     let
         msgRouter =
-            { audioPlayerMsg = AudioPlayer
-            , configMsg = Config
-            , controlPanelMsg = ControlPanel
-            , fullScreenMsg = FullScreen
-            , keyMsg = Key
-            , noOpMsg = NoOp
-            , pauseMsg = Pause
-            , playMsg = Play
-            , secretConfigMsg = SecretConfig
-            , showApplicationState = ShowApplicationState
-            , videoPlayerMsg = VideoPlayer
+            { audioPlayerMsg = Msg.AudioPlayer
+            , configMsg = Msg.Config
+            , controlPanelMsg = Msg.ControlPanel
+            , fullScreenMsg = Msg.FullScreen
+            , keyMsg = Msg.Key
+            , noOpMsg = Msg.NoOp
+            , pauseMsg = Msg.Pause
+            , playMsg = Msg.Play
+            , secretConfigMsg = Msg.SecretConfig
+            , showApplicationState = Msg.ShowApplicationState
+            , videoPlayerMsg = Msg.VideoPlayer
             }
     in
-    Html.programWithFlags
+    Browser.document
         { init = init msgRouter
         , update = Update.update msgRouter
         , view = View.view msgRouter

@@ -1,4 +1,9 @@
-module ControlPanel.Model exposing (ControlPanel, State(..), init)
+module ControlPanel.Model exposing
+    ( ControlPanel
+    , State(..)
+    , init
+    , stateToString
+    )
 
 import Animation
 import ControlPanel.Animations as Animations
@@ -22,3 +27,19 @@ init =
     { state = Idle 0
     , style = Animation.style Animations.visible
     }
+
+
+stateToString : State -> String
+stateToString state =
+    case state of
+        Idle seconds ->
+            "Idle " ++ String.fromInt seconds
+
+        InUse ->
+            "InUse"
+
+        Invisible ->
+            "Invisible"
+
+        KeepVisible ->
+            "KeepVisible"

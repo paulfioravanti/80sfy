@@ -1,7 +1,7 @@
 module SecretConfig.View exposing (view)
 
 import AudioPlayer
-import Config.Msg exposing (Msg(SaveConfig))
+import Config.Msg as ConfigMsg
 import ControlPanel
 import Html.Styled
     exposing
@@ -22,16 +22,7 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onClick, onInput)
 import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
-import SecretConfig.Msg
-    exposing
-        ( Msg
-            ( ToggleInactivityPauseOverride
-            , ToggleVisibility
-            , UpdateGifDisplaySeconds
-            , UpdateSoundCloudPlaylistUrl
-            , UpdateTags
-            )
-        )
+import SecretConfig.Msg as Msg
 import SecretConfig.Styles as Styles
 import VideoPlayer
 
@@ -49,7 +40,7 @@ secretConfigButton { secretConfigMsg } =
     div
         [ css [ Styles.secretConfigButton ]
         , attribute "data-name" "secret-config-button"
-        , onClick (secretConfigMsg ToggleVisibility)
+        , onClick (secretConfigMsg Msg.ToggleVisibility)
         ]
         []
 
@@ -91,7 +82,7 @@ gifTagsInput { secretConfigMsg } tags =
     textarea
         [ css [ Styles.gifTags ]
         , attribute "data-name" "search-tags"
-        , onInput (secretConfigMsg << UpdateTags)
+        , onInput (secretConfigMsg << Msg.UpdateTags)
         ]
         [ text tags ]
 
@@ -102,7 +93,7 @@ soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
         [ css [ Styles.configInput ]
         , attribute "data-name" "playlist-input"
         , value soundCloudPlaylistUrl
-        , onInput (secretConfigMsg << UpdateSoundCloudPlaylistUrl)
+        , onInput (secretConfigMsg << Msg.UpdateSoundCloudPlaylistUrl)
         ]
         []
 
@@ -113,7 +104,7 @@ gifDisplaySecondsInput { secretConfigMsg } gifDisplaySeconds =
         [ css [ Styles.configInput ]
         , attribute "data-name" "gif-display-seconds-input"
         , value gifDisplaySeconds
-        , onInput (secretConfigMsg << UpdateGifDisplaySeconds)
+        , onInput (secretConfigMsg << Msg.UpdateGifDisplaySeconds)
         ]
         []
 
@@ -124,7 +115,11 @@ saveSettingsButton { configMsg } soundCloudPlaylistUrl tags gifDisplaySeconds =
         [ css [ Styles.configButton ]
         , onClick
             (configMsg
-                (SaveConfig soundCloudPlaylistUrl tags gifDisplaySeconds)
+                (ConfigMsg.SaveConfig
+                    soundCloudPlaylistUrl
+                    tags
+                    gifDisplaySeconds
+                )
             )
         ]
         [ text "Save Settings" ]
@@ -152,7 +147,7 @@ overrideInactivityPauseButton : MsgRouter msg -> Html msg
 overrideInactivityPauseButton { secretConfigMsg } =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg ToggleInactivityPauseOverride)
+        , onClick (secretConfigMsg Msg.ToggleInactivityPauseOverride)
         ]
         [ text "Toggle Inactivity Pause" ]
 

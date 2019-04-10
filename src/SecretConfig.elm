@@ -1,12 +1,11 @@
-module SecretConfig
-    exposing
-        ( Msg
-        , SecretConfig
-        , init
-        , initTagsMsg
-        , update
-        , view
-        )
+module SecretConfig exposing
+    ( Msg
+    , SecretConfig
+    , init
+    , initTagsMsg
+    , update
+    , view
+    )
 
 import Html.Styled exposing (Html)
 import MsgRouter exposing (MsgRouter)

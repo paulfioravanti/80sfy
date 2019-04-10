@@ -1,9 +1,11 @@
 module Subscriptions exposing (subscriptions)
 
 import AudioPlayer
+import Browser.Events as Events
 import ControlPanel
 import FullScreen
-import Keyboard
+import Json.Decode as Decode
+import Key
 import Model exposing (Model)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer
@@ -19,17 +21,17 @@ subscriptions msgRouter model =
                 model.secretConfig.overrideInactivityPause
             }
     in
-        Sub.batch
-            [ AudioPlayer.subscriptions
-                msgRouter
-                model.audioPlayer
-            , FullScreen.subscriptions msgRouter
-            , ControlPanel.subscriptions
-                msgRouter
-                model.controlPanel
-            , Keyboard.downs msgRouter.keyMsg
-            , VideoPlayer.subscriptions
-                msgRouter
-                videoPlayerContext
-                model.videoPlayer1
-            ]
+    Sub.batch
+        [ AudioPlayer.subscriptions
+            msgRouter
+            model.audioPlayer
+        , FullScreen.subscriptions msgRouter
+        , ControlPanel.subscriptions
+            msgRouter
+            model.controlPanel
+        , Events.onKeyDown (Decode.map msgRouter.keyMsg Key.decoder)
+        , VideoPlayer.subscriptions
+            msgRouter
+            videoPlayerContext
+            model.videoPlayer1
+        ]

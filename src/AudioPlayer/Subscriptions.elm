@@ -1,15 +1,7 @@
 port module AudioPlayer.Subscriptions exposing (subscriptions)
 
-import AudioPlayer.Msg
-    exposing
-        ( Msg
-            ( AudioPaused
-            , AudioPlaying
-            , NextTrackNumberRequested
-            , SetPlaylistLength
-            )
-        )
 import AudioPlayer.Model as Model exposing (AudioPlayer)
+import AudioPlayer.Msg as Msg
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 import VideoPlayer
@@ -33,16 +25,17 @@ subscriptions ({ audioPlayerMsg } as msgRouter) audioPlayer =
         playingSubscription =
             if Model.isPlaying audioPlayer then
                 audioPausedSubscriptions msgRouter
+
             else
                 audioPlayingSubscriptions msgRouter
     in
-        Sub.batch
-            [ playingSubscription
-            , requestNextTrackNumber
-                (\() -> audioPlayerMsg NextTrackNumberRequested)
-            , setPlaylistLength
-                (audioPlayerMsg << SetPlaylistLength << extractIntValue)
-            ]
+    Sub.batch
+        [ playingSubscription
+        , requestNextTrackNumber
+            (\() -> audioPlayerMsg Msg.NextTrackNumberRequested)
+        , setPlaylistLength
+            (audioPlayerMsg << Msg.SetPlaylistLength << extractIntValue)
+        ]
 
 
 audioPausedSubscriptions : MsgRouter msg -> Sub msg
@@ -53,7 +46,8 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
         [ audioPaused
             (\currentPositionFlag ->
                 if extractFloatValue currentPositionFlag > 0 then
-                    audioPlayerMsg AudioPaused
+                    audioPlayerMsg Msg.AudioPaused
+
                 else
                     noOpMsg
             )
@@ -61,6 +55,7 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
             (\currentPositionFlag ->
                 if extractFloatValue currentPositionFlag > 0 then
                     videoPlayerMsg VideoPlayer.pauseVideosMsg
+
                 else
                     noOpMsg
             )
@@ -76,7 +71,8 @@ audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
         [ audioPlaying
             (\loadedProgressFlag ->
                 if extractFloatValue loadedProgressFlag > 0 then
-                    audioPlayerMsg AudioPlaying
+                    audioPlayerMsg Msg.AudioPlaying
+
                 else
                     noOpMsg
             )
@@ -84,6 +80,7 @@ audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
             (\loadedProgressFlag ->
                 if extractFloatValue loadedProgressFlag > 0 then
                     videoPlayerMsg VideoPlayer.playVideosMsg
+
                 else
                     noOpMsg
             )

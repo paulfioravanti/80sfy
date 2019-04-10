@@ -1,7 +1,7 @@
 module Config.Model exposing (Config, init)
 
-import Json.Decode as Decode exposing (Value)
 import Flags exposing (Flags)
+import Json.Decode as Decode exposing (Value)
 
 
 type alias Config =
@@ -25,12 +25,12 @@ init flags =
                 |> extractStringValue
                     "https://api.soundcloud.com/playlists/193785575"
     in
-        { gifDisplaySeconds = 4
-        , giphyApiKey = giphyApiKey
-        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-        , tags = []
-        , volumeAdjustmentRate = 20
-        }
+    { gifDisplaySeconds = 4
+    , giphyApiKey = giphyApiKey
+    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+    , tags = []
+    , volumeAdjustmentRate = 20
+    }
 
 
 extractStringValue : String -> Value -> String

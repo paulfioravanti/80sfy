@@ -5,8 +5,8 @@ import AudioPlayer exposing (AudioPlayer)
 import BrowserVendor exposing (Vendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
-import ControlPanel.Model exposing (ControlPanel, State(KeepVisible))
-import ControlPanel.Msg exposing (Msg(LeaveControlPanel, UseControlPanel))
+import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Msg as Msg
 import ControlPanel.Styles as Styles
 import Html.Styled exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
@@ -38,26 +38,26 @@ view ({ controlPanelMsg } as msgRouter) vendor audioPlayer controlPanel =
 
         visibilityToggles =
             case controlPanel.state of
-                KeepVisible ->
+                Model.KeepVisible ->
                     []
 
                 _ ->
-                    [ onMouseEnter (controlPanelMsg UseControlPanel)
-                    , onMouseLeave (controlPanelMsg LeaveControlPanel)
+                    [ onMouseEnter (controlPanelMsg Msg.UseControlPanel)
+                    , onMouseLeave (controlPanelMsg Msg.LeaveControlPanel)
                     ]
     in
-        div (animations ++ attributes ++ visibilityToggles)
-            [ div
-                [ css [ Styles.controlPanelContent ]
-                , attribute "data-name" "panel-content"
-                ]
-                [ logo
-                , trackInfo audioPlayer
-                , Controls.view msgRouter vendor audioPlayer
-                , volumeControl msgRouter audioPlayer
-                , Credits.view
-                ]
+    div (animations ++ attributes ++ visibilityToggles)
+        [ div
+            [ css [ Styles.controlPanelContent ]
+            , attribute "data-name" "panel-content"
             ]
+            [ logo
+            , trackInfo audioPlayer
+            , Controls.view msgRouter vendor audioPlayer
+            , volumeControl msgRouter audioPlayer
+            , Credits.view
+            ]
+        ]
 
 
 logo : Html msg
@@ -103,7 +103,7 @@ volumeControl { audioPlayerMsg } { volume } =
             , Attributes.min "0"
             , Attributes.max "100"
             , step "5"
-            , value (toString volume)
+            , value (String.fromInt volume)
             , onInput (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
             ]
             []

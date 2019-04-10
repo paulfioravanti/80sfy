@@ -1,7 +1,7 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (Vendor(Mozilla))
+import BrowserVendor exposing (Vendor)
 import ControlPanel.Styles as Styles
 import FullScreen
 import Html.Styled exposing (Html, div, i)
@@ -19,15 +19,15 @@ view msgRouter vendor audioPlayer =
         playing =
             AudioPlayer.isPlaying audioPlayer
     in
-        div
-            [ css [ Styles.controls ]
-            , attribute "data-name" "controls"
-            ]
-            [ muteUnmuteButton msgRouter muted
-            , playPauseButton msgRouter playing
-            , nextTrackButton msgRouter
-            , fullscreenButton msgRouter vendor
-            ]
+    div
+        [ css [ Styles.controls ]
+        , attribute "data-name" "controls"
+        ]
+        [ muteUnmuteButton msgRouter muted
+        , playPauseButton msgRouter playing
+        , nextTrackButton msgRouter
+        , fullscreenButton msgRouter vendor
+        ]
 
 
 muteUnmuteButton : MsgRouter msg -> Bool -> Html msg
@@ -36,17 +36,18 @@ muteUnmuteButton { audioPlayerMsg } muted =
         iconClass =
             if muted then
                 "fas fa-volume-off"
+
             else
                 "fas fa-volume-up"
     in
-        div
-            [ css [ Styles.button ]
-            , attribute "data-name" "mute-unmute"
-            , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
-            ]
-            [ div [ css [ Styles.iconBackground ] ] []
-            , i [ css [ Styles.icon ], class iconClass ] []
-            ]
+    div
+        [ css [ Styles.button ]
+        , attribute "data-name" "mute-unmute"
+        , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
+        ]
+        [ div [ css [ Styles.iconBackground ] ] []
+        , i [ css [ Styles.icon ], class iconClass ] []
+        ]
 
 
 playPauseButton : MsgRouter msg -> Bool -> Html msg
@@ -55,17 +56,18 @@ playPauseButton { pauseMsg, playMsg } playing =
         ( iconClass, playPauseMsg ) =
             if playing then
                 ( "fas fa-pause", pauseMsg )
+
             else
                 ( "fas fa-play", playMsg )
     in
-        div
-            [ css [ Styles.button ]
-            , attribute "data-name" "play-pause"
-            , onClick playPauseMsg
-            ]
-            [ div [ css [ Styles.iconBackground ] ] []
-            , i [ css [ Styles.icon ], class iconClass ] []
-            ]
+    div
+        [ css [ Styles.button ]
+        , attribute "data-name" "play-pause"
+        , onClick playPauseMsg
+        ]
+        [ div [ css [ Styles.iconBackground ] ] []
+        , i [ css [ Styles.icon ], class iconClass ] []
+        ]
 
 
 nextTrackButton : MsgRouter msg -> Html msg
@@ -84,16 +86,17 @@ fullscreenButton : MsgRouter msg -> Vendor -> Html msg
 fullscreenButton { fullScreenMsg } vendor =
     let
         onClickAttribute =
-            if vendor == Mozilla then
+            if vendor == BrowserVendor.Mozilla then
                 attribute "onClick" "window.mozFullScreenToggleHack()"
+
             else
                 onClick (fullScreenMsg FullScreen.performFullScreenToggleMsg)
     in
-        div
-            [ onClickAttribute
-            , css [ Styles.button ]
-            , attribute "data-name" "fullscreen"
-            ]
-            [ div [ css [ Styles.iconBackground ] ] []
-            , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
-            ]
+    div
+        [ onClickAttribute
+        , css [ Styles.button ]
+        , attribute "data-name" "fullscreen"
+        ]
+        [ div [ css [ Styles.iconBackground ] ] []
+        , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
+        ]

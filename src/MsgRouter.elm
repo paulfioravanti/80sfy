@@ -1,24 +1,24 @@
 module MsgRouter exposing (MsgRouter)
 
-import AudioPlayer.Msg
-import Config.Msg
-import ControlPanel.Msg
-import FullScreen.Msg
-import Keyboard exposing (KeyCode)
-import SecretConfig.Msg
-import VideoPlayer.Msg
+import AudioPlayer.Msg as AudioPlayerMsg
+import Config.Msg as ConfigMsg
+import ControlPanel.Msg as ControlPanelMsg
+import FullScreen.Msg as FullScreenMsg
+import Key.Model exposing (Key)
+import SecretConfig.Msg as SecretConfigMsg
+import VideoPlayer.Msg as VideoPlayerMsg
 
 
 type alias MsgRouter msg =
-    { audioPlayerMsg : AudioPlayer.Msg.Msg -> msg
-    , configMsg : Config.Msg.Msg -> msg
-    , controlPanelMsg : ControlPanel.Msg.Msg -> msg
-    , fullScreenMsg : FullScreen.Msg.Msg -> msg
-    , keyMsg : KeyCode -> msg
+    { audioPlayerMsg : AudioPlayerMsg.Msg -> msg
+    , configMsg : ConfigMsg.Msg -> msg
+    , controlPanelMsg : ControlPanelMsg.Msg -> msg
+    , fullScreenMsg : FullScreenMsg.Msg -> msg
+    , keyMsg : Key -> msg
     , noOpMsg : msg
     , pauseMsg : msg
     , playMsg : msg
-    , secretConfigMsg : SecretConfig.Msg.Msg -> msg
+    , secretConfigMsg : SecretConfigMsg.Msg -> msg
     , showApplicationState : msg
-    , videoPlayerMsg : VideoPlayer.Msg.Msg -> msg
+    , videoPlayerMsg : VideoPlayerMsg.Msg -> msg
     }

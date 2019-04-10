@@ -3,20 +3,9 @@ port module VideoPlayer.Subscriptions exposing (Context, subscriptions)
 import Animation
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
-import Time exposing (second)
-import VideoPlayer.Model exposing (Status(Playing, Halted), VideoPlayer)
-import VideoPlayer.Msg
-    exposing
-        ( Msg
-            ( AnimateVideoPlayer
-            , CrossFadePlayers
-            , HaltVideos
-            , PlayVideos
-            , VideosHalted
-            , VideosPaused
-            , VideosPlaying
-            )
-        )
+import Time
+import VideoPlayer.Model as Model exposing (VideoPlayer)
+import VideoPlayer.Msg as Msg exposing (Msg)
 
 
 port videosHalted : (() -> msg) -> Sub msg
@@ -50,7 +39,7 @@ subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
                 videoPlayer1.status
                 context.gifDisplaySeconds
 
-        videosHalted =
+        videosHalted_ =
             videosHaltedSubscription
                 videoPlayerMsg
                 videoPlayer1.status
@@ -63,40 +52,47 @@ subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
                 context.audioPlayerId
                 videoPlayer1.status
     in
-        Sub.batch
-            [ fetchNextGif
-            , videosHalted
-            , windowEvent
-            , videosPaused (\() -> videoPlayerMsg VideosPaused)
-            , videosPlaying (\() -> videoPlayerMsg VideosPlaying)
-            , Animation.subscription
-                (videoPlayerMsg << AnimateVideoPlayer)
-                [ videoPlayer1.style ]
-            ]
+    Sub.batch
+        [ fetchNextGif
+        , videosHalted_
+        , windowEvent
+        , videosPaused (\() -> videoPlayerMsg Msg.VideosPaused)
+        , videosPlaying (\() -> videoPlayerMsg Msg.VideosPlaying)
+        , Animation.subscription
+            (videoPlayerMsg << Msg.AnimateVideoPlayer)
+            [ videoPlayer1.style ]
+        ]
 
 
-fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
+fetchNextGifSubscription : (Msg -> msg) -> Model.Status -> Float -> Sub msg
 fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
-    if status == Playing then
+    if status == Model.Playing then
         Time.every
-            (gifDisplaySeconds * second)
-            (videoPlayerMsg << CrossFadePlayers)
+            (gifDisplaySeconds * 1000)
+            (videoPlayerMsg << Msg.CrossFadePlayers)
+
     else
         Sub.none
 
 
-videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
+videosHaltedSubscription : (Msg -> msg) -> Model.Status -> Bool -> Sub msg
 videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
-    if (status == Playing) && not overrideInactivityPause then
-        videosHalted (\() -> videoPlayerMsg VideosHalted)
+    if (status == Model.Playing) && not overrideInactivityPause then
+        videosHalted (\() -> videoPlayerMsg Msg.VideosHalted)
+
     else
         Sub.none
 
 
-windowEventSubscription : (Msg -> msg) -> msg -> String -> Status -> Sub msg
+windowEventSubscription :
+    (Msg -> msg)
+    -> msg
+    -> String
+    -> Model.Status
+    -> Sub msg
 windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
     case status of
-        Playing ->
+        Model.Playing ->
             -- NOTE: If the document target has "blurred" from the video player
             -- to the SoundCloud iframe, then the Elm app does not need to
             -- consider this a "real" blur for purposes of displaying the
@@ -105,12 +101,13 @@ windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
                 (\activeElementIdFlag ->
                     if audioPlayerActive activeElementIdFlag audioPlayerId then
                         noOpMsg
+
                     else
-                        videoPlayerMsg HaltVideos
+                        videoPlayerMsg Msg.HaltVideos
                 )
 
-        Halted ->
-            windowFocused (\() -> videoPlayerMsg PlayVideos)
+        Model.Halted ->
+            windowFocused (\() -> videoPlayerMsg Msg.PlayVideos)
 
         _ ->
             Sub.none
@@ -124,4 +121,4 @@ audioPlayerActive activeElementIdFlag audioPlayerId =
                 |> Decode.decodeValue Decode.string
                 |> Result.withDefault ""
     in
-        activeElementId == audioPlayerId
+    activeElementId == audioPlayerId

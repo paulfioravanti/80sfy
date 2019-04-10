@@ -2,37 +2,31 @@ module Config.Update exposing (update)
 
 import AudioPlayer
 import Config.Model exposing (Config)
-import Config.Msg
-    exposing
-        ( Msg
-            ( GenerateRandomGif
-            , InitTags
-            , RandomTag
-            , SaveConfig
-            )
-        )
-import Debug
+import Config.Msg as Msg exposing (Msg)
 import Gif
+import Http.Error as Error
+import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
+import Ports
 import SecretConfig
 import Task
 import VideoPlayer
 
 
-update : MsgRouter msg -> Config.Msg.Msg -> Config -> ( Config, Cmd msg )
+update : MsgRouter msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgRouter msg config =
     case msg of
-        GenerateRandomGif videoPlayerId ->
+        Msg.GenerateRandomGif videoPlayerId ->
             ( config
             , Gif.random
-                (msgRouter.configMsg << RandomTag videoPlayerId)
+                (msgRouter.configMsg << Msg.RandomTag videoPlayerId)
                 config.tags
             )
 
-        InitTags (Ok tags) ->
+        Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    msgRouter.configMsg (GenerateRandomGif videoPlayerId)
+                    msgRouter.configMsg (Msg.GenerateRandomGif videoPlayerId)
                         |> Task.succeed
                         |> Task.perform identity
 
@@ -41,33 +35,37 @@ update msgRouter msg config =
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( { config | tags = tags }
-                , Cmd.batch
-                    [ randomGifForVideoPlayerId "1"
-                    , randomGifForVideoPlayerId "2"
-                    , initSecretConfigTags
-                    ]
-                )
+            ( { config | tags = tags }
+            , Cmd.batch
+                [ randomGifForVideoPlayerId "1"
+                , randomGifForVideoPlayerId "2"
+                , initSecretConfigTags
+                ]
+            )
 
-        InitTags (Err error) ->
+        Msg.InitTags (Err error) ->
             let
-                _ =
-                    Debug.log "InitTags Failed" error
+                message =
+                    Encode.object
+                        [ ( "InitTags Failed"
+                          , Encode.string (Error.toString error)
+                          )
+                        ]
             in
-                ( config, Cmd.none )
+            ( config, Ports.consoleLog message )
 
-        RandomTag videoPlayerId tag ->
+        Msg.RandomTag videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
                     msgRouter.videoPlayerMsg
                         << VideoPlayer.fetchRandomGifMsg videoPlayerId
             in
-                ( config
-                , tag
-                    |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
-                )
+            ( config
+            , tag
+                |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
+            )
 
-        SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
+        Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
                 tags =
                     tagsString
@@ -77,14 +75,15 @@ update msgRouter msg config =
                 gifDisplaySeconds =
                     gifDisplaySecondsString
                         |> String.toFloat
-                        |> Result.map
+                        |> Maybe.map
                             (\seconds ->
                                 if seconds < 1 then
                                     config.gifDisplaySeconds
+
                                 else
                                     seconds
                             )
-                        |> Result.withDefault config.gifDisplaySeconds
+                        |> Maybe.withDefault config.gifDisplaySeconds
 
                 cmd =
                     if
@@ -97,13 +96,14 @@ update msgRouter msg config =
                             )
                             |> Task.succeed
                             |> Task.perform identity
+
                     else
                         Cmd.none
             in
-                ( { config
-                    | gifDisplaySeconds = gifDisplaySeconds
-                    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-                    , tags = tags
-                  }
-                , cmd
-                )
+            ( { config
+                | gifDisplaySeconds = gifDisplaySeconds
+                , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+                , tags = tags
+              }
+            , cmd
+            )

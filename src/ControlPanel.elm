@@ -1,13 +1,12 @@
-module ControlPanel
-    exposing
-        ( ControlPanel
-        , Msg
-        , init
-        , subscriptions
-        , toggleHideWhenInactiveMsg
-        , update
-        , view
-        )
+module ControlPanel exposing
+    ( ControlPanel
+    , Msg
+    , init
+    , subscriptions
+    , toggleHideWhenInactiveMsg
+    , update
+    , view
+    )
 
 import AudioPlayer exposing (AudioPlayer)
 import BrowserVendor exposing (Vendor)

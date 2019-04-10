@@ -1,11 +1,10 @@
-module FullScreen
-    exposing
-        ( Msg
-        , cmd
-        , leaveFullScreenMsg
-        , performFullScreenToggleMsg
-        , subscriptions
-        )
+module FullScreen exposing
+    ( Msg
+    , cmd
+    , leaveFullScreenMsg
+    , performFullScreenToggleMsg
+    , subscriptions
+    )
 
 import BrowserVendor exposing (Vendor)
 import FullScreen.Cmd as Cmd

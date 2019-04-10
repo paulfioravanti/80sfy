@@ -1,25 +1,18 @@
 module FullScreen.Cmd exposing (cmd)
 
 import BrowserVendor exposing (Vendor)
-import FullScreen.Msg
-    exposing
-        ( Msg
-            ( EnterFullScreen
-            , LeaveFullScreen
-            , PerformFullScreenToggle
-            )
-        )
+import FullScreen.Msg as Msg exposing (Msg)
 import FullScreen.Ports as Ports
 
 
 cmd : Msg -> Vendor -> Cmd msg
 cmd msg vendor =
     case msg of
-        EnterFullScreen ->
+        Msg.EnterFullScreen ->
             Ports.enterFullScreen vendor
 
-        LeaveFullScreen ->
+        Msg.LeaveFullScreen ->
             Ports.leaveFullScreen vendor
 
-        PerformFullScreenToggle ->
+        Msg.PerformFullScreenToggle ->
             Ports.performFullScreenToggle vendor

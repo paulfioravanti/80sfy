@@ -6,22 +6,7 @@ import ControlPanel
 import FullScreen
 import Key
 import Model exposing (Model)
-import Msg
-    exposing
-        ( Msg
-            ( AudioPlayer
-            , Config
-            , ControlPanel
-            , FullScreen
-            , Key
-            , NoOp
-            , Pause
-            , Play
-            , SecretConfig
-            , ShowApplicationState
-            , VideoPlayer
-            )
-        )
+import Msg exposing (Msg)
 import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import Task
@@ -32,50 +17,50 @@ import VideoPlayer
 update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
 update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
     case msg of
-        AudioPlayer msgForAudioPlayer ->
+        Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
                         |> AudioPlayer.update msgRouter msgForAudioPlayer
             in
-                ( { model | audioPlayer = audioPlayer }, cmd )
+            ( { model | audioPlayer = audioPlayer }, cmd )
 
-        Config msgForConfig ->
+        Msg.Config msgForConfig ->
             let
                 ( config, cmd ) =
                     model.config
                         |> Config.update msgRouter msgForConfig
             in
-                ( { model | config = config }, cmd )
+            ( { model | config = config }, cmd )
 
-        ControlPanel msgForControlPanel ->
+        Msg.ControlPanel msgForControlPanel ->
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
                         |> ControlPanel.update msgRouter msgForControlPanel
             in
-                ( { model | controlPanel = controlPanel }, cmd )
+            ( { model | controlPanel = controlPanel }, cmd )
 
-        FullScreen fullScreenMsg ->
+        Msg.FullScreen fullScreenMsg ->
             let
                 cmd =
                     model.browserVendor
                         |> FullScreen.cmd fullScreenMsg
             in
-                ( model, cmd )
+            ( model, cmd )
 
-        Key code ->
+        Msg.Key code ->
             let
                 cmd =
                     code
                         |> Key.pressed msgRouter model
             in
-                ( model, cmd )
+            ( model, cmd )
 
-        NoOp ->
+        Msg.NoOp ->
             ( model, Cmd.none )
 
-        Pause ->
+        Msg.Pause ->
             let
                 pauseAudio =
                     audioPlayerMsg AudioPlayer.pauseAudioMsg
@@ -93,9 +78,9 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         |> Task.andThen (\_ -> pauseAudio)
                         |> Task.perform identity
             in
-                ( model, pauseMedia )
+            ( model, pauseMedia )
 
-        Play ->
+        Msg.Play ->
             let
                 playAudio =
                     audioPlayerMsg AudioPlayer.playAudioMsg
@@ -107,24 +92,20 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( model, Cmd.batch [ playVideo, playAudio ] )
+            ( model, Cmd.batch [ playVideo, playAudio ] )
 
-        SecretConfig msgForSecretConfig ->
+        Msg.SecretConfig msgForSecretConfig ->
             let
                 ( secretConfig, cmd ) =
                     model.secretConfig
                         |> SecretConfig.update msgForSecretConfig
             in
-                ( { model | secretConfig = secretConfig }, cmd )
+            ( { model | secretConfig = secretConfig }, cmd )
 
-        ShowApplicationState ->
-            let
-                _ =
-                    Utils.showApplicationState model
-            in
-                ( model, Cmd.none )
+        Msg.ShowApplicationState ->
+            ( model, Utils.showApplicationState model )
 
-        VideoPlayer msgForVideoPlayer ->
+        Msg.VideoPlayer msgForVideoPlayer ->
             let
                 -- NOTE: The Config module cannot be imported in
                 -- VideoPlayer.Update due to circular dependencies, so the
@@ -140,9 +121,9 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                         model.videoPlayer1
                         model.videoPlayer2
             in
-                ( { model
-                    | videoPlayer1 = videoPlayer1
-                    , videoPlayer2 = videoPlayer2
-                  }
-                , cmd
-                )
+            ( { model
+                | videoPlayer1 = videoPlayer1
+                , videoPlayer2 = videoPlayer2
+              }
+            , cmd
+            )

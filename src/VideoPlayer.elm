@@ -1,15 +1,14 @@
-module VideoPlayer
-    exposing
-        ( Msg
-        , VideoPlayer
-        , fetchRandomGifMsg
-        , init
-        , pauseVideosMsg
-        , playVideosMsg
-        , subscriptions
-        , update
-        , view
-        )
+module VideoPlayer exposing
+    ( Msg
+    , VideoPlayer
+    , fetchRandomGifMsg
+    , init
+    , pauseVideosMsg
+    , playVideosMsg
+    , subscriptions
+    , update
+    , view
+    )
 
 import BrowserVendor exposing (Vendor)
 import Html.Styled exposing (Html)

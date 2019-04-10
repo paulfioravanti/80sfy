@@ -2,12 +2,12 @@ module VideoPlayer.Msg exposing (Msg(..))
 
 import Animation
 import Http exposing (Error)
-import Time exposing (Time)
+import Time exposing (Posix)
 
 
 type Msg
     = AnimateVideoPlayer Animation.Msg
-    | CrossFadePlayers Time
+    | CrossFadePlayers Posix
     | FetchRandomGif String (Result Error String)
     | HaltVideos
     | PauseVideos

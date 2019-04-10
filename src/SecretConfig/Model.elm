@@ -12,7 +12,7 @@ type alias SecretConfig =
 
 init : String -> Float -> SecretConfig
 init soundCloudPlaylistUrl gifDisplaySeconds =
-    { gifDisplaySeconds = toString gifDisplaySeconds
+    { gifDisplaySeconds = String.fromFloat gifDisplaySeconds
     , overrideInactivityPause = False
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = ""

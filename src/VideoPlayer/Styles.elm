@@ -1,10 +1,9 @@
-module VideoPlayer.Styles
-    exposing
-        ( gifContainer
-        , videoPlayer
-        , videoPlayerPaused
-        , videoPlayerPausedContent
-        )
+module VideoPlayer.Styles exposing
+    ( gifContainer
+    , videoPlayer
+    , videoPlayerPaused
+    , videoPlayerPausedContent
+    )
 
 import Css
     exposing

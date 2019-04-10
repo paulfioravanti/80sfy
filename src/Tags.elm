@@ -10,9 +10,9 @@ init fetchTagsMsg =
         tagsDecoder =
             Decode.at [ "tags" ] (Decode.list Decode.string)
     in
-        tagsDecoder
-            |> Http.get "tags.json"
-            |> Http.send fetchTagsMsg
+    tagsDecoder
+        |> Http.get "tags.json"
+        |> Http.send fetchTagsMsg
 
 
 numToTag : List String -> Int -> String

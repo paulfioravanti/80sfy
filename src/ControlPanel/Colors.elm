@@ -1,15 +1,14 @@
-module ControlPanel.Colors
-    exposing
-        ( background
-        , black
-        , blue
-        , paleYellow
-        , pastelOrange
-        , yellow
-        , yellowWithAlpha
-        , white
-        , whiteWithAlpha
-        )
+module ControlPanel.Colors exposing
+    ( background
+    , black
+    , blue
+    , paleYellow
+    , pastelOrange
+    , white
+    , whiteWithAlpha
+    , yellow
+    , yellowWithAlpha
+    )
 
 import Css exposing (Color, rgb, rgba)
 

@@ -1,12 +1,11 @@
-port module AudioPlayer.Ports
-    exposing
-        ( initAudioPlayer
-        , nextTrack
-        , pauseAudio
-        , playAudio
-        , setVolume
-        , skipToTrack
-        )
+port module AudioPlayer.Ports exposing
+    ( initAudioPlayer
+    , nextTrack
+    , pauseAudio
+    , playAudio
+    , setVolume
+    , skipToTrack
+    )
 
 import AudioPlayer.Flags exposing (Flags)
 

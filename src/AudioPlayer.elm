@@ -1,21 +1,20 @@
-module AudioPlayer
-    exposing
-        ( AudioPlayer
-        , Msg
-        , init
-        , initAudioPlayer
-        , adjustVolumeMsg
-        , generatePlaylist
-        , isMuted
-        , isPlaying
-        , nextTrackMsg
-        , pauseAudioMsg
-        , playAudioMsg
-        , reInitAudioPlayerMsg
-        , subscriptions
-        , toggleMuteMsg
-        , update
-        )
+module AudioPlayer exposing
+    ( AudioPlayer
+    , Msg
+    , adjustVolumeMsg
+    , generatePlaylist
+    , init
+    , initAudioPlayer
+    , isMuted
+    , isPlaying
+    , nextTrackMsg
+    , pauseAudioMsg
+    , playAudioMsg
+    , reInitAudioPlayerMsg
+    , subscriptions
+    , toggleMuteMsg
+    , update
+    )
 
 import AudioPlayer.Flags exposing (Flags)
 import AudioPlayer.Model as Model exposing (AudioPlayer)

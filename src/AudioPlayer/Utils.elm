@@ -1,6 +1,6 @@
 module AudioPlayer.Utils exposing (generatePlaylist)
 
-import AudioPlayer.Msg exposing (Msg(GeneratePlaylist))
+import AudioPlayer.Msg as Msg exposing (Msg)
 import Random
 import Random.List
 
@@ -14,5 +14,5 @@ generatePlaylist audioPlayerMsg playlistLength =
         generator =
             Random.List.shuffle trackList
     in
-        generator
-            |> Random.generate (audioPlayerMsg << GeneratePlaylist)
+    generator
+        |> Random.generate (audioPlayerMsg << Msg.GeneratePlaylist)

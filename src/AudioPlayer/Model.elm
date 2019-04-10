@@ -1,11 +1,11 @@
-module AudioPlayer.Model
-    exposing
-        ( AudioPlayer
-        , Status(..)
-        , init
-        , isMuted
-        , isPlaying
-        )
+module AudioPlayer.Model exposing
+    ( AudioPlayer
+    , Status(..)
+    , init
+    , isMuted
+    , isPlaying
+    , statusToString
+    )
 
 
 type Status
@@ -75,3 +75,16 @@ isPlaying { status } =
 
         _ ->
             False
+
+
+statusToString : Status -> String
+statusToString status =
+    case status of
+        Playing ->
+            "Playing"
+
+        Paused ->
+            "Paused"
+
+        Muted status_ ->
+            "Muted " ++ statusToString status_

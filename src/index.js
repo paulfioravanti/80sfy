@@ -12,18 +12,24 @@
 // - https://github.com/parcel-bundler/parcel/issues/626#issuecomment-360371880
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
-import { Main } from "./Main"
+import { Elm } from "./Main"
 import * as AudioPlayer from "./audioPlayer"
 import * as BrowserFullScreen from "./browserFullScreen"
 import * as VideoPlayer from "./videoPlayer"
 
 document.addEventListener("DOMContentLoaded", () => {
   const app =
-    Main.fullscreen({
-      giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
-      soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
-      browserVendor: determineBrowserVendor()
+    Elm.Main.init({
+      flags: {
+        giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+        soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+        browserVendor: determineBrowserVendor()
+      }
     })
+
+  app.ports.consoleLog.subscribe((json) => {
+    console.log(json)
+  })
 
   VideoPlayer.init(app)
   AudioPlayer.init(app)

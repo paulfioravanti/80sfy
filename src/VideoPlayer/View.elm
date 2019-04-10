@@ -1,7 +1,7 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
-import BrowserVendor exposing (Vendor(Mozilla))
+import BrowserVendor exposing (Vendor)
 import FullScreen
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
@@ -15,9 +15,9 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
-import RemoteData exposing (RemoteData(Success))
-import VideoPlayer.Model exposing (Status(Playing), VideoPlayer)
-import VideoPlayer.Msg exposing (Msg(PlayVideos))
+import RemoteData
+import VideoPlayer.Model as Model exposing (VideoPlayer)
+import VideoPlayer.Msg as Msg
 import VideoPlayer.Styles as Styles
 
 
@@ -26,7 +26,7 @@ view msgRouter vendor audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
-                Success url ->
+                RemoteData.Success url ->
                     url
 
                 _ ->
@@ -34,12 +34,17 @@ view msgRouter vendor audioPlaying videoPlayer =
 
         childElements =
             gifVideoPlayer gifUrl videoPlayer
-                :: if audioPlaying && not (videoPlayer.status == Playing) then
-                    [ playerPausedOverlay ]
-                   else
-                    []
+                :: (if
+                        audioPlaying
+                            && not (videoPlayer.status == Model.Playing)
+                    then
+                        [ playerPausedOverlay ]
+
+                    else
+                        []
+                   )
     in
-        div (attributes msgRouter vendor audioPlaying videoPlayer) childElements
+    div (attributes msgRouter vendor audioPlaying videoPlayer) childElements
 
 
 attributes :
@@ -56,8 +61,9 @@ attributes msgRouter vendor audioPlaying videoPlayer =
                 |> List.map fromUnstyled
 
         onDoubleClickAttribute =
-            if vendor == Mozilla then
+            if vendor == BrowserVendor.Mozilla then
                 attribute "onDblClick" "window.mozFullScreenToggleHack()"
+
             else
                 onDoubleClick
                     (msgRouter.fullScreenMsg
@@ -65,8 +71,9 @@ attributes msgRouter vendor audioPlaying videoPlayer =
                     )
 
         clickOnPlayAttribute =
-            if audioPlaying && not (videoPlayer.status == Playing) then
-                onClick (msgRouter.videoPlayerMsg PlayVideos)
+            if audioPlaying && not (videoPlayer.status == Model.Playing) then
+                onClick (msgRouter.videoPlayerMsg Msg.PlayVideos)
+
             else
                 onClick msgRouter.noOpMsg
 
@@ -81,7 +88,7 @@ attributes msgRouter vendor audioPlaying videoPlayer =
                 )
             ]
     in
-        List.append animations videoPlayerAttributes
+    List.append animations videoPlayerAttributes
 
 
 gifVideoPlayer : String -> VideoPlayer -> Html msg
@@ -97,20 +104,22 @@ gifVideoPlayer gifUrl videoPlayer =
             [ property "muted" true
             , property "autopause" false
             ]
-                ++ if videoPlayer.status == Playing then
-                    [ property "autoplay" true
-                    , property "loop" true
-                    ]
-                   else
-                    []
+                ++ (if videoPlayer.status == Model.Playing then
+                        [ property "autoplay" true
+                        , property "loop" true
+                        ]
 
-        attributes =
+                    else
+                        []
+                   )
+
+        playerAttributes =
             [ src gifUrl
             , css [ Styles.videoPlayer ]
             , attribute "data-name" ("player-" ++ videoPlayer.id)
             ]
     in
-        video (attributes ++ playingAttributes) []
+    video (playerAttributes ++ playingAttributes) []
 
 
 playerPausedOverlay : Html msg
@@ -119,18 +128,18 @@ playerPausedOverlay =
         overlayText =
             "Click here to make this the active window and continue GIFs"
     in
-        div
-            [ css [ Styles.videoPlayerPaused ]
-            , attribute "data-name" "player-paused"
+    div
+        [ css [ Styles.videoPlayerPaused ]
+        , attribute "data-name" "player-paused"
+        ]
+        [ div
+            [ css [ Styles.videoPlayerPausedContent ]
+            , attribute "data-name" "player-paused-content"
             ]
-            [ div
-                [ css [ Styles.videoPlayerPausedContent ]
-                , attribute "data-name" "player-paused-content"
-                ]
-                [ span [] [ text "[GIFs Paused]" ]
-                , br [] []
-                , br [] []
-                , span []
-                    [ text overlayText ]
-                ]
+            [ span [] [ text "[GIFs Paused]" ]
+            , br [] []
+            , br [] []
+            , span []
+                [ text overlayText ]
             ]
+        ]

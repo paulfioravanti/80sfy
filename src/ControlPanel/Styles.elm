@@ -1,37 +1,36 @@
-module ControlPanel.Styles
-    exposing
-        ( button
-        , controlPanel
-        , controlPanelContent
-        , controls
-        , credits
-        , creditsBackground
-        , creditsCopyright
-        , creditsCreator
-        , creditsHeader
-        , creditsIcons
-        , creditsIconLink
-        , creditsIconImage
-        , creditsLink
-        , creditsPorter
-        , icon
-        , iconBackground
-        , logo
-        , logoImage
-        , logoImageBackground
-        , trackInfo
-        , trackPlayer
-        , volume
-        , volumeBackground
-        , volumeControl
-        )
+module ControlPanel.Styles exposing
+    ( button
+    , controlPanel
+    , controlPanelContent
+    , controls
+    , credits
+    , creditsBackground
+    , creditsCopyright
+    , creditsCreator
+    , creditsHeader
+    , creditsIconImage
+    , creditsIconLink
+    , creditsIcons
+    , creditsLink
+    , creditsPorter
+    , icon
+    , iconBackground
+    , logo
+    , logoImage
+    , logoImageBackground
+    , trackInfo
+    , trackPlayer
+    , volume
+    , volumeBackground
+    , volumeControl
+    )
 
 import ControlPanel.Colors as Colors
 import Css
     exposing
         ( Style
-        , active
         , absolute
+        , active
         , after
         , auto
         , backgroundColor
@@ -72,8 +71,8 @@ import Css
         , marginLeft
         , marginRight
         , marginTop
-        , none
         , noRepeat
+        , none
         , outline
         , overflow
         , padding
@@ -100,7 +99,7 @@ import Css
         , width
         , zIndex
         )
-import Css.Foreign exposing (children, div)
+import Css.Global exposing (children, div)
 
 
 button : Style

@@ -1,31 +1,21 @@
 module SecretConfig.Update exposing (update)
 
 import SecretConfig.Model exposing (SecretConfig)
-import SecretConfig.Msg
-    exposing
-        ( Msg
-            ( InitTags
-            , ToggleInactivityPauseOverride
-            , ToggleVisibility
-            , UpdateGifDisplaySeconds
-            , UpdateSoundCloudPlaylistUrl
-            , UpdateTags
-            )
-        )
+import SecretConfig.Msg as Msg exposing (Msg)
 
 
 update : Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
 update msg secretConfig =
     case msg of
-        InitTags tagList ->
+        Msg.InitTags tagList ->
             let
                 tags =
                     tagList
                         |> String.join ", "
             in
-                ( { secretConfig | tags = tags }, Cmd.none )
+            ( { secretConfig | tags = tags }, Cmd.none )
 
-        ToggleInactivityPauseOverride ->
+        Msg.ToggleInactivityPauseOverride ->
             ( { secretConfig
                 | overrideInactivityPause =
                     not secretConfig.overrideInactivityPause
@@ -33,14 +23,14 @@ update msg secretConfig =
             , Cmd.none
             )
 
-        ToggleVisibility ->
+        Msg.ToggleVisibility ->
             ( { secretConfig | visible = not secretConfig.visible }, Cmd.none )
 
-        UpdateGifDisplaySeconds seconds ->
+        Msg.UpdateGifDisplaySeconds seconds ->
             ( { secretConfig | gifDisplaySeconds = seconds }, Cmd.none )
 
-        UpdateSoundCloudPlaylistUrl url ->
+        Msg.UpdateSoundCloudPlaylistUrl url ->
             ( { secretConfig | soundCloudPlaylistUrl = url }, Cmd.none )
 
-        UpdateTags tags ->
+        Msg.UpdateTags tags ->
             ( { secretConfig | tags = tags }, Cmd.none )

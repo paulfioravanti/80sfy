@@ -24,9 +24,9 @@ fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
                 ++ tag
                 ++ "&rating=pg-13"
     in
-        decodeGifUrl
-            |> Http.get url
-            |> Http.send fetchRandomGifMsg
+    decodeGifUrl
+        |> Http.get url
+        |> Http.send fetchRandomGifMsg
 
 
 random : (String -> msg) -> List String -> Cmd msg
@@ -39,8 +39,8 @@ random randomTagMsg tags =
             Random.int 1 tagsLength
                 |> Random.map (Tags.numToTag tags)
     in
-        generator
-            |> Random.generate randomTagMsg
+    generator
+        |> Random.generate randomTagMsg
 
 
 decodeGifUrl : Decode.Decoder String

@@ -1,11 +1,10 @@
-port module FullScreen.Ports
-    exposing
-        ( enterFullScreen
-        , performFullScreenToggle
-        , leaveFullScreen
-        )
+port module FullScreen.Ports exposing
+    ( enterFullScreen
+    , leaveFullScreen
+    , performFullScreenToggle
+    )
 
-import BrowserVendor exposing (Vendor(Mozilla, Other, Webkit))
+import BrowserVendor exposing (Vendor)
 
 
 port exitFullScreen : () -> Cmd msg
@@ -21,13 +20,15 @@ port mozFullScreenToggle : () -> Cmd msg
 
 
 {-| NOTE: Currently does not seem to work as Firefox requires this event to
-   occur in the same clock tick as the user click. Currently, in the console,
-   you will see "Request for fullscreen was denied because
-   Element.requestFullscreen() was not called from inside a short running
-   user-generated event handler.". I don't currently know how to fix this.
-   More information can be found at:
-   - https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ
-   - https://stackoverflow.com/q/43240352/567863
+occur in the same clock tick as the user click. Currently, in the console,
+you will see "Request for fullscreen was denied because
+Element.requestFullscreen() was not called from inside a short running
+user-generated event handler.". I don't currently know how to fix this.
+More information can be found at:
+
+  - <https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ>
+  - <https://stackoverflow.com/q/43240352/567863>
+
 -}
 port mozRequestFullScreen : () -> Cmd msg
 
@@ -47,37 +48,37 @@ port webkitRequestFullScreen : () -> Cmd msg
 enterFullScreen : Vendor -> Cmd msg
 enterFullScreen vendor =
     case vendor of
-        Mozilla ->
+        BrowserVendor.Mozilla ->
             mozRequestFullScreen ()
 
-        Other ->
+        BrowserVendor.Other ->
             requestFullScreen ()
 
-        Webkit ->
+        BrowserVendor.Webkit ->
             webkitRequestFullScreen ()
 
 
 performFullScreenToggle : Vendor -> Cmd msg
 performFullScreenToggle vendor =
     case vendor of
-        Mozilla ->
+        BrowserVendor.Mozilla ->
             mozFullScreenToggle ()
 
-        Other ->
+        BrowserVendor.Other ->
             fullScreenToggle ()
 
-        Webkit ->
+        BrowserVendor.Webkit ->
             webkitFullScreenToggle ()
 
 
 leaveFullScreen : Vendor -> Cmd msg
 leaveFullScreen vendor =
     case vendor of
-        Mozilla ->
+        BrowserVendor.Mozilla ->
             mozCancelFullScreen ()
 
-        Other ->
+        BrowserVendor.Other ->
             exitFullScreen ()
 
-        Webkit ->
+        BrowserVendor.Webkit ->
             webkitExitFullScreen ()

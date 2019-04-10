@@ -1,23 +1,13 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import RemoteData exposing (RemoteData(Success))
+import Http.Error as Error
+import Json.Encode as Encode
+import Ports
+import RemoteData
 import Task
-import VideoPlayer.Model exposing (Status(Playing, Paused, Halted), VideoPlayer)
-import VideoPlayer.Msg
-    exposing
-        ( Msg
-            ( AnimateVideoPlayer
-            , CrossFadePlayers
-            , FetchRandomGif
-            , HaltVideos
-            , PauseVideos
-            , PlayVideos
-            , VideosHalted
-            , VideosPaused
-            , VideosPlaying
-            )
-        )
+import VideoPlayer.Model as Model exposing (VideoPlayer)
+import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
 
 
@@ -29,7 +19,7 @@ update :
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
 update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     case msg of
-        AnimateVideoPlayer animationMsg ->
+        Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
                 | style = Animation.update animationMsg videoPlayer1.style
               }
@@ -38,11 +28,12 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
             )
 
         -- unused variable is `time`
-        CrossFadePlayers _ ->
+        Msg.CrossFadePlayers _ ->
             let
                 ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId, opacity ) =
                     if videoPlayer1.visible then
                         ( False, "1", 0 )
+
                     else
                         ( True, "2", 1 )
 
@@ -58,65 +49,68 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
                         |> Task.succeed
                         |> Task.perform identity
             in
-                ( { videoPlayer1
-                    | style = animateToNewOpacity
-                    , visible = newVideoPlayer1Visibility
-                  }
-                , videoPlayer2
-                , generateRandomGifForHiddenVideoPlayer
-                )
+            ( { videoPlayer1
+                | style = animateToNewOpacity
+                , visible = newVideoPlayer1Visibility
+              }
+            , videoPlayer2
+            , generateRandomGifForHiddenVideoPlayer
+            )
 
-        FetchRandomGif videoPlayerId (Ok url) ->
+        Msg.FetchRandomGif videoPlayerId (Ok url) ->
             let
                 cmd =
                     Cmd.none
 
                 gifUrl =
-                    Success url
+                    RemoteData.Success url
             in
-                if videoPlayerId == "1" then
-                    ( { videoPlayer1 | gifUrl = gifUrl }
-                    , videoPlayer2
-                    , cmd
-                    )
-                else
-                    ( videoPlayer1
-                    , { videoPlayer2 | gifUrl = gifUrl }
-                    , cmd
-                    )
+            if videoPlayerId == "1" then
+                ( { videoPlayer1 | gifUrl = gifUrl }
+                , videoPlayer2
+                , cmd
+                )
 
-        FetchRandomGif videoPlayerId (Err error) ->
+            else
+                ( videoPlayer1
+                , { videoPlayer2 | gifUrl = gifUrl }
+                , cmd
+                )
+
+        Msg.FetchRandomGif videoPlayerId (Err error) ->
             let
-                _ =
-                    Debug.log
-                        ("FetchRandomGif Failed for " ++ toString videoPlayerId)
-                        error
+                message =
+                    Encode.object
+                        [ ( "FetchRandomGif Failed for " ++ videoPlayerId
+                          , Encode.string (Error.toString error)
+                          )
+                        ]
             in
-                ( videoPlayer1, videoPlayer2, Cmd.none )
+            ( videoPlayer1, videoPlayer2, Ports.consoleLog message )
 
-        HaltVideos ->
+        Msg.HaltVideos ->
             ( videoPlayer1, videoPlayer2, Ports.haltVideos () )
 
-        PauseVideos ->
+        Msg.PauseVideos ->
             ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
 
-        PlayVideos ->
+        Msg.PlayVideos ->
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
 
-        VideosHalted ->
-            ( { videoPlayer1 | status = Halted }
-            , { videoPlayer2 | status = Halted }
+        Msg.VideosHalted ->
+            ( { videoPlayer1 | status = Model.Halted }
+            , { videoPlayer2 | status = Model.Halted }
             , Cmd.none
             )
 
-        VideosPaused ->
-            ( { videoPlayer1 | status = Paused }
-            , { videoPlayer2 | status = Paused }
+        Msg.VideosPaused ->
+            ( { videoPlayer1 | status = Model.Paused }
+            , { videoPlayer2 | status = Model.Paused }
             , Cmd.none
             )
 
-        VideosPlaying ->
-            ( { videoPlayer1 | status = Playing }
-            , { videoPlayer2 | status = Playing }
+        Msg.VideosPlaying ->
+            ( { videoPlayer1 | status = Model.Playing }
+            , { videoPlayer2 | status = Model.Playing }
             , Cmd.none
             )

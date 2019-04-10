@@ -1,26 +1,7 @@
 module AudioPlayer.Update exposing (update)
 
-import AudioPlayer.Model as Model
-    exposing
-        ( AudioPlayer
-        , Status(Paused, Playing, Muted)
-        )
-import AudioPlayer.Msg
-    exposing
-        ( Msg
-            ( AdjustVolume
-            , AudioPaused
-            , AudioPlaying
-            , GeneratePlaylist
-            , NextTrack
-            , NextTrackNumberRequested
-            , PauseAudio
-            , PlayAudio
-            , ReInitAudioPlayer
-            , SetPlaylistLength
-            , ToggleMute
-            )
-        )
+import AudioPlayer.Model as Model exposing (AudioPlayer)
+import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Utils as Utils
 import MsgRouter exposing (MsgRouter)
@@ -31,52 +12,55 @@ import VideoPlayer
 update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
 update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
     case msg of
-        AdjustVolume sliderVolume ->
+        Msg.AdjustVolume sliderVolume ->
             let
                 volume =
                     sliderVolume
                         |> String.toInt
-                        |> Result.withDefault audioPlayer.volume
+                        |> Maybe.withDefault audioPlayer.volume
                         |> containVolume
 
                 cmd =
                     if Model.isMuted audioPlayer then
                         Cmd.none
+
                     else
                         Ports.setVolume volume
             in
-                ( { audioPlayer | volume = volume }, cmd )
+            ( { audioPlayer | volume = volume }, cmd )
 
-        AudioPaused ->
+        Msg.AudioPaused ->
             let
                 status =
                     if Model.isMuted audioPlayer then
-                        Muted Paused
-                    else
-                        Paused
-            in
-                ( { audioPlayer | status = status }, Cmd.none )
+                        Model.Muted Model.Paused
 
-        AudioPlaying ->
+                    else
+                        Model.Paused
+            in
+            ( { audioPlayer | status = status }, Cmd.none )
+
+        Msg.AudioPlaying ->
             let
                 status =
                     if Model.isMuted audioPlayer then
-                        Muted Playing
-                    else
-                        Playing
-            in
-                ( { audioPlayer | status = status }, Cmd.none )
+                        Model.Muted Model.Playing
 
-        GeneratePlaylist playlist ->
+                    else
+                        Model.Playing
+            in
+            ( { audioPlayer | status = status }, Cmd.none )
+
+        Msg.GeneratePlaylist playlist ->
             let
                 requestNextTrack =
                     nextTrackNumberRequested audioPlayerMsg
             in
-                ( { audioPlayer | playlist = playlist }
-                , requestNextTrack
-                )
+            ( { audioPlayer | playlist = playlist }
+            , requestNextTrack
+            )
 
-        NextTrack ->
+        Msg.NextTrack ->
             let
                 requestNextTrack =
                     nextTrackNumberRequested audioPlayerMsg
@@ -88,15 +72,16 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
                 status =
                     if Model.isMuted audioPlayer then
-                        Muted Playing
-                    else
-                        Playing
-            in
-                ( { audioPlayer | status = status }
-                , Cmd.batch [ requestNextTrack, playVideos ]
-                )
+                        Model.Muted Model.Playing
 
-        NextTrackNumberRequested ->
+                    else
+                        Model.Playing
+            in
+            ( { audioPlayer | status = status }
+            , Cmd.batch [ requestNextTrack, playVideos ]
+            )
+
+        Msg.NextTrackNumberRequested ->
             let
                 ( playlist, cmd ) =
                     case audioPlayer.playlist of
@@ -110,48 +95,48 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                                 audioPlayer.playlistLength
                             )
             in
-                ( { audioPlayer | playlist = playlist }
-                , cmd
-                )
+            ( { audioPlayer | playlist = playlist }
+            , cmd
+            )
 
-        PauseAudio ->
+        Msg.PauseAudio ->
             ( audioPlayer, Ports.pauseAudio () )
 
-        PlayAudio ->
+        Msg.PlayAudio ->
             ( audioPlayer, Ports.playAudio () )
 
-        ReInitAudioPlayer soundCloudPlaylistUrl ->
+        Msg.ReInitAudioPlayer soundCloudPlaylistUrl ->
             let
                 initAudioPlayerFlags =
                     { id = audioPlayer.id
                     , volume = audioPlayer.volume
                     }
             in
-                ( Model.init soundCloudPlaylistUrl
-                , Ports.initAudioPlayer initAudioPlayerFlags
-                )
+            ( Model.init soundCloudPlaylistUrl
+            , Ports.initAudioPlayer initAudioPlayerFlags
+            )
 
-        SetPlaylistLength playlistLength ->
+        Msg.SetPlaylistLength playlistLength ->
             let
                 generatePlaylist =
                     playlistLength
                         |> Utils.generatePlaylist audioPlayerMsg
             in
-                ( { audioPlayer | playlistLength = playlistLength }
-                , generatePlaylist
-                )
+            ( { audioPlayer | playlistLength = playlistLength }
+            , generatePlaylist
+            )
 
-        ToggleMute ->
+        Msg.ToggleMute ->
             let
                 ( cmd, newStatus ) =
                     case audioPlayer.status of
-                        Muted status ->
+                        Model.Muted status ->
                             ( Ports.setVolume audioPlayer.volume, status )
 
                         status ->
-                            ( Ports.setVolume 0, Muted status )
+                            ( Ports.setVolume 0, Model.Muted status )
             in
-                ( { audioPlayer | status = newStatus }, cmd )
+            ( { audioPlayer | status = newStatus }, cmd )
 
 
 containVolume : Int -> Int
@@ -163,16 +148,18 @@ containVolume volume =
         minVolume =
             0
     in
-        if volume < minVolume then
-            minVolume
-        else if volume > maxVolume then
-            maxVolume
-        else
-            volume
+    if volume < minVolume then
+        minVolume
+
+    else if volume > maxVolume then
+        maxVolume
+
+    else
+        volume
 
 
-nextTrackNumberRequested : (Msg -> msg) -> Cmd msg
+nextTrackNumberRequested : (Msg.Msg -> msg) -> Cmd msg
 nextTrackNumberRequested audioPlayerMsg =
-    audioPlayerMsg NextTrackNumberRequested
+    audioPlayerMsg Msg.NextTrackNumberRequested
         |> Task.succeed
         |> Task.perform identity

@@ -4,7 +4,7 @@ import AudioPlayer
 import Config
 import ControlPanel
 import FullScreen
-import Keyboard exposing (KeyCode)
+import Key
 import SecretConfig
 import VideoPlayer
 
@@ -14,7 +14,7 @@ type Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | FullScreen FullScreen.Msg
-    | Key KeyCode
+    | Key Key.Key
     | NoOp
     | Pause
     | Play

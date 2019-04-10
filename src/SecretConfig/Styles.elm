@@ -1,11 +1,10 @@
-module SecretConfig.Styles
-    exposing
-        ( configButton
-        , configInput
-        , gifTags
-        , secretConfig
-        , secretConfigButton
-        )
+module SecretConfig.Styles exposing
+    ( configButton
+    , configInput
+    , gifTags
+    , secretConfig
+    , secretConfigButton
+    )
 
 import Css
     exposing
@@ -90,18 +89,19 @@ secretConfig visible =
         visibility =
             if visible then
                 display block
+
             else
                 display none
     in
-        Css.batch
-            [ visibility
-            , fontFamilies [ "Source Code Pro", "sans-serif" ]
-            , fontSize (px 14)
-            , height (pct 100)
-            , position fixed
-            , right (px 0)
-            , textAlign right
-            , top (px 0)
-            , width (px 400)
-            , zIndex (int -2)
-            ]
+    Css.batch
+        [ visibility
+        , fontFamilies [ "Source Code Pro", "sans-serif" ]
+        , fontSize (px 14)
+        , height (pct 100)
+        , position fixed
+        , right (px 0)
+        , textAlign right
+        , top (px 0)
+        , width (px 400)
+        , zIndex (int -2)
+        ]

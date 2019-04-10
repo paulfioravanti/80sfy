@@ -1,7 +1,7 @@
 module BrowserVendor exposing (Vendor(..), init)
 
-import Json.Decode as Decode
 import Flags exposing (Flags)
+import Json.Decode as Decode
 
 
 type Vendor
@@ -18,12 +18,12 @@ init flags =
                 |> Decode.decodeValue Decode.string
                 |> Result.withDefault "other"
     in
-        case browser of
-            "mozilla" ->
-                Mozilla
+    case browser of
+        "mozilla" ->
+            Mozilla
 
-            "webkit" ->
-                Webkit
+        "webkit" ->
+            Webkit
 
-            _ ->
-                Other
+        _ ->
+            Other

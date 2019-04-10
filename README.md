@@ -19,8 +19,8 @@ audio auto play by default.
 
 ### Dependencies
 
-- [Elm][] 0.18.0
-- [NodeJS][] 10.7.0
+- [Elm][] 0.19.0
+- [NodeJS][] 11.12.0
 
 ## Setup
 
@@ -55,14 +55,31 @@ ELM_APP_GIPHY_API_KEY="Your API key here"
 ### Run Server
 
 ```sh
-elm-app start
+ELM_DEBUGGER=false elm-app start
 ```
+
+> NOTE: Due to [this issue in the Elm 0.19 compiler][Map.! when compiling with
+--debug], the app cannot currently be run in development with the Elm debugger
+on since it will crash with a `elm: Map.!: given key is not an element in the
+map` error.
 
 Now, you should be able to use the app at the following address:
 
 - <http://localhost:3000>
 
+## Deployment
+
+Deployment is managed in the [`push`](push) script. It deploys out to both
+Heroku and Surge and you execute it simply with the command:
+
+```sh
+./push
+```
+
+
 ## Gotchas
+
+### Video Speed Controller Chrome Extension
 
 - If, like me, you use Chrome and have the [Video Speed Controller][]
   extension installed, then make sure to add the following URLs to its
@@ -76,6 +93,31 @@ Now, you should be able to use the app at the following address:
   http://elm-80sfy.surge.sh/
   ```
 
+### Chrome Autoplay Policy
+
+Chrome's autoplay policies [changed in April of 2018][Chrome Autoplay Policy
+Changes], which seems to affect this app when it is first loaded, and you
+attempt to press the play button on the controller (not the play button on the
+embedded Soundcloud player): nothing happens, and if you open up the Chrome
+inspector, in the console you will see a message like: "The AudioContext was not
+allowed to start. It must be resumed (or created) after a user gesture on the
+page.".
+
+This can be mitigated in two ways:
+
+1. When you play audio for the _first time_, click the Soundcloud play button,
+rather than the controller play button. This would seem to let the autoplay
+policy know that you, the user, have given permission for application widgets
+to play sound. Once you have done this the first time, all subsequent play/pause
+actions should work as expected.
+
+2. Change your Chrome autoplay policy flag by:
+  - Inputting `chrome://flags/#autoplay-policy` in your browser address field
+  - Setting the value in the dropdown menu to be "No user gesture is required".
+
+This will enable the controller play button to work as expected when you attempt
+to play audio the first time the app is loaded.
+
 ## Other Links
 
 - [Love on Reddit for 80sfy.com][80sfy on Reddit]
@@ -83,10 +125,12 @@ Now, you should be able to use the app at the following address:
 [80sfy.com]: http://www.80sfy.com/
 [80sfy on Reddit]: https://www.reddit.com/r/outrun/comments/5rdvks/my_boyfriend_made_a_website_that_plays_synthwave/
 [Art Sangurai]: http://www.digitalbloc.com/
+[Chrome Autoplay Policy Changes]: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
 [Create Elm App]: https://github.com/halfzebra/create-elm-app
 [Elm]: http://elm-lang.org/
 [Giphy Developers]: https://developers.giphy.com/
 [Heroku]: https://www.heroku.com/
+[Map.! when compiling with --debug]: https://github.com/elm/compiler/issues/1851
 [NodeJS]: https://nodejs.org/en/
 [original codebase repo]: https://bitbucket.org/asangurai/80sfy/src/master/
 [Soundcloud]: https://soundcloud.com

@@ -1,6 +1,6 @@
 port module FullScreen.Subscriptions exposing (subscriptions)
 
-import FullScreen.Msg exposing (Msg(EnterFullScreen, LeaveFullScreen))
+import FullScreen.Msg as Msg
 import Json.Decode as Decode exposing (Value)
 import MsgRouter exposing (MsgRouter)
 
@@ -13,9 +13,10 @@ subscriptions { fullScreenMsg } =
     toggleFullScreen
         (\isFullScreenFlag ->
             if extractBoolValue isFullScreenFlag then
-                fullScreenMsg LeaveFullScreen
+                fullScreenMsg Msg.LeaveFullScreen
+
             else
-                fullScreenMsg EnterFullScreen
+                fullScreenMsg Msg.EnterFullScreen
         )
 
 

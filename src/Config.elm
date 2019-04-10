@@ -1,13 +1,12 @@
-module Config
-    exposing
-        ( Config
-        , Msg
-        , init
-        , initTagsMsg
-        , generateRandomGifMsg
-        , saveConfigMsg
-        , update
-        )
+module Config exposing
+    ( Config
+    , Msg
+    , generateRandomGifMsg
+    , init
+    , initTagsMsg
+    , saveConfigMsg
+    , update
+    )
 
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
