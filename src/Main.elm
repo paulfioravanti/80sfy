@@ -32,15 +32,15 @@ main =
             }
     in
     Browser.document
-        { init = init msgRouter
+        { init = init
         , update = Update.update msgRouter
         , view = View.view msgRouter
         , subscriptions = Subscriptions.subscriptions msgRouter
         }
 
 
-init : MsgRouter msg -> Flags -> ( Model, Cmd msg )
-init msgRouter flags =
+init : Flags -> ( Model, Cmd Msg )
+init flags =
     let
         config =
             Config.init flags
@@ -58,7 +58,7 @@ init msgRouter flags =
     in
     ( model
     , Cmd.batch
-        [ Tags.init (msgRouter.configMsg << Config.initTagsMsg)
+        [ Tags.init (Msg.Config << Config.initTagsMsg)
         , AudioPlayer.initAudioPlayer audioPlayerFlags
         ]
     )
