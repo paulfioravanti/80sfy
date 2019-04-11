@@ -15,11 +15,8 @@ toString error =
         Http.NetworkError ->
             "NetworkError"
 
-        Http.BadStatus response ->
-            "BadStatus: " ++ String.fromInt response.status.code
+        Http.BadStatus statusCode ->
+            "BadStatus: " ++ String.fromInt statusCode
 
-        Http.BadPayload payload response ->
-            "BadPayload: "
-                ++ String.fromInt response.status.code
-                ++ " "
-                ++ payload
+        Http.BadBody response ->
+            "BadBody: " ++ response

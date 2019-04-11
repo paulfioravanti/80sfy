@@ -24,9 +24,10 @@ fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
                 ++ tag
                 ++ "&rating=pg-13"
     in
-    decodeGifUrl
-        |> Http.get url
-        |> Http.send fetchRandomGifMsg
+    Http.get
+        { url = url
+        , expect = Http.expectJson fetchRandomGifMsg decodeGifUrl
+        }
 
 
 random : (String -> msg) -> List String -> Cmd msg
