@@ -1,7 +1,6 @@
 module BrowserVendor exposing (BrowserVendor(..), init)
 
 import Flags exposing (Flags)
-import Json.Decode as Decode
 import Value
 
 
