@@ -39,5 +39,5 @@ toString status =
         Paused ->
             "Paused"
 
-        Muted status_ ->
-            "Muted " ++ toString status_
+        Muted secondaryStatus ->
+            "Muted " ++ toString secondaryStatus
