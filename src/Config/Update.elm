@@ -3,8 +3,8 @@ module Config.Update exposing (update)
 import AudioPlayer
 import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
+import Error
 import Gif
-import Http.Error as Error
 import Json.Encode as Encode
 import Ports
 import SecretConfig

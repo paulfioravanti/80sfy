@@ -1,7 +1,7 @@
 module VideoPlayer.Update exposing (update)
 
 import Animation
-import Http.Error as Error
+import Error
 import Json.Encode as Encode
 import Ports
 import RemoteData

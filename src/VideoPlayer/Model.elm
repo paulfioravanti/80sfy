@@ -7,7 +7,7 @@ module VideoPlayer.Model exposing
     )
 
 import Animation exposing (State)
-import Http.Error as Error
+import Error
 import RemoteData exposing (WebData)
 
 

@@ -1,4 +1,4 @@
-module Http.Error exposing (toString)
+module Error exposing (toString)
 
 import Http exposing (Error)
 
