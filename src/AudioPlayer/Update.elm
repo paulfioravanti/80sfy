@@ -3,6 +3,7 @@ module AudioPlayer.Update exposing (update)
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Ports as Ports
+import AudioPlayer.Status as Status
 import AudioPlayer.Utils as Utils
 import Task
 import VideoPlayer
@@ -37,10 +38,10 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
             let
                 status =
                     if Model.isMuted audioPlayer then
-                        Model.Muted Model.Paused
+                        Status.Muted Status.Paused
 
                     else
-                        Model.Paused
+                        Status.Paused
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
@@ -48,10 +49,10 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
             let
                 status =
                     if Model.isMuted audioPlayer then
-                        Model.Muted Model.Playing
+                        Status.Muted Status.Playing
 
                     else
-                        Model.Playing
+                        Status.Playing
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
@@ -76,10 +77,10 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
 
                 status =
                     if Model.isMuted audioPlayer then
-                        Model.Muted Model.Playing
+                        Status.Muted Status.Playing
 
                     else
-                        Model.Playing
+                        Status.Playing
             in
             ( { audioPlayer | status = status }
             , Cmd.batch [ requestNextTrack, playVideos ]
@@ -134,11 +135,11 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
             let
                 ( cmd, newStatus ) =
                     case audioPlayer.status of
-                        Model.Muted status ->
+                        Status.Muted status ->
                             ( Ports.setVolume audioPlayer.volume, status )
 
                         status ->
-                            ( Ports.setVolume 0, Model.Muted status )
+                            ( Ports.setVolume 0, Status.Muted status )
             in
             ( { audioPlayer | status = newStatus }, cmd )
 

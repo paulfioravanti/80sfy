@@ -1,17 +1,12 @@
 module AudioPlayer.Model exposing
     ( AudioPlayer
-    , Status(..)
     , init
     , isMuted
     , isPlaying
     , statusToString
     )
 
-
-type Status
-    = Playing
-    | Paused
-    | Muted Status
+import AudioPlayer.Status as Status exposing (Status)
 
 
 type alias AudioPlayer =
@@ -30,7 +25,7 @@ init soundCloudPlaylistUrl =
     , playlist = []
     , playlistLength = 0
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
-    , status = Paused
+    , status = Status.Paused
     , volume = 80
     }
 
@@ -57,7 +52,7 @@ iframeUrl soundCloudPlaylistUrl =
 isMuted : AudioPlayer -> Bool
 isMuted { status } =
     case status of
-        Muted _ ->
+        Status.Muted _ ->
             True
 
         _ ->
@@ -67,10 +62,10 @@ isMuted { status } =
 isPlaying : AudioPlayer -> Bool
 isPlaying { status } =
     case status of
-        Playing ->
+        Status.Playing ->
             True
 
-        Muted Playing ->
+        Status.Muted Status.Playing ->
             True
 
         _ ->
@@ -80,11 +75,11 @@ isPlaying { status } =
 statusToString : Status -> String
 statusToString status =
     case status of
-        Playing ->
+        Status.Playing ->
             "Playing"
 
-        Paused ->
+        Status.Paused ->
             "Paused"
 
-        Muted status_ ->
+        Status.Muted status_ ->
             "Muted " ++ statusToString status_
