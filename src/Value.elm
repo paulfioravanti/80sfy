@@ -5,32 +5,39 @@ module Value exposing
     , extractStringWithDefault
     )
 
-import Json.Decode as Decode exposing (Value, bool, float, int, string)
+import Json.Decode as Decode exposing (Decoder, Value, bool, float, int, string)
 
 
 extractBoolWithDefault : Bool -> Value -> Bool
 extractBoolWithDefault defaultBool value =
     value
-        |> Decode.decodeValue bool
-        |> Result.withDefault defaultBool
+        |> extractTypeFromValueWithDefault bool defaultBool
 
 
 extractFloatWithDefault : Float -> Value -> Float
 extractFloatWithDefault defaultFloat value =
     value
-        |> Decode.decodeValue float
-        |> Result.withDefault defaultFloat
+        |> extractTypeFromValueWithDefault float defaultFloat
 
 
 extractIntWithDefault : Int -> Value -> Int
 extractIntWithDefault defaultInt value =
     value
-        |> Decode.decodeValue int
-        |> Result.withDefault defaultInt
+        |> extractTypeFromValueWithDefault int defaultInt
 
 
 extractStringWithDefault : String -> Value -> String
 extractStringWithDefault defaultString value =
     value
-        |> Decode.decodeValue string
-        |> Result.withDefault defaultString
+        |> extractTypeFromValueWithDefault string defaultString
+
+
+
+-- PRIVATE
+
+
+extractTypeFromValueWithDefault : Decoder a -> a -> Value -> a
+extractTypeFromValueWithDefault decoder default value =
+    value
+        |> Decode.decodeValue decoder
+        |> Result.withDefault default
