@@ -33,7 +33,7 @@ initTagsMsg =
     Msg.InitTags
 
 
-update : Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update : Msg -> SecretConfig -> SecretConfig
 update msg secretConfig =
     Update.update msg secretConfig
 

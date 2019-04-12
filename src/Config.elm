@@ -8,12 +8,14 @@ module Config exposing
     , update
     )
 
+import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
-import MsgRouter exposing (MsgRouter)
+import SecretConfig
+import VideoPlayer
 
 
 type alias Config =
@@ -44,6 +46,19 @@ saveConfigMsg =
     Msg.SaveConfig
 
 
-update : MsgRouter msg -> Msg -> Config -> ( Config, Cmd msg )
-update msgRouter msg config =
-    Update.update msgRouter msg config
+update :
+    (AudioPlayer.Msg -> msg)
+    -> (Msg -> msg)
+    -> (SecretConfig.Msg -> msg)
+    -> (VideoPlayer.Msg -> msg)
+    -> Msg
+    -> Config
+    -> ( Config, Cmd msg )
+update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
+    Update.update
+        audioPlayerMsg
+        configMsg
+        secretConfigMsg
+        videoPlayerMsg
+        msg
+        config

@@ -4,12 +4,11 @@ import Animation
 import ControlPanel.Animations as Animations
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
-import MsgRouter exposing (MsgRouter)
 import Task
 
 
-update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
-update { controlPanelMsg } msg controlPanel =
+update : Msg -> ControlPanel -> ( ControlPanel, Cmd Msg )
+update msg controlPanel =
     case msg of
         Msg.AnimateControlPanel animateMsg ->
             ( { controlPanel
@@ -29,7 +28,7 @@ update { controlPanelMsg } msg controlPanel =
             if secondsVisible > timeoutSeconds then
                 let
                     hideControlPanel =
-                        controlPanelMsg Msg.HideControlPanel
+                        Msg.HideControlPanel
                             |> Task.succeed
                             |> Task.perform identity
                 in

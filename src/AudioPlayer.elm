@@ -24,6 +24,7 @@ import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
 import AudioPlayer.Utils as Utils
 import MsgRouter exposing (MsgRouter)
+import VideoPlayer
 
 
 type alias AudioPlayer =
@@ -94,6 +95,11 @@ toggleMuteMsg =
     Msg.ToggleMute
 
 
-update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update msgRouter msg audioPlayer =
-    Update.update msgRouter msg audioPlayer
+update :
+    (Msg -> msg)
+    -> (VideoPlayer.Msg -> msg)
+    -> Msg
+    -> AudioPlayer
+    -> ( AudioPlayer, Cmd msg )
+update audioPlayerMsg videoPlayerMsg msg audioPlayer =
+    Update.update audioPlayerMsg videoPlayerMsg msg audioPlayer

@@ -7,21 +7,23 @@ import FullScreen
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
-import MsgRouter exposing (MsgRouter)
 import SecretConfig
 import Task
 import Utils
 import VideoPlayer
 
 
-update : MsgRouter msg -> Msg -> Model -> ( Model, Cmd msg )
-update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
     case msg of
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update msgRouter msgForAudioPlayer
+                        |> AudioPlayer.update
+                            Msg.AudioPlayer
+                            Msg.VideoPlayer
+                            msgForAudioPlayer
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
@@ -29,7 +31,12 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             let
                 ( config, cmd ) =
                     model.config
-                        |> Config.update msgRouter msgForConfig
+                        |> Config.update
+                            Msg.AudioPlayer
+                            Msg.Config
+                            Msg.SecretConfig
+                            Msg.VideoPlayer
+                            msgForConfig
             in
             ( { model | config = config }, cmd )
 
@@ -37,9 +44,11 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             let
                 ( controlPanel, cmd ) =
                     model.controlPanel
-                        |> ControlPanel.update msgRouter msgForControlPanel
+                        |> ControlPanel.update msgForControlPanel
             in
-            ( { model | controlPanel = controlPanel }, cmd )
+            ( { model | controlPanel = controlPanel }
+            , Cmd.map Msg.ControlPanel cmd
+            )
 
         Msg.FullScreen fullScreenMsg ->
             let
@@ -53,7 +62,12 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
             let
                 cmd =
                     code
-                        |> Key.pressed msgRouter model
+                        |> Key.pressed
+                            Msg.AudioPlayer
+                            Msg.FullScreen
+                            Msg.Pause
+                            Msg.Play
+                            model
             in
             ( model, cmd )
 
@@ -63,11 +77,11 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
         Msg.Pause ->
             let
                 pauseAudio =
-                    audioPlayerMsg AudioPlayer.pauseAudioMsg
+                    Msg.AudioPlayer AudioPlayer.pauseAudioMsg
                         |> Task.succeed
 
                 pauseVideo =
-                    videoPlayerMsg VideoPlayer.pauseVideosMsg
+                    Msg.VideoPlayer VideoPlayer.pauseVideosMsg
                         |> Task.succeed
 
                 -- NOTE: These tasks need to be specifically ordered so that
@@ -83,12 +97,12 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
         Msg.Play ->
             let
                 playAudio =
-                    audioPlayerMsg AudioPlayer.playAudioMsg
+                    Msg.AudioPlayer AudioPlayer.playAudioMsg
                         |> Task.succeed
                         |> Task.perform identity
 
                 playVideo =
-                    videoPlayerMsg VideoPlayer.playVideosMsg
+                    Msg.VideoPlayer VideoPlayer.playVideosMsg
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -96,11 +110,11 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
 
         Msg.SecretConfig msgForSecretConfig ->
             let
-                ( secretConfig, cmd ) =
+                secretConfig =
                     model.secretConfig
                         |> SecretConfig.update msgForSecretConfig
             in
-            ( { model | secretConfig = secretConfig }, cmd )
+            ( { model | secretConfig = secretConfig }, Cmd.none )
 
         Msg.ShowApplicationState ->
             ( model, Utils.showApplicationState model )
@@ -112,7 +126,7 @@ update ({ audioPlayerMsg, configMsg, videoPlayerMsg } as msgRouter) msg model =
                 -- generateRandomGifMsg is created here and passed to
                 -- VideoPlayer.update as a parameter
                 generateRandomGifMsg =
-                    configMsg << Config.generateRandomGifMsg
+                    Msg.Config << Config.generateRandomGifMsg
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update

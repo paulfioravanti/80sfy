@@ -4,7 +4,7 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 
 
-update : Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update : Msg -> SecretConfig -> SecretConfig
 update msg secretConfig =
     case msg of
         Msg.InitTags tagList ->
@@ -13,24 +13,22 @@ update msg secretConfig =
                     tagList
                         |> String.join ", "
             in
-            ( { secretConfig | tags = tags }, Cmd.none )
+            { secretConfig | tags = tags }
 
         Msg.ToggleInactivityPauseOverride ->
-            ( { secretConfig
+            { secretConfig
                 | overrideInactivityPause =
                     not secretConfig.overrideInactivityPause
-              }
-            , Cmd.none
-            )
+            }
 
         Msg.ToggleVisibility ->
-            ( { secretConfig | visible = not secretConfig.visible }, Cmd.none )
+            { secretConfig | visible = not secretConfig.visible }
 
         Msg.UpdateGifDisplaySeconds seconds ->
-            ( { secretConfig | gifDisplaySeconds = seconds }, Cmd.none )
+            { secretConfig | gifDisplaySeconds = seconds }
 
         Msg.UpdateSoundCloudPlaylistUrl url ->
-            ( { secretConfig | soundCloudPlaylistUrl = url }, Cmd.none )
+            { secretConfig | soundCloudPlaylistUrl = url }
 
         Msg.UpdateTags tags ->
-            ( { secretConfig | tags = tags }, Cmd.none )
+            { secretConfig | tags = tags }

@@ -7,7 +7,6 @@ import Config
 import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
-import MsgRouter exposing (MsgRouter)
 import Subscriptions
 import Tags
 import Update
@@ -33,7 +32,7 @@ main =
     in
     Browser.document
         { init = init
-        , update = Update.update msgRouter
+        , update = Update.update
         , view = View.view msgRouter
         , subscriptions = Subscriptions.subscriptions msgRouter
         }

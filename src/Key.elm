@@ -5,7 +5,6 @@ import FullScreen
 import Json.Decode as Decode
 import Key.Model as Key
 import Model exposing (Model)
-import MsgRouter exposing (MsgRouter)
 import Task
 
 
@@ -18,12 +17,15 @@ decoder =
     Decode.map toKey (Decode.field "key" Decode.string)
 
 
-pressed : MsgRouter msg -> Model -> Key -> Cmd msg
-pressed msgRouter { audioPlayer, config } key =
-    let
-        { audioPlayerMsg, fullScreenMsg, pauseMsg, playMsg } =
-            msgRouter
-    in
+pressed :
+    (AudioPlayer.Msg -> msg)
+    -> (FullScreen.Msg -> msg)
+    -> msg
+    -> msg
+    -> Model
+    -> Key
+    -> Cmd msg
+pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg { audioPlayer, config } key =
     case key of
         Key.Escape ->
             fullScreenMsg FullScreen.leaveFullScreenMsg

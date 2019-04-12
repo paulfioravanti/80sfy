@@ -42,9 +42,9 @@ toggleHideWhenInactiveMsg =
     Msg.ToggleHideWhenInactive
 
 
-update : MsgRouter msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
-update msgRouter msg controlPanel =
-    Update.update msgRouter msg controlPanel
+update : Msg -> ControlPanel -> ( ControlPanel, Cmd Msg )
+update msg controlPanel =
+    Update.update msg controlPanel
 
 
 view : MsgRouter msg -> Vendor -> AudioPlayer -> ControlPanel -> Html msg

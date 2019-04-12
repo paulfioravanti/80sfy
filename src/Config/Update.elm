@@ -6,32 +6,38 @@ import Config.Msg as Msg exposing (Msg)
 import Gif
 import Http.Error as Error
 import Json.Encode as Encode
-import MsgRouter exposing (MsgRouter)
 import Ports
 import SecretConfig
 import Task
 import VideoPlayer
 
 
-update : MsgRouter msg -> Msg -> Config -> ( Config, Cmd msg )
-update msgRouter msg config =
+update :
+    (AudioPlayer.Msg -> msg)
+    -> (Msg -> msg)
+    -> (SecretConfig.Msg -> msg)
+    -> (VideoPlayer.Msg -> msg)
+    -> Msg
+    -> Config
+    -> ( Config, Cmd msg )
+update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
     case msg of
         Msg.GenerateRandomGif videoPlayerId ->
             ( config
             , Gif.random
-                (msgRouter.configMsg << Msg.RandomTag videoPlayerId)
+                (configMsg << Msg.RandomTag videoPlayerId)
                 config.tags
             )
 
         Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    msgRouter.configMsg (Msg.GenerateRandomGif videoPlayerId)
+                    configMsg (Msg.GenerateRandomGif videoPlayerId)
                         |> Task.succeed
                         |> Task.perform identity
 
                 initSecretConfigTags =
-                    msgRouter.secretConfigMsg (SecretConfig.initTagsMsg tags)
+                    secretConfigMsg (SecretConfig.initTagsMsg tags)
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -57,7 +63,7 @@ update msgRouter msg config =
         Msg.RandomTag videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
-                    msgRouter.videoPlayerMsg
+                    videoPlayerMsg
                         << VideoPlayer.fetchRandomGifMsg videoPlayerId
             in
             ( config
@@ -90,7 +96,7 @@ update msgRouter msg config =
                         soundCloudPlaylistUrl
                             /= config.soundCloudPlaylistUrl
                     then
-                        msgRouter.audioPlayerMsg
+                        audioPlayerMsg
                             (AudioPlayer.reInitAudioPlayerMsg
                                 soundCloudPlaylistUrl
                             )

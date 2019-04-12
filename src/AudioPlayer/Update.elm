@@ -4,13 +4,17 @@ import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Utils as Utils
-import MsgRouter exposing (MsgRouter)
 import Task
 import VideoPlayer
 
 
-update : MsgRouter msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
+update :
+    (Msg -> msg)
+    -> (VideoPlayer.Msg -> msg)
+    -> Msg
+    -> AudioPlayer
+    -> ( AudioPlayer, Cmd msg )
+update audioPlayerMsg videoPlayerMsg msg audioPlayer =
     case msg of
         Msg.AdjustVolume sliderVolume ->
             let
