@@ -34,7 +34,7 @@ main =
         { init = init
         , update = Update.update
         , view = View.view msgRouter
-        , subscriptions = Subscriptions.subscriptions msgRouter
+        , subscriptions = Subscriptions.subscriptions
         }
 
 

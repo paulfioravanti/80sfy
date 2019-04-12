@@ -23,7 +23,6 @@ import AudioPlayer.Ports as Ports
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
 import AudioPlayer.Utils as Utils
-import MsgRouter exposing (MsgRouter)
 import VideoPlayer
 
 
@@ -85,9 +84,18 @@ reInitAudioPlayerMsg =
     Msg.ReInitAudioPlayer
 
 
-subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
-subscriptions msgRouter audioPlayer =
-    Subscriptions.subscriptions msgRouter audioPlayer
+subscriptions :
+    (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> AudioPlayer
+    -> Sub msg
+subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
+    Subscriptions.subscriptions
+        audioPlayerMsg
+        noOpMsg
+        videoPlayerMsg
+        audioPlayer
 
 
 toggleMuteMsg : Msg

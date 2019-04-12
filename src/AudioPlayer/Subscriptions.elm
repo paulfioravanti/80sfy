@@ -1,9 +1,8 @@
 port module AudioPlayer.Subscriptions exposing (subscriptions)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
-import AudioPlayer.Msg as Msg
+import AudioPlayer.Msg as Msg exposing (Msg)
 import Json.Decode as Decode exposing (Value)
-import MsgRouter exposing (MsgRouter)
 import VideoPlayer
 
 
@@ -19,15 +18,26 @@ port setPlaylistLength : (Value -> msg) -> Sub msg
 port requestNextTrackNumber : (() -> msg) -> Sub msg
 
 
-subscriptions : MsgRouter msg -> AudioPlayer -> Sub msg
-subscriptions ({ audioPlayerMsg } as msgRouter) audioPlayer =
+subscriptions :
+    (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> AudioPlayer
+    -> Sub msg
+subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
     let
         playingSubscription =
             if Model.isPlaying audioPlayer then
-                audioPausedSubscriptions msgRouter
+                audioPausedSubscriptions
+                    audioPlayerMsg
+                    noOpMsg
+                    videoPlayerMsg
 
             else
-                audioPlayingSubscriptions msgRouter
+                audioPlayingSubscriptions
+                    audioPlayerMsg
+                    noOpMsg
+                    videoPlayerMsg
     in
     Sub.batch
         [ playingSubscription
@@ -38,8 +48,12 @@ subscriptions ({ audioPlayerMsg } as msgRouter) audioPlayer =
         ]
 
 
-audioPausedSubscriptions : MsgRouter msg -> Sub msg
-audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
+audioPausedSubscriptions :
+    (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> Sub msg
+audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
     Sub.batch
@@ -62,8 +76,12 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
         ]
 
 
-audioPlayingSubscriptions : MsgRouter msg -> Sub msg
-audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
+audioPlayingSubscriptions :
+    (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> Sub msg
+audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been loaded and can therefore
     -- actually play.

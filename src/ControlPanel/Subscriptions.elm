@@ -5,12 +5,11 @@ import Browser.Events as Events
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import Json.Decode as Decode
-import MsgRouter exposing (MsgRouter)
 import Time
 
 
-subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
-subscriptions { controlPanelMsg } controlPanel =
+subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
+subscriptions controlPanelMsg controlPanel =
     Sub.batch
         [ visibilitySubscription controlPanelMsg controlPanel.state
         , Animation.subscription

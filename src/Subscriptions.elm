@@ -7,12 +7,12 @@ import FullScreen
 import Json.Decode as Decode
 import Key
 import Model exposing (Model)
-import MsgRouter exposing (MsgRouter)
+import Msg exposing (Msg)
 import VideoPlayer
 
 
-subscriptions : MsgRouter msg -> Model -> Sub msg
-subscriptions msgRouter model =
+subscriptions : Model -> Sub Msg
+subscriptions model =
     let
         videoPlayerContext =
             { audioPlayerId = model.audioPlayer.id
@@ -23,15 +23,16 @@ subscriptions msgRouter model =
     in
     Sub.batch
         [ AudioPlayer.subscriptions
-            msgRouter
+            Msg.AudioPlayer
+            Msg.NoOp
+            Msg.VideoPlayer
             model.audioPlayer
-        , FullScreen.subscriptions msgRouter
-        , ControlPanel.subscriptions
-            msgRouter
-            model.controlPanel
-        , Events.onKeyDown (Decode.map msgRouter.keyMsg Key.decoder)
+        , FullScreen.subscriptions Msg.FullScreen
+        , ControlPanel.subscriptions Msg.ControlPanel model.controlPanel
+        , Events.onKeyDown (Decode.map Msg.Key Key.decoder)
         , VideoPlayer.subscriptions
-            msgRouter
+            Msg.NoOp
+            Msg.VideoPlayer
             videoPlayerContext
             model.videoPlayer1
         ]

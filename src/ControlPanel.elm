@@ -32,9 +32,9 @@ init =
     Model.init
 
 
-subscriptions : MsgRouter msg -> ControlPanel -> Sub msg
-subscriptions msgRouter controlPanel =
-    Subscriptions.subscriptions msgRouter controlPanel
+subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
+subscriptions controlPanelMsg controlPanel =
+    Subscriptions.subscriptions controlPanelMsg controlPanel
 
 
 toggleHideWhenInactiveMsg : Msg

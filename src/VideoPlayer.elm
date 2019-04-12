@@ -49,9 +49,9 @@ playVideosMsg =
     Msg.PlayVideos
 
 
-subscriptions : MsgRouter msg -> Context -> VideoPlayer -> Sub msg
-subscriptions msgRouter context videoPlayer1 =
-    Subscriptions.subscriptions msgRouter context videoPlayer1
+subscriptions : msg -> (Msg -> msg) -> Context -> VideoPlayer -> Sub msg
+subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
+    Subscriptions.subscriptions noOpMsg videoPlayerMsg context videoPlayer1
 
 
 update :

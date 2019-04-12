@@ -2,7 +2,6 @@ port module VideoPlayer.Subscriptions exposing (Context, subscriptions)
 
 import Animation
 import Json.Decode as Decode exposing (Value)
-import MsgRouter exposing (MsgRouter)
 import Time
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
@@ -30,8 +29,8 @@ type alias Context =
     }
 
 
-subscriptions : MsgRouter msg -> Context -> VideoPlayer -> Sub msg
-subscriptions { noOpMsg, videoPlayerMsg } context videoPlayer1 =
+subscriptions : msg -> (Msg -> msg) -> Context -> VideoPlayer -> Sub msg
+subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
     let
         fetchNextGif =
             fetchNextGifSubscription

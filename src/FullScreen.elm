@@ -10,7 +10,6 @@ import BrowserVendor exposing (Vendor)
 import FullScreen.Cmd as Cmd
 import FullScreen.Msg as Msg
 import FullScreen.Subscriptions as Subscriptions
-import MsgRouter exposing (MsgRouter)
 
 
 type alias Msg =
@@ -32,6 +31,6 @@ leaveFullScreenMsg =
     Msg.LeaveFullScreen
 
 
-subscriptions : MsgRouter msg -> Sub msg
-subscriptions msgRouter =
-    Subscriptions.subscriptions msgRouter
+subscriptions : (Msg -> msg) -> Sub msg
+subscriptions fullScreenMsg =
+    Subscriptions.subscriptions fullScreenMsg
