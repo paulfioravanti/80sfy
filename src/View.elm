@@ -6,45 +6,48 @@ import ControlPanel
 import Html.Styled exposing (div)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
-import MsgRouter exposing (MsgRouter)
+import Msg exposing (Msg)
 import SecretConfig
 import VideoPlayer
 
 
-view : MsgRouter msg -> Model -> Document msg
-view msgRouter model =
-    let
-        { audioPlayerMsg, controlPanelMsg, fullScreenMsg, noOpMsg, pauseMsg, playMsg, videoPlayerMsg } =
-            msgRouter
-    in
+view : Model -> Document Msg
+view model =
     { title = "Welcome back to the 80s -- this is 80sfy."
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view
-                    audioPlayerMsg
-                    controlPanelMsg
-                    fullScreenMsg
-                    pauseMsg
-                    playMsg
+                    Msg.AudioPlayer
+                    Msg.ControlPanel
+                    Msg.FullScreen
+                    Msg.Pause
+                    Msg.Play
                     model.browserVendor
                     model.audioPlayer
                     model.controlPanel
                 , VideoPlayer.view
-                    fullScreenMsg
-                    noOpMsg
-                    videoPlayerMsg
+                    Msg.FullScreen
+                    Msg.NoOp
+                    Msg.VideoPlayer
                     model.browserVendor
                     (AudioPlayer.isPlaying model.audioPlayer)
                     model.videoPlayer1
                 , VideoPlayer.view
-                    fullScreenMsg
-                    noOpMsg
-                    videoPlayerMsg
+                    Msg.FullScreen
+                    Msg.NoOp
+                    Msg.VideoPlayer
                     model.browserVendor
                     (AudioPlayer.isPlaying model.audioPlayer)
                     model.videoPlayer2
-                , SecretConfig.view msgRouter model.secretConfig
+                , SecretConfig.view
+                    Msg.AudioPlayer
+                    Msg.Config
+                    Msg.ControlPanel
+                    Msg.SecretConfig
+                    Msg.ShowApplicationState
+                    Msg.VideoPlayer
+                    model.secretConfig
                 ]
             ]
     }

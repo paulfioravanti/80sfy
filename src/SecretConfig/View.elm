@@ -22,21 +22,36 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onClick, onInput)
 import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
-import SecretConfig.Msg as Msg
+import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles
 import VideoPlayer
 
 
-view : MsgRouter msg -> SecretConfig -> Html msg
-view msgRouter secretConfig =
+view :
+    (AudioPlayer.Msg -> msg)
+    -> (ConfigMsg.Msg -> msg)
+    -> (ControlPanel.Msg -> msg)
+    -> (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> SecretConfig
+    -> Html msg
+view audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     div [ attribute "data-name" "secret-config" ]
-        [ secretConfigButton msgRouter
-        , secretConfigSettings msgRouter secretConfig
+        [ secretConfigButton secretConfigMsg
+        , secretConfigSettings
+            audioPlayerMsg
+            configMsg
+            controlPanelMsg
+            secretConfigMsg
+            showApplicationStateMsg
+            videoPlayerMsg
+            secretConfig
         ]
 
 
-secretConfigButton : MsgRouter msg -> Html msg
-secretConfigButton { secretConfigMsg } =
+secretConfigButton : (Msg -> msg) -> Html msg
+secretConfigButton secretConfigMsg =
     div
         [ css [ Styles.secretConfigButton ]
         , attribute "data-name" "secret-config-button"
@@ -45,40 +60,48 @@ secretConfigButton { secretConfigMsg } =
         []
 
 
-secretConfigSettings : MsgRouter msg -> SecretConfig -> Html msg
-secretConfigSettings msgRouter secretConfig =
+secretConfigSettings :
+    (AudioPlayer.Msg -> msg)
+    -> (ConfigMsg.Msg -> msg)
+    -> (ControlPanel.Msg -> msg)
+    -> (Msg -> msg)
+    -> msg
+    -> (VideoPlayer.Msg -> msg)
+    -> SecretConfig
+    -> Html msg
+secretConfigSettings audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     div
         [ css [ Styles.secretConfig secretConfig.visible ]
         , attribute "data-name" "secret-config-settings"
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput msgRouter secretConfig.tags
+        , gifTagsInput secretConfigMsg secretConfig.tags
         , span []
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput
-            msgRouter
+            secretConfigMsg
             secretConfig.soundCloudPlaylistUrl
         , span []
             [ text "Gif Display Seconds:" ]
-        , gifDisplaySecondsInput msgRouter secretConfig.gifDisplaySeconds
+        , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplaySeconds
         , saveSettingsButton
-            msgRouter
+            configMsg
             secretConfig.soundCloudPlaylistUrl
             secretConfig.tags
             secretConfig.gifDisplaySeconds
-        , showStateButton msgRouter
-        , overrideControlPanelHideButton msgRouter
-        , overrideInactivityPauseButton msgRouter
-        , pauseGifRotationButton msgRouter
-        , playGifRotationButton msgRouter
-        , playAudioButton msgRouter
-        , pauseAudioButton msgRouter
+        , showStateButton showApplicationStateMsg
+        , overrideControlPanelHideButton controlPanelMsg
+        , overrideInactivityPauseButton secretConfigMsg
+        , pauseGifRotationButton videoPlayerMsg
+        , playGifRotationButton videoPlayerMsg
+        , playAudioButton audioPlayerMsg
+        , pauseAudioButton audioPlayerMsg
         ]
 
 
-gifTagsInput : MsgRouter msg -> String -> Html msg
-gifTagsInput { secretConfigMsg } tags =
+gifTagsInput : (Msg -> msg) -> String -> Html msg
+gifTagsInput secretConfigMsg tags =
     textarea
         [ css [ Styles.gifTags ]
         , attribute "data-name" "search-tags"
@@ -87,8 +110,8 @@ gifTagsInput { secretConfigMsg } tags =
         [ text tags ]
 
 
-soundCloudPlaylistUrlInput : MsgRouter msg -> String -> Html msg
-soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
+soundCloudPlaylistUrlInput : (Msg -> msg) -> String -> Html msg
+soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
     input
         [ css [ Styles.configInput ]
         , attribute "data-name" "playlist-input"
@@ -98,8 +121,8 @@ soundCloudPlaylistUrlInput { secretConfigMsg } soundCloudPlaylistUrl =
         []
 
 
-gifDisplaySecondsInput : MsgRouter msg -> String -> Html msg
-gifDisplaySecondsInput { secretConfigMsg } gifDisplaySeconds =
+gifDisplaySecondsInput : (Msg -> msg) -> String -> Html msg
+gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
     input
         [ css [ Styles.configInput ]
         , attribute "data-name" "gif-display-seconds-input"
@@ -109,8 +132,13 @@ gifDisplaySecondsInput { secretConfigMsg } gifDisplaySeconds =
         []
 
 
-saveSettingsButton : MsgRouter msg -> String -> String -> String -> Html msg
-saveSettingsButton { configMsg } soundCloudPlaylistUrl tags gifDisplaySeconds =
+saveSettingsButton :
+    (ConfigMsg.Msg -> msg)
+    -> String
+    -> String
+    -> String
+    -> Html msg
+saveSettingsButton configMsg soundCloudPlaylistUrl tags gifDisplaySeconds =
     button
         [ css [ Styles.configButton ]
         , onClick
@@ -125,17 +153,17 @@ saveSettingsButton { configMsg } soundCloudPlaylistUrl tags gifDisplaySeconds =
         [ text "Save Settings" ]
 
 
-showStateButton : MsgRouter msg -> Html msg
-showStateButton { showApplicationState } =
+showStateButton : msg -> Html msg
+showStateButton showApplicationStateMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick showApplicationState
+        , onClick showApplicationStateMsg
         ]
         [ text "Show State" ]
 
 
-overrideControlPanelHideButton : MsgRouter msg -> Html msg
-overrideControlPanelHideButton { controlPanelMsg } =
+overrideControlPanelHideButton : (ControlPanel.Msg -> msg) -> Html msg
+overrideControlPanelHideButton controlPanelMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (controlPanelMsg ControlPanel.toggleHideWhenInactiveMsg)
@@ -143,8 +171,8 @@ overrideControlPanelHideButton { controlPanelMsg } =
         [ text "Override Control Panel Hide" ]
 
 
-overrideInactivityPauseButton : MsgRouter msg -> Html msg
-overrideInactivityPauseButton { secretConfigMsg } =
+overrideInactivityPauseButton : (Msg -> msg) -> Html msg
+overrideInactivityPauseButton secretConfigMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (secretConfigMsg Msg.ToggleInactivityPauseOverride)
@@ -152,8 +180,8 @@ overrideInactivityPauseButton { secretConfigMsg } =
         [ text "Toggle Inactivity Pause" ]
 
 
-pauseGifRotationButton : MsgRouter msg -> Html msg
-pauseGifRotationButton { videoPlayerMsg } =
+pauseGifRotationButton : (VideoPlayer.Msg -> msg) -> Html msg
+pauseGifRotationButton videoPlayerMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (videoPlayerMsg VideoPlayer.pauseVideosMsg)
@@ -161,8 +189,8 @@ pauseGifRotationButton { videoPlayerMsg } =
         [ text "Pause Gif Rotation" ]
 
 
-playGifRotationButton : MsgRouter msg -> Html msg
-playGifRotationButton { videoPlayerMsg } =
+playGifRotationButton : (VideoPlayer.Msg -> msg) -> Html msg
+playGifRotationButton videoPlayerMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (videoPlayerMsg VideoPlayer.playVideosMsg)
@@ -170,8 +198,8 @@ playGifRotationButton { videoPlayerMsg } =
         [ text "Play Gif Rotation" ]
 
 
-playAudioButton : MsgRouter msg -> Html msg
-playAudioButton { audioPlayerMsg } =
+playAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
+playAudioButton audioPlayerMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (audioPlayerMsg AudioPlayer.playAudioMsg)
@@ -179,8 +207,8 @@ playAudioButton { audioPlayerMsg } =
         [ text "Play Audio" ]
 
 
-pauseAudioButton : MsgRouter msg -> Html msg
-pauseAudioButton { audioPlayerMsg } =
+pauseAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
+pauseAudioButton audioPlayerMsg =
     button
         [ css [ Styles.configButton ]
         , onClick (audioPlayerMsg AudioPlayer.pauseAudioMsg)

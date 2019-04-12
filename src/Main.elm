@@ -33,7 +33,7 @@ main =
     Browser.document
         { init = init
         , update = Update.update
-        , view = View.view msgRouter
+        , view = View.view
         , subscriptions = Subscriptions.subscriptions
         }
 
