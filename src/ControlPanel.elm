@@ -15,6 +15,7 @@ import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.Update as Update
 import ControlPanel.View as View
+import FullScreen
 import Html.Styled exposing (Html)
 import MsgRouter exposing (MsgRouter)
 
@@ -47,6 +48,23 @@ update msg controlPanel =
     Update.update msg controlPanel
 
 
-view : MsgRouter msg -> Vendor -> AudioPlayer -> ControlPanel -> Html msg
-view msgRouter vendor audioPlayer controlPanel =
-    View.view msgRouter vendor audioPlayer controlPanel
+view :
+    (AudioPlayer.Msg -> msg)
+    -> (Msg -> msg)
+    -> (FullScreen.Msg -> msg)
+    -> msg
+    -> msg
+    -> Vendor
+    -> AudioPlayer
+    -> ControlPanel
+    -> Html msg
+view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer controlPanel =
+    View.view
+        audioPlayerMsg
+        controlPanelMsg
+        fullScreenMsg
+        pauseMsg
+        playMsg
+        vendor
+        audioPlayer
+        controlPanel

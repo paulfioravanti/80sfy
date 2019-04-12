@@ -10,8 +10,15 @@ import Html.Styled.Events exposing (onClick)
 import MsgRouter exposing (MsgRouter)
 
 
-view : MsgRouter msg -> Vendor -> AudioPlayer -> Html msg
-view msgRouter vendor audioPlayer =
+view :
+    (AudioPlayer.Msg -> msg)
+    -> (FullScreen.Msg -> msg)
+    -> msg
+    -> msg
+    -> Vendor
+    -> AudioPlayer
+    -> Html msg
+view audioPlayerMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -23,15 +30,15 @@ view msgRouter vendor audioPlayer =
         [ css [ Styles.controls ]
         , attribute "data-name" "controls"
         ]
-        [ muteUnmuteButton msgRouter muted
-        , playPauseButton msgRouter playing
-        , nextTrackButton msgRouter
-        , fullscreenButton msgRouter vendor
+        [ muteUnmuteButton audioPlayerMsg muted
+        , playPauseButton pauseMsg playMsg playing
+        , nextTrackButton audioPlayerMsg
+        , fullscreenButton fullScreenMsg vendor
         ]
 
 
-muteUnmuteButton : MsgRouter msg -> Bool -> Html msg
-muteUnmuteButton { audioPlayerMsg } muted =
+muteUnmuteButton : (AudioPlayer.Msg -> msg) -> Bool -> Html msg
+muteUnmuteButton audioPlayerMsg muted =
     let
         iconClass =
             if muted then
@@ -50,8 +57,8 @@ muteUnmuteButton { audioPlayerMsg } muted =
         ]
 
 
-playPauseButton : MsgRouter msg -> Bool -> Html msg
-playPauseButton { pauseMsg, playMsg } playing =
+playPauseButton : msg -> msg -> Bool -> Html msg
+playPauseButton pauseMsg playMsg playing =
     let
         ( iconClass, playPauseMsg ) =
             if playing then
@@ -70,8 +77,8 @@ playPauseButton { pauseMsg, playMsg } playing =
         ]
 
 
-nextTrackButton : MsgRouter msg -> Html msg
-nextTrackButton { audioPlayerMsg } =
+nextTrackButton : (AudioPlayer.Msg -> msg) -> Html msg
+nextTrackButton audioPlayerMsg =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "next-track"
@@ -82,8 +89,8 @@ nextTrackButton { audioPlayerMsg } =
         ]
 
 
-fullscreenButton : MsgRouter msg -> Vendor -> Html msg
-fullscreenButton { fullScreenMsg } vendor =
+fullscreenButton : (FullScreen.Msg -> msg) -> Vendor -> Html msg
+fullscreenButton fullScreenMsg vendor =
     let
         onClickAttribute =
             if vendor == BrowserVendor.Mozilla then

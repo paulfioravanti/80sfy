@@ -6,8 +6,9 @@ import BrowserVendor exposing (Vendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model as Model exposing (ControlPanel)
-import ControlPanel.Msg as Msg
+import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.Styles as Styles
+import FullScreen
 import Html.Styled exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
     exposing
@@ -23,8 +24,17 @@ import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
 import MsgRouter exposing (MsgRouter)
 
 
-view : MsgRouter msg -> Vendor -> AudioPlayer -> ControlPanel -> Html msg
-view ({ controlPanelMsg } as msgRouter) vendor audioPlayer controlPanel =
+view :
+    (AudioPlayer.Msg -> msg)
+    -> (Msg -> msg)
+    -> (FullScreen.Msg -> msg)
+    -> msg
+    -> msg
+    -> Vendor
+    -> AudioPlayer
+    -> ControlPanel
+    -> Html msg
+view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -53,8 +63,14 @@ view ({ controlPanelMsg } as msgRouter) vendor audioPlayer controlPanel =
             ]
             [ logo
             , trackInfo audioPlayer
-            , Controls.view msgRouter vendor audioPlayer
-            , volumeControl msgRouter audioPlayer
+            , Controls.view
+                audioPlayerMsg
+                fullScreenMsg
+                pauseMsg
+                playMsg
+                vendor
+                audioPlayer
+            , volumeControl audioPlayerMsg audioPlayer
             , Credits.view
             ]
         ]
@@ -89,8 +105,8 @@ trackInfo { id, soundCloudIframeUrl } =
         ]
 
 
-volumeControl : MsgRouter msg -> AudioPlayer -> Html msg
-volumeControl { audioPlayerMsg } { volume } =
+volumeControl : (AudioPlayer.Msg -> msg) -> AudioPlayer -> Html msg
+volumeControl audioPlayerMsg { volume } =
     div
         [ css [ Styles.volume ]
         , attribute "data-name" "volume"

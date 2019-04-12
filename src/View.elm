@@ -13,12 +13,20 @@ import VideoPlayer
 
 view : MsgRouter msg -> Model -> Document msg
 view msgRouter model =
+    let
+        { audioPlayerMsg, controlPanelMsg, fullScreenMsg, pauseMsg, playMsg } =
+            msgRouter
+    in
     { title = "Welcome back to the 80s -- this is 80sfy."
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view
-                    msgRouter
+                    audioPlayerMsg
+                    controlPanelMsg
+                    fullScreenMsg
+                    pauseMsg
+                    playMsg
                     model.browserVendor
                     model.audioPlayer
                     model.controlPanel
