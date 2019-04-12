@@ -1,9 +1,10 @@
 port module VideoPlayer.Subscriptions exposing (Context, subscriptions)
 
 import Animation
-import Json.Decode as Decode exposing (Value)
+import Json.Decode exposing (Value)
 import Time
-import VideoPlayer.Model as Model exposing (VideoPlayer)
+import Value
+import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status exposing (Status)
 
@@ -118,7 +119,6 @@ audioPlayerActive activeElementIdFlag audioPlayerId =
     let
         activeElementId =
             activeElementIdFlag
-                |> Decode.decodeValue Decode.string
-                |> Result.withDefault ""
+                |> Value.extractStringWithDefault ""
     in
     activeElementId == audioPlayerId

@@ -1,7 +1,6 @@
 module VideoPlayer.Model exposing (VideoPlayer, init)
 
 import Animation exposing (State)
-import Error
 import RemoteData exposing (WebData)
 import VideoPlayer.Status as Status exposing (Status)
 
