@@ -46,7 +46,10 @@ subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
         , requestNextTrackNumber
             (\() -> audioPlayerMsg Msg.NextTrackNumberRequested)
         , setPlaylistLength
-            (audioPlayerMsg << Msg.SetPlaylistLength << Value.extractInt 1)
+            (audioPlayerMsg
+                << Msg.SetPlaylistLength
+                << Value.extractIntWithDefault 1
+            )
         ]
 
 
@@ -65,7 +68,12 @@ audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     Sub.batch
         [ audioPaused
             (\currentPositionFlag ->
-                if Value.extractFloat 0.0 currentPositionFlag > 0 then
+                let
+                    currentPosition =
+                        currentPositionFlag
+                            |> Value.extractFloatWithDefault 0.0
+                in
+                if currentPosition > 0 then
                     audioPlayerMsg Msg.AudioPaused
 
                 else
@@ -73,7 +81,12 @@ audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
             )
         , audioPaused
             (\currentPositionFlag ->
-                if Value.extractFloat 0.0 currentPositionFlag > 0 then
+                let
+                    currentPosition =
+                        currentPositionFlag
+                            |> Value.extractFloatWithDefault 0.0
+                in
+                if currentPosition > 0 then
                     videoPlayerMsg VideoPlayer.pauseVideosMsg
 
                 else
@@ -94,7 +107,12 @@ audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     Sub.batch
         [ audioPlaying
             (\loadedProgressFlag ->
-                if Value.extractFloat 0.0 loadedProgressFlag > 0 then
+                let
+                    loadedProgress =
+                        loadedProgressFlag
+                            |> Value.extractFloatWithDefault 0.0
+                in
+                if loadedProgress > 0 then
                     audioPlayerMsg Msg.AudioPlaying
 
                 else
@@ -102,7 +120,12 @@ audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
             )
         , audioPlaying
             (\loadedProgressFlag ->
-                if Value.extractFloat 0.0 loadedProgressFlag > 0 then
+                let
+                    loadedProgress =
+                        loadedProgressFlag
+                            |> Value.extractFloatWithDefault 0.0
+                in
+                if loadedProgress > 0 then
                     videoPlayerMsg VideoPlayer.playVideosMsg
 
                 else

@@ -12,7 +12,10 @@ subscriptions : (Msg -> msg) -> Sub msg
 subscriptions fullScreenMsg =
     toggleFullScreen
         (\isFullScreenFlag ->
-            if Value.extractBool False isFullScreenFlag then
+            if
+                isFullScreenFlag
+                    |> Value.extractBoolWithDefault False
+            then
                 fullScreenMsg Msg.LeaveFullScreen
 
             else

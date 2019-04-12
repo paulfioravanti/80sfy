@@ -18,11 +18,11 @@ init flags =
     let
         giphyApiKey =
             flags.giphyApiKey
-                |> Value.extractString ""
+                |> Value.extractStringWithDefault ""
 
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
-                |> Value.extractString
+                |> Value.extractStringWithDefault
                     "https://api.soundcloud.com/playlists/193785575"
     in
     { gifDisplaySeconds = 4

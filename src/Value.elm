@@ -1,31 +1,36 @@
-module Value exposing (extractBool, extractFloat, extractInt, extractString)
+module Value exposing
+    ( extractBoolWithDefault
+    , extractFloatWithDefault
+    , extractIntWithDefault
+    , extractStringWithDefault
+    )
 
 import Json.Decode as Decode exposing (Value, bool, float, int, string)
 
 
-extractBool : Bool -> Value -> Bool
-extractBool fallbackBool value =
+extractBoolWithDefault : Bool -> Value -> Bool
+extractBoolWithDefault defaultBool value =
     value
         |> Decode.decodeValue bool
-        |> Result.withDefault fallbackBool
+        |> Result.withDefault defaultBool
 
 
-extractFloat : Float -> Value -> Float
-extractFloat fallbackFloat value =
+extractFloatWithDefault : Float -> Value -> Float
+extractFloatWithDefault defaultFloat value =
     value
         |> Decode.decodeValue float
-        |> Result.withDefault fallbackFloat
+        |> Result.withDefault defaultFloat
 
 
-extractInt : Int -> Value -> Int
-extractInt fallbackInt value =
+extractIntWithDefault : Int -> Value -> Int
+extractIntWithDefault defaultInt value =
     value
         |> Decode.decodeValue int
-        |> Result.withDefault fallbackInt
+        |> Result.withDefault defaultInt
 
 
-extractString : String -> Value -> String
-extractString fallbackString value =
+extractStringWithDefault : String -> Value -> String
+extractStringWithDefault defaultString value =
     value
         |> Decode.decodeValue string
-        |> Result.withDefault fallbackString
+        |> Result.withDefault defaultString

@@ -27,6 +27,7 @@ visibilitySubscription : (Msg -> msg) -> State -> Sub msg
 visibilitySubscription controlPanelMsg state =
     case state of
         State.Idle secondsVisible ->
+            -- milliseconds
             Time.every 1000
                 (controlPanelMsg
                     << Msg.CountdownToHideControlPanel secondsVisible

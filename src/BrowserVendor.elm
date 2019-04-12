@@ -16,7 +16,7 @@ init flags =
     let
         browser =
             flags.browserVendor
-                |> Value.extractString "other"
+                |> Value.extractStringWithDefault "other"
     in
     case browser of
         "mozilla" ->
