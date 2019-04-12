@@ -11,6 +11,7 @@ module VideoPlayer exposing
     )
 
 import BrowserVendor exposing (Vendor)
+import FullScreen
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import MsgRouter exposing (MsgRouter)
@@ -64,6 +65,19 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
-view : MsgRouter msg -> Vendor -> Bool -> VideoPlayer -> Html msg
-view msgRouter vendor audioPlaying videoPlayer =
-    View.view msgRouter vendor audioPlaying videoPlayer
+view :
+    (FullScreen.Msg -> msg)
+    -> msg
+    -> (Msg -> msg)
+    -> Vendor
+    -> Bool
+    -> VideoPlayer
+    -> Html msg
+view fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
+    View.view
+        fullScreenMsg
+        noOpMsg
+        videoPlayerMsg
+        vendor
+        audioPlaying
+        videoPlayer

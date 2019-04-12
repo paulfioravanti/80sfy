@@ -17,12 +17,19 @@ import Json.Encode as Encode
 import MsgRouter exposing (MsgRouter)
 import RemoteData
 import VideoPlayer.Model as Model exposing (VideoPlayer)
-import VideoPlayer.Msg as Msg
+import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Styles as Styles
 
 
-view : MsgRouter msg -> Vendor -> Bool -> VideoPlayer -> Html msg
-view msgRouter vendor audioPlaying videoPlayer =
+view :
+    (FullScreen.Msg -> msg)
+    -> msg
+    -> (Msg -> msg)
+    -> Vendor
+    -> Bool
+    -> VideoPlayer
+    -> Html msg
+view fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -44,16 +51,27 @@ view msgRouter vendor audioPlaying videoPlayer =
                         []
                    )
     in
-    div (attributes msgRouter vendor audioPlaying videoPlayer) childElements
+    div
+        (attributes
+            fullScreenMsg
+            noOpMsg
+            videoPlayerMsg
+            vendor
+            audioPlaying
+            videoPlayer
+        )
+        childElements
 
 
 attributes :
-    MsgRouter msg
+    (FullScreen.Msg -> msg)
+    -> msg
+    -> (Msg -> msg)
     -> Vendor
     -> Bool
     -> VideoPlayer
     -> List (Html.Attribute msg)
-attributes msgRouter vendor audioPlaying videoPlayer =
+attributes fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
     let
         animations =
             videoPlayer.style
@@ -66,16 +84,14 @@ attributes msgRouter vendor audioPlaying videoPlayer =
 
             else
                 onDoubleClick
-                    (msgRouter.fullScreenMsg
-                        FullScreen.performFullScreenToggleMsg
-                    )
+                    (fullScreenMsg FullScreen.performFullScreenToggleMsg)
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Model.Playing) then
-                onClick (msgRouter.videoPlayerMsg Msg.PlayVideos)
+                onClick (videoPlayerMsg Msg.PlayVideos)
 
             else
-                onClick msgRouter.noOpMsg
+                onClick noOpMsg
 
         videoPlayerAttributes =
             [ onDoubleClickAttribute
@@ -83,9 +99,7 @@ attributes msgRouter vendor audioPlaying videoPlayer =
             , css [ Styles.gifContainer videoPlayer.zIndex ]
             , attribute "data-name" "player-gif-container"
             , onDoubleClick
-                (msgRouter.fullScreenMsg
-                    FullScreen.performFullScreenToggleMsg
-                )
+                (fullScreenMsg FullScreen.performFullScreenToggleMsg)
             ]
     in
     List.append animations videoPlayerAttributes

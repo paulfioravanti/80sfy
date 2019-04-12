@@ -14,7 +14,7 @@ import VideoPlayer
 view : MsgRouter msg -> Model -> Document msg
 view msgRouter model =
     let
-        { audioPlayerMsg, controlPanelMsg, fullScreenMsg, pauseMsg, playMsg } =
+        { audioPlayerMsg, controlPanelMsg, fullScreenMsg, noOpMsg, pauseMsg, playMsg, videoPlayerMsg } =
             msgRouter
     in
     { title = "Welcome back to the 80s -- this is 80sfy."
@@ -31,12 +31,16 @@ view msgRouter model =
                     model.audioPlayer
                     model.controlPanel
                 , VideoPlayer.view
-                    msgRouter
+                    fullScreenMsg
+                    noOpMsg
+                    videoPlayerMsg
                     model.browserVendor
                     (AudioPlayer.isPlaying model.audioPlayer)
                     model.videoPlayer1
                 , VideoPlayer.view
-                    msgRouter
+                    fullScreenMsg
+                    noOpMsg
+                    videoPlayerMsg
                     model.browserVendor
                     (AudioPlayer.isPlaying model.audioPlayer)
                     model.videoPlayer2
