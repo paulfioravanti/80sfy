@@ -2,9 +2,9 @@ module AudioPlayer.Update exposing (update)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
+import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
-import AudioPlayer.Utils as Utils
 import Task
 import VideoPlayer
 
@@ -95,7 +95,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
 
                         [] ->
                             ( []
-                            , Utils.generatePlaylist
+                            , Playlist.generate
                                 audioPlayerMsg
                                 audioPlayer.playlistLength
                             )
@@ -125,7 +125,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
             let
                 generatePlaylist =
                     playlistLength
-                        |> Utils.generatePlaylist audioPlayerMsg
+                        |> Playlist.generate audioPlayerMsg
             in
             ( { audioPlayer | playlistLength = playlistLength }
             , generatePlaylist
@@ -142,6 +142,10 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
                             ( Ports.setVolume 0, Status.Muted status )
             in
             ( { audioPlayer | status = newStatus }, cmd )
+
+
+
+-- PRIVATE
 
 
 containVolume : Int -> Int
@@ -163,7 +167,7 @@ containVolume volume =
         volume
 
 
-nextTrackNumberRequested : (Msg.Msg -> msg) -> Cmd msg
+nextTrackNumberRequested : (Msg -> msg) -> Cmd msg
 nextTrackNumberRequested audioPlayerMsg =
     audioPlayerMsg Msg.NextTrackNumberRequested
         |> Task.succeed

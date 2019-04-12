@@ -49,6 +49,10 @@ subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
         ]
 
 
+
+-- PRIVATE
+
+
 audioPausedSubscriptions :
     (Msg -> msg)
     -> msg

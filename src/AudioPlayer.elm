@@ -20,11 +20,11 @@ module AudioPlayer exposing
 import AudioPlayer.Flags exposing (Flags)
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
+import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
-import AudioPlayer.Utils as Utils
 import VideoPlayer
 
 
@@ -48,7 +48,7 @@ adjustVolumeMsg =
 
 generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
 generatePlaylist audioPlayerMsg playlistLength =
-    Utils.generatePlaylist audioPlayerMsg playlistLength
+    Playlist.generate audioPlayerMsg playlistLength
 
 
 initAudioPlayer : Flags -> Cmd msg

@@ -1,12 +1,12 @@
-module AudioPlayer.Utils exposing (generatePlaylist)
+module AudioPlayer.Playlist exposing (generate)
 
 import AudioPlayer.Msg as Msg exposing (Msg)
 import Random
 import Random.List
 
 
-generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
-generatePlaylist audioPlayerMsg playlistLength =
+generate : (Msg -> msg) -> Int -> Cmd msg
+generate audioPlayerMsg playlistLength =
     let
         trackList =
             List.range 0 (playlistLength - 1)
