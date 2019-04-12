@@ -5,6 +5,7 @@ import Json.Decode as Decode exposing (Value)
 import Time
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
+import VideoPlayer.Status as Status exposing (Status)
 
 
 port videosHalted : (() -> msg) -> Sub msg
@@ -63,9 +64,9 @@ subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
         ]
 
 
-fetchNextGifSubscription : (Msg -> msg) -> Model.Status -> Float -> Sub msg
+fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
 fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
-    if status == Model.Playing then
+    if status == Status.Playing then
         Time.every
             (gifDisplaySeconds * 1000)
             (videoPlayerMsg << Msg.CrossFadePlayers)
@@ -74,9 +75,9 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
         Sub.none
 
 
-videosHaltedSubscription : (Msg -> msg) -> Model.Status -> Bool -> Sub msg
+videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
 videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
-    if (status == Model.Playing) && not overrideInactivityPause then
+    if (status == Status.Playing) && not overrideInactivityPause then
         videosHalted (\() -> videoPlayerMsg Msg.VideosHalted)
 
     else
@@ -87,11 +88,11 @@ windowEventSubscription :
     (Msg -> msg)
     -> msg
     -> String
-    -> Model.Status
+    -> Status
     -> Sub msg
 windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
     case status of
-        Model.Playing ->
+        Status.Playing ->
             -- NOTE: If the document target has "blurred" from the video player
             -- to the SoundCloud iframe, then the Elm app does not need to
             -- consider this a "real" blur for purposes of displaying the
@@ -105,7 +106,7 @@ windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
                         videoPlayerMsg Msg.HaltVideos
                 )
 
-        Model.Halted ->
+        Status.Halted ->
             windowFocused (\() -> videoPlayerMsg Msg.PlayVideos)
 
         _ ->

@@ -15,8 +15,9 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import RemoteData
-import VideoPlayer.Model as Model exposing (VideoPlayer)
+import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
+import VideoPlayer.Status as Status
 import VideoPlayer.Styles as Styles
 
 
@@ -42,7 +43,7 @@ view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer
             gifVideoPlayer gifUrl videoPlayer
                 :: (if
                         audioPlaying
-                            && not (videoPlayer.status == Model.Playing)
+                            && not (videoPlayer.status == Status.Playing)
                     then
                         [ playerPausedOverlay ]
 
@@ -86,7 +87,7 @@ attributes fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying video
                     (fullScreenMsg FullScreen.performFullScreenToggleMsg)
 
         clickOnPlayAttribute =
-            if audioPlaying && not (videoPlayer.status == Model.Playing) then
+            if audioPlaying && not (videoPlayer.status == Status.Playing) then
                 onClick (videoPlayerMsg Msg.PlayVideos)
 
             else
@@ -117,7 +118,7 @@ gifVideoPlayer gifUrl videoPlayer =
             [ property "muted" true
             , property "autopause" false
             ]
-                ++ (if videoPlayer.status == Model.Playing then
+                ++ (if videoPlayer.status == Status.Playing then
                         [ property "autoplay" true
                         , property "loop" true
                         ]

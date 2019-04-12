@@ -5,7 +5,7 @@ import ControlPanel
 import Json.Encode as Encode
 import Model exposing (Model)
 import Ports
-import VideoPlayer.Model as VideoPlayer
+import VideoPlayer
 
 
 showApplicationState : Model -> Cmd msg

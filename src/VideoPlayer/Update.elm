@@ -6,9 +6,10 @@ import Json.Encode as Encode
 import Ports
 import RemoteData
 import Task
-import VideoPlayer.Model as Model exposing (VideoPlayer)
+import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
+import VideoPlayer.Status as Status
 
 
 update :
@@ -98,19 +99,19 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
 
         Msg.VideosHalted ->
-            ( { videoPlayer1 | status = Model.Halted }
-            , { videoPlayer2 | status = Model.Halted }
+            ( { videoPlayer1 | status = Status.Halted }
+            , { videoPlayer2 | status = Status.Halted }
             , Cmd.none
             )
 
         Msg.VideosPaused ->
-            ( { videoPlayer1 | status = Model.Paused }
-            , { videoPlayer2 | status = Model.Paused }
+            ( { videoPlayer1 | status = Status.Paused }
+            , { videoPlayer2 | status = Status.Paused }
             , Cmd.none
             )
 
         Msg.VideosPlaying ->
-            ( { videoPlayer1 | status = Model.Playing }
-            , { videoPlayer2 | status = Model.Playing }
+            ( { videoPlayer1 | status = Status.Playing }
+            , { videoPlayer2 | status = Status.Playing }
             , Cmd.none
             )

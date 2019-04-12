@@ -2,9 +2,11 @@ module VideoPlayer exposing
     ( Msg
     , VideoPlayer
     , fetchRandomGifMsg
+    , gifUrlToString
     , init
     , pauseVideosMsg
     , playVideosMsg
+    , statusToString
     , subscriptions
     , update
     , view
@@ -14,8 +16,11 @@ import BrowserVendor exposing (BrowserVendor)
 import FullScreen
 import Html.Styled exposing (Html)
 import Http exposing (Error)
+import RemoteData exposing (WebData)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
+import VideoPlayer.RemoteData as RemoteData
+import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions exposing (Context)
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
@@ -39,6 +44,11 @@ fetchRandomGifMsg =
     Msg.FetchRandomGif
 
 
+gifUrlToString : WebData String -> String
+gifUrlToString webData =
+    RemoteData.toString webData
+
+
 pauseVideosMsg : Msg
 pauseVideosMsg =
     Msg.PauseVideos
@@ -47,6 +57,11 @@ pauseVideosMsg =
 playVideosMsg : Msg
 playVideosMsg =
     Msg.PlayVideos
+
+
+statusToString : Status -> String
+statusToString status =
+    Status.toString status
 
 
 subscriptions : msg -> (Msg -> msg) -> Context -> VideoPlayer -> Sub msg

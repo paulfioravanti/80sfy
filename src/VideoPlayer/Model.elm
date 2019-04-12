@@ -1,20 +1,9 @@
-module VideoPlayer.Model exposing
-    ( Status(..)
-    , VideoPlayer
-    , gifUrlToString
-    , init
-    , statusToString
-    )
+module VideoPlayer.Model exposing (VideoPlayer, init)
 
 import Animation exposing (State)
 import Error
 import RemoteData exposing (WebData)
-
-
-type Status
-    = Playing
-    | Paused
-    | Halted
+import VideoPlayer.Status as Status exposing (Status)
 
 
 type alias VideoPlayer =
@@ -33,37 +22,8 @@ init id zIndex =
     { fallbackGifUrl = "/assets/tv-static.mp4"
     , gifUrl = RemoteData.NotRequested
     , id = id
-    , status = Paused
+    , status = Status.Paused
     , style = Animation.style [ Animation.opacity 1 ]
     , visible = True
     , zIndex = zIndex
     }
-
-
-gifUrlToString : WebData String -> String
-gifUrlToString webData =
-    case webData of
-        RemoteData.NotRequested ->
-            "NotRequested"
-
-        RemoteData.Requesting ->
-            "Requesting"
-
-        RemoteData.Failure error ->
-            "Failure: " ++ Error.toString error
-
-        RemoteData.Success data ->
-            data
-
-
-statusToString : Status -> String
-statusToString status =
-    case status of
-        Playing ->
-            "Playing"
-
-        Paused ->
-            "Paused"
-
-        Halted ->
-            "Halted"
