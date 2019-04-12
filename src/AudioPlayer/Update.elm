@@ -5,6 +5,7 @@ import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
+import AudioPlayer.Volume as Volume
 import Task
 import VideoPlayer
 
@@ -23,7 +24,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
                     sliderVolume
                         |> String.toInt
                         |> Maybe.withDefault audioPlayer.volume
-                        |> containVolume
+                        |> Volume.contain
 
                 cmd =
                     if Status.isMuted audioPlayer.status then
@@ -146,25 +147,6 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
 
 
 -- PRIVATE
-
-
-containVolume : Int -> Int
-containVolume volume =
-    let
-        maxVolume =
-            100
-
-        minVolume =
-            0
-    in
-    if volume < minVolume then
-        minVolume
-
-    else if volume > maxVolume then
-        maxVolume
-
-    else
-        volume
 
 
 nextTrackNumberRequested : (Msg -> msg) -> Cmd msg
