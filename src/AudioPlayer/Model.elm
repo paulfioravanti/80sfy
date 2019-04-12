@@ -1,9 +1,4 @@
-module AudioPlayer.Model exposing
-    ( AudioPlayer
-    , init
-    , isMuted
-    , isPlaying
-    )
+module AudioPlayer.Model exposing (AudioPlayer, init)
 
 import AudioPlayer.Status as Status exposing (Status)
 
@@ -29,6 +24,10 @@ init soundCloudPlaylistUrl =
     }
 
 
+
+-- PRIVATE
+
+
 iframeUrl : String -> String
 iframeUrl soundCloudPlaylistUrl =
     "https://w.soundcloud.com/player/"
@@ -46,26 +45,3 @@ iframeUrl soundCloudPlaylistUrl =
         ++ "&hide_related=false"
         ++ "&visual=false"
         ++ "&callback=true"
-
-
-isMuted : AudioPlayer -> Bool
-isMuted { status } =
-    case status of
-        Status.Muted _ ->
-            True
-
-        _ ->
-            False
-
-
-isPlaying : AudioPlayer -> Bool
-isPlaying { status } =
-    case status of
-        Status.Playing ->
-            True
-
-        Status.Muted Status.Playing ->
-            True
-
-        _ ->
-            False

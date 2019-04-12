@@ -26,7 +26,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
                         |> containVolume
 
                 cmd =
-                    if Model.isMuted audioPlayer then
+                    if Status.isMuted audioPlayer.status then
                         Cmd.none
 
                     else
@@ -37,7 +37,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
         Msg.AudioPaused ->
             let
                 status =
-                    if Model.isMuted audioPlayer then
+                    if Status.isMuted audioPlayer.status then
                         Status.Muted Status.Paused
 
                     else
@@ -48,7 +48,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
         Msg.AudioPlaying ->
             let
                 status =
-                    if Model.isMuted audioPlayer then
+                    if Status.isMuted audioPlayer.status then
                         Status.Muted Status.Playing
 
                     else
@@ -76,7 +76,7 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
                         |> Task.perform identity
 
                 status =
-                    if Model.isMuted audioPlayer then
+                    if Status.isMuted audioPlayer.status then
                         Status.Muted Status.Playing
 
                     else

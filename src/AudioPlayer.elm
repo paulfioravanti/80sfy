@@ -58,12 +58,12 @@ initAudioPlayer flags =
 
 isMuted : AudioPlayer -> Bool
 isMuted audioPlayer =
-    Model.isMuted audioPlayer
+    Status.isMuted audioPlayer.status
 
 
 isPlaying : AudioPlayer -> Bool
 isPlaying audioPlayer =
-    Model.isPlaying audioPlayer
+    Status.isPlaying audioPlayer.status
 
 
 nextTrackMsg : Msg

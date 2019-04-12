@@ -1,7 +1,8 @@
 port module AudioPlayer.Subscriptions exposing (subscriptions)
 
-import AudioPlayer.Model as Model exposing (AudioPlayer)
+import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
+import AudioPlayer.Status as Status
 import Json.Decode as Decode exposing (Value)
 import VideoPlayer
 
@@ -27,7 +28,7 @@ subscriptions :
 subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
     let
         playingSubscription =
-            if Model.isPlaying audioPlayer then
+            if Status.isPlaying audioPlayer.status then
                 audioPausedSubscriptions
                     audioPlayerMsg
                     noOpMsg
