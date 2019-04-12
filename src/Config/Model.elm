@@ -1,7 +1,7 @@
 module Config.Model exposing (Config, init)
 
 import Flags exposing (Flags)
-import Json.Decode as Decode exposing (Value)
+import Value
 
 
 type alias Config =
@@ -18,11 +18,11 @@ init flags =
     let
         giphyApiKey =
             flags.giphyApiKey
-                |> extractStringValue ""
+                |> Value.extractString ""
 
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
-                |> extractStringValue
+                |> Value.extractString
                     "https://api.soundcloud.com/playlists/193785575"
     in
     { gifDisplaySeconds = 4
@@ -31,10 +31,3 @@ init flags =
     , tags = []
     , volumeAdjustmentRate = 20
     }
-
-
-extractStringValue : String -> Value -> String
-extractStringValue fallbackString flag =
-    flag
-        |> Decode.decodeValue Decode.string
-        |> Result.withDefault fallbackString

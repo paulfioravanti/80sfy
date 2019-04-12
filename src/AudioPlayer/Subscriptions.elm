@@ -3,7 +3,8 @@ port module AudioPlayer.Subscriptions exposing (subscriptions)
 import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Status as Status
-import Json.Decode as Decode exposing (Value)
+import Json.Decode exposing (Value)
+import Value
 import VideoPlayer
 
 
@@ -45,7 +46,7 @@ subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
         , requestNextTrackNumber
             (\() -> audioPlayerMsg Msg.NextTrackNumberRequested)
         , setPlaylistLength
-            (audioPlayerMsg << Msg.SetPlaylistLength << extractIntValue)
+            (audioPlayerMsg << Msg.SetPlaylistLength << Value.extractInt 1)
         ]
 
 
@@ -64,7 +65,7 @@ audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     Sub.batch
         [ audioPaused
             (\currentPositionFlag ->
-                if extractFloatValue currentPositionFlag > 0 then
+                if Value.extractFloat 0.0 currentPositionFlag > 0 then
                     audioPlayerMsg Msg.AudioPaused
 
                 else
@@ -72,7 +73,7 @@ audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
             )
         , audioPaused
             (\currentPositionFlag ->
-                if extractFloatValue currentPositionFlag > 0 then
+                if Value.extractFloat 0.0 currentPositionFlag > 0 then
                     videoPlayerMsg VideoPlayer.pauseVideosMsg
 
                 else
@@ -93,7 +94,7 @@ audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
     Sub.batch
         [ audioPlaying
             (\loadedProgressFlag ->
-                if extractFloatValue loadedProgressFlag > 0 then
+                if Value.extractFloat 0.0 loadedProgressFlag > 0 then
                     audioPlayerMsg Msg.AudioPlaying
 
                 else
@@ -101,24 +102,10 @@ audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
             )
         , audioPlaying
             (\loadedProgressFlag ->
-                if extractFloatValue loadedProgressFlag > 0 then
+                if Value.extractFloat 0.0 loadedProgressFlag > 0 then
                     videoPlayerMsg VideoPlayer.playVideosMsg
 
                 else
                     noOpMsg
             )
         ]
-
-
-extractIntValue : Value -> Int
-extractIntValue intFlag =
-    intFlag
-        |> Decode.decodeValue Decode.int
-        |> Result.withDefault 1
-
-
-extractFloatValue : Value -> Float
-extractFloatValue floatFlag =
-    floatFlag
-        |> Decode.decodeValue Decode.float
-        |> Result.withDefault 0.0
