@@ -113,7 +113,7 @@ porterCopyright =
         [ css [ Styles.creditsCopyright ]
         , attribute "data-name" "credit-porter-copyright"
         ]
-        [ text "Copyright 2018" ]
+        [ text "Copyright 2018-2019" ]
 
 
 soundCloudIconLink : Html msg
