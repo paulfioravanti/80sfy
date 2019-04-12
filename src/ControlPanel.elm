@@ -10,7 +10,7 @@ module ControlPanel exposing
     )
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State exposing (State)
@@ -60,17 +60,17 @@ view :
     -> (FullScreen.Msg -> msg)
     -> msg
     -> msg
-    -> Vendor
+    -> BrowserVendor
     -> AudioPlayer
     -> ControlPanel
     -> Html msg
-view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer controlPanel =
+view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer controlPanel =
     View.view
         audioPlayerMsg
         controlPanelMsg
         fullScreenMsg
         pauseMsg
         playMsg
-        vendor
+        browserVendor
         audioPlayer
         controlPanel

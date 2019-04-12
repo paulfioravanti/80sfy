@@ -19,6 +19,10 @@ subscriptions controlPanelMsg controlPanel =
         ]
 
 
+
+-- PRIVATE
+
+
 visibilitySubscription : (Msg -> msg) -> State -> Sub msg
 visibilitySubscription controlPanelMsg state =
     case state of

@@ -6,7 +6,7 @@ module FullScreen exposing
     , subscriptions
     )
 
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import FullScreen.Cmd as Cmd
 import FullScreen.Msg as Msg
 import FullScreen.Subscriptions as Subscriptions
@@ -16,9 +16,9 @@ type alias Msg =
     Msg.Msg
 
 
-cmd : Msg -> Vendor -> Cmd msg
-cmd msg vendor =
-    Cmd.cmd msg vendor
+cmd : Msg -> BrowserVendor -> Cmd msg
+cmd msg browserVendor =
+    Cmd.cmd msg browserVendor
 
 
 performFullScreenToggleMsg : Msg

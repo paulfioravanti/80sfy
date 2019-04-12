@@ -10,7 +10,7 @@ module VideoPlayer exposing
     , view
     )
 
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import FullScreen
 import Html.Styled exposing (Html)
 import Http exposing (Error)
@@ -68,15 +68,15 @@ view :
     (FullScreen.Msg -> msg)
     -> msg
     -> (Msg -> msg)
-    -> Vendor
+    -> BrowserVendor
     -> Bool
     -> VideoPlayer
     -> Html msg
-view fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
+view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
     View.view
         fullScreenMsg
         noOpMsg
         videoPlayerMsg
-        vendor
+        browserVendor
         audioPlaying
         videoPlayer

@@ -2,7 +2,7 @@ module ControlPanel.View exposing (view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -30,11 +30,11 @@ view :
     -> (FullScreen.Msg -> msg)
     -> msg
     -> msg
-    -> Vendor
+    -> BrowserVendor
     -> AudioPlayer
     -> ControlPanel
     -> Html msg
-view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer controlPanel =
+view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer controlPanel =
     let
         animations =
             controlPanel.style
@@ -68,7 +68,7 @@ view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioP
                 fullScreenMsg
                 pauseMsg
                 playMsg
-                vendor
+                browserVendor
                 audioPlayer
             , volumeControl audioPlayerMsg audioPlayer
             , Credits.view

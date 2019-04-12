@@ -1,7 +1,7 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import ControlPanel.Styles as Styles
 import FullScreen
 import Html.Styled exposing (Html, div, i)
@@ -14,10 +14,10 @@ view :
     -> (FullScreen.Msg -> msg)
     -> msg
     -> msg
-    -> Vendor
+    -> BrowserVendor
     -> AudioPlayer
     -> Html msg
-view audioPlayerMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer =
+view audioPlayerMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -32,7 +32,7 @@ view audioPlayerMsg fullScreenMsg pauseMsg playMsg vendor audioPlayer =
         [ muteUnmuteButton audioPlayerMsg muted
         , playPauseButton pauseMsg playMsg playing
         , nextTrackButton audioPlayerMsg
-        , fullscreenButton fullScreenMsg vendor
+        , fullscreenButton fullScreenMsg browserVendor
         ]
 
 
@@ -88,11 +88,11 @@ nextTrackButton audioPlayerMsg =
         ]
 
 
-fullscreenButton : (FullScreen.Msg -> msg) -> Vendor -> Html msg
-fullscreenButton fullScreenMsg vendor =
+fullscreenButton : (FullScreen.Msg -> msg) -> BrowserVendor -> Html msg
+fullscreenButton fullScreenMsg browserVendor =
     let
         onClickAttribute =
-            if vendor == BrowserVendor.Mozilla then
+            if browserVendor == BrowserVendor.Mozilla then
                 attribute "onClick" "window.mozFullScreenToggleHack()"
 
             else

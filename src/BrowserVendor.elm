@@ -1,22 +1,22 @@
-module BrowserVendor exposing (Vendor(..), init)
+module BrowserVendor exposing (BrowserVendor(..), init)
 
 import Flags exposing (Flags)
 import Json.Decode as Decode
+import Value
 
 
-type Vendor
+type BrowserVendor
     = Mozilla
     | Other
     | Webkit
 
 
-init : Flags -> Vendor
+init : Flags -> BrowserVendor
 init flags =
     let
         browser =
             flags.browserVendor
-                |> Decode.decodeValue Decode.string
-                |> Result.withDefault "other"
+                |> Value.extractString "other"
     in
     case browser of
         "mozilla" ->

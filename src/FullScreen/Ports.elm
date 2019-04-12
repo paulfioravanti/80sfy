@@ -4,7 +4,7 @@ port module FullScreen.Ports exposing
     , performFullScreenToggle
     )
 
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 
 
 port exitFullScreen : () -> Cmd msg
@@ -45,9 +45,9 @@ port webkitFullScreenToggle : () -> Cmd msg
 port webkitRequestFullScreen : () -> Cmd msg
 
 
-enterFullScreen : Vendor -> Cmd msg
-enterFullScreen vendor =
-    case vendor of
+enterFullScreen : BrowserVendor -> Cmd msg
+enterFullScreen browserVendor =
+    case browserVendor of
         BrowserVendor.Mozilla ->
             mozRequestFullScreen ()
 
@@ -58,9 +58,9 @@ enterFullScreen vendor =
             webkitRequestFullScreen ()
 
 
-performFullScreenToggle : Vendor -> Cmd msg
-performFullScreenToggle vendor =
-    case vendor of
+performFullScreenToggle : BrowserVendor -> Cmd msg
+performFullScreenToggle browserVendor =
+    case browserVendor of
         BrowserVendor.Mozilla ->
             mozFullScreenToggle ()
 
@@ -71,9 +71,9 @@ performFullScreenToggle vendor =
             webkitFullScreenToggle ()
 
 
-leaveFullScreen : Vendor -> Cmd msg
-leaveFullScreen vendor =
-    case vendor of
+leaveFullScreen : BrowserVendor -> Cmd msg
+leaveFullScreen browserVendor =
+    case browserVendor of
         BrowserVendor.Mozilla ->
             mozCancelFullScreen ()
 

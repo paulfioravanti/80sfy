@@ -1,7 +1,7 @@
 module Model exposing (Model, init)
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import SecretConfig exposing (SecretConfig)
@@ -10,7 +10,7 @@ import VideoPlayer exposing (VideoPlayer)
 
 type alias Model =
     { audioPlayer : AudioPlayer
-    , browserVendor : Vendor
+    , browserVendor : BrowserVendor
     , config : Config
     , controlPanel : ControlPanel
     , secretConfig : SecretConfig
@@ -19,10 +19,10 @@ type alias Model =
     }
 
 
-init : Config -> Vendor -> Model
-init config vendor =
+init : Config -> BrowserVendor -> Model
+init config browserVendor =
     { audioPlayer = AudioPlayer.init config.soundCloudPlaylistUrl
-    , browserVendor = vendor
+    , browserVendor = browserVendor
     , config = config
     , controlPanel = ControlPanel.init
     , secretConfig =

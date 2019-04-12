@@ -1,7 +1,7 @@
 module VideoPlayer.View exposing (view)
 
 import Animation
-import BrowserVendor exposing (Vendor)
+import BrowserVendor exposing (BrowserVendor)
 import FullScreen
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
@@ -24,11 +24,11 @@ view :
     (FullScreen.Msg -> msg)
     -> msg
     -> (Msg -> msg)
-    -> Vendor
+    -> BrowserVendor
     -> Bool
     -> VideoPlayer
     -> Html msg
-view fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
+view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -55,7 +55,7 @@ view fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
             fullScreenMsg
             noOpMsg
             videoPlayerMsg
-            vendor
+            browserVendor
             audioPlaying
             videoPlayer
         )
@@ -66,11 +66,11 @@ attributes :
     (FullScreen.Msg -> msg)
     -> msg
     -> (Msg -> msg)
-    -> Vendor
+    -> BrowserVendor
     -> Bool
     -> VideoPlayer
     -> List (Html.Attribute msg)
-attributes fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer =
+attributes fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
     let
         animations =
             videoPlayer.style
@@ -78,7 +78,7 @@ attributes fullScreenMsg noOpMsg videoPlayerMsg vendor audioPlaying videoPlayer 
                 |> List.map fromUnstyled
 
         onDoubleClickAttribute =
-            if vendor == BrowserVendor.Mozilla then
+            if browserVendor == BrowserVendor.Mozilla then
                 attribute "onDblClick" "window.mozFullScreenToggleHack()"
 
             else
