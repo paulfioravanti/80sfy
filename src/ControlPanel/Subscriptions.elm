@@ -2,8 +2,9 @@ module ControlPanel.Subscriptions exposing (subscriptions)
 
 import Animation
 import Browser.Events as Events
-import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
+import ControlPanel.State as State exposing (State)
 import Json.Decode as Decode
 import Time
 
@@ -18,16 +19,16 @@ subscriptions controlPanelMsg controlPanel =
         ]
 
 
-visibilitySubscription : (Msg -> msg) -> Model.State -> Sub msg
+visibilitySubscription : (Msg -> msg) -> State -> Sub msg
 visibilitySubscription controlPanelMsg state =
     case state of
-        Model.Idle secondsVisible ->
+        State.Idle secondsVisible ->
             Time.every 1000
                 (controlPanelMsg
                     << Msg.CountdownToHideControlPanel secondsVisible
                 )
 
-        Model.Invisible ->
+        State.Invisible ->
             Events.onMouseMove
                 (Decode.succeed (controlPanelMsg Msg.ShowControlPanel))
 

@@ -2,8 +2,9 @@ module ControlPanel.Update exposing (update)
 
 import Animation
 import ControlPanel.Animations as Animations
-import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
+import ControlPanel.State as State
 import Task
 
 
@@ -35,7 +36,7 @@ update msg controlPanel =
                 ( controlPanel, hideControlPanel )
 
             else
-                ( { controlPanel | state = Model.Idle (secondsVisible + 1) }
+                ( { controlPanel | state = State.Idle (secondsVisible + 1) }
                 , Cmd.none
                 )
 
@@ -48,13 +49,13 @@ update msg controlPanel =
             in
             ( { controlPanel
                 | style = animateToHidden
-                , state = Model.Invisible
+                , state = State.Invisible
               }
             , Cmd.none
             )
 
         Msg.LeaveControlPanel ->
-            ( { controlPanel | state = Model.Idle 0 }, Cmd.none )
+            ( { controlPanel | state = State.Idle 0 }, Cmd.none )
 
         Msg.ShowControlPanel ->
             let
@@ -63,20 +64,20 @@ update msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.visible ]
             in
-            ( { controlPanel | style = animateToVisible, state = Model.Idle 0 }
+            ( { controlPanel | style = animateToVisible, state = State.Idle 0 }
             , Cmd.none
             )
 
         Msg.ToggleHideWhenInactive ->
             let
                 state =
-                    if controlPanel.state == Model.KeepVisible then
-                        Model.Idle 0
+                    if controlPanel.state == State.KeepVisible then
+                        State.Idle 0
 
                     else
-                        Model.KeepVisible
+                        State.KeepVisible
             in
             ( { controlPanel | state = state }, Cmd.none )
 
         Msg.UseControlPanel ->
-            ( { controlPanel | state = Model.InUse }, Cmd.none )
+            ( { controlPanel | state = State.InUse }, Cmd.none )

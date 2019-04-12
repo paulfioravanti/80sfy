@@ -5,8 +5,9 @@ import AudioPlayer exposing (AudioPlayer)
 import BrowserVendor exposing (Vendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
-import ControlPanel.Model as Model exposing (ControlPanel)
+import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
+import ControlPanel.State as State
 import ControlPanel.Styles as Styles
 import FullScreen
 import Html.Styled exposing (Html, div, iframe, img, input)
@@ -47,7 +48,7 @@ view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg vendor audioP
 
         visibilityToggles =
             case controlPanel.state of
-                Model.KeepVisible ->
+                State.KeepVisible ->
                     []
 
                 _ ->
