@@ -1,5 +1,6 @@
 module Update exposing (update)
 
+import ApplicationState
 import AudioPlayer
 import Config
 import ControlPanel
@@ -9,7 +10,6 @@ import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
 import Task
-import Utils
 import VideoPlayer
 
 
@@ -117,7 +117,7 @@ update msg model =
             ( { model | secretConfig = secretConfig }, Cmd.none )
 
         Msg.ShowApplicationState ->
-            ( model, Utils.showApplicationState model )
+            ( model, ApplicationState.show model )
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let

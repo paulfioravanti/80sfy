@@ -23,6 +23,9 @@ fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
                 ++ "&tag="
                 ++ tag
                 ++ "&rating=pg-13"
+
+        decodeGifUrl =
+            Decode.at [ "data", "image_mp4_url" ] Decode.string
     in
     Http.get
         { url = url
@@ -38,12 +41,7 @@ random randomTagMsg tags =
 
         generator =
             Random.int 1 tagsLength
-                |> Random.map (Tags.numToTag tags)
+                |> Random.map (Tags.tagAtIndex tags)
     in
     generator
         |> Random.generate randomTagMsg
-
-
-decodeGifUrl : Decode.Decoder String
-decodeGifUrl =
-    Decode.at [ "data", "image_mp4_url" ] Decode.string

@@ -63,6 +63,10 @@ view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer
         childElements
 
 
+
+-- PRIVATE
+
+
 attributes :
     (FullScreen.Msg -> msg)
     -> msg

@@ -1,4 +1,4 @@
-module Utils exposing (showApplicationState)
+module ApplicationState exposing (show)
 
 import AudioPlayer
 import ControlPanel
@@ -8,8 +8,8 @@ import Ports
 import VideoPlayer
 
 
-showApplicationState : Model -> Cmd msg
-showApplicationState ({ config, controlPanel, secretConfig } as model) =
+show : Model -> Cmd msg
+show ({ config, controlPanel, secretConfig } as model) =
     let
         { audioPlayer, videoPlayer1, videoPlayer2 } =
             model

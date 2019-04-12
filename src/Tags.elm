@@ -1,4 +1,4 @@
-module Tags exposing (init, numToTag)
+module Tags exposing (init, tagAtIndex)
 
 import Http exposing (Error)
 import Json.Decode as Decode
@@ -16,8 +16,8 @@ init fetchTagsMsg =
         }
 
 
-numToTag : List String -> Int -> String
-numToTag tags numberOfMembers =
+tagAtIndex : List String -> Int -> String
+tagAtIndex tags numberOfMembers =
     tags
         |> List.drop numberOfMembers
         |> List.head
