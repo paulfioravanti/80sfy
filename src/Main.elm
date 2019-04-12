@@ -15,21 +15,6 @@ import View
 
 main : Program Flags Model Msg
 main =
-    let
-        msgRouter =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , configMsg = Msg.Config
-            , controlPanelMsg = Msg.ControlPanel
-            , fullScreenMsg = Msg.FullScreen
-            , keyMsg = Msg.Key
-            , noOpMsg = Msg.NoOp
-            , pauseMsg = Msg.Pause
-            , playMsg = Msg.Play
-            , secretConfigMsg = Msg.SecretConfig
-            , showApplicationState = Msg.ShowApplicationState
-            , videoPlayerMsg = Msg.VideoPlayer
-            }
-    in
     Browser.document
         { init = init
         , update = Update.update

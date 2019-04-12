@@ -20,7 +20,6 @@ import Html.Styled.Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
-import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles

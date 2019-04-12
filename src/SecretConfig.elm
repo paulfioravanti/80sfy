@@ -11,7 +11,6 @@ import AudioPlayer
 import Config.Msg as ConfigMsg
 import ControlPanel
 import Html.Styled exposing (Html)
-import MsgRouter exposing (MsgRouter)
 import SecretConfig.Model as Model
 import SecretConfig.Msg as Msg
 import SecretConfig.Update as Update

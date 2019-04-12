@@ -21,7 +21,6 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
-import MsgRouter exposing (MsgRouter)
 
 
 view :

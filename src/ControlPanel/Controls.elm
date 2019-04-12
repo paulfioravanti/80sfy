@@ -7,7 +7,6 @@ import FullScreen
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
-import MsgRouter exposing (MsgRouter)
 
 
 view :

@@ -14,7 +14,6 @@ import BrowserVendor exposing (Vendor)
 import FullScreen
 import Html.Styled exposing (Html)
 import Http exposing (Error)
-import MsgRouter exposing (MsgRouter)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Subscriptions as Subscriptions exposing (Context)

@@ -17,7 +17,6 @@ import ControlPanel.Update as Update
 import ControlPanel.View as View
 import FullScreen
 import Html.Styled exposing (Html)
-import MsgRouter exposing (MsgRouter)
 
 
 type alias ControlPanel =

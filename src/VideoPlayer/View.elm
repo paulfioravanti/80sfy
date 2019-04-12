@@ -14,7 +14,6 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
-import MsgRouter exposing (MsgRouter)
 import RemoteData
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
