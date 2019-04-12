@@ -1,6 +1,6 @@
 module Utils exposing (showApplicationState)
 
-import AudioPlayer.Model as AudioPlayer
+import AudioPlayer
 import ControlPanel.Model as ControlPanel
 import Json.Encode as Encode
 import Model exposing (Model)

@@ -3,7 +3,6 @@ module AudioPlayer.Model exposing
     , init
     , isMuted
     , isPlaying
-    , statusToString
     )
 
 import AudioPlayer.Status as Status exposing (Status)
@@ -70,16 +69,3 @@ isPlaying { status } =
 
         _ ->
             False
-
-
-statusToString : Status -> String
-statusToString status =
-    case status of
-        Status.Playing ->
-            "Playing"
-
-        Status.Paused ->
-            "Paused"
-
-        Status.Muted status_ ->
-            "Muted " ++ statusToString status_

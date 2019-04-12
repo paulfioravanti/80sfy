@@ -11,6 +11,7 @@ module AudioPlayer exposing
     , pauseAudioMsg
     , playAudioMsg
     , reInitAudioPlayerMsg
+    , statusToString
     , subscriptions
     , toggleMuteMsg
     , update
@@ -20,6 +21,7 @@ import AudioPlayer.Flags exposing (Flags)
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Ports as Ports
+import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
 import AudioPlayer.Utils as Utils
@@ -82,6 +84,11 @@ playAudioMsg =
 reInitAudioPlayerMsg : String -> Msg
 reInitAudioPlayerMsg =
     Msg.ReInitAudioPlayer
+
+
+statusToString : Status -> String
+statusToString status =
+    Status.toString status
 
 
 subscriptions :
