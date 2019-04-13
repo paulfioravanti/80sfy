@@ -27,7 +27,7 @@ subscriptions model =
             model.audioPlayer
         , FullScreen.subscriptions Msg.FullScreen
         , ControlPanel.subscriptions Msg.ControlPanel model.controlPanel
-        , Key.subscriptions Msg.Key
+        , Key.subscriptions Msg.KeyPressed
         , VideoPlayer.subscriptions
             Msg.NoOp
             Msg.VideoPlayer

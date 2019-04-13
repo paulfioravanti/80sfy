@@ -14,7 +14,7 @@ type Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | FullScreen FullScreen.Msg
-    | Key Key.Key
+    | KeyPressed Key.Key
     | NoOp
     | Pause
     | Play

@@ -58,7 +58,7 @@ update msg model =
             in
             ( model, cmd )
 
-        Msg.Key code ->
+        Msg.KeyPressed code ->
             let
                 cmd =
                     code
