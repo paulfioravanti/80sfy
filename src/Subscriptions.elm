@@ -1,10 +1,8 @@
 module Subscriptions exposing (subscriptions)
 
 import AudioPlayer
-import Browser.Events as Events
 import ControlPanel
 import FullScreen
-import Json.Decode as Decode
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
@@ -29,7 +27,7 @@ subscriptions model =
             model.audioPlayer
         , FullScreen.subscriptions Msg.FullScreen
         , ControlPanel.subscriptions Msg.ControlPanel model.controlPanel
-        , Events.onKeyDown (Decode.map Msg.Key Key.decoder)
+        , Key.subscriptions Msg.Key
         , VideoPlayer.subscriptions
             Msg.NoOp
             Msg.VideoPlayer
