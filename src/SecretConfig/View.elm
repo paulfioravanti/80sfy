@@ -49,11 +49,15 @@ view audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationSta
         ]
 
 
+
+-- PRIVATE
+
+
 secretConfigButton : (Msg -> msg) -> Html msg
 secretConfigButton secretConfigMsg =
     div
-        [ css [ Styles.secretConfigButton ]
-        , attribute "data-name" "secret-config-button"
+        [ attribute "data-name" "secret-config-button"
+        , css [ Styles.secretConfigButton ]
         , onClick (secretConfigMsg Msg.ToggleVisibility)
         ]
         []
@@ -70,8 +74,8 @@ secretConfigSettings :
     -> Html msg
 secretConfigSettings audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     div
-        [ css [ Styles.secretConfig secretConfig.visible ]
-        , attribute "data-name" "secret-config-settings"
+        [ attribute "data-name" "secret-config-settings"
+        , css [ Styles.secretConfig secretConfig.visible ]
         ]
         [ span []
             [ text "Tags:" ]
@@ -102,8 +106,8 @@ secretConfigSettings audioPlayerMsg configMsg controlPanelMsg secretConfigMsg sh
 gifTagsInput : (Msg -> msg) -> String -> Html msg
 gifTagsInput secretConfigMsg tags =
     textarea
-        [ css [ Styles.gifTags ]
-        , attribute "data-name" "search-tags"
+        [ attribute "data-name" "search-tags"
+        , css [ Styles.gifTags ]
         , onInput (secretConfigMsg << Msg.UpdateTags)
         ]
         [ text tags ]
@@ -112,8 +116,8 @@ gifTagsInput secretConfigMsg tags =
 soundCloudPlaylistUrlInput : (Msg -> msg) -> String -> Html msg
 soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
     input
-        [ css [ Styles.configInput ]
-        , attribute "data-name" "playlist-input"
+        [ attribute "data-name" "playlist-input"
+        , css [ Styles.configInput ]
         , value soundCloudPlaylistUrl
         , onInput (secretConfigMsg << Msg.UpdateSoundCloudPlaylistUrl)
         ]
@@ -123,8 +127,8 @@ soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
 gifDisplaySecondsInput : (Msg -> msg) -> String -> Html msg
 gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
     input
-        [ css [ Styles.configInput ]
-        , attribute "data-name" "gif-display-seconds-input"
+        [ attribute "data-name" "gif-display-seconds-input"
+        , css [ Styles.configInput ]
         , value gifDisplaySeconds
         , onInput (secretConfigMsg << Msg.UpdateGifDisplaySeconds)
         ]
@@ -138,16 +142,18 @@ saveSettingsButton :
     -> String
     -> Html msg
 saveSettingsButton configMsg soundCloudPlaylistUrl tags gifDisplaySeconds =
-    button
-        [ css [ Styles.configButton ]
-        , onClick
-            (configMsg
+    let
+        saveConfig =
+            configMsg
                 (ConfigMsg.SaveConfig
                     soundCloudPlaylistUrl
                     tags
                     gifDisplaySeconds
                 )
-            )
+    in
+    button
+        [ css [ Styles.configButton ]
+        , onClick saveConfig
         ]
         [ text "Save Settings" ]
 

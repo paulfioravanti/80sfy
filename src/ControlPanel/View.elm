@@ -36,15 +36,15 @@ view :
     -> Html msg
 view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer controlPanel =
     let
+        attributes =
+            [ attribute "data-name" "control-panel"
+            , css [ Styles.controlPanel ]
+            ]
+
         animations =
             controlPanel.style
                 |> Animation.render
                 |> List.map fromUnstyled
-
-        attributes =
-            [ css [ Styles.controlPanel ]
-            , attribute "data-name" "control-panel"
-            ]
 
         visibilityToggles =
             case controlPanel.state of
@@ -56,7 +56,7 @@ view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg browserVendor
                     , onMouseLeave (controlPanelMsg Msg.LeaveControlPanel)
                     ]
     in
-    div (animations ++ attributes ++ visibilityToggles)
+    div (attributes ++ animations ++ visibilityToggles)
         [ div
             [ css [ Styles.controlPanelContent ]
             , attribute "data-name" "panel-content"
@@ -76,14 +76,18 @@ view audioPlayerMsg controlPanelMsg fullScreenMsg pauseMsg playMsg browserVendor
         ]
 
 
+
+-- PRIVATE
+
+
 logo : Html msg
 logo =
     div [ css [ Styles.logo ], attribute "data-name" "logo" ]
         [ div [ css [ Styles.logoImageBackground ] ] []
         , img
-            [ css [ Styles.logoImage ]
+            [ attribute "data-name" "logo-image"
+            , css [ Styles.logoImage ]
             , src "assets/logo.png"
-            , attribute "data-name" "logo-image"
             ]
             []
         ]
@@ -92,8 +96,8 @@ logo =
 trackInfo : AudioPlayer -> Html msg
 trackInfo { id, soundCloudIframeUrl } =
     div
-        [ css [ Styles.trackInfo ]
-        , attribute "data-name" "track-info"
+        [ attribute "data-name" "track-info"
+        , css [ Styles.trackInfo ]
         ]
         [ iframe
             [ css [ Styles.trackPlayer ]
@@ -108,8 +112,8 @@ trackInfo { id, soundCloudIframeUrl } =
 volumeControl : (AudioPlayer.Msg -> msg) -> AudioPlayer -> Html msg
 volumeControl audioPlayerMsg { volume } =
     div
-        [ css [ Styles.volume ]
-        , attribute "data-name" "volume"
+        [ attribute "data-name" "volume"
+        , css [ Styles.volume ]
         ]
         [ div [ css [ Styles.volumeBackground ] ]
             []

@@ -65,6 +65,10 @@ subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
         ]
 
 
+
+-- PRIVATE
+
+
 fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
 fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
     if status == Status.Playing then

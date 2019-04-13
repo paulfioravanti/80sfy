@@ -36,6 +36,10 @@ view audioPlayerMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer =
         ]
 
 
+
+-- PRIVATE
+
+
 muteUnmuteButton : (AudioPlayer.Msg -> msg) -> Bool -> Html msg
 muteUnmuteButton audioPlayerMsg muted =
     let

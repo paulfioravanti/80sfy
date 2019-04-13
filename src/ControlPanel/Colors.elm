@@ -38,16 +38,6 @@ pastelOrange =
     rgb 254 182 69
 
 
-yellow : Color
-yellow =
-    rgb 241 231 103
-
-
-yellowWithAlpha : Float -> Color
-yellowWithAlpha alpha =
-    rgba 241 231 103 alpha
-
-
 white : Color
 white =
     rgb 255 255 255
@@ -56,3 +46,13 @@ white =
 whiteWithAlpha : Float -> Color
 whiteWithAlpha alpha =
     rgba 255 255 255 alpha
+
+
+yellow : Color
+yellow =
+    rgb 241 231 103
+
+
+yellowWithAlpha : Float -> Color
+yellowWithAlpha alpha =
+    rgba 241 231 103 alpha

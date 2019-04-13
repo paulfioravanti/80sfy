@@ -70,19 +70,6 @@ gifTags =
         ]
 
 
-secretConfigButton : Style
-secretConfigButton =
-    Css.batch
-        [ bottom (px 0)
-        , display block
-        , height (px 20)
-        , position fixed
-        , right (px 0)
-        , width (px 20)
-        , zIndex (int -1)
-        ]
-
-
 secretConfig : Bool -> Style
 secretConfig visible =
     let
@@ -104,4 +91,17 @@ secretConfig visible =
         , top (px 0)
         , width (px 400)
         , zIndex (int -2)
+        ]
+
+
+secretConfigButton : Style
+secretConfigButton =
+    Css.batch
+        [ bottom (px 0)
+        , display block
+        , height (px 20)
+        , position fixed
+        , right (px 0)
+        , width (px 20)
+        , zIndex (int -1)
         ]

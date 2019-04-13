@@ -98,10 +98,10 @@ attributes fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying video
                 onClick noOpMsg
 
         videoPlayerAttributes =
-            [ onDoubleClickAttribute
+            [ attribute "data-name" "player-gif-container"
+            , onDoubleClickAttribute
             , clickOnPlayAttribute
             , css [ Styles.gifContainer videoPlayer.zIndex ]
-            , attribute "data-name" "player-gif-container"
             , onDoubleClick
                 (fullScreenMsg FullScreen.performFullScreenToggleMsg)
             ]
@@ -132,9 +132,9 @@ gifVideoPlayer gifUrl videoPlayer =
                    )
 
         playerAttributes =
-            [ src gifUrl
+            [ attribute "data-name" ("player-" ++ videoPlayer.id)
+            , src gifUrl
             , css [ Styles.videoPlayer ]
-            , attribute "data-name" ("player-" ++ videoPlayer.id)
             ]
     in
     video (playerAttributes ++ playingAttributes) []
@@ -147,12 +147,12 @@ playerPausedOverlay =
             "Click here to make this the active window and continue GIFs"
     in
     div
-        [ css [ Styles.videoPlayerPaused ]
-        , attribute "data-name" "player-paused"
+        [ attribute "data-name" "player-paused"
+        , css [ Styles.videoPlayerPaused ]
         ]
         [ div
-            [ css [ Styles.videoPlayerPausedContent ]
-            , attribute "data-name" "player-paused-content"
+            [ attribute "data-name" "player-paused-content"
+            , css [ Styles.videoPlayerPausedContent ]
             ]
             [ span [] [ text "[GIFs Paused]" ]
             , br [] []

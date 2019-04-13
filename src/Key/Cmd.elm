@@ -31,7 +31,8 @@ pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg { audioPlayer, config } ke
                     else
                         playMsg
             in
-            Task.succeed msg
+            msg
+                |> Task.succeed
                 |> Task.perform identity
 
         Key.UpArrow ->
