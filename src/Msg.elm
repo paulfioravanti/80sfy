@@ -14,6 +14,7 @@ type Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | FullScreen FullScreen.Msg
+    | GenerateRandomGif String
     | KeyPressed Key.Key
     | NoOp
     | Pause

@@ -5,6 +5,7 @@ import AudioPlayer
 import Config
 import ControlPanel
 import FullScreen
+import Gif
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
@@ -33,7 +34,7 @@ update msg model =
                     model.config
                         |> Config.update
                             Msg.AudioPlayer
-                            Msg.Config
+                            Msg.GenerateRandomGif
                             Msg.SecretConfig
                             Msg.VideoPlayer
                             msgForConfig
@@ -55,6 +56,17 @@ update msg model =
                 cmd =
                     model.browserVendor
                         |> FullScreen.cmd fullScreenMsg
+            in
+            ( model, cmd )
+
+        Msg.GenerateRandomGif videoPlayerId ->
+            let
+                cmd =
+                    model.config.tags
+                        |> Gif.random
+                            (Msg.Config
+                                << Config.randomTagGeneratedMsg videoPlayerId
+                            )
             in
             ( model, cmd )
 
@@ -135,16 +147,9 @@ update msg model =
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let
-                -- NOTE: The Config module cannot be imported in
-                -- VideoPlayer.Update due to circular dependencies, so the
-                -- generateRandomGifMsg is created here and passed to
-                -- VideoPlayer.update as a parameter
-                generateRandomGifMsg =
-                    Msg.Config << Config.generateRandomGifMsg
-
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        generateRandomGifMsg
+                        Msg.GenerateRandomGif
                         msgForVideoPlayer
                         model.videoPlayer1
                         model.videoPlayer2

@@ -14,25 +14,18 @@ import VideoPlayer
 
 update :
     (AudioPlayer.Msg -> msg)
-    -> (Msg -> msg)
+    -> (String -> msg)
     -> (SecretConfig.Msg -> msg)
     -> (VideoPlayer.Msg -> msg)
     -> Msg
     -> Config
     -> ( Config, Cmd msg )
-update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
+update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg config =
     case msg of
-        Msg.GenerateRandomGif videoPlayerId ->
-            ( config
-            , Gif.random
-                (configMsg << Msg.RandomTagGenerated videoPlayerId)
-                config.tags
-            )
-
         Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    configMsg (Msg.GenerateRandomGif videoPlayerId)
+                    generateRandomGifMsg videoPlayerId
                         |> Task.succeed
                         |> Task.perform identity
 

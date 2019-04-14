@@ -1,9 +1,9 @@
 module Config exposing
     ( Config
     , Msg
-    , generateRandomGifMsg
     , init
     , initTagsMsg
+    , randomTagGeneratedMsg
     , saveMsg
     , update
     )
@@ -36,9 +36,9 @@ initTagsMsg =
     Msg.InitTags
 
 
-generateRandomGifMsg : String -> Msg
-generateRandomGifMsg =
-    Msg.GenerateRandomGif
+randomTagGeneratedMsg : String -> String -> Msg
+randomTagGeneratedMsg =
+    Msg.RandomTagGenerated
 
 
 saveMsg : String -> String -> String -> Msg
@@ -48,16 +48,16 @@ saveMsg =
 
 update :
     (AudioPlayer.Msg -> msg)
-    -> (Msg -> msg)
+    -> (String -> msg)
     -> (SecretConfig.Msg -> msg)
     -> (VideoPlayer.Msg -> msg)
     -> Msg
     -> Config
     -> ( Config, Cmd msg )
-update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
+update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg config =
     Update.update
         audioPlayerMsg
-        configMsg
+        generateRandomGifMsg
         secretConfigMsg
         videoPlayerMsg
         msg
