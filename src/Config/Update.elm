@@ -71,7 +71,7 @@ update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
                 |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
             )
 
-        Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
+        Msg.Save soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
                 tags =
                     tagsString

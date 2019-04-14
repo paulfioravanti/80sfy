@@ -1,7 +1,6 @@
 module SecretConfig.View exposing (view)
 
 import AudioPlayer
-import Config.Msg as ConfigMsg
 import ControlPanel
 import Html.Styled
     exposing
@@ -28,19 +27,19 @@ import VideoPlayer
 
 view :
     (AudioPlayer.Msg -> msg)
-    -> (ConfigMsg.Msg -> msg)
     -> (ControlPanel.Msg -> msg)
+    -> (String -> String -> String -> msg)
     -> (Msg -> msg)
     -> msg
     -> (VideoPlayer.Msg -> msg)
     -> SecretConfig
     -> Html msg
-view audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
+view audioPlayerMsg controlPanelMsg saveConfigMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton secretConfigMsg
         , secretConfigSettings
             audioPlayerMsg
-            configMsg
+            saveConfigMsg
             controlPanelMsg
             secretConfigMsg
             showApplicationStateMsg
@@ -65,14 +64,14 @@ secretConfigButton secretConfigMsg =
 
 secretConfigSettings :
     (AudioPlayer.Msg -> msg)
-    -> (ConfigMsg.Msg -> msg)
+    -> (String -> String -> String -> msg)
     -> (ControlPanel.Msg -> msg)
     -> (Msg -> msg)
     -> msg
     -> (VideoPlayer.Msg -> msg)
     -> SecretConfig
     -> Html msg
-secretConfigSettings audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
+secretConfigSettings audioPlayerMsg saveConfigMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     div
         [ attribute "data-name" "secret-config-settings"
         , css [ Styles.secretConfig secretConfig.visible ]
@@ -89,7 +88,7 @@ secretConfigSettings audioPlayerMsg configMsg controlPanelMsg secretConfigMsg sh
             [ text "Gif Display Seconds:" ]
         , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplaySeconds
         , saveSettingsButton
-            configMsg
+            saveConfigMsg
             secretConfig.soundCloudPlaylistUrl
             secretConfig.tags
             secretConfig.gifDisplaySeconds
@@ -136,20 +135,18 @@ gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
 
 
 saveSettingsButton :
-    (ConfigMsg.Msg -> msg)
+    (String -> String -> String -> msg)
     -> String
     -> String
     -> String
     -> Html msg
-saveSettingsButton configMsg soundCloudPlaylistUrl tags gifDisplaySeconds =
+saveSettingsButton saveConfigMsg soundCloudPlaylistUrl tags gifDisplaySeconds =
     let
         saveConfig =
-            configMsg
-                (ConfigMsg.SaveConfig
-                    soundCloudPlaylistUrl
-                    tags
-                    gifDisplaySeconds
-                )
+            saveConfigMsg
+                soundCloudPlaylistUrl
+                tags
+                gifDisplaySeconds
     in
     button
         [ css [ Styles.configButton ]

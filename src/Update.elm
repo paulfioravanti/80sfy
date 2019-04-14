@@ -108,6 +108,20 @@ update msg model =
             in
             ( model, Cmd.batch [ playVideo, playAudio ] )
 
+        Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
+            let
+                saveConfig =
+                    Msg.Config
+                        (Config.saveMsg
+                            soundCloudPlaylistUrl
+                            tagsString
+                            gifDisplaySecondsString
+                        )
+                        |> Task.succeed
+                        |> Task.perform identity
+            in
+            ( model, saveConfig )
+
         Msg.SecretConfig msgForSecretConfig ->
             let
                 secretConfig =

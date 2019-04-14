@@ -42,8 +42,8 @@ view model =
                     model.videoPlayer2
                 , SecretConfig.view
                     Msg.AudioPlayer
-                    Msg.Config
                     Msg.ControlPanel
+                    Msg.SaveConfig
                     Msg.SecretConfig
                     Msg.ShowApplicationState
                     Msg.VideoPlayer

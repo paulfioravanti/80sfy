@@ -18,6 +18,7 @@ type Msg
     | NoOp
     | Pause
     | Play
+    | SaveConfig String String String
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg

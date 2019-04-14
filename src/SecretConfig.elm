@@ -8,7 +8,6 @@ module SecretConfig exposing
     )
 
 import AudioPlayer
-import Config.Msg as ConfigMsg
 import ControlPanel
 import Html.Styled exposing (Html)
 import SecretConfig.Model as Model
@@ -43,18 +42,18 @@ update msg secretConfig =
 
 view :
     (AudioPlayer.Msg -> msg)
-    -> (ConfigMsg.Msg -> msg)
     -> (ControlPanel.Msg -> msg)
+    -> (String -> String -> String -> msg)
     -> (Msg -> msg)
     -> msg
     -> (VideoPlayer.Msg -> msg)
     -> SecretConfig
     -> Html msg
-view audioPlayerMsg configMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
+view audioPlayerMsg controlPanelMsg saveConfigMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
     View.view
         audioPlayerMsg
-        configMsg
         controlPanelMsg
+        saveConfigMsg
         secretConfigMsg
         showApplicationStateMsg
         videoPlayerMsg

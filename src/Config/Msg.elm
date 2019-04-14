@@ -7,4 +7,4 @@ type Msg
     = GenerateRandomGif String
     | InitTags (Result Error (List String))
     | RandomTag String String
-    | SaveConfig String String String
+    | Save String String String

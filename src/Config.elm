@@ -4,7 +4,7 @@ module Config exposing
     , generateRandomGifMsg
     , init
     , initTagsMsg
-    , saveConfigMsg
+    , saveMsg
     , update
     )
 
@@ -41,9 +41,9 @@ generateRandomGifMsg =
     Msg.GenerateRandomGif
 
 
-saveConfigMsg : String -> String -> String -> Msg
-saveConfigMsg =
-    Msg.SaveConfig
+saveMsg : String -> String -> String -> Msg
+saveMsg =
+    Msg.Save
 
 
 update :
