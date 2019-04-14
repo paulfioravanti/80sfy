@@ -17,24 +17,22 @@ import * as AudioPlayer from "./audioPlayer"
 import * as BrowserFullScreen from "./browserFullScreen"
 import * as VideoPlayer from "./videoPlayer"
 
-document.addEventListener("DOMContentLoaded", () => {
-  const app =
-    Elm.Main.init({
-      flags: {
-        giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
-        soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
-        browserVendor: determineBrowserVendor()
-      }
-    })
-
-  app.ports.consoleLog.subscribe((json) => {
-    console.log(json)
+const app =
+  Elm.Main.init({
+    flags: {
+      giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
+      soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
+      browserVendor: determineBrowserVendor()
+    }
   })
 
-  VideoPlayer.init(app)
-  AudioPlayer.init(app)
-  BrowserFullScreen.init(app)
+app.ports.consoleLog.subscribe((json) => {
+  console.log(json)
 })
+
+VideoPlayer.init(app)
+AudioPlayer.init(app)
+BrowserFullScreen.init(app)
 
 function determineBrowserVendor() {
   if (BrowserFullScreen.isWebkit()) {
