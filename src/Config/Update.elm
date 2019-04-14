@@ -25,7 +25,7 @@ update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
         Msg.GenerateRandomGif videoPlayerId ->
             ( config
             , Gif.random
-                (configMsg << Msg.RandomTag videoPlayerId)
+                (configMsg << Msg.RandomTagGenerated videoPlayerId)
                 config.tags
             )
 
@@ -60,7 +60,7 @@ update audioPlayerMsg configMsg secretConfigMsg videoPlayerMsg msg config =
             in
             ( config, Ports.consoleLog message )
 
-        Msg.RandomTag videoPlayerId tag ->
+        Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
                     videoPlayerMsg

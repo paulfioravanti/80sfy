@@ -6,5 +6,5 @@ import Http exposing (Error)
 type Msg
     = GenerateRandomGif String
     | InitTags (Result Error (List String))
-    | RandomTag String String
+    | RandomTagGenerated String String
     | Save String String String

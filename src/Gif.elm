@@ -34,7 +34,7 @@ fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
 
 
 random : (String -> msg) -> List String -> Cmd msg
-random randomTagMsg tags =
+random randomTagGeneratedMsg tags =
     let
         tagsLength =
             List.length tags - 1
@@ -44,4 +44,4 @@ random randomTagMsg tags =
                 |> Random.map (Tags.tagAtIndex tags)
     in
     generator
-        |> Random.generate randomTagMsg
+        |> Random.generate randomTagGeneratedMsg
