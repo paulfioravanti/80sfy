@@ -10,13 +10,8 @@ import Task
 import VideoPlayer
 
 
-update :
-    (Msg -> msg)
-    -> (VideoPlayer.Msg -> msg)
-    -> Msg
-    -> AudioPlayer
-    -> ( AudioPlayer, Cmd msg )
-update audioPlayerMsg videoPlayerMsg msg audioPlayer =
+update : Msgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
     case msg of
         Msg.AdjustVolume sliderVolume ->
             let
@@ -147,6 +142,13 @@ update audioPlayerMsg videoPlayerMsg msg audioPlayer =
 
 
 -- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 nextTrackNumberRequested : (Msg -> msg) -> Cmd msg

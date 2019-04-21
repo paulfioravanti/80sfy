@@ -7,18 +7,11 @@ import Model exposing (Model)
 import Task
 
 
-pressed :
-    (AudioPlayer.Msg -> msg)
-    -> (FullScreen.Msg -> msg)
-    -> msg
-    -> msg
-    -> Model
-    -> Key
-    -> Cmd msg
-pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg { audioPlayer, config } key =
+pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Key.Escape ->
-            fullScreenMsg FullScreen.leaveFullScreenMsg
+            msgs.fullScreenMsg FullScreen.leaveFullScreenMsg
                 |> Task.succeed
                 |> Task.perform identity
 
@@ -26,10 +19,10 @@ pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg { audioPlayer, config } ke
             let
                 msg =
                     if AudioPlayer.isPlaying audioPlayer then
-                        pauseMsg
+                        msgs.pauseMsg
 
                     else
-                        playMsg
+                        msgs.playMsg
             in
             msg
                 |> Task.succeed
@@ -64,3 +57,16 @@ pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg { audioPlayer, config } ke
 
         _ ->
             Cmd.none
+
+
+
+-- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , fullScreenMsg : FullScreen.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+    }

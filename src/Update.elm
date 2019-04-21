@@ -16,15 +16,23 @@ import VideoPlayer
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
+    let
+        msgs =
+            { audioPlayerMsg = Msg.AudioPlayer
+            , fullScreenMsg = Msg.FullScreen
+            , generateRandomGifMsg = Msg.GenerateRandomGif
+            , pauseMsg = Msg.Pause
+            , playMsg = Msg.Play
+            , secretConfigMsg = Msg.SecretConfig
+            , videoPlayerMsg = Msg.VideoPlayer
+            }
+    in
     case msg of
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
                     model.audioPlayer
-                        |> AudioPlayer.update
-                            Msg.AudioPlayer
-                            Msg.VideoPlayer
-                            msgForAudioPlayer
+                        |> AudioPlayer.update msgs msgForAudioPlayer
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
@@ -32,12 +40,7 @@ update msg model =
             let
                 ( config, cmd ) =
                     model.config
-                        |> Config.update
-                            Msg.AudioPlayer
-                            Msg.GenerateRandomGif
-                            Msg.SecretConfig
-                            Msg.VideoPlayer
-                            msgForConfig
+                        |> Config.update msgs msgForConfig
             in
             ( { model | config = config }, cmd )
 
@@ -74,12 +77,7 @@ update msg model =
             let
                 cmd =
                     code
-                        |> Key.pressed
-                            Msg.AudioPlayer
-                            Msg.FullScreen
-                            Msg.Pause
-                            Msg.Play
-                            model
+                        |> Key.pressed msgs model
             in
             ( model, cmd )
 
@@ -152,8 +150,7 @@ update msg model =
                     VideoPlayer.update
                         Msg.GenerateRandomGif
                         msgForVideoPlayer
-                        model.videoPlayer1
-                        model.videoPlayer2
+                        model
             in
             ( { model
                 | videoPlayer1 = videoPlayer1

@@ -72,11 +72,10 @@ subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
 update :
     (String -> msg)
     -> Msg
-    -> VideoPlayer
-    -> VideoPlayer
+    -> UpdateContext a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
-    Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
+update generateRandomGifMsg msg context =
+    Update.update generateRandomGifMsg msg context
 
 
 view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
@@ -97,4 +96,11 @@ type alias Msgs msgs msg =
         | fullScreenMsg : FullScreen.Msg -> msg
         , noOpMsg : msg
         , videoPlayerMsg : Msg -> msg
+    }
+
+
+type alias UpdateContext a =
+    { a
+        | videoPlayer1 : VideoPlayer
+        , videoPlayer2 : VideoPlayer
     }

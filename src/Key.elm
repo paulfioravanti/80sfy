@@ -19,18 +19,24 @@ decoder =
     Decoder.decoder
 
 
-pressed :
-    (AudioPlayer.Msg -> msg)
-    -> (FullScreen.Msg -> msg)
-    -> msg
-    -> msg
-    -> Model
-    -> Key
-    -> Cmd msg
-pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg model key =
-    Cmd.pressed audioPlayerMsg fullScreenMsg pauseMsg playMsg model key
+pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed msgs model key =
+    Cmd.pressed msgs model key
 
 
 subscriptions : (Key -> msg) -> Sub msg
 subscriptions keyMsg =
     Subscriptions.subscriptions keyMsg
+
+
+
+-- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , fullScreenMsg : FullScreen.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+    }

@@ -110,11 +110,17 @@ toggleMuteMsg =
     Msg.ToggleMute
 
 
-update :
-    (Msg -> msg)
-    -> (VideoPlayer.Msg -> msg)
-    -> Msg
-    -> AudioPlayer
-    -> ( AudioPlayer, Cmd msg )
-update audioPlayerMsg videoPlayerMsg msg audioPlayer =
-    Update.update audioPlayerMsg videoPlayerMsg msg audioPlayer
+update : UpdateMsgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update msgs msg audioPlayer =
+    Update.update msgs msg audioPlayer
+
+
+
+-- PRIVATE
+
+
+type alias UpdateMsgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }

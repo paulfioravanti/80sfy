@@ -12,25 +12,18 @@ import Task
 import VideoPlayer
 
 
-update :
-    (AudioPlayer.Msg -> msg)
-    -> (String -> msg)
-    -> (SecretConfig.Msg -> msg)
-    -> (VideoPlayer.Msg -> msg)
-    -> Msg
-    -> Config
-    -> ( Config, Cmd msg )
-update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg config =
+update : Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
+update msgs msg config =
     case msg of
         Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    generateRandomGifMsg videoPlayerId
+                    msgs.generateRandomGifMsg videoPlayerId
                         |> Task.succeed
                         |> Task.perform identity
 
                 initSecretConfigTags =
-                    secretConfigMsg (SecretConfig.initTagsMsg tags)
+                    msgs.secretConfigMsg (SecretConfig.initTagsMsg tags)
                         |> Task.succeed
                         |> Task.perform identity
             in
@@ -56,7 +49,7 @@ update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg co
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 fetchRandomGifMsg =
-                    videoPlayerMsg
+                    msgs.videoPlayerMsg
                         << VideoPlayer.fetchRandomGifMsg videoPlayerId
             in
             ( config
@@ -89,7 +82,7 @@ update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg co
                         soundCloudPlaylistUrl
                             /= config.soundCloudPlaylistUrl
                     then
-                        audioPlayerMsg
+                        msgs.audioPlayerMsg
                             (AudioPlayer.reInitAudioPlayerMsg
                                 soundCloudPlaylistUrl
                             )
@@ -106,3 +99,16 @@ update audioPlayerMsg generateRandomGifMsg secretConfigMsg videoPlayerMsg msg co
               }
             , cmd
             )
+
+
+
+-- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , generateRandomGifMsg : String -> msg
+        , secretConfigMsg : SecretConfig.Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }

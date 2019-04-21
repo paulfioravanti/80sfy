@@ -15,10 +15,9 @@ import VideoPlayer.Status as Status
 update :
     (String -> msg)
     -> Msg
-    -> VideoPlayer
-    -> VideoPlayer
+    -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
+update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
     case msg of
         Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
@@ -115,3 +114,14 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
             , { videoPlayer2 | status = Status.Playing }
             , Cmd.none
             )
+
+
+
+-- PRIVATE
+
+
+type alias Context a =
+    { a
+        | videoPlayer1 : VideoPlayer
+        , videoPlayer2 : VideoPlayer
+    }
