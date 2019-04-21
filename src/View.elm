@@ -40,14 +40,7 @@ view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
                 [ ControlPanel.view msgs model
                 , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer1
                 , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer2
-                , SecretConfig.view
-                    Msg.AudioPlayer
-                    Msg.ControlPanel
-                    Msg.SaveConfig
-                    Msg.SecretConfig
-                    Msg.ShowApplicationState
-                    Msg.VideoPlayer
-                    secretConfig
+                , SecretConfig.view msgs secretConfig
                 ]
             ]
     }

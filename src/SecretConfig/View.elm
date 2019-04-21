@@ -25,31 +25,27 @@ import SecretConfig.Styles as Styles
 import VideoPlayer
 
 
-view :
-    (AudioPlayer.Msg -> msg)
-    -> (ControlPanel.Msg -> msg)
-    -> (String -> String -> String -> msg)
-    -> (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> SecretConfig
-    -> Html msg
-view audioPlayerMsg controlPanelMsg saveConfigMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
+view : Msgs msgs msg -> SecretConfig -> Html msg
+view ({ secretConfigMsg } as msgs) secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton secretConfigMsg
-        , secretConfigSettings
-            audioPlayerMsg
-            saveConfigMsg
-            controlPanelMsg
-            secretConfigMsg
-            showApplicationStateMsg
-            videoPlayerMsg
-            secretConfig
+        , secretConfigSettings msgs secretConfig
         ]
 
 
 
 -- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , controlPanelMsg : ControlPanel.Msg -> msg
+        , saveConfigMsg : String -> String -> String -> msg
+        , secretConfigMsg : Msg -> msg
+        , showApplicationStateMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 secretConfigButton : (Msg -> msg) -> Html msg
@@ -62,16 +58,12 @@ secretConfigButton secretConfigMsg =
         []
 
 
-secretConfigSettings :
-    (AudioPlayer.Msg -> msg)
-    -> (String -> String -> String -> msg)
-    -> (ControlPanel.Msg -> msg)
-    -> (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> SecretConfig
-    -> Html msg
-secretConfigSettings audioPlayerMsg saveConfigMsg controlPanelMsg secretConfigMsg showApplicationStateMsg videoPlayerMsg secretConfig =
+secretConfigSettings : Msgs msgs msg -> SecretConfig -> Html msg
+secretConfigSettings msgs secretConfig =
+    let
+        { audioPlayerMsg, secretConfigMsg, videoPlayerMsg } =
+            msgs
+    in
     div
         [ attribute "data-name" "secret-config-settings"
         , css [ Styles.secretConfig secretConfig.visible ]
@@ -87,13 +79,9 @@ secretConfigSettings audioPlayerMsg saveConfigMsg controlPanelMsg secretConfigMs
         , span []
             [ text "Gif Display Seconds:" ]
         , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplaySeconds
-        , saveSettingsButton
-            saveConfigMsg
-            secretConfig.soundCloudPlaylistUrl
-            secretConfig.tags
-            secretConfig.gifDisplaySeconds
-        , showStateButton showApplicationStateMsg
-        , overrideControlPanelHideButton controlPanelMsg
+        , saveSettingsButton msgs.saveConfigMsg secretConfig
+        , showStateButton msgs.showApplicationStateMsg
+        , overrideControlPanelHideButton msgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
         , pauseGifRotationButton videoPlayerMsg
         , playGifRotationButton videoPlayerMsg
@@ -136,17 +124,15 @@ gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
 
 saveSettingsButton :
     (String -> String -> String -> msg)
-    -> String
-    -> String
-    -> String
+    -> SecretConfig
     -> Html msg
-saveSettingsButton saveConfigMsg soundCloudPlaylistUrl tags gifDisplaySeconds =
+saveSettingsButton saveConfigMsg secretConfig =
     let
         saveConfig =
             saveConfigMsg
-                soundCloudPlaylistUrl
-                tags
-                gifDisplaySeconds
+                secretConfig.soundCloudPlaylistUrl
+                secretConfig.tags
+                secretConfig.gifDisplaySeconds
     in
     button
         [ css [ Styles.configButton ]
