@@ -13,19 +13,25 @@ import VideoPlayer
 
 view : Model -> Document Msg
 view model =
+    let
+        msgs =
+            { audioPlayerMsg = Msg.AudioPlayer
+            , controlPanelMsg = Msg.ControlPanel
+            , fullScreenMsg = Msg.FullScreen
+            , noOpMsg = Msg.NoOp
+            , pauseMsg = Msg.Pause
+            , playMsg = Msg.Play
+            , saveConfigMsg = Msg.SaveConfig
+            , secretConfigMsg = Msg.SecretConfig
+            , showApplicationStateMsg = Msg.ShowApplicationState
+            , videoPlayerMsg = Msg.VideoPlayer
+            }
+    in
     { title = "Welcome back to the 80s -- this is 80sfy."
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
-                [ ControlPanel.view
-                    Msg.AudioPlayer
-                    Msg.ControlPanel
-                    Msg.FullScreen
-                    Msg.Pause
-                    Msg.Play
-                    model.browserVendor
-                    model.audioPlayer
-                    model.controlPanel
+                [ ControlPanel.view msgs model
                 , VideoPlayer.view
                     Msg.FullScreen
                     Msg.NoOp

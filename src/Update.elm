@@ -61,12 +61,12 @@ update msg model =
 
         Msg.GenerateRandomGif videoPlayerId ->
             let
+                randomTagGeneratedMsg =
+                    Msg.Config << Config.randomTagGeneratedMsg videoPlayerId
+
                 cmd =
                     model.config.tags
-                        |> Gif.random
-                            (Msg.Config
-                                << Config.randomTagGeneratedMsg videoPlayerId
-                            )
+                        |> Gif.random randomTagGeneratedMsg
             in
             ( model, cmd )
 
@@ -122,13 +122,14 @@ update msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
+                saveConfigMsg =
+                    Config.saveMsg
+                        soundCloudPlaylistUrl
+                        tagsString
+                        gifDisplaySecondsString
+
                 saveConfig =
-                    Msg.Config
-                        (Config.saveMsg
-                            soundCloudPlaylistUrl
-                            tagsString
-                            gifDisplaySecondsString
-                        )
+                    Msg.Config saveConfigMsg
                         |> Task.succeed
                         |> Task.perform identity
             in

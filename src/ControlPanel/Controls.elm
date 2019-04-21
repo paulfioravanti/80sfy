@@ -9,15 +9,8 @@ import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
 
 
-view :
-    (AudioPlayer.Msg -> msg)
-    -> (FullScreen.Msg -> msg)
-    -> msg
-    -> msg
-    -> BrowserVendor
-    -> AudioPlayer
-    -> Html msg
-view audioPlayerMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer =
+view : Msgs msgs msg -> Context a -> Html msg
+view msgs { browserVendor, audioPlayer } =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -29,10 +22,10 @@ view audioPlayerMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer =
         [ css [ Styles.controls ]
         , attribute "data-name" "controls"
         ]
-        [ muteUnmuteButton audioPlayerMsg muted
-        , playPauseButton pauseMsg playMsg playing
-        , nextTrackButton audioPlayerMsg
-        , fullscreenButton fullScreenMsg browserVendor
+        [ muteUnmuteButton msgs muted
+        , playPauseButton msgs playing
+        , nextTrackButton msgs
+        , fullscreenButton msgs browserVendor
         ]
 
 
@@ -40,8 +33,24 @@ view audioPlayerMsg fullScreenMsg pauseMsg playMsg browserVendor audioPlayer =
 -- PRIVATE
 
 
-muteUnmuteButton : (AudioPlayer.Msg -> msg) -> Bool -> Html msg
-muteUnmuteButton audioPlayerMsg muted =
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , fullScreenMsg : FullScreen.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+    }
+
+
+type alias Context a =
+    { a
+        | browserVendor : BrowserVendor
+        , audioPlayer : AudioPlayer
+    }
+
+
+muteUnmuteButton : Msgs msgs msg -> Bool -> Html msg
+muteUnmuteButton { audioPlayerMsg } muted =
     let
         iconClass =
             if muted then
@@ -60,8 +69,8 @@ muteUnmuteButton audioPlayerMsg muted =
         ]
 
 
-playPauseButton : msg -> msg -> Bool -> Html msg
-playPauseButton pauseMsg playMsg playing =
+playPauseButton : Msgs msgs msg -> Bool -> Html msg
+playPauseButton { pauseMsg, playMsg } playing =
     let
         ( iconClass, playPauseMsg ) =
             if playing then
@@ -80,8 +89,8 @@ playPauseButton pauseMsg playMsg playing =
         ]
 
 
-nextTrackButton : (AudioPlayer.Msg -> msg) -> Html msg
-nextTrackButton audioPlayerMsg =
+nextTrackButton : Msgs msgs msg -> Html msg
+nextTrackButton { audioPlayerMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "next-track"
@@ -92,8 +101,8 @@ nextTrackButton audioPlayerMsg =
         ]
 
 
-fullscreenButton : (FullScreen.Msg -> msg) -> BrowserVendor -> Html msg
-fullscreenButton fullScreenMsg browserVendor =
+fullscreenButton : Msgs msgs msg -> BrowserVendor -> Html msg
+fullscreenButton { fullScreenMsg } browserVendor =
     let
         onClickAttribute =
             if browserVendor == BrowserVendor.Mozilla then
