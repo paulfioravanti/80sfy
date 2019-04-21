@@ -65,8 +65,8 @@ statusToString status =
 
 
 subscriptions :
-    SubscriptionsMsgs msgs msg
-    -> SubscriptionsContext
+    Subscriptions.Msgs msgs msg
+    -> Subscriptions.Context
     -> VideoPlayer
     -> Sub msg
 subscriptions msgs context videoPlayer1 =
@@ -76,45 +76,12 @@ subscriptions msgs context videoPlayer1 =
 update :
     (String -> msg)
     -> Msg
-    -> UpdateContext a
+    -> Update.Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
 update generateRandomGifMsg msg context =
     Update.update generateRandomGifMsg msg context
 
 
-view : Bool -> ViewMsgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
+view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
 view audioPlaying msgs browserVendor videoPlayer =
     View.view audioPlaying msgs browserVendor videoPlayer
-
-
-
--- PRIVATE
-
-
-type alias SubscriptionsMsgs msgs msg =
-    { msgs
-        | noOpMsg : msg
-        , videoPlayerMsg : Msg -> msg
-    }
-
-
-type alias ViewMsgs msgs msg =
-    { msgs
-        | fullScreenMsg : FullScreen.Msg -> msg
-        , noOpMsg : msg
-        , videoPlayerMsg : Msg -> msg
-    }
-
-
-type alias UpdateContext a =
-    { a
-        | videoPlayer1 : VideoPlayer
-        , videoPlayer2 : VideoPlayer
-    }
-
-
-type alias SubscriptionsContext =
-    { audioPlayerId : String
-    , gifDisplaySeconds : Float
-    , overrideInactivityPause : Bool
-    }

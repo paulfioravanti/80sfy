@@ -1,4 +1,4 @@
-module AudioPlayer.Update exposing (update)
+module AudioPlayer.Update exposing (Msgs, update)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -8,6 +8,13 @@ import AudioPlayer.Status as Status
 import AudioPlayer.Volume as Volume
 import Task
 import VideoPlayer
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 update : Msgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
@@ -142,13 +149,6 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : Msg -> msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }
 
 
 nextTrackNumberRequested : (Msg -> msg) -> Cmd msg

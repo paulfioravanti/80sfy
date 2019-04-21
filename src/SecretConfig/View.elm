@@ -1,4 +1,4 @@
-module SecretConfig.View exposing (view)
+module SecretConfig.View exposing (Msgs, view)
 
 import AudioPlayer
 import ControlPanel
@@ -25,6 +25,17 @@ import SecretConfig.Styles as Styles
 import VideoPlayer
 
 
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , controlPanelMsg : ControlPanel.Msg -> msg
+        , saveConfigMsg : String -> String -> String -> msg
+        , secretConfigMsg : Msg -> msg
+        , showApplicationStateMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
+
+
 view : Msgs msgs msg -> SecretConfig -> Html msg
 view ({ secretConfigMsg } as msgs) secretConfig =
     div [ attribute "data-name" "secret-config" ]
@@ -35,17 +46,6 @@ view ({ secretConfigMsg } as msgs) secretConfig =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , controlPanelMsg : ControlPanel.Msg -> msg
-        , saveConfigMsg : String -> String -> String -> msg
-        , secretConfigMsg : Msg -> msg
-        , showApplicationStateMsg : msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }
 
 
 secretConfigButton : (Msg -> msg) -> Html msg

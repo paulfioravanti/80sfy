@@ -1,4 +1,4 @@
-module ControlPanel.View exposing (view)
+module ControlPanel.View exposing (Context, Msgs, view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
@@ -22,6 +22,24 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
+
+
+type alias Context a =
+    { a
+        | browserVendor : BrowserVendor
+        , audioPlayer : AudioPlayer
+        , controlPanel : ControlPanel
+    }
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , controlPanelMsg : Msg -> msg
+        , fullScreenMsg : FullScreen.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+    }
 
 
 view : Msgs msgs msg -> Context a -> Html msg
@@ -66,24 +84,6 @@ view msgs ({ audioPlayer, controlPanel } as context) =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , controlPanelMsg : Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
-        , pauseMsg : msg
-        , playMsg : msg
-    }
-
-
-type alias Context a =
-    { a
-        | browserVendor : BrowserVendor
-        , audioPlayer : AudioPlayer
-        , controlPanel : ControlPanel
-    }
 
 
 logo : Html msg

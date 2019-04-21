@@ -1,4 +1,4 @@
-port module VideoPlayer.Subscriptions exposing (subscriptions)
+port module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 
 import Animation
 import Json.Decode exposing (Value)
@@ -22,6 +22,20 @@ port windowBlurred : (Value -> msg) -> Sub msg
 
 
 port windowFocused : (() -> msg) -> Sub msg
+
+
+type alias Context =
+    { audioPlayerId : String
+    , gifDisplaySeconds : Float
+    , overrideInactivityPause : Bool
+    }
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }
 
 
 subscriptions : Msgs msgs msg -> Context -> VideoPlayer -> Sub msg
@@ -59,20 +73,6 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 
 
 -- PRIVATE
-
-
-type alias Context =
-    { audioPlayerId : String
-    , gifDisplaySeconds : Float
-    , overrideInactivityPause : Bool
-    }
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | noOpMsg : msg
-        , videoPlayerMsg : Msg -> msg
-    }
 
 
 fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg

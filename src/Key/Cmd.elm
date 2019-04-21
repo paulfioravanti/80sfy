@@ -1,10 +1,19 @@
-module Key.Cmd exposing (pressed)
+module Key.Cmd exposing (Msgs, pressed)
 
 import AudioPlayer
 import FullScreen
 import Key.Model as Key exposing (Key)
 import Model exposing (Model)
 import Task
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , fullScreenMsg : FullScreen.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+    }
 
 
 pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
@@ -57,16 +66,3 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         _ ->
             Cmd.none
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
-        , pauseMsg : msg
-        , playMsg : msg
-    }

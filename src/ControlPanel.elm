@@ -54,28 +54,6 @@ update msg controlPanel =
     Update.update msg controlPanel
 
 
-view : Msgs msgs msg -> Context a -> Html msg
+view : View.Msgs msgs msg -> View.Context a -> Html msg
 view msgs context =
     View.view msgs context
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , controlPanelMsg : Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
-        , pauseMsg : msg
-        , playMsg : msg
-    }
-
-
-type alias Context a =
-    { a
-        | browserVendor : BrowserVendor
-        , audioPlayer : AudioPlayer
-        , controlPanel : ControlPanel
-    }

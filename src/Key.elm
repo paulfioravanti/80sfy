@@ -19,7 +19,7 @@ decoder =
     Decoder.decoder
 
 
-pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed : Cmd.Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed msgs model key =
     Cmd.pressed msgs model key
 
@@ -27,16 +27,3 @@ pressed msgs model key =
 subscriptions : (Key -> msg) -> Sub msg
 subscriptions keyMsg =
     Subscriptions.subscriptions keyMsg
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
-        , pauseMsg : msg
-        , playMsg : msg
-    }

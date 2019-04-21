@@ -1,4 +1,4 @@
-module VideoPlayer.Update exposing (update)
+module VideoPlayer.Update exposing (Context, update)
 
 import Animation
 import Error
@@ -10,6 +10,13 @@ import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
 import VideoPlayer.Status as Status
+
+
+type alias Context a =
+    { a
+        | videoPlayer1 : VideoPlayer
+        , videoPlayer2 : VideoPlayer
+    }
 
 
 update :
@@ -114,14 +121,3 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             , { videoPlayer2 | status = Status.Playing }
             , Cmd.none
             )
-
-
-
--- PRIVATE
-
-
-type alias Context a =
-    { a
-        | videoPlayer1 : VideoPlayer
-        , videoPlayer2 : VideoPlayer
-    }

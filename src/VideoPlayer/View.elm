@@ -1,4 +1,4 @@
-module VideoPlayer.View exposing (view)
+module VideoPlayer.View exposing (Msgs, view)
 
 import Animation
 import BrowserVendor exposing (BrowserVendor)
@@ -19,6 +19,14 @@ import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status
 import VideoPlayer.Styles as Styles
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | fullScreenMsg : FullScreen.Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }
 
 
 view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
@@ -51,14 +59,6 @@ view audioPlaying msgs browserVendor videoPlayer =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | fullScreenMsg : FullScreen.Msg -> msg
-        , noOpMsg : msg
-        , videoPlayerMsg : Msg -> msg
-    }
 
 
 attributes :

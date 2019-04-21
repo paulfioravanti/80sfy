@@ -40,21 +40,6 @@ update msg secretConfig =
     Update.update msg secretConfig
 
 
-view : Msgs msgs msg -> SecretConfig -> Html msg
+view : View.Msgs msgs msg -> SecretConfig -> Html msg
 view msgs secretConfig =
     View.view msgs secretConfig
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , controlPanelMsg : ControlPanel.Msg -> msg
-        , saveConfigMsg : String -> String -> String -> msg
-        , secretConfigMsg : Msg -> msg
-        , showApplicationStateMsg : msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }

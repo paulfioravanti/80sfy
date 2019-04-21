@@ -46,19 +46,6 @@ saveMsg =
     Msg.Save
 
 
-update : Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
+update : Update.Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgs msg config =
     Update.update msgs msg config
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , generateRandomGifMsg : String -> msg
-        , secretConfigMsg : SecretConfig.Msg -> msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }

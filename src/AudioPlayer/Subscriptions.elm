@@ -1,4 +1,4 @@
-port module AudioPlayer.Subscriptions exposing (subscriptions)
+port module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
 
 import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -18,6 +18,14 @@ port setPlaylistLength : (Value -> msg) -> Sub msg
 
 
 port requestNextTrackNumber : (() -> msg) -> Sub msg
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
@@ -44,14 +52,6 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : Msg -> msg
-        , noOpMsg : msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }
 
 
 audioPausedSubscriptions : Msgs msgs msg -> Sub msg

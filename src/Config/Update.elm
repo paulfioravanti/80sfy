@@ -1,4 +1,4 @@
-module Config.Update exposing (update)
+module Config.Update exposing (Msgs, update)
 
 import AudioPlayer
 import Config.Model exposing (Config)
@@ -10,6 +10,15 @@ import Ports
 import SecretConfig
 import Task
 import VideoPlayer
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , generateRandomGifMsg : String -> msg
+        , secretConfigMsg : SecretConfig.Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 update : Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
@@ -99,16 +108,3 @@ update msgs msg config =
               }
             , cmd
             )
-
-
-
--- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , generateRandomGifMsg : String -> msg
-        , secretConfigMsg : SecretConfig.Msg -> msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
-    }
