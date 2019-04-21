@@ -79,19 +79,22 @@ update generateRandomGifMsg msg videoPlayer1 videoPlayer2 =
     Update.update generateRandomGifMsg msg videoPlayer1 videoPlayer2
 
 
-view :
-    (FullScreen.Msg -> msg)
-    -> msg
-    -> (Msg -> msg)
-    -> BrowserVendor
-    -> Bool
-    -> VideoPlayer
-    -> Html msg
-view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
+view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
+view audioPlaying msgs browserVendor videoPlayer =
     View.view
-        fullScreenMsg
-        noOpMsg
-        videoPlayerMsg
-        browserVendor
         audioPlaying
+        msgs
+        browserVendor
         videoPlayer
+
+
+
+-- PRIVATE
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | fullScreenMsg : FullScreen.Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }

@@ -21,15 +21,8 @@ import VideoPlayer.Status as Status
 import VideoPlayer.Styles as Styles
 
 
-view :
-    (FullScreen.Msg -> msg)
-    -> msg
-    -> (Msg -> msg)
-    -> BrowserVendor
-    -> Bool
-    -> VideoPlayer
-    -> Html msg
-view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
+view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
+view audioPlaying msgs browserVendor videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -52,14 +45,7 @@ view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer
                    )
     in
     div
-        (attributes
-            fullScreenMsg
-            noOpMsg
-            videoPlayerMsg
-            browserVendor
-            audioPlaying
-            videoPlayer
-        )
+        (attributes audioPlaying msgs browserVendor videoPlayer)
         childElements
 
 
@@ -67,16 +53,25 @@ view fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer
 -- PRIVATE
 
 
+type alias Msgs msgs msg =
+    { msgs
+        | fullScreenMsg : FullScreen.Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }
+
+
 attributes :
-    (FullScreen.Msg -> msg)
-    -> msg
-    -> (Msg -> msg)
+    Bool
+    -> Msgs msgs msg
     -> BrowserVendor
-    -> Bool
     -> VideoPlayer
     -> List (Html.Attribute msg)
-attributes fullScreenMsg noOpMsg videoPlayerMsg browserVendor audioPlaying videoPlayer =
+attributes audioPlaying msgs browserVendor videoPlayer =
     let
+        { fullScreenMsg, noOpMsg, videoPlayerMsg } =
+            msgs
+
         animations =
             videoPlayer.style
                 |> Animation.render

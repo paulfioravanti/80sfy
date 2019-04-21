@@ -12,7 +12,7 @@ import VideoPlayer
 
 
 view : Model -> Document Msg
-view model =
+view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         msgs =
             { audioPlayerMsg = Msg.AudioPlayer
@@ -26,26 +26,20 @@ view model =
             , showApplicationStateMsg = Msg.ShowApplicationState
             , videoPlayerMsg = Msg.VideoPlayer
             }
+
+        -- NOTE: There is a circular dependency issue if AudioPlayer is imported
+        -- into VideoPlayer, so that's why this value is determined here, rather
+        -- than in VideoPlayer.view
+        audioPlaying =
+            AudioPlayer.isPlaying model.audioPlayer
     in
     { title = "Welcome back to the 80s -- this is 80sfy."
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view msgs model
-                , VideoPlayer.view
-                    Msg.FullScreen
-                    Msg.NoOp
-                    Msg.VideoPlayer
-                    model.browserVendor
-                    (AudioPlayer.isPlaying model.audioPlayer)
-                    model.videoPlayer1
-                , VideoPlayer.view
-                    Msg.FullScreen
-                    Msg.NoOp
-                    Msg.VideoPlayer
-                    model.browserVendor
-                    (AudioPlayer.isPlaying model.audioPlayer)
-                    model.videoPlayer2
+                , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer1
+                , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer2
                 , SecretConfig.view
                     Msg.AudioPlayer
                     Msg.ControlPanel
@@ -53,7 +47,7 @@ view model =
                     Msg.SecretConfig
                     Msg.ShowApplicationState
                     Msg.VideoPlayer
-                    model.secretConfig
+                    secretConfig
                 ]
             ]
     }
