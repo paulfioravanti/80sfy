@@ -25,7 +25,6 @@ import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Update as Update
-import VideoPlayer
 
 
 type alias AudioPlayer =

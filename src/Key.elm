@@ -1,7 +1,5 @@
 module Key exposing (Key, decoder, pressed, subscriptions)
 
-import AudioPlayer
-import FullScreen
 import Json.Decode as Decode
 import Key.Cmd as Cmd
 import Key.Decoder as Decoder

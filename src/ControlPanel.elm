@@ -9,15 +9,12 @@ module ControlPanel exposing
     , view
     )
 
-import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (BrowserVendor)
 import ControlPanel.Model as Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State exposing (State)
 import ControlPanel.Subscriptions as Subscriptions
 import ControlPanel.Update as Update
 import ControlPanel.View as View
-import FullScreen
 import Html.Styled exposing (Html)
 
 

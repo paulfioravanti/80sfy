@@ -7,14 +7,11 @@ module SecretConfig exposing
     , view
     )
 
-import AudioPlayer
-import ControlPanel
 import Html.Styled exposing (Html)
 import SecretConfig.Model as Model
 import SecretConfig.Msg as Msg
 import SecretConfig.Update as Update
 import SecretConfig.View as View
-import VideoPlayer
 
 
 type alias SecretConfig =

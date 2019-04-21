@@ -13,7 +13,6 @@ module VideoPlayer exposing
     )
 
 import BrowserVendor exposing (BrowserVendor)
-import FullScreen
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import RemoteData exposing (WebData)

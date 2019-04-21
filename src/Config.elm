@@ -8,14 +8,11 @@ module Config exposing
     , update
     )
 
-import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
-import SecretConfig
-import VideoPlayer
 
 
 type alias Config =
