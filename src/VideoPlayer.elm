@@ -21,7 +21,7 @@ import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.RemoteData as RemoteData
 import VideoPlayer.Status as Status exposing (Status)
-import VideoPlayer.Subscriptions as Subscriptions exposing (Context)
+import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
@@ -64,9 +64,13 @@ statusToString status =
     Status.toString status
 
 
-subscriptions : msg -> (Msg -> msg) -> Context -> VideoPlayer -> Sub msg
-subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
-    Subscriptions.subscriptions noOpMsg videoPlayerMsg context videoPlayer1
+subscriptions :
+    SubscriptionsMsgs msgs msg
+    -> SubscriptionsContext
+    -> VideoPlayer
+    -> Sub msg
+subscriptions msgs context videoPlayer1 =
+    Subscriptions.subscriptions msgs context videoPlayer1
 
 
 update :
@@ -78,20 +82,23 @@ update generateRandomGifMsg msg context =
     Update.update generateRandomGifMsg msg context
 
 
-view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
+view : Bool -> ViewMsgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
 view audioPlaying msgs browserVendor videoPlayer =
-    View.view
-        audioPlaying
-        msgs
-        browserVendor
-        videoPlayer
+    View.view audioPlaying msgs browserVendor videoPlayer
 
 
 
 -- PRIVATE
 
 
-type alias Msgs msgs msg =
+type alias SubscriptionsMsgs msgs msg =
+    { msgs
+        | noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }
+
+
+type alias ViewMsgs msgs msg =
     { msgs
         | fullScreenMsg : FullScreen.Msg -> msg
         , noOpMsg : msg
@@ -103,4 +110,11 @@ type alias UpdateContext a =
     { a
         | videoPlayer1 : VideoPlayer
         , videoPlayer2 : VideoPlayer
+    }
+
+
+type alias SubscriptionsContext =
+    { audioPlayerId : String
+    , gifDisplaySeconds : Float
+    , overrideInactivityPause : Bool
     }

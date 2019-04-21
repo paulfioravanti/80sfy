@@ -91,18 +91,9 @@ statusToString status =
     Status.toString status
 
 
-subscriptions :
-    (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> AudioPlayer
-    -> Sub msg
-subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
-    Subscriptions.subscriptions
-        audioPlayerMsg
-        noOpMsg
-        videoPlayerMsg
-        audioPlayer
+subscriptions : SubscriptionMsgs msgs msg -> AudioPlayer -> Sub msg
+subscriptions msgs audioPlayer =
+    Subscriptions.subscriptions msgs audioPlayer
 
 
 toggleMuteMsg : Msg
@@ -117,6 +108,14 @@ update msgs msg audioPlayer =
 
 
 -- PRIVATE
+
+
+type alias SubscriptionMsgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
 
 
 type alias UpdateMsgs msgs msg =

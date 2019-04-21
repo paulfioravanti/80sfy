@@ -20,26 +20,15 @@ port setPlaylistLength : (Value -> msg) -> Sub msg
 port requestNextTrackNumber : (() -> msg) -> Sub msg
 
 
-subscriptions :
-    (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> AudioPlayer
-    -> Sub msg
-subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
+subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
+subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
     let
         playingSubscription =
             if Status.isPlaying audioPlayer.status then
-                audioPausedSubscriptions
-                    audioPlayerMsg
-                    noOpMsg
-                    videoPlayerMsg
+                audioPausedSubscriptions msgs
 
             else
-                audioPlayingSubscriptions
-                    audioPlayerMsg
-                    noOpMsg
-                    videoPlayerMsg
+                audioPlayingSubscriptions msgs
     in
     Sub.batch
         [ playingSubscription
@@ -57,12 +46,16 @@ subscriptions audioPlayerMsg noOpMsg videoPlayerMsg audioPlayer =
 -- PRIVATE
 
 
-audioPausedSubscriptions :
-    (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> Sub msg
-audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+        , noOpMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
+    }
+
+
+audioPausedSubscriptions : Msgs msgs msg -> Sub msg
+audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
     Sub.batch
@@ -95,12 +88,8 @@ audioPausedSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
         ]
 
 
-audioPlayingSubscriptions :
-    (Msg -> msg)
-    -> msg
-    -> (VideoPlayer.Msg -> msg)
-    -> Sub msg
-audioPlayingSubscriptions audioPlayerMsg noOpMsg videoPlayerMsg =
+audioPlayingSubscriptions : Msgs msgs msg -> Sub msg
+audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been loaded and can therefore
     -- actually play.

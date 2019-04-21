@@ -1,4 +1,4 @@
-port module VideoPlayer.Subscriptions exposing (Context, subscriptions)
+port module VideoPlayer.Subscriptions exposing (subscriptions)
 
 import Animation
 import Json.Decode exposing (Value)
@@ -24,15 +24,8 @@ port windowBlurred : (Value -> msg) -> Sub msg
 port windowFocused : (() -> msg) -> Sub msg
 
 
-type alias Context =
-    { audioPlayerId : String
-    , gifDisplaySeconds : Float
-    , overrideInactivityPause : Bool
-    }
-
-
-subscriptions : msg -> (Msg -> msg) -> Context -> VideoPlayer -> Sub msg
-subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
+subscriptions : Msgs msgs msg -> Context -> VideoPlayer -> Sub msg
+subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
     let
         fetchNextGif =
             fetchNextGifSubscription
@@ -48,8 +41,7 @@ subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
 
         windowEvent =
             windowEventSubscription
-                videoPlayerMsg
-                noOpMsg
+                msgs
                 context.audioPlayerId
                 videoPlayer1.status
     in
@@ -67,6 +59,20 @@ subscriptions noOpMsg videoPlayerMsg context videoPlayer1 =
 
 
 -- PRIVATE
+
+
+type alias Context =
+    { audioPlayerId : String
+    , gifDisplaySeconds : Float
+    , overrideInactivityPause : Bool
+    }
+
+
+type alias Msgs msgs msg =
+    { msgs
+        | noOpMsg : msg
+        , videoPlayerMsg : Msg -> msg
+    }
 
 
 fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
@@ -89,13 +95,8 @@ videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
         Sub.none
 
 
-windowEventSubscription :
-    (Msg -> msg)
-    -> msg
-    -> String
-    -> Status
-    -> Sub msg
-windowEventSubscription videoPlayerMsg noOpMsg audioPlayerId status =
+windowEventSubscription : Msgs msgs msg -> String -> Status -> Sub msg
+windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerId status =
     case status of
         Status.Playing ->
             -- NOTE: If the document target has "blurred" from the video player

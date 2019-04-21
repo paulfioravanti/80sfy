@@ -12,6 +12,12 @@ import VideoPlayer
 subscriptions : Model -> Sub Msg
 subscriptions model =
     let
+        msgs =
+            { audioPlayerMsg = Msg.AudioPlayer
+            , noOpMsg = Msg.NoOp
+            , videoPlayerMsg = Msg.VideoPlayer
+            }
+
         videoPlayerContext =
             { audioPlayerId = model.audioPlayer.id
             , gifDisplaySeconds = model.config.gifDisplaySeconds
@@ -20,17 +26,9 @@ subscriptions model =
             }
     in
     Sub.batch
-        [ AudioPlayer.subscriptions
-            Msg.AudioPlayer
-            Msg.NoOp
-            Msg.VideoPlayer
-            model.audioPlayer
+        [ AudioPlayer.subscriptions msgs model.audioPlayer
         , FullScreen.subscriptions Msg.FullScreen
         , ControlPanel.subscriptions Msg.ControlPanel model.controlPanel
         , Key.subscriptions Msg.KeyPressed
-        , VideoPlayer.subscriptions
-            Msg.NoOp
-            Msg.VideoPlayer
-            videoPlayerContext
-            model.videoPlayer1
+        , VideoPlayer.subscriptions msgs videoPlayerContext model.videoPlayer1
         ]
