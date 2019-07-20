@@ -3,6 +3,7 @@ module Config.Update exposing (Msgs, update)
 import AudioPlayer
 import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
+import Config.Task as Task
 import Error
 import Gif
 import Json.Encode as Encode
@@ -27,14 +28,11 @@ update msgs msg config =
         Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    msgs.generateRandomGifMsg videoPlayerId
-                        |> Task.succeed
-                        |> Task.perform identity
+                    videoPlayerId
+                        |> Task.generateRandomGif msgs.generateRandomGifMsg
 
                 initSecretConfigTags =
-                    msgs.secretConfigMsg (SecretConfig.initTagsMsg tags)
-                        |> Task.succeed
-                        |> Task.perform identity
+                    SecretConfig.initTags msgs.secretConfigMsg tags
             in
             ( { config | tags = tags }
             , Cmd.batch
@@ -91,12 +89,9 @@ update msgs msg config =
                         soundCloudPlaylistUrl
                             /= config.soundCloudPlaylistUrl
                     then
-                        msgs.audioPlayerMsg
-                            (AudioPlayer.reInitAudioPlayerMsg
-                                soundCloudPlaylistUrl
-                            )
-                            |> Task.succeed
-                            |> Task.perform identity
+                        AudioPlayer.reInitAudioPlayer
+                            msgs.audioPlayerMsg
+                            soundCloudPlaylistUrl
 
                     else
                         Cmd.none

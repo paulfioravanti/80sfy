@@ -2,6 +2,7 @@ module SecretConfig exposing
     ( Msg
     , SecretConfig
     , init
+    , initTags
     , initTagsMsg
     , update
     , view
@@ -10,6 +11,7 @@ module SecretConfig exposing
 import Html.Styled exposing (Html)
 import SecretConfig.Model as Model
 import SecretConfig.Msg as Msg
+import SecretConfig.Task as Task
 import SecretConfig.Update as Update
 import SecretConfig.View as View
 
@@ -25,6 +27,11 @@ type alias Msg =
 init : String -> Float -> SecretConfig
 init soundCloudPlaylistUrl gifDisplaySeconds =
     Model.init soundCloudPlaylistUrl gifDisplaySeconds
+
+
+initTags : (Msg -> msg) -> List String -> Cmd msg
+initTags secretConfigMsg tags =
+    Task.initTags secretConfigMsg tags
 
 
 initTagsMsg : List String -> Msg

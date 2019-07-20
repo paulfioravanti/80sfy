@@ -10,6 +10,7 @@ module AudioPlayer exposing
     , nextTrackMsg
     , pauseAudioMsg
     , playAudioMsg
+    , reInitAudioPlayer
     , reInitAudioPlayerMsg
     , statusToString
     , subscriptions
@@ -24,6 +25,7 @@ import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
+import AudioPlayer.Task as Task
 import AudioPlayer.Update as Update
 
 
@@ -78,6 +80,11 @@ pauseAudioMsg =
 playAudioMsg : Msg
 playAudioMsg =
     Msg.PlayAudio
+
+
+reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg
+reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
+    Task.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
 
 
 reInitAudioPlayerMsg : String -> Msg
