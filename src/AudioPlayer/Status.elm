@@ -91,8 +91,8 @@ toString status =
 unMute : Status -> Status
 unMute status =
     case status of
-        Muted status_ ->
-            status_
+        Muted secondaryStatus ->
+            secondaryStatus
 
         _ ->
             status
