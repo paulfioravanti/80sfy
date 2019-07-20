@@ -44,7 +44,7 @@ view audioPlaying msgs browserVendor videoPlayer =
             gifVideoPlayer gifUrl videoPlayer
                 :: (if
                         audioPlaying
-                            && not (videoPlayer.status == Status.Playing)
+                            && not (videoPlayer.status == Status.playing)
                     then
                         [ playerPausedOverlay ]
 
@@ -86,7 +86,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
                     (fullScreenMsg FullScreen.performFullScreenToggleMsg)
 
         clickOnPlayAttribute =
-            if audioPlaying && not (videoPlayer.status == Status.Playing) then
+            if audioPlaying && not (videoPlayer.status == Status.playing) then
                 onClick (videoPlayerMsg Msg.PlayVideos)
 
             else
@@ -117,7 +117,7 @@ gifVideoPlayer gifUrl videoPlayer =
             [ property "muted" true
             , property "autopause" false
             ]
-                ++ (if videoPlayer.status == Status.Playing then
+                ++ (if videoPlayer.status == Status.playing then
                         [ property "autoplay" true
                         , property "loop" true
                         ]

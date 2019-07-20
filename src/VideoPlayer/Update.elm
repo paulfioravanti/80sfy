@@ -105,19 +105,19 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             ( videoPlayer1, videoPlayer2, Ports.playVideos () )
 
         Msg.VideosHalted ->
-            ( { videoPlayer1 | status = Status.Halted }
-            , { videoPlayer2 | status = Status.Halted }
+            ( { videoPlayer1 | status = Status.halted }
+            , { videoPlayer2 | status = Status.halted }
             , Cmd.none
             )
 
         Msg.VideosPaused ->
-            ( { videoPlayer1 | status = Status.Paused }
-            , { videoPlayer2 | status = Status.Paused }
+            ( { videoPlayer1 | status = Status.paused }
+            , { videoPlayer2 | status = Status.paused }
             , Cmd.none
             )
 
         Msg.VideosPlaying ->
-            ( { videoPlayer1 | status = Status.Playing }
-            , { videoPlayer2 | status = Status.Playing }
+            ( { videoPlayer1 | status = Status.playing }
+            , { videoPlayer2 | status = Status.playing }
             , Cmd.none
             )

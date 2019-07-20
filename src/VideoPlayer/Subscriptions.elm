@@ -77,7 +77,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 
 fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
 fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
-    if status == Status.Playing then
+    if status == Status.playing then
         Time.every
             (gifDisplaySeconds * 1000)
             (videoPlayerMsg << Msg.CrossFadePlayers)
@@ -88,7 +88,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
 
 videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
 videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
-    if (status == Status.Playing) && not overrideInactivityPause then
+    if (status == Status.playing) && not overrideInactivityPause then
         videosHalted (\() -> videoPlayerMsg Msg.VideosHalted)
 
     else
@@ -97,26 +97,25 @@ videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
 
 windowEventSubscription : Msgs msgs msg -> String -> Status -> Sub msg
 windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerId status =
-    case status of
-        Status.Playing ->
-            -- NOTE: If the document target has "blurred" from the video player
-            -- to the SoundCloud iframe, then the Elm app does not need to
-            -- consider this a "real" blur for purposes of displaying the
-            -- "Gifs Paused" overlay.
-            windowBlurred
-                (\activeElementIdFlag ->
-                    if audioPlayerActive activeElementIdFlag audioPlayerId then
-                        noOpMsg
+    if status == Status.playing then
+        -- NOTE: If the document target has "blurred" from the video player
+        -- to the SoundCloud iframe, then the Elm app does not need to
+        -- consider this a "real" blur for purposes of displaying the
+        -- "Gifs Paused" overlay.
+        windowBlurred
+            (\activeElementIdFlag ->
+                if audioPlayerActive activeElementIdFlag audioPlayerId then
+                    noOpMsg
 
-                    else
-                        videoPlayerMsg Msg.HaltVideos
-                )
+                else
+                    videoPlayerMsg Msg.HaltVideos
+            )
 
-        Status.Halted ->
-            windowFocused (\() -> videoPlayerMsg Msg.PlayVideos)
+    else if status == Status.halted then
+        windowFocused (\() -> videoPlayerMsg Msg.PlayVideos)
 
-        _ ->
-            Sub.none
+    else
+        Sub.none
 
 
 audioPlayerActive : Value -> String -> Bool
