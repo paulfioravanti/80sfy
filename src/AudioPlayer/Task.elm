@@ -1,4 +1,4 @@
-module AudioPlayer.Cmd exposing (requestNextTrackNumber)
+module AudioPlayer.Task exposing (requestNextTrackNumber)
 
 import AudioPlayer.Msg as Msg exposing (Msg)
 import Task

@@ -1,4 +1,4 @@
-module VideoPlayer.Cmd exposing (playVideos)
+module VideoPlayer.Task exposing (playVideos)
 
 import Task
 import VideoPlayer.Msg as Msg exposing (Msg)

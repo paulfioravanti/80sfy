@@ -17,12 +17,12 @@ import BrowserVendor exposing (BrowserVendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import RemoteData exposing (WebData)
-import VideoPlayer.Cmd as Cmd
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.RemoteData as RemoteData
 import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions
+import VideoPlayer.Task as Task
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
@@ -57,7 +57,7 @@ pauseVideosMsg videoPlayerMsg =
 
 playVideos : (Msg -> msg) -> Cmd msg
 playVideos videoPlayerMsg =
-    Cmd.playVideos videoPlayerMsg
+    Task.playVideos videoPlayerMsg
 
 
 playVideosMsg : (Msg -> msg) -> msg

@@ -1,11 +1,11 @@
 module AudioPlayer.Update exposing (Msgs, update)
 
-import AudioPlayer.Cmd as Cmd
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
+import AudioPlayer.Task as Task
 import AudioPlayer.Volume as Volume
 import VideoPlayer
 
@@ -52,7 +52,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.GeneratePlaylist playlist ->
             let
                 requestNextTrackNumber =
-                    Cmd.requestNextTrackNumber audioPlayerMsg
+                    Task.requestNextTrackNumber audioPlayerMsg
             in
             ( { audioPlayer | playlist = playlist }
             , requestNextTrackNumber
@@ -61,7 +61,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.NextTrack ->
             let
                 requestNextTrackNumber =
-                    Cmd.requestNextTrackNumber audioPlayerMsg
+                    Task.requestNextTrackNumber audioPlayerMsg
 
                 playVideos =
                     VideoPlayer.playVideos videoPlayerMsg
