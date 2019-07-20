@@ -1,7 +1,6 @@
 module Key exposing (Key, decoder, pressed, subscriptions)
 
 import Json.Decode as Decode
-import Key.Cmd as Cmd
 import Key.Decoder as Decoder
 import Key.Model as Key exposing (Key)
 import Key.Subscriptions as Subscriptions
@@ -17,9 +16,9 @@ decoder =
     Decoder.decoder
 
 
-pressed : Cmd.Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed : Key.Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed msgs model key =
-    Cmd.pressed msgs model key
+    Key.pressed msgs model key
 
 
 subscriptions : (Key -> msg) -> Sub msg
