@@ -3,10 +3,9 @@ module AudioPlayer.Status exposing
     , isMuted
     , isPlaying
     , mute
-    , mutedPaused
-    , mutedPlaying
+    , pause
     , paused
-    , playing
+    , play
     , toString
     , unMute
     )
@@ -51,14 +50,14 @@ mute status =
             Muted status
 
 
-mutedPaused : Status
-mutedPaused =
-    Muted Paused
+pause : Status -> Status
+pause status =
+    case status of
+        Muted _ ->
+            Muted Paused
 
-
-mutedPlaying : Status
-mutedPlaying =
-    Muted Playing
+        _ ->
+            Paused
 
 
 paused : Status
@@ -66,9 +65,14 @@ paused =
     Paused
 
 
-playing : Status
-playing =
-    Playing
+play : Status -> Status
+play status =
+    case status of
+        Muted _ ->
+            Muted Playing
+
+        _ ->
+            Playing
 
 
 toString : Status -> String

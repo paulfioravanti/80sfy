@@ -38,22 +38,14 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.AudioPaused ->
             let
                 status =
-                    if Status.isMuted audioPlayer.status then
-                        Status.mutedPaused
-
-                    else
-                        Status.paused
+                    Status.pause audioPlayer.status
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
         Msg.AudioPlaying ->
             let
                 status =
-                    if Status.isMuted audioPlayer.status then
-                        Status.mutedPlaying
-
-                    else
-                        Status.playing
+                    Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
@@ -77,11 +69,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                         |> Task.perform identity
 
                 status =
-                    if Status.isMuted audioPlayer.status then
-                        Status.mutedPlaying
-
-                    else
-                        Status.playing
+                    Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
             , Cmd.batch [ requestNextTrack, playVideos ]
