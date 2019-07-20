@@ -24,9 +24,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             let
                 volume =
                     sliderVolume
-                        |> String.toInt
-                        |> Maybe.withDefault audioPlayer.volume
-                        |> Volume.contain
+                        |> Volume.setWithDefault audioPlayer.volume
 
                 cmd =
                     if Status.isMuted audioPlayer.status then

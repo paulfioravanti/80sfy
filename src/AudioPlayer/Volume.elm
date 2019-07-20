@@ -1,4 +1,18 @@
-module AudioPlayer.Volume exposing (contain)
+module AudioPlayer.Volume exposing (setWithDefault)
+
+
+setWithDefault : Int -> String -> Int
+setWithDefault currentVolume sliderVolume =
+    case String.toInt sliderVolume of
+        Just volume ->
+            contain volume
+
+        Nothing ->
+            currentVolume
+
+
+
+-- PRIVATE
 
 
 contain : Int -> Int
