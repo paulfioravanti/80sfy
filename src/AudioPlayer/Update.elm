@@ -41,10 +41,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             let
                 status =
                     if Status.isMuted audioPlayer.status then
-                        Status.Muted Status.Paused
+                        Status.mutedPaused
 
                     else
-                        Status.Paused
+                        Status.paused
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
@@ -52,10 +52,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             let
                 status =
                     if Status.isMuted audioPlayer.status then
-                        Status.Muted Status.Playing
+                        Status.mutedPlaying
 
                     else
-                        Status.Playing
+                        Status.playing
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
@@ -80,10 +80,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
                 status =
                     if Status.isMuted audioPlayer.status then
-                        Status.Muted Status.Playing
+                        Status.mutedPlaying
 
                     else
-                        Status.Playing
+                        Status.playing
             in
             ( { audioPlayer | status = status }
             , Cmd.batch [ requestNextTrack, playVideos ]
@@ -136,13 +136,19 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         Msg.ToggleMute ->
             let
-                ( cmd, newStatus ) =
-                    case audioPlayer.status of
-                        Status.Muted status ->
-                            ( Ports.setVolume audioPlayer.volume, status )
+                currentStatus =
+                    audioPlayer.status
 
-                        status ->
-                            ( Ports.setVolume 0, Status.Muted status )
+                ( cmd, newStatus ) =
+                    if Status.isMuted currentStatus then
+                        ( Ports.setVolume audioPlayer.volume
+                        , Status.unMute currentStatus
+                        )
+
+                    else
+                        ( Ports.setVolume 0
+                        , Status.mute currentStatus
+                        )
             in
             ( { audioPlayer | status = newStatus }, cmd )
 

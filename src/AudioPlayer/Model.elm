@@ -19,7 +19,7 @@ init soundCloudPlaylistUrl =
     , playlist = []
     , playlistLength = 0
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
-    , status = Status.Paused
+    , status = Status.paused
     , volume = 80
     }
 
