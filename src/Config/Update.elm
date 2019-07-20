@@ -75,13 +75,13 @@ update msgs msg config =
                 cmd =
                     if
                         soundCloudPlaylistUrl
-                            /= config.soundCloudPlaylistUrl
+                            == config.soundCloudPlaylistUrl
                     then
+                        Cmd.none
+
+                    else
                         AudioPlayer.reInitAudioPlayer
                             msgs.audioPlayerMsg
                             soundCloudPlaylistUrl
-
-                    else
-                        Cmd.none
             in
             ( updatedConfig, cmd )

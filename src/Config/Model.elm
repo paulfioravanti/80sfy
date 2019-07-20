@@ -20,10 +20,12 @@ init flags =
             flags.giphyApiKey
                 |> Value.extractStringWithDefault ""
 
+        defaultSoundCloudPlaylistUrl =
+            "https://api.soundcloud.com/playlists/193785575"
+
         soundCloudPlaylistUrl =
             flags.soundCloudPlaylistUrl
-                |> Value.extractStringWithDefault
-                    "https://api.soundcloud.com/playlists/193785575"
+                |> Value.extractStringWithDefault defaultSoundCloudPlaylistUrl
     in
     { gifDisplaySeconds = 4
     , giphyApiKey = giphyApiKey
