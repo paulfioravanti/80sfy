@@ -20,7 +20,7 @@ audio auto play by default.
 ### Dependencies
 
 - [Elm][] 0.19.0
-- [NodeJS][] 11.12.0
+- [NodeJS][] 12.6.0
 
 ## Setup
 
@@ -61,7 +61,7 @@ ELM_DEBUGGER=false elm-app start
 > NOTE: Due to [this issue in the Elm 0.19 compiler][Map.! when compiling with
 --debug], the app cannot currently be run in development with the Elm debugger
 on since it will crash with a `elm: Map.!: given key is not an element in the
-map` error.
+map` error. This should be fixed in Elm 0.19.1.
 
 Now, you should be able to use the app at the following address:
 
