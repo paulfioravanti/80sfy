@@ -36,7 +36,7 @@ update msg controlPanel =
                 ( controlPanel, hideControlPanel )
 
             else
-                ( { controlPanel | state = State.Idle (secondsVisible + 1) }
+                ( { controlPanel | state = State.idle (secondsVisible + 1) }
                 , Cmd.none
                 )
 
@@ -49,13 +49,13 @@ update msg controlPanel =
             in
             ( { controlPanel
                 | style = animateToHidden
-                , state = State.Invisible
+                , state = State.invisible
               }
             , Cmd.none
             )
 
         Msg.LeaveControlPanel ->
-            ( { controlPanel | state = State.Idle 0 }, Cmd.none )
+            ( { controlPanel | state = State.idle 0 }, Cmd.none )
 
         Msg.ShowControlPanel ->
             let
@@ -64,20 +64,16 @@ update msg controlPanel =
                         |> Animation.interrupt
                             [ Animation.to Animations.visible ]
             in
-            ( { controlPanel | style = animateToVisible, state = State.Idle 0 }
+            ( { controlPanel | style = animateToVisible, state = State.idle 0 }
             , Cmd.none
             )
 
         Msg.ToggleHideWhenInactive ->
             let
                 state =
-                    if controlPanel.state == State.KeepVisible then
-                        State.Idle 0
-
-                    else
-                        State.KeepVisible
+                    State.toggleHideWhenInactive controlPanel.state
             in
             ( { controlPanel | state = state }, Cmd.none )
 
         Msg.UseControlPanel ->
-            ( { controlPanel | state = State.InUse }, Cmd.none )
+            ( { controlPanel | state = State.inUse }, Cmd.none )
