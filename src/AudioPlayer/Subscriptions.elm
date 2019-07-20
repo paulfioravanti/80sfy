@@ -58,33 +58,24 @@ audioPausedSubscriptions : Msgs msgs msg -> Sub msg
 audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
+    let
+        pauseMedia msg currentPositionFlag =
+            let
+                currentPosition =
+                    currentPositionFlag
+                        |> Value.extractFloatWithDefault 0.0
+            in
+            if currentPosition > 0 then
+                msg
+
+            else
+                noOpMsg
+    in
     Sub.batch
         [ audioPaused
-            (\currentPositionFlag ->
-                let
-                    currentPosition =
-                        currentPositionFlag
-                            |> Value.extractFloatWithDefault 0.0
-                in
-                if currentPosition > 0 then
-                    audioPlayerMsg Msg.AudioPaused
-
-                else
-                    noOpMsg
-            )
+            (pauseMedia (audioPlayerMsg Msg.AudioPaused))
         , audioPaused
-            (\currentPositionFlag ->
-                let
-                    currentPosition =
-                        currentPositionFlag
-                            |> Value.extractFloatWithDefault 0.0
-                in
-                if currentPosition > 0 then
-                    videoPlayerMsg VideoPlayer.pauseVideosMsg
-
-                else
-                    noOpMsg
-            )
+            (pauseMedia (VideoPlayer.pauseVideosMsg videoPlayerMsg))
         ]
 
 
@@ -93,31 +84,22 @@ audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been loaded and can therefore
     -- actually play.
+    let
+        playMedia msg loadedProgressFlag =
+            let
+                loadedProgress =
+                    loadedProgressFlag
+                        |> Value.extractFloatWithDefault 0.0
+            in
+            if loadedProgress > 0 then
+                msg
+
+            else
+                noOpMsg
+    in
     Sub.batch
         [ audioPlaying
-            (\loadedProgressFlag ->
-                let
-                    loadedProgress =
-                        loadedProgressFlag
-                            |> Value.extractFloatWithDefault 0.0
-                in
-                if loadedProgress > 0 then
-                    audioPlayerMsg Msg.AudioPlaying
-
-                else
-                    noOpMsg
-            )
+            (playMedia (audioPlayerMsg Msg.AudioPlaying))
         , audioPlaying
-            (\loadedProgressFlag ->
-                let
-                    loadedProgress =
-                        loadedProgressFlag
-                            |> Value.extractFloatWithDefault 0.0
-                in
-                if loadedProgress > 0 then
-                    videoPlayerMsg VideoPlayer.playVideosMsg
-
-                else
-                    noOpMsg
-            )
+            (playMedia (VideoPlayer.playVideosMsg videoPlayerMsg))
         ]

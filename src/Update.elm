@@ -91,7 +91,7 @@ update msg model =
                         |> Task.succeed
 
                 pauseVideo =
-                    Msg.VideoPlayer VideoPlayer.pauseVideosMsg
+                    VideoPlayer.pauseVideosMsg Msg.VideoPlayer
                         |> Task.succeed
 
                 -- NOTE: These tasks need to be specifically ordered so that
@@ -111,12 +111,10 @@ update msg model =
                         |> Task.succeed
                         |> Task.perform identity
 
-                playVideo =
-                    Msg.VideoPlayer VideoPlayer.playVideosMsg
-                        |> Task.succeed
-                        |> Task.perform identity
+                playVideos =
+                    VideoPlayer.playVideos Msg.VideoPlayer
             in
-            ( model, Cmd.batch [ playVideo, playAudio ] )
+            ( model, Cmd.batch [ playVideos, playAudio ] )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let

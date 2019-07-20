@@ -5,6 +5,7 @@ module VideoPlayer exposing
     , gifUrlToString
     , init
     , pauseVideosMsg
+    , playVideos
     , playVideosMsg
     , statusToString
     , subscriptions
@@ -16,6 +17,7 @@ import BrowserVendor exposing (BrowserVendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import RemoteData exposing (WebData)
+import VideoPlayer.Cmd as Cmd
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.RemoteData as RemoteData
@@ -48,14 +50,19 @@ gifUrlToString webData =
     RemoteData.toString webData
 
 
-pauseVideosMsg : Msg
-pauseVideosMsg =
-    Msg.PauseVideos
+pauseVideosMsg : (Msg -> msg) -> msg
+pauseVideosMsg videoPlayerMsg =
+    videoPlayerMsg Msg.PauseVideos
 
 
-playVideosMsg : Msg
-playVideosMsg =
-    Msg.PlayVideos
+playVideos : (Msg -> msg) -> Cmd msg
+playVideos videoPlayerMsg =
+    Cmd.playVideos videoPlayerMsg
+
+
+playVideosMsg : (Msg -> msg) -> msg
+playVideosMsg videoPlayerMsg =
+    videoPlayerMsg Msg.PlayVideos
 
 
 statusToString : Status -> String

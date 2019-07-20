@@ -1,12 +1,12 @@
 module AudioPlayer.Update exposing (Msgs, update)
 
+import AudioPlayer.Cmd as Cmd
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
 import AudioPlayer.Volume as Volume
-import Task
 import VideoPlayer
 
 
@@ -51,28 +51,26 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         Msg.GeneratePlaylist playlist ->
             let
-                requestNextTrack =
-                    nextTrackNumberRequested audioPlayerMsg
+                requestNextTrackNumber =
+                    Cmd.requestNextTrackNumber audioPlayerMsg
             in
             ( { audioPlayer | playlist = playlist }
-            , requestNextTrack
+            , requestNextTrackNumber
             )
 
         Msg.NextTrack ->
             let
-                requestNextTrack =
-                    nextTrackNumberRequested audioPlayerMsg
+                requestNextTrackNumber =
+                    Cmd.requestNextTrackNumber audioPlayerMsg
 
                 playVideos =
-                    videoPlayerMsg VideoPlayer.playVideosMsg
-                        |> Task.succeed
-                        |> Task.perform identity
+                    VideoPlayer.playVideos videoPlayerMsg
 
                 status =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ requestNextTrack, playVideos ]
+            , Cmd.batch [ requestNextTrackNumber, playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
@@ -125,26 +123,15 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 currentStatus =
                     audioPlayer.status
 
-                ( cmd, newStatus ) =
+                ( newStatus, cmd ) =
                     if Status.isMuted currentStatus then
-                        ( Ports.setVolume audioPlayer.volume
-                        , Status.unMute currentStatus
+                        ( Status.unMute currentStatus
+                        , Ports.setVolume audioPlayer.volume
                         )
 
                     else
-                        ( Ports.setVolume 0
-                        , Status.mute currentStatus
+                        ( Status.mute currentStatus
+                        , Ports.setVolume 0
                         )
             in
             ( { audioPlayer | status = newStatus }, cmd )
-
-
-
--- PRIVATE
-
-
-nextTrackNumberRequested : (Msg -> msg) -> Cmd msg
-nextTrackNumberRequested audioPlayerMsg =
-    audioPlayerMsg Msg.NextTrackNumberRequested
-        |> Task.succeed
-        |> Task.perform identity
