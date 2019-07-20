@@ -9,7 +9,6 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import SecretConfig
-import Task
 import VideoPlayer
 
 
@@ -71,17 +70,17 @@ update msgs msg config =
                         |> String.split ", "
                         |> List.map String.trim
 
+                ignoreNonPositiveSeconds seconds =
+                    if seconds < 1 then
+                        config.gifDisplaySeconds
+
+                    else
+                        seconds
+
                 gifDisplaySeconds =
                     gifDisplaySecondsString
                         |> String.toFloat
-                        |> Maybe.map
-                            (\seconds ->
-                                if seconds < 1 then
-                                    config.gifDisplaySeconds
-
-                                else
-                                    seconds
-                            )
+                        |> Maybe.map ignoreNonPositiveSeconds
                         |> Maybe.withDefault config.gifDisplaySeconds
 
                 cmd =
