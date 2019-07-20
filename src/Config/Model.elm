@@ -1,4 +1,4 @@
-module Config.Model exposing (Config, init)
+module Config.Model exposing (Config, init, update)
 
 import Flags exposing (Flags)
 import Value
@@ -30,4 +30,32 @@ init flags =
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = []
     , volumeAdjustmentRate = 20
+    }
+
+
+update : String -> String -> String -> Config -> Config
+update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
+    let
+        tags =
+            tagsString
+                |> String.split ", "
+                |> List.map String.trim
+
+        ignoreNonPositiveSeconds seconds =
+            if seconds < 1 then
+                config.gifDisplaySeconds
+
+            else
+                seconds
+
+        gifDisplaySeconds =
+            gifDisplaySecondsString
+                |> String.toFloat
+                |> Maybe.map ignoreNonPositiveSeconds
+                |> Maybe.withDefault config.gifDisplaySeconds
+    in
+    { config
+        | gifDisplaySeconds = gifDisplaySeconds
+        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+        , tags = tags
     }

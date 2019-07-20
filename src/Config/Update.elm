@@ -1,7 +1,7 @@
 module Config.Update exposing (Msgs, update)
 
 import AudioPlayer
-import Config.Model exposing (Config)
+import Config.Model as Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
 import Config.Task as Task
 import Error
@@ -57,31 +57,20 @@ update msgs msg config =
                 fetchRandomGifMsg =
                     msgs.videoPlayerMsg
                         << VideoPlayer.fetchRandomGifMsg videoPlayerId
+
+                fetchRandomGif =
+                    Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey tag
             in
-            ( config
-            , tag
-                |> Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey
-            )
+            ( config, fetchRandomGif )
 
         Msg.Save soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                tags =
-                    tagsString
-                        |> String.split ", "
-                        |> List.map String.trim
-
-                ignoreNonPositiveSeconds seconds =
-                    if seconds < 1 then
-                        config.gifDisplaySeconds
-
-                    else
-                        seconds
-
-                gifDisplaySeconds =
-                    gifDisplaySecondsString
-                        |> String.toFloat
-                        |> Maybe.map ignoreNonPositiveSeconds
-                        |> Maybe.withDefault config.gifDisplaySeconds
+                updatedConfig =
+                    Model.update
+                        soundCloudPlaylistUrl
+                        tagsString
+                        gifDisplaySecondsString
+                        config
 
                 cmd =
                     if
@@ -95,10 +84,4 @@ update msgs msg config =
                     else
                         Cmd.none
             in
-            ( { config
-                | gifDisplaySeconds = gifDisplaySeconds
-                , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-                , tags = tags
-              }
-            , cmd
-            )
+            ( updatedConfig, cmd )
