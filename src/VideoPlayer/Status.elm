@@ -6,9 +6,6 @@ module VideoPlayer.Status exposing
     , toString
     )
 
-import Time
-import VideoPlayer.Msg as Msg exposing (Msg)
-
 
 type Status
     = Playing
