@@ -6,7 +6,7 @@ import BrowserVendor exposing (BrowserVendor)
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
-import ControlPanel.Msg exposing (Msg)
+import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
 import ControlPanel.Styles as Styles
 import FullScreen
@@ -21,7 +21,7 @@ import Html.Styled.Attributes as Attributes
         , type_
         , value
         )
-import Html.Styled.Events exposing (onInput)
+import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
 
 
 type alias Context a =
@@ -59,7 +59,13 @@ view msgs ({ audioPlayer, controlPanel } as context) =
                 |> List.map fromUnstyled
 
         visibilityToggles =
-            State.visibilityToggles controlPanelMsg controlPanel.state
+            if controlPanel.state == State.keepVisible then
+                []
+
+            else
+                [ onMouseEnter (controlPanelMsg Msg.UseControlPanel)
+                , onMouseLeave (controlPanelMsg Msg.LeaveControlPanel)
+                ]
     in
     div (attributes ++ animations ++ visibilityToggles)
         [ div

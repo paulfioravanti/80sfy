@@ -13,6 +13,6 @@ type alias ControlPanel =
 
 init : ControlPanel
 init =
-    { state = State.idle 0
+    { state = State.setIdle 0
     , style = Animation.style Animations.visible
     }

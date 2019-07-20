@@ -1,20 +1,14 @@
 module ControlPanel.State exposing
     ( State
-    , idle
+    , idleSeconds
     , inUse
     , invisible
+    , isIdle
+    , keepVisible
+    , setIdle
     , toString
     , toggleHideWhenInactive
-    , visibilitySubscription
-    , visibilityToggles
     )
-
-import Browser.Events
-import ControlPanel.Msg as Msg exposing (Msg)
-import Html.Styled exposing (Attribute)
-import Html.Styled.Events
-import Json.Decode as Decode
-import Time
 
 
 type State
@@ -24,9 +18,14 @@ type State
     | KeepVisible
 
 
-idle : Int -> State
-idle seconds =
-    Idle seconds
+idleSeconds : State -> Int
+idleSeconds state =
+    case state of
+        Idle seconds ->
+            seconds
+
+        _ ->
+            0
 
 
 inUse : State
@@ -37,6 +36,26 @@ inUse =
 invisible : State
 invisible =
     Invisible
+
+
+isIdle : State -> Bool
+isIdle state =
+    case state of
+        Idle _ ->
+            True
+
+        _ ->
+            False
+
+
+keepVisible : State
+keepVisible =
+    KeepVisible
+
+
+setIdle : Int -> State
+setIdle seconds =
+    Idle seconds
 
 
 toggleHideWhenInactive : State -> State
@@ -63,35 +82,3 @@ toString state =
 
         KeepVisible ->
             "KeepVisible"
-
-
-visibilitySubscription : (Msg -> msg) -> State -> Sub msg
-visibilitySubscription controlPanelMsg state =
-    case state of
-        Idle secondsVisible ->
-            -- milliseconds
-            Time.every 1000
-                (controlPanelMsg
-                    << Msg.CountdownToHideControlPanel secondsVisible
-                )
-
-        Invisible ->
-            Browser.Events.onMouseMove
-                (Decode.succeed (controlPanelMsg Msg.ShowControlPanel))
-
-        _ ->
-            Sub.none
-
-
-visibilityToggles : (Msg -> msg) -> State -> List (Attribute msg)
-visibilityToggles controlPanelMsg state =
-    case state of
-        KeepVisible ->
-            []
-
-        _ ->
-            [ Html.Styled.Events.onMouseEnter
-                (controlPanelMsg Msg.UseControlPanel)
-            , Html.Styled.Events.onMouseLeave
-                (controlPanelMsg Msg.LeaveControlPanel)
-            ]
