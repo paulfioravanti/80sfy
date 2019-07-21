@@ -44,7 +44,8 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
             (\() -> Msg.nextTrackNumberRequested audioPlayerMsg)
         , setPlaylistLength
             (\value ->
-                Msg.setPlaylistLength audioPlayerMsg
+                Msg.setPlaylistLength
+                    audioPlayerMsg
                     (Value.extractIntWithDefault 1 value)
             )
         ]

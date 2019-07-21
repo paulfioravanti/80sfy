@@ -14,7 +14,7 @@ subscriptions controlPanelMsg controlPanel =
     Sub.batch
         [ visibilitySubscription controlPanelMsg controlPanel.state
         , Animation.subscription
-            (controlPanelMsg << Msg.AnimateControlPanel)
+            (Msg.animateControlPanel controlPanelMsg)
             [ controlPanel.style ]
         ]
 
@@ -32,9 +32,7 @@ visibilitySubscription controlPanelMsg state =
         in
         -- milliseconds
         Time.every 1000
-            (controlPanelMsg
-                << Msg.CountdownToHideControlPanel secondsVisible
-            )
+            (Msg.countdownToHideControlPanel controlPanelMsg secondsVisible)
 
     else if state == State.invisible then
         Browser.Events.onMouseMove
