@@ -65,7 +65,7 @@ update msg model =
         Msg.GenerateRandomGif videoPlayerId ->
             let
                 randomTagGeneratedMsg =
-                    Msg.Config << Config.randomTagGeneratedMsg videoPlayerId
+                    Config.randomTagGeneratedMsg Msg.Config videoPlayerId
 
                 cmd =
                     model.config.tags

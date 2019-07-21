@@ -35,9 +35,9 @@ initTagsMsg =
     Msg.InitTags
 
 
-randomTagGeneratedMsg : String -> String -> Msg
-randomTagGeneratedMsg =
-    Msg.RandomTagGenerated
+randomTagGeneratedMsg : (Msg -> msg) -> String -> String -> msg
+randomTagGeneratedMsg configMsg videoPlayerId =
+    configMsg << Msg.RandomTagGenerated videoPlayerId
 
 
 save : (Msg -> msg) -> String -> String -> String -> Cmd msg

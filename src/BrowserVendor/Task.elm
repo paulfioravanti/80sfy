@@ -6,6 +6,6 @@ import Task
 
 leaveFullScreen : (Msg -> msg) -> Cmd msg
 leaveFullScreen browserVendorMsg =
-    browserVendorMsg Msg.LeaveFullScreen
+    browserVendorMsg Msg.leaveFullScreen
         |> Task.succeed
         |> Task.perform identity

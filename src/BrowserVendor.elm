@@ -32,15 +32,7 @@ init flags =
 
 cmd : Msg -> BrowserVendor -> Cmd msg
 cmd msg browserVendor =
-    case msg of
-        Msg.EnterFullScreen ->
-            Model.enterFullScreen browserVendor
-
-        Msg.LeaveFullScreen ->
-            Model.leaveFullScreen browserVendor
-
-        Msg.PerformFullScreenToggle ->
-            Model.performFullScreenToggle browserVendor
+    Msg.toCmd msg browserVendor
 
 
 leaveFullScreen : (Msg -> msg) -> Cmd msg
@@ -50,7 +42,7 @@ leaveFullScreen browserVendorMsg =
 
 leaveFullScreenMsg : (Msg -> msg) -> msg
 leaveFullScreenMsg browserVendorMsg =
-    browserVendorMsg Msg.LeaveFullScreen
+    browserVendorMsg Msg.leaveFullScreen
 
 
 mozilla : BrowserVendor
@@ -60,7 +52,7 @@ mozilla =
 
 performFullScreenToggleMsg : Msg
 performFullScreenToggleMsg =
-    Msg.PerformFullScreenToggle
+    Msg.performFullScreenToggle
 
 
 subscriptions : (Msg -> msg) -> Sub msg
