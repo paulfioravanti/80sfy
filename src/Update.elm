@@ -10,7 +10,6 @@ import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
-import Task
 import Task_
 import VideoPlayer
 
@@ -104,16 +103,12 @@ update msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                saveConfigMsg =
-                    Config.saveMsg
+                saveConfig =
+                    Config.save
+                        Msg.Config
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
-
-                saveConfig =
-                    Msg.Config saveConfigMsg
-                        |> Task.succeed
-                        |> Task.perform identity
             in
             ( model, saveConfig )
 

@@ -4,12 +4,14 @@ module Config exposing
     , init
     , initTagsMsg
     , randomTagGeneratedMsg
+    , save
     , saveMsg
     , update
     )
 
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
+import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
@@ -36,6 +38,11 @@ initTagsMsg =
 randomTagGeneratedMsg : String -> String -> Msg
 randomTagGeneratedMsg =
     Msg.RandomTagGenerated
+
+
+save : (Msg -> msg) -> String -> String -> String -> Cmd msg
+save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
+    Task.save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString
 
 
 saveMsg : String -> String -> String -> Msg
