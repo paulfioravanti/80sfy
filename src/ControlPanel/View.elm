@@ -128,7 +128,7 @@ volumeControl audioPlayerMsg { volume } =
             , Attributes.max "100"
             , step "5"
             , value (String.fromInt volume)
-            , onInput (audioPlayerMsg << AudioPlayer.adjustVolumeMsg)
+            , onInput (AudioPlayer.adjustVolumeMsg audioPlayerMsg)
             ]
             []
         ]

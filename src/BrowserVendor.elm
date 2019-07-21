@@ -3,6 +3,7 @@ module BrowserVendor exposing
     , Msg
     , cmd
     , init
+    , leaveFullScreen
     , leaveFullScreenMsg
     , mozilla
     , performFullScreenToggleMsg
@@ -12,6 +13,7 @@ module BrowserVendor exposing
 import BrowserVendor.Model as Model
 import BrowserVendor.Msg as Msg
 import BrowserVendor.Subscriptions as Subscriptions
+import BrowserVendor.Task as Task
 import Flags exposing (Flags)
 
 
@@ -41,9 +43,14 @@ cmd msg browserVendor =
             Model.performFullScreenToggle browserVendor
 
 
-leaveFullScreenMsg : Msg
-leaveFullScreenMsg =
-    Msg.LeaveFullScreen
+leaveFullScreen : (Msg -> msg) -> Cmd msg
+leaveFullScreen browserVendorMsg =
+    Task.leaveFullScreen browserVendorMsg
+
+
+leaveFullScreenMsg : (Msg -> msg) -> msg
+leaveFullScreenMsg browserVendorMsg =
+    browserVendorMsg Msg.LeaveFullScreen
 
 
 mozilla : BrowserVendor

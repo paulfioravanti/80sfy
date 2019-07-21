@@ -42,9 +42,9 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-adjustVolumeMsg : String -> Msg
-adjustVolumeMsg =
-    Msg.AdjustVolume
+adjustVolumeMsg : (Msg -> msg) -> String -> msg
+adjustVolumeMsg audioPlayerMsg volume =
+    audioPlayerMsg (Msg.AdjustVolume volume)
 
 
 generatePlaylist : (Msg -> msg) -> Int -> Cmd msg

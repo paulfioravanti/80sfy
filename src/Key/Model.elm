@@ -50,9 +50,7 @@ pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Escape ->
-            msgs.browserVendorMsg BrowserVendor.leaveFullScreenMsg
-                |> Task.succeed
-                |> Task.perform identity
+            BrowserVendor.leaveFullScreen msgs.browserVendorMsg
 
         Space ->
             let
@@ -74,7 +72,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                         + config.volumeAdjustmentRate
                         |> String.fromInt
             in
-            audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+            AudioPlayer.adjustVolumeMsg audioPlayerMsg newVolume
                 |> Task.succeed
                 |> Task.perform identity
 
@@ -90,7 +88,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                         - config.volumeAdjustmentRate
                         |> String.fromInt
             in
-            audioPlayerMsg (AudioPlayer.adjustVolumeMsg newVolume)
+            AudioPlayer.adjustVolumeMsg audioPlayerMsg newVolume
                 |> Task.succeed
                 |> Task.perform identity
 
