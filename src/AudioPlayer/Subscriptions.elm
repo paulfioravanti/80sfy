@@ -41,10 +41,9 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
     Sub.batch
         [ playingSubscription
         , requestNextTrackNumber
-            (\() -> audioPlayerMsg Msg.NextTrackNumberRequested)
+            (\() -> Msg.nextTrackNumberRequested audioPlayerMsg)
         , setPlaylistLength
-            (audioPlayerMsg
-                << Msg.SetPlaylistLength
+            (Msg.setPlaylistLength audioPlayerMsg
                 << Value.extractIntWithDefault 1
             )
         ]
@@ -73,7 +72,7 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     in
     Sub.batch
         [ audioPaused
-            (pauseMedia (audioPlayerMsg Msg.AudioPaused))
+            (pauseMedia (Msg.audioPaused audioPlayerMsg))
         , audioPaused
             (pauseMedia (VideoPlayer.pauseVideosMsg videoPlayerMsg))
         ]
@@ -99,7 +98,7 @@ audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     in
     Sub.batch
         [ audioPlaying
-            (playMedia (audioPlayerMsg Msg.AudioPlaying))
+            (playMedia (Msg.audioPlaying audioPlayerMsg))
         , audioPlaying
             (playMedia (VideoPlayer.playVideosMsg videoPlayerMsg))
         ]

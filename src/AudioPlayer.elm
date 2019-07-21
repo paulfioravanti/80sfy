@@ -21,8 +21,8 @@ module AudioPlayer exposing
     )
 
 import AudioPlayer.Flags exposing (Flags)
-import AudioPlayer.Model as Model exposing (AudioPlayer)
-import AudioPlayer.Msg as Msg exposing (Msg)
+import AudioPlayer.Model as Model
+import AudioPlayer.Msg as Msg
 import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status exposing (Status)
@@ -51,7 +51,7 @@ adjustVolume audioPlayerMsg volume =
 
 adjustVolumeMsg : (Msg -> msg) -> String -> msg
 adjustVolumeMsg audioPlayerMsg volume =
-    audioPlayerMsg (Msg.AdjustVolume volume)
+    Msg.adjustVolume audioPlayerMsg volume
 
 
 generatePlaylist : (Msg -> msg) -> Int -> Cmd msg

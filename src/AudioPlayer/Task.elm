@@ -11,27 +11,27 @@ import Task
 
 adjustVolume : (Msg -> msg) -> String -> Cmd msg
 adjustVolume audioPlayerMsg volume =
-    audioPlayerMsg (Msg.AdjustVolume volume)
+    Msg.adjustVolume audioPlayerMsg volume
         |> Task.succeed
         |> Task.perform identity
 
 
 nextTrack : (Msg -> msg) -> Cmd msg
 nextTrack audioPlayerMsg =
-    audioPlayerMsg Msg.NextTrack
+    Msg.nextTrack audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
 
 
 reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg
 reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
-    audioPlayerMsg (Msg.ReInitAudioPlayer soundCloudPlaylistUrl)
+    Msg.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
         |> Task.succeed
         |> Task.perform identity
 
 
 requestNextTrackNumber : (Msg -> msg) -> Cmd msg
 requestNextTrackNumber audioPlayerMsg =
-    audioPlayerMsg Msg.NextTrackNumberRequested
+    Msg.nextTrackNumberRequested audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
