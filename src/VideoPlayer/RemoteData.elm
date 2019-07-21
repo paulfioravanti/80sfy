@@ -7,11 +7,11 @@ import RemoteData exposing (WebData)
 toString : WebData String -> String
 toString webData =
     case webData of
-        RemoteData.NotRequested ->
-            "NotRequested"
+        RemoteData.NotAsked ->
+            "NotAsked"
 
-        RemoteData.Requesting ->
-            "Requesting"
+        RemoteData.Loading ->
+            "Loading"
 
         RemoteData.Failure error ->
             "Failure: " ++ Error.toString error
