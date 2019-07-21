@@ -1,7 +1,7 @@
 module Key.Model exposing (Key, Msgs, fromString, pressed)
 
 import AudioPlayer
-import FullScreen
+import BrowserVendor
 import Model exposing (Model)
 import Task
 
@@ -18,7 +18,7 @@ type Key
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
+        , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
     }
@@ -50,7 +50,7 @@ pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Escape ->
-            msgs.fullScreenMsg FullScreen.leaveFullScreenMsg
+            msgs.browserVendorMsg BrowserVendor.leaveFullScreenMsg
                 |> Task.succeed
                 |> Task.perform identity
 

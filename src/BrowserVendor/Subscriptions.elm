@@ -1,6 +1,6 @@
-port module FullScreen.Subscriptions exposing (subscriptions)
+port module BrowserVendor.Subscriptions exposing (subscriptions)
 
-import FullScreen.Msg as Msg exposing (Msg)
+import BrowserVendor.Msg as Msg exposing (Msg)
 import Json.Decode exposing (Value)
 import Value
 
@@ -9,15 +9,15 @@ port toggleFullScreen : (Value -> msg) -> Sub msg
 
 
 subscriptions : (Msg -> msg) -> Sub msg
-subscriptions fullScreenMsg =
+subscriptions browserVendorMsg =
     toggleFullScreen
         (\isFullScreenFlag ->
             if
                 isFullScreenFlag
                     |> Value.extractBoolWithDefault False
             then
-                fullScreenMsg Msg.LeaveFullScreen
+                browserVendorMsg Msg.LeaveFullScreen
 
             else
-                fullScreenMsg Msg.EnterFullScreen
+                browserVendorMsg Msg.EnterFullScreen
         )

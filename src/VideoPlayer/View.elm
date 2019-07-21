@@ -2,7 +2,6 @@ module VideoPlayer.View exposing (Msgs, view)
 
 import Animation
 import BrowserVendor exposing (BrowserVendor)
-import FullScreen
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
@@ -23,7 +22,7 @@ import VideoPlayer.Styles as Styles
 
 type alias Msgs msgs msg =
     { msgs
-        | fullScreenMsg : FullScreen.Msg -> msg
+        | browserVendorMsg : BrowserVendor.Msg -> msg
         , noOpMsg : msg
         , videoPlayerMsg : Msg -> msg
     }
@@ -69,7 +68,7 @@ attributes :
     -> List (Html.Attribute msg)
 attributes audioPlaying msgs browserVendor videoPlayer =
     let
-        { fullScreenMsg, noOpMsg, videoPlayerMsg } =
+        { browserVendorMsg, noOpMsg, videoPlayerMsg } =
             msgs
 
         animations =
@@ -78,12 +77,12 @@ attributes audioPlaying msgs browserVendor videoPlayer =
                 |> List.map fromUnstyled
 
         onDoubleClickAttribute =
-            if browserVendor == BrowserVendor.Mozilla then
+            if browserVendor == BrowserVendor.mozilla then
                 attribute "onDblClick" "window.mozFullScreenToggleHack()"
 
             else
                 onDoubleClick
-                    (fullScreenMsg FullScreen.performFullScreenToggleMsg)
+                    (browserVendorMsg BrowserVendor.performFullScreenToggleMsg)
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
@@ -98,7 +97,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
             , clickOnPlayAttribute
             , css [ Styles.gifContainer videoPlayer.zIndex ]
             , onDoubleClick
-                (fullScreenMsg FullScreen.performFullScreenToggleMsg)
+                (browserVendorMsg BrowserVendor.performFullScreenToggleMsg)
             ]
     in
     List.append animations videoPlayerAttributes

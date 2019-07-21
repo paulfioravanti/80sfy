@@ -1,28 +1,61 @@
-module BrowserVendor exposing (BrowserVendor(..), init)
+module BrowserVendor exposing
+    ( BrowserVendor
+    , Msg
+    , cmd
+    , init
+    , leaveFullScreenMsg
+    , mozilla
+    , performFullScreenToggleMsg
+    , subscriptions
+    )
 
+import BrowserVendor.Model as Model
+import BrowserVendor.Msg as Msg
+import BrowserVendor.Subscriptions as Subscriptions
 import Flags exposing (Flags)
-import Value
 
 
-type BrowserVendor
-    = Mozilla
-    | Other
-    | Webkit
+type alias BrowserVendor =
+    Model.BrowserVendor
+
+
+type alias Msg =
+    Msg.Msg
 
 
 init : Flags -> BrowserVendor
 init flags =
-    let
-        browser =
-            flags.browserVendor
-                |> Value.extractStringWithDefault "other"
-    in
-    case browser of
-        "mozilla" ->
-            Mozilla
+    Model.init flags.browserVendor
 
-        "webkit" ->
-            Webkit
 
-        _ ->
-            Other
+cmd : Msg -> BrowserVendor -> Cmd msg
+cmd msg browserVendor =
+    case msg of
+        Msg.EnterFullScreen ->
+            Model.enterFullScreen browserVendor
+
+        Msg.LeaveFullScreen ->
+            Model.leaveFullScreen browserVendor
+
+        Msg.PerformFullScreenToggle ->
+            Model.performFullScreenToggle browserVendor
+
+
+leaveFullScreenMsg : Msg
+leaveFullScreenMsg =
+    Msg.LeaveFullScreen
+
+
+mozilla : BrowserVendor
+mozilla =
+    Model.mozilla
+
+
+performFullScreenToggleMsg : Msg
+performFullScreenToggleMsg =
+    Msg.PerformFullScreenToggle
+
+
+subscriptions : (Msg -> msg) -> Sub msg
+subscriptions browserVendorMsg =
+    Subscriptions.subscriptions browserVendorMsg

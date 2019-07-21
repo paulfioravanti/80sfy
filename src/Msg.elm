@@ -1,9 +1,9 @@
 module Msg exposing (Msg(..))
 
 import AudioPlayer
+import BrowserVendor
 import Config
 import ControlPanel
-import FullScreen
 import Key
 import SecretConfig
 import VideoPlayer
@@ -11,9 +11,9 @@ import VideoPlayer
 
 type Msg
     = AudioPlayer AudioPlayer.Msg
+    | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
-    | FullScreen FullScreen.Msg
     | GenerateRandomGif String
     | KeyPressed Key.Key
     | NoOp

@@ -9,7 +9,6 @@ import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
 import ControlPanel.Styles as Styles
-import FullScreen
 import Html.Styled exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
     exposing
@@ -36,7 +35,7 @@ type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : Msg -> msg
-        , fullScreenMsg : FullScreen.Msg -> msg
+        , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
     }

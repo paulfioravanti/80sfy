@@ -2,9 +2,9 @@ module Update exposing (update)
 
 import ApplicationState
 import AudioPlayer
+import BrowserVendor
 import Config
 import ControlPanel
-import FullScreen
 import Gif
 import Key
 import Model exposing (Model)
@@ -19,7 +19,7 @@ update msg model =
     let
         msgs =
             { audioPlayerMsg = Msg.AudioPlayer
-            , fullScreenMsg = Msg.FullScreen
+            , browserVendorMsg = Msg.BrowserVendor
             , generateRandomGifMsg = Msg.GenerateRandomGif
             , pauseMsg = Msg.Pause
             , playMsg = Msg.Play
@@ -54,11 +54,11 @@ update msg model =
             , Cmd.map Msg.ControlPanel cmd
             )
 
-        Msg.FullScreen fullScreenMsg ->
+        Msg.BrowserVendor browserVendorMsg ->
             let
                 cmd =
                     model.browserVendor
-                        |> FullScreen.cmd fullScreenMsg
+                        |> BrowserVendor.cmd browserVendorMsg
             in
             ( model, cmd )
 

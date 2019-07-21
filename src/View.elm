@@ -2,6 +2,7 @@ module View exposing (view)
 
 import AudioPlayer
 import Browser exposing (Document)
+import BrowserVendor
 import ControlPanel
 import Html.Styled exposing (div)
 import Html.Styled.Attributes exposing (attribute)
@@ -16,8 +17,8 @@ view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         msgs =
             { audioPlayerMsg = Msg.AudioPlayer
+            , browserVendorMsg = Msg.BrowserVendor
             , controlPanelMsg = Msg.ControlPanel
-            , fullScreenMsg = Msg.FullScreen
             , noOpMsg = Msg.NoOp
             , pauseMsg = Msg.Pause
             , playMsg = Msg.Play
