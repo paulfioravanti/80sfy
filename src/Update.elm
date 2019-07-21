@@ -87,7 +87,9 @@ update msg model =
         Msg.Pause ->
             let
                 pauseMedia =
-                    Task_.pauseMedia Msg.AudioPlayer Msg.VideoPlayer
+                    Task_.pauseMedia
+                        (AudioPlayer.pauseAudioMsg Msg.AudioPlayer)
+                        (VideoPlayer.pauseVideosMsg Msg.VideoPlayer)
             in
             ( model, pauseMedia )
 

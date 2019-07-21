@@ -6,6 +6,6 @@ import VideoPlayer.Msg as Msg exposing (Msg)
 
 playVideos : (Msg -> msg) -> Cmd msg
 playVideos videoPlayerMsg =
-    videoPlayerMsg Msg.PlayVideos
+    Msg.playVideos videoPlayerMsg
         |> Task.succeed
         |> Task.perform identity

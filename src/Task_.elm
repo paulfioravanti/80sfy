@@ -1,8 +1,13 @@
-module Task_ exposing (pause, pauseMedia, play)
+module Task_ exposing (generateRandomGif, pause, pauseMedia, play)
 
-import AudioPlayer
 import Task
-import VideoPlayer
+
+
+generateRandomGif : msg -> Cmd msg
+generateRandomGif generateRandomGifMsg =
+    generateRandomGifMsg
+        |> Task.succeed
+        |> Task.perform identity
 
 
 pause : msg -> Cmd msg
@@ -12,15 +17,15 @@ pause pauseMsg =
         |> Task.perform identity
 
 
-pauseMedia : (AudioPlayer.Msg -> msg) -> (VideoPlayer.Msg -> msg) -> Cmd msg
-pauseMedia audioPlayerMsg videoPlayerMsg =
+pauseMedia : msg -> msg -> Cmd msg
+pauseMedia pauseAudioMsg pauseVideosMsg =
     let
         pauseAudio =
-            AudioPlayer.pauseAudioMsg audioPlayerMsg
+            pauseAudioMsg
                 |> Task.succeed
 
         pauseVideo =
-            VideoPlayer.pauseVideosMsg videoPlayerMsg
+            pauseVideosMsg
                 |> Task.succeed
     in
     -- NOTE: These tasks need to be specifically ordered so that
