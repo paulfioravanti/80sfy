@@ -49,7 +49,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
-        Msg.GeneratePlaylist playlist ->
+        Msg.PlaylistGenerated playlist ->
             let
                 requestNextTrackNumber =
                     Task.requestNextTrackNumber audioPlayerMsg

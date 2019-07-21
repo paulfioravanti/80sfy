@@ -5,11 +5,11 @@ type Msg
     = AdjustVolume String
     | AudioPaused
     | AudioPlaying
-    | GeneratePlaylist (List Int)
     | NextTrack
     | NextTrackNumberRequested
     | PauseAudio
     | PlayAudio
+    | PlaylistGenerated (List Int)
     | ReInitAudioPlayer String
     | SetPlaylistLength Int
     | ToggleMute
