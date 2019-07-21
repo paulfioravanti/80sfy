@@ -53,7 +53,7 @@ secretConfigButton secretConfigMsg =
     div
         [ attribute "data-name" "secret-config-button"
         , css [ Styles.secretConfigButton ]
-        , onClick (secretConfigMsg Msg.ToggleVisibility)
+        , onClick (Msg.toggleVisibility secretConfigMsg)
         ]
         []
 
@@ -95,7 +95,7 @@ gifTagsInput secretConfigMsg tags =
     textarea
         [ attribute "data-name" "search-tags"
         , css [ Styles.gifTags ]
-        , onInput (secretConfigMsg << Msg.UpdateTags)
+        , onInput (Msg.updateTags secretConfigMsg)
         ]
         [ text tags ]
 

@@ -2,8 +2,10 @@ module SecretConfig.Msg exposing
     ( Msg(..)
     , initTags
     , toggleInactivityPauseOverride
+    , toggleVisibility
     , updateGifDisplaySeconds
     , updateSoundCloudPlaylistUrl
+    , updateTags
     )
 
 
@@ -26,6 +28,11 @@ toggleInactivityPauseOverride secretConfigMsg =
     secretConfigMsg ToggleInactivityPauseOverride
 
 
+toggleVisibility : (Msg -> msg) -> msg
+toggleVisibility secretConfigMsg =
+    secretConfigMsg ToggleVisibility
+
+
 updateGifDisplaySeconds : (Msg -> msg) -> String -> msg
 updateGifDisplaySeconds secretConfigMsg displaySeconds =
     secretConfigMsg (UpdateGifDisplaySeconds displaySeconds)
@@ -34,3 +41,8 @@ updateGifDisplaySeconds secretConfigMsg displaySeconds =
 updateSoundCloudPlaylistUrl : (Msg -> msg) -> String -> msg
 updateSoundCloudPlaylistUrl secretConfigMsg soundCloudPlaylistUrl =
     secretConfigMsg (UpdateSoundCloudPlaylistUrl soundCloudPlaylistUrl)
+
+
+updateTags : (Msg -> msg) -> String -> msg
+updateTags secretConfigMsg tagsString =
+    secretConfigMsg (UpdateTags tagsString)
