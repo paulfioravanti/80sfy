@@ -11,6 +11,7 @@ import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
 import Task
+import Task_
 import VideoPlayer
 
 
@@ -86,21 +87,8 @@ update msg model =
 
         Msg.Pause ->
             let
-                pauseAudio =
-                    AudioPlayer.pauseAudioMsg Msg.AudioPlayer
-                        |> Task.succeed
-
-                pauseVideo =
-                    VideoPlayer.pauseVideosMsg Msg.VideoPlayer
-                        |> Task.succeed
-
-                -- NOTE: These tasks need to be specifically ordered so that
-                -- the player paused overlay is not displayed when the
-                -- pause button is pressed on the app player.
                 pauseMedia =
-                    pauseVideo
-                        |> Task.andThen (\_ -> pauseAudio)
-                        |> Task.perform identity
+                    Task_.pauseMedia Msg.AudioPlayer Msg.VideoPlayer
             in
             ( model, pauseMedia )
 
