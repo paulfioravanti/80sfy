@@ -6,6 +6,6 @@ import Task
 
 initTags : (Msg -> msg) -> List String -> Cmd msg
 initTags secretConfigMsg tags =
-    secretConfigMsg (Msg.InitTags tags)
+    Msg.initTags secretConfigMsg tags
         |> Task.succeed
         |> Task.perform identity

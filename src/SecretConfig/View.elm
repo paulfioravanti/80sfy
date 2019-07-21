@@ -106,7 +106,7 @@ soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
         [ attribute "data-name" "playlist-input"
         , css [ Styles.configInput ]
         , value soundCloudPlaylistUrl
-        , onInput (secretConfigMsg << Msg.UpdateSoundCloudPlaylistUrl)
+        , onInput (Msg.updateSoundCloudPlaylistUrl secretConfigMsg)
         ]
         []
 
@@ -117,7 +117,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
         [ attribute "data-name" "gif-display-seconds-input"
         , css [ Styles.configInput ]
         , value gifDisplaySeconds
-        , onInput (secretConfigMsg << Msg.UpdateGifDisplaySeconds)
+        , onInput (Msg.updateGifDisplaySeconds secretConfigMsg)
         ]
         []
 
@@ -154,7 +154,7 @@ overrideControlPanelHideButton : (ControlPanel.Msg -> msg) -> Html msg
 overrideControlPanelHideButton controlPanelMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (controlPanelMsg ControlPanel.toggleHideWhenInactiveMsg)
+        , onClick (ControlPanel.toggleHideWhenInactiveMsg controlPanelMsg)
         ]
         [ text "Override Control Panel Hide" ]
 
@@ -163,7 +163,7 @@ overrideInactivityPauseButton : (Msg -> msg) -> Html msg
 overrideInactivityPauseButton secretConfigMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg Msg.ToggleInactivityPauseOverride)
+        , onClick (Msg.toggleInactivityPauseOverride secretConfigMsg)
         ]
         [ text "Toggle Inactivity Pause" ]
 

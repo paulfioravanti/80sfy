@@ -62,8 +62,8 @@ view msgs ({ audioPlayer, controlPanel } as context) =
                 []
 
             else
-                [ onMouseEnter (controlPanelMsg Msg.UseControlPanel)
-                , onMouseLeave (controlPanelMsg Msg.LeaveControlPanel)
+                [ onMouseEnter (Msg.useControlPanel controlPanelMsg)
+                , onMouseLeave (Msg.leaveControlPanel controlPanelMsg)
                 ]
     in
     div (attributes ++ animations ++ visibilityToggles)

@@ -41,9 +41,9 @@ subscriptions controlPanelMsg controlPanel =
     Subscriptions.subscriptions controlPanelMsg controlPanel
 
 
-toggleHideWhenInactiveMsg : Msg
-toggleHideWhenInactiveMsg =
-    Msg.ToggleHideWhenInactive
+toggleHideWhenInactiveMsg : (Msg -> msg) -> msg
+toggleHideWhenInactiveMsg controlPanelMsg =
+    Msg.toggleHideWhenInactive controlPanelMsg
 
 
 update : Msg -> ControlPanel -> ( ControlPanel, Cmd Msg )
