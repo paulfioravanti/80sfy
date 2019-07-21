@@ -5,6 +5,8 @@ module AudioPlayer.Msg exposing
     , audioPlaying
     , nextTrack
     , nextTrackNumberRequested
+    , pauseAudio
+    , playAudio
     , playlistGenerated
     , reInitAudioPlayer
     , setPlaylistLength
@@ -48,6 +50,16 @@ nextTrack audioPlayerMsg =
 nextTrackNumberRequested : (Msg -> msg) -> msg
 nextTrackNumberRequested audioPlayerMsg =
     audioPlayerMsg NextTrackNumberRequested
+
+
+pauseAudio : (Msg -> msg) -> msg
+pauseAudio audioPlayerMsg =
+    audioPlayerMsg PauseAudio
+
+
+playAudio : (Msg -> msg) -> msg
+playAudio audioPlayerMsg =
+    audioPlayerMsg PlayAudio
 
 
 playlistGenerated : List Int -> Msg

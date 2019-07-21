@@ -11,6 +11,7 @@ module AudioPlayer exposing
     , nextTrack
     , nextTrackMsg
     , pauseAudioMsg
+    , playAudio
     , playAudioMsg
     , reInitAudioPlayer
     , reInitAudioPlayerMsg
@@ -79,19 +80,24 @@ nextTrack audioPlayerMsg =
     Task.nextTrack audioPlayerMsg
 
 
-nextTrackMsg : Msg
-nextTrackMsg =
-    Msg.NextTrack
+nextTrackMsg : (Msg -> msg) -> msg
+nextTrackMsg audioPlayerMsg =
+    Msg.nextTrack audioPlayerMsg
 
 
-pauseAudioMsg : Msg
-pauseAudioMsg =
-    Msg.PauseAudio
+pauseAudioMsg : (Msg -> msg) -> msg
+pauseAudioMsg audioPlayerMsg =
+    Msg.pauseAudio audioPlayerMsg
 
 
-playAudioMsg : Msg
-playAudioMsg =
-    Msg.PlayAudio
+playAudio : (Msg -> msg) -> Cmd msg
+playAudio audioPlayerMsg =
+    Task.playAudio audioPlayerMsg
+
+
+playAudioMsg : (Msg -> msg) -> msg
+playAudioMsg audioPlayerMsg =
+    Msg.playAudio audioPlayerMsg
 
 
 reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg

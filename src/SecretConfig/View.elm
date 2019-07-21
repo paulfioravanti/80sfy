@@ -190,7 +190,7 @@ playAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
 playAudioButton audioPlayerMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg AudioPlayer.playAudioMsg)
+        , onClick (AudioPlayer.playAudioMsg audioPlayerMsg)
         ]
         [ text "Play Audio" ]
 
@@ -199,6 +199,6 @@ pauseAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
 pauseAudioButton audioPlayerMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (audioPlayerMsg AudioPlayer.pauseAudioMsg)
+        , onClick (AudioPlayer.pauseAudioMsg audioPlayerMsg)
         ]
         [ text "Pause Audio" ]

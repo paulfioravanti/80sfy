@@ -87,7 +87,7 @@ update msg model =
         Msg.Pause ->
             let
                 pauseAudio =
-                    Msg.AudioPlayer AudioPlayer.pauseAudioMsg
+                    AudioPlayer.pauseAudioMsg Msg.AudioPlayer
                         |> Task.succeed
 
                 pauseVideo =
@@ -107,9 +107,7 @@ update msg model =
         Msg.Play ->
             let
                 playAudio =
-                    Msg.AudioPlayer AudioPlayer.playAudioMsg
-                        |> Task.succeed
-                        |> Task.perform identity
+                    AudioPlayer.playAudio Msg.AudioPlayer
 
                 playVideos =
                     VideoPlayer.playVideos Msg.VideoPlayer
