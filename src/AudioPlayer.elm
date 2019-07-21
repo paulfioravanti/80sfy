@@ -14,7 +14,6 @@ module AudioPlayer exposing
     , playAudio
     , playAudioMsg
     , reInitAudioPlayer
-    , reInitAudioPlayerMsg
     , statusToString
     , subscriptions
     , toggleMuteMsg
@@ -105,11 +104,6 @@ reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
     Task.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
 
 
-reInitAudioPlayerMsg : String -> Msg
-reInitAudioPlayerMsg =
-    Msg.ReInitAudioPlayer
-
-
 statusToString : Status -> String
 statusToString status =
     Status.toString status
@@ -120,9 +114,9 @@ subscriptions msgs audioPlayer =
     Subscriptions.subscriptions msgs audioPlayer
 
 
-toggleMuteMsg : Msg
-toggleMuteMsg =
-    Msg.ToggleMute
+toggleMuteMsg : (Msg -> msg) -> msg
+toggleMuteMsg audioPlayerMsg =
+    Msg.toggleMute audioPlayerMsg
 
 
 update : Update.Msgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )

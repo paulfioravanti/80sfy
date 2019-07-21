@@ -15,19 +15,19 @@ type Msg
     | PerformFullScreenToggle
 
 
-enterFullScreen : Msg
-enterFullScreen =
-    EnterFullScreen
+enterFullScreen : (Msg -> msg) -> msg
+enterFullScreen browserVendorMsg =
+    browserVendorMsg EnterFullScreen
 
 
-leaveFullScreen : Msg
-leaveFullScreen =
-    LeaveFullScreen
+leaveFullScreen : (Msg -> msg) -> msg
+leaveFullScreen browserVendorMsg =
+    browserVendorMsg LeaveFullScreen
 
 
-performFullScreenToggle : Msg
-performFullScreenToggle =
-    PerformFullScreenToggle
+performFullScreenToggle : (Msg -> msg) -> msg
+performFullScreenToggle browserVendorMsg =
+    browserVendorMsg PerformFullScreenToggle
 
 
 toCmd : Msg -> BrowserVendor -> Cmd msg

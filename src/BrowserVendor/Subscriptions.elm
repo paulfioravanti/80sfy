@@ -16,8 +16,8 @@ subscriptions browserVendorMsg =
                 isFullScreenFlag
                     |> Value.extractBoolWithDefault False
             then
-                browserVendorMsg Msg.leaveFullScreen
+                Msg.leaveFullScreen browserVendorMsg
 
             else
-                browserVendorMsg Msg.enterFullScreen
+                Msg.enterFullScreen browserVendorMsg
         )

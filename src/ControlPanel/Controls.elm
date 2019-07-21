@@ -61,7 +61,7 @@ muteUnmuteButton { audioPlayerMsg } muted =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "mute-unmute"
-        , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
+        , onClick (AudioPlayer.toggleMuteMsg audioPlayerMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class iconClass ] []

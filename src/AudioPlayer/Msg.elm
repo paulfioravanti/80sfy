@@ -10,6 +10,7 @@ module AudioPlayer.Msg exposing
     , playlistGenerated
     , reInitAudioPlayer
     , setPlaylistLength
+    , toggleMute
     )
 
 
@@ -62,9 +63,9 @@ playAudio audioPlayerMsg =
     audioPlayerMsg PlayAudio
 
 
-playlistGenerated : List Int -> Msg
-playlistGenerated playlist =
-    PlaylistGenerated playlist
+playlistGenerated : (Msg -> msg) -> List Int -> msg
+playlistGenerated audioPlayerMsg playlist =
+    audioPlayerMsg (PlaylistGenerated playlist)
 
 
 reInitAudioPlayer : (Msg -> msg) -> String -> msg
@@ -75,3 +76,8 @@ reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
 setPlaylistLength : (Msg -> msg) -> Int -> msg
 setPlaylistLength audioPlayerMsg length =
     audioPlayerMsg (SetPlaylistLength length)
+
+
+toggleMute : (Msg -> msg) -> msg
+toggleMute audioPlayerMsg =
+    audioPlayerMsg ToggleMute

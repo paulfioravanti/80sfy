@@ -42,7 +42,7 @@ leaveFullScreen browserVendorMsg =
 
 leaveFullScreenMsg : (Msg -> msg) -> msg
 leaveFullScreenMsg browserVendorMsg =
-    browserVendorMsg Msg.leaveFullScreen
+    Msg.leaveFullScreen browserVendorMsg
 
 
 mozilla : BrowserVendor
@@ -52,7 +52,7 @@ mozilla =
 
 performFullScreenToggleMsg : (Msg -> msg) -> msg
 performFullScreenToggleMsg browserVendorMsg =
-    browserVendorMsg Msg.performFullScreenToggle
+    Msg.performFullScreenToggle browserVendorMsg
 
 
 subscriptions : (Msg -> msg) -> Sub msg

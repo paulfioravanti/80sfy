@@ -51,7 +51,7 @@ update msg model =
                         |> ControlPanel.update msgForControlPanel
             in
             ( { model | controlPanel = controlPanel }
-            , Cmd.map Msg.ControlPanel cmd
+            , Cmd.map Msg.controlPanel cmd
             )
 
         Msg.BrowserVendor browserVendorMsg ->
