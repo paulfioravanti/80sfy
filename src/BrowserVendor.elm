@@ -50,9 +50,9 @@ mozilla =
     Model.mozilla
 
 
-performFullScreenToggleMsg : Msg
-performFullScreenToggleMsg =
-    Msg.performFullScreenToggle
+performFullScreenToggleMsg : (Msg -> msg) -> msg
+performFullScreenToggleMsg browserVendorMsg =
+    browserVendorMsg Msg.performFullScreenToggle
 
 
 subscriptions : (Msg -> msg) -> Sub msg

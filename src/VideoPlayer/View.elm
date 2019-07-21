@@ -82,7 +82,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
 
             else
                 onDoubleClick
-                    (browserVendorMsg BrowserVendor.performFullScreenToggleMsg)
+                    (BrowserVendor.performFullScreenToggleMsg browserVendorMsg)
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
@@ -97,7 +97,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
             , clickOnPlayAttribute
             , css [ Styles.gifContainer videoPlayer.zIndex ]
             , onDoubleClick
-                (browserVendorMsg BrowserVendor.performFullScreenToggleMsg)
+                (BrowserVendor.performFullScreenToggleMsg browserVendorMsg)
             ]
     in
     List.append animations videoPlayerAttributes
