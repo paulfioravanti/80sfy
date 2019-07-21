@@ -2,7 +2,6 @@ module View exposing (view)
 
 import AudioPlayer
 import Browser exposing (Document)
-import BrowserVendor
 import ControlPanel
 import Html.Styled exposing (div)
 import Html.Styled.Attributes exposing (attribute)

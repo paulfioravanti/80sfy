@@ -1,7 +1,26 @@
-module AudioPlayer.Task exposing (reInitAudioPlayer, requestNextTrackNumber)
+module AudioPlayer.Task exposing
+    ( adjustVolume
+    , nextTrack
+    , reInitAudioPlayer
+    , requestNextTrackNumber
+    )
 
 import AudioPlayer.Msg as Msg exposing (Msg)
 import Task
+
+
+adjustVolume : (Msg -> msg) -> String -> Cmd msg
+adjustVolume audioPlayerMsg volume =
+    audioPlayerMsg (Msg.AdjustVolume volume)
+        |> Task.succeed
+        |> Task.perform identity
+
+
+nextTrack : (Msg -> msg) -> Cmd msg
+nextTrack audioPlayerMsg =
+    audioPlayerMsg Msg.NextTrack
+        |> Task.succeed
+        |> Task.perform identity
 
 
 reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg
