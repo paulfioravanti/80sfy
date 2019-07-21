@@ -14,7 +14,7 @@ import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Elm } from "./Main"
 import * as AudioPlayer from "./audioPlayer"
-import * as BrowserFullScreen from "./browserFullScreen"
+import * as BrowserVendor from "./browserVendor"
 import * as VideoPlayer from "./videoPlayer"
 
 const app =
@@ -32,14 +32,14 @@ app.ports.consoleLog.subscribe((json) => {
 
 VideoPlayer.init(app)
 AudioPlayer.init(app)
-BrowserFullScreen.init(app)
+BrowserVendor.init(app)
 
 function determineBrowserVendor() {
-  if (BrowserFullScreen.isWebkit()) {
+  if (BrowserVendor.isWebkit()) {
     return "webkit"
-  } else if (BrowserFullScreen.isMozilla()) {
+  } else if (BrowserVendor.isMozilla()) {
     return "mozilla"
-  } else if (BrowserFullScreen.isOtherFullScreenCapableBrowser()) {
+  } else if (BrowserVendor.isOtherFullScreenCapableBrowser()) {
     return "other"
   }
 }
