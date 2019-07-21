@@ -18,13 +18,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         msgs =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , browserVendorMsg = Msg.BrowserVendor
-            , generateRandomGifMsg = Msg.GenerateRandomGif
-            , pauseMsg = Msg.Pause
-            , playMsg = Msg.Play
-            , secretConfigMsg = Msg.SecretConfig
-            , videoPlayerMsg = Msg.VideoPlayer
+            { audioPlayerMsg = Msg.audioPlayer
+            , browserVendorMsg = Msg.browserVendor
+            , generateRandomGifMsg = Msg.generateRandomGif
+            , pauseMsg = Msg.pause
+            , playMsg = Msg.play
+            , secretConfigMsg = Msg.secretConfig
+            , videoPlayerMsg = Msg.videoPlayer
             }
     in
     case msg of
@@ -65,7 +65,7 @@ update msg model =
         Msg.GenerateRandomGif videoPlayerId ->
             let
                 randomTagGeneratedMsg =
-                    Config.randomTagGeneratedMsg Msg.Config videoPlayerId
+                    Config.randomTagGeneratedMsg Msg.config videoPlayerId
 
                 cmd =
                     model.config.tags
@@ -88,18 +88,18 @@ update msg model =
             let
                 pauseMedia =
                     Task_.pauseMedia
-                        (AudioPlayer.pauseAudioMsg Msg.AudioPlayer)
-                        (VideoPlayer.pauseVideosMsg Msg.VideoPlayer)
+                        (AudioPlayer.pauseAudioMsg Msg.audioPlayer)
+                        (VideoPlayer.pauseVideosMsg Msg.videoPlayer)
             in
             ( model, pauseMedia )
 
         Msg.Play ->
             let
                 playAudio =
-                    AudioPlayer.playAudio Msg.AudioPlayer
+                    AudioPlayer.playAudio Msg.audioPlayer
 
                 playVideos =
-                    VideoPlayer.playVideos Msg.VideoPlayer
+                    VideoPlayer.playVideos Msg.videoPlayer
             in
             ( model, Cmd.batch [ playVideos, playAudio ] )
 
@@ -107,7 +107,7 @@ update msg model =
             let
                 saveConfig =
                     Config.save
-                        Msg.Config
+                        Msg.config
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
@@ -129,7 +129,7 @@ update msg model =
             let
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        Msg.GenerateRandomGif
+                        Msg.generateRandomGif
                         msgForVideoPlayer
                         model
             in

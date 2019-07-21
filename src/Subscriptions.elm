@@ -13,9 +13,9 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
     let
         msgs =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , noOpMsg = Msg.NoOp
-            , videoPlayerMsg = Msg.VideoPlayer
+            { audioPlayerMsg = Msg.audioPlayer
+            , noOpMsg = Msg.noOp
+            , videoPlayerMsg = Msg.videoPlayer
             }
 
         videoPlayerContext =
@@ -27,8 +27,8 @@ subscriptions model =
     in
     Sub.batch
         [ AudioPlayer.subscriptions msgs model.audioPlayer
-        , BrowserVendor.subscriptions Msg.BrowserVendor
-        , ControlPanel.subscriptions Msg.ControlPanel model.controlPanel
-        , Key.subscriptions Msg.KeyPressed
+        , BrowserVendor.subscriptions Msg.browserVendor
+        , ControlPanel.subscriptions Msg.controlPanel model.controlPanel
+        , Key.subscriptions Msg.keyPressed
         , VideoPlayer.subscriptions msgs videoPlayerContext model.videoPlayer1
         ]

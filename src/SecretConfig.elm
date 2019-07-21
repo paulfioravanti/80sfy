@@ -3,7 +3,6 @@ module SecretConfig exposing
     , SecretConfig
     , init
     , initTags
-    , initTagsMsg
     , update
     , view
     )
@@ -32,11 +31,6 @@ init soundCloudPlaylistUrl gifDisplaySeconds =
 initTags : (Msg -> msg) -> List String -> Cmd msg
 initTags secretConfigMsg tags =
     Task.initTags secretConfigMsg tags
-
-
-initTagsMsg : List String -> Msg
-initTagsMsg =
-    Msg.InitTags
 
 
 update : Msg -> SecretConfig -> SecretConfig
