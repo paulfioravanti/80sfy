@@ -63,10 +63,10 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
         [ fetchNextGif
         , videosHalted_
         , windowEvent
-        , videosPaused (\() -> videoPlayerMsg Msg.VideosPaused)
-        , videosPlaying (\() -> videoPlayerMsg Msg.VideosPlaying)
+        , videosPaused (\() -> Msg.videosPaused videoPlayerMsg)
+        , videosPlaying (\() -> Msg.videosPlaying videoPlayerMsg)
         , Animation.subscription
-            (videoPlayerMsg << Msg.AnimateVideoPlayer)
+            (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
         ]
 
@@ -80,7 +80,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
     if status == Status.playing then
         Time.every
             (gifDisplaySeconds * 1000)
-            (videoPlayerMsg << Msg.CrossFadePlayers)
+            (Msg.crossFadePlayers videoPlayerMsg)
 
     else
         Sub.none
@@ -89,7 +89,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
 videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
 videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
     if (status == Status.playing) && not overrideInactivityPause then
-        videosHalted (\() -> videoPlayerMsg Msg.VideosHalted)
+        videosHalted (\() -> Msg.videosHalted videoPlayerMsg)
 
     else
         Sub.none
@@ -108,11 +108,11 @@ windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerId status =
                     noOpMsg
 
                 else
-                    videoPlayerMsg Msg.HaltVideos
+                    Msg.haltVideos videoPlayerMsg
             )
 
     else if status == Status.halted then
-        windowFocused (\() -> videoPlayerMsg Msg.PlayVideos)
+        windowFocused (\() -> Msg.playVideos videoPlayerMsg)
 
     else
         Sub.none
