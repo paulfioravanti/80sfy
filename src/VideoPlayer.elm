@@ -40,9 +40,9 @@ init id zIndex =
     Model.init id zIndex
 
 
-fetchRandomGifMsg : String -> Result Error String -> Msg
-fetchRandomGifMsg =
-    Msg.FetchRandomGif
+fetchRandomGifMsg : (Msg -> msg) -> String -> Result Error String -> msg
+fetchRandomGifMsg videoPlayerMsg tag gifUrl =
+    Msg.fetchRandomGif videoPlayerMsg tag gifUrl
 
 
 gifUrlToString : WebData String -> String
@@ -52,7 +52,7 @@ gifUrlToString webData =
 
 pauseVideosMsg : (Msg -> msg) -> msg
 pauseVideosMsg videoPlayerMsg =
-    videoPlayerMsg Msg.PauseVideos
+    Msg.pauseVideos videoPlayerMsg
 
 
 playVideos : (Msg -> msg) -> Cmd msg
@@ -62,7 +62,7 @@ playVideos videoPlayerMsg =
 
 playVideosMsg : (Msg -> msg) -> msg
 playVideosMsg videoPlayerMsg =
-    videoPlayerMsg Msg.PlayVideos
+    Msg.playVideos videoPlayerMsg
 
 
 statusToString : Status -> String

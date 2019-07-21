@@ -9,7 +9,9 @@ module Msg exposing
     , noOp
     , pause
     , play
+    , saveConfig
     , secretConfig
+    , showApplicationState
     , videoPlayer
     )
 
@@ -83,9 +85,19 @@ play =
     Play
 
 
+saveConfig : String -> String -> String -> Msg
+saveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
+    SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString
+
+
 secretConfig : SecretConfig.Msg -> Msg
 secretConfig secretConfigMsg =
     SecretConfig secretConfigMsg
+
+
+showApplicationState : Msg
+showApplicationState =
+    ShowApplicationState
 
 
 videoPlayer : VideoPlayer.Msg -> Msg

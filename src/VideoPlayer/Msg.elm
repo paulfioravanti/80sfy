@@ -2,7 +2,9 @@ module VideoPlayer.Msg exposing
     ( Msg(..)
     , animateVideoPlayer
     , crossFadePlayers
+    , fetchRandomGif
     , haltVideos
+    , pauseVideos
     , playVideos
     , videosHalted
     , videosPaused
@@ -36,9 +38,19 @@ crossFadePlayers videoPlayerMsg time =
     videoPlayerMsg (CrossFadePlayers time)
 
 
+fetchRandomGif : (Msg -> msg) -> String -> Result Error String -> msg
+fetchRandomGif videoPlayerMsg videoPlayerId gifUrl =
+    videoPlayerMsg (FetchRandomGif videoPlayerId gifUrl)
+
+
 haltVideos : (Msg -> msg) -> msg
 haltVideos videoPlayerMsg =
     videoPlayerMsg HaltVideos
+
+
+pauseVideos : (Msg -> msg) -> msg
+pauseVideos videoPlayerMsg =
+    videoPlayerMsg PauseVideos
 
 
 playVideos : (Msg -> msg) -> msg

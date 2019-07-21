@@ -15,16 +15,16 @@ view : Model -> Document Msg
 view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         msgs =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , browserVendorMsg = Msg.BrowserVendor
-            , controlPanelMsg = Msg.ControlPanel
-            , noOpMsg = Msg.NoOp
-            , pauseMsg = Msg.Pause
-            , playMsg = Msg.Play
-            , saveConfigMsg = Msg.SaveConfig
-            , secretConfigMsg = Msg.SecretConfig
-            , showApplicationStateMsg = Msg.ShowApplicationState
-            , videoPlayerMsg = Msg.VideoPlayer
+            { audioPlayerMsg = Msg.audioPlayer
+            , browserVendorMsg = Msg.browserVendor
+            , controlPanelMsg = Msg.controlPanel
+            , noOpMsg = Msg.noOp
+            , pauseMsg = Msg.pause
+            , playMsg = Msg.play
+            , saveConfigMsg = Msg.saveConfig
+            , secretConfigMsg = Msg.secretConfig
+            , showApplicationStateMsg = Msg.showApplicationState
+            , videoPlayerMsg = Msg.videoPlayer
             }
 
         -- NOTE: There is a circular dependency issue if AudioPlayer is imported
