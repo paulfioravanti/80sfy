@@ -5,7 +5,6 @@ module Config exposing
     , initTagsMsg
     , randomTagGeneratedMsg
     , save
-    , saveMsg
     , update
     )
 
@@ -30,24 +29,19 @@ init flags =
     Model.init flags
 
 
-initTagsMsg : Result Error (List String) -> Msg.Msg
-initTagsMsg =
-    Msg.InitTags
+initTagsMsg : (Msg -> msg) -> Result Error (List String) -> msg
+initTagsMsg configMsg tags =
+    Msg.initTags configMsg tags
 
 
 randomTagGeneratedMsg : (Msg -> msg) -> String -> String -> msg
-randomTagGeneratedMsg configMsg videoPlayerId =
-    configMsg << Msg.RandomTagGenerated videoPlayerId
+randomTagGeneratedMsg configMsg videoPlayerId tag =
+    Msg.randomTagGenerated configMsg videoPlayerId tag
 
 
 save : (Msg -> msg) -> String -> String -> String -> Cmd msg
 save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
     Task.save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString
-
-
-saveMsg : String -> String -> String -> Msg
-saveMsg =
-    Msg.Save
 
 
 update : Update.Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )

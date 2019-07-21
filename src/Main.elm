@@ -42,7 +42,7 @@ init flags =
     in
     ( model
     , Cmd.batch
-        [ Tags.init (Msg.Config << Config.initTagsMsg)
+        [ Tags.init (Config.initTagsMsg Msg.Config)
         , AudioPlayer.initAudioPlayer audioPlayerFlags
         ]
     )
