@@ -19,15 +19,15 @@ audio auto play by default.
 
 ### Dependencies
 
-- [Elm][] 0.19.0
-- [NodeJS][] 12.6.0
+- [Elm][] 0.19.1
+- [NodeJS][] 13.0.1
 
 ## Setup
 
 ### Global
 
-This app was created using [Create Elm App][] and uses some commands that it
-provides, so install it globally with `npm`:
+This app was created using [Create Elm App][] 4.0.0 (which uses Elm 0.19.1), and
+uses some commands that it provides, so install it globally with `npm`:
 
 ```sh
 npm install -g create-elm-app
@@ -55,13 +55,8 @@ ELM_APP_GIPHY_API_KEY="Your API key here"
 ### Run Server
 
 ```sh
-ELM_DEBUGGER=false elm-app start
+elm-app start
 ```
-
-> NOTE: Due to [this issue in the Elm 0.19 compiler][Map.! when compiling with
---debug], the app cannot currently be run in development with the Elm debugger
-on since it will crash with a `elm: Map.!: given key is not an element in the
-map` error. This should be fixed in Elm 0.19.1.
 
 Now, you should be able to use the app at the following address:
 
