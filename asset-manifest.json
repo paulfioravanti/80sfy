@@ -1,0 +1,21 @@
+{
+  "main.js": "/static/js/main.2e5d628a.chunk.js",
+  "main.js.map": "/static/js/main.2e5d628a.chunk.js.map",
+  "runtime~main.js": "/static/js/runtime~main.1b922744.js",
+  "runtime~main.js.map": "/static/js/runtime~main.1b922744.js.map",
+  "vendors~main.css": "/static/css/vendors~main.8774fdaa.chunk.css",
+  "vendors~main.js": "/static/js/vendors~main.1c1ffcdf.chunk.js",
+  "vendors~main.js.map": "/static/js/vendors~main.1c1ffcdf.chunk.js.map",
+  "./service-worker.js": "/./service-worker.js",
+  "assets/giphy.png": "/assets/giphy.png",
+  "assets/logo.png": "/assets/logo.png",
+  "assets/scanline-overlay.png": "/assets/scanline-overlay.png",
+  "assets/soundcloud.png": "/assets/soundcloud.png",
+  "assets/tv-static.mp4": "/assets/tv-static.mp4",
+  "favicon.ico": "/favicon.ico",
+  "index.html": "/index.html",
+  "manifest.json": "/manifest.json",
+  "precache-manifest.3200628376bfdd13009710280ba07090.js": "/precache-manifest.3200628376bfdd13009710280ba07090.js",
+  "static/media/fa-solid.css": "/static/media/fa-solid-900.e98a92ac.svg",
+  "tags.json": "/tags.json"
+}
