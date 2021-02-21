@@ -13,9 +13,7 @@ update msg controlPanel =
     case msg of
         Msg.AnimateControlPanel animateMsg ->
             ( { controlPanel
-                | style =
-                    controlPanel.style
-                        |> Animation.update animateMsg
+                | style = Animation.update animateMsg controlPanel.style
               }
             , Cmd.none
             )
@@ -28,12 +26,12 @@ update msg controlPanel =
             in
             if secondsVisible > timeoutSeconds then
                 let
-                    hideControlPanel =
+                    hideControlPanelMsg =
                         Msg.HideControlPanel
                             |> Task.succeed
                             |> Task.perform identity
                 in
-                ( controlPanel, hideControlPanel )
+                ( controlPanel, hideControlPanelMsg )
 
             else
                 ( { controlPanel | state = State.setIdle (secondsVisible + 1) }
@@ -43,9 +41,9 @@ update msg controlPanel =
         Msg.HideControlPanel ->
             let
                 animateToHidden =
-                    controlPanel.style
-                        |> Animation.interrupt
-                            [ Animation.to Animations.hidden ]
+                    Animation.interrupt
+                        [ Animation.to Animations.hidden ]
+                        controlPanel.style
             in
             ( { controlPanel
                 | style = animateToHidden
@@ -60,9 +58,9 @@ update msg controlPanel =
         Msg.ShowControlPanel ->
             let
                 animateToVisible =
-                    controlPanel.style
-                        |> Animation.interrupt
-                            [ Animation.to Animations.visible ]
+                    Animation.interrupt
+                        [ Animation.to Animations.visible ]
+                        controlPanel.style
             in
             ( { controlPanel
                 | style = animateToVisible

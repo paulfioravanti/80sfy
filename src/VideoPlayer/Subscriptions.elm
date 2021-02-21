@@ -58,13 +58,19 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
                 msgs
                 context.audioPlayerId
                 videoPlayer1.status
+
+        handleVideosPaused () =
+            Msg.videosPaused videoPlayerMsg
+
+        handleVideosPlaying () =
+            Msg.videosPlaying videoPlayerMsg
     in
     Sub.batch
         [ fetchNextGif
         , videosHalted_
         , windowEvent
-        , videosPaused (\() -> Msg.videosPaused videoPlayerMsg)
-        , videosPlaying (\() -> Msg.videosPlaying videoPlayerMsg)
+        , videosPaused handleVideosPaused
+        , videosPlaying handleVideosPlaying
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
@@ -88,8 +94,12 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
 
 videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
 videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
+    let
+        handleVideosHalted () =
+            Msg.videosHalted videoPlayerMsg
+    in
     if (status == Status.playing) && not overrideInactivityPause then
-        videosHalted (\() -> Msg.videosHalted videoPlayerMsg)
+        videosHalted handleVideosHalted
 
     else
         Sub.none
@@ -97,22 +107,26 @@ videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
 
 windowEventSubscription : Msgs msgs msg -> String -> Status -> Sub msg
 windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerId status =
-    if status == Status.playing then
+    let
         -- NOTE: If the document target has "blurred" from the video player
         -- to the SoundCloud iframe, then the Elm app does not need to
         -- consider this a "real" blur for purposes of displaying the
         -- "Gifs Paused" overlay.
-        windowBlurred
-            (\activeElementIdFlag ->
-                if audioPlayerActive activeElementIdFlag audioPlayerId then
-                    noOpMsg
+        handleWindowBlurred activeElementIdFlag =
+            if audioPlayerActive activeElementIdFlag audioPlayerId then
+                noOpMsg
 
-                else
-                    Msg.haltVideos videoPlayerMsg
-            )
+            else
+                Msg.haltVideos videoPlayerMsg
+
+        handleWindowFocused () =
+            Msg.playVideos videoPlayerMsg
+    in
+    if status == Status.playing then
+        windowBlurred handleWindowBlurred
 
     else if status == Status.halted then
-        windowFocused (\() -> Msg.playVideos videoPlayerMsg)
+        windowFocused handleWindowFocused
 
     else
         Sub.none
@@ -122,7 +136,6 @@ audioPlayerActive : Value -> String -> Bool
 audioPlayerActive activeElementIdFlag audioPlayerId =
     let
         activeElementId =
-            activeElementIdFlag
-                |> Value.extractStringWithDefault ""
+            Value.extractStringWithDefault "" activeElementIdFlag
     in
     activeElementId == audioPlayerId

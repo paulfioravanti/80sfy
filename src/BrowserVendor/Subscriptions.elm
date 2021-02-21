@@ -10,14 +10,12 @@ port toggleFullScreen : (Value -> msg) -> Sub msg
 
 subscriptions : (Msg -> msg) -> Sub msg
 subscriptions browserVendorMsg =
-    toggleFullScreen
-        (\isFullScreenFlag ->
-            if
-                isFullScreenFlag
-                    |> Value.extractBoolWithDefault False
-            then
+    let
+        handleIsFullScreenFlag isFullScreenFlag =
+            if Value.extractBoolWithDefault False isFullScreenFlag then
                 Msg.leaveFullScreen browserVendorMsg
 
             else
                 Msg.enterFullScreen browserVendorMsg
-        )
+    in
+    toggleFullScreen handleIsFullScreenFlag

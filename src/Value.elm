@@ -10,26 +10,22 @@ import Json.Decode as Decode exposing (Decoder, Value, bool, float, int, string)
 
 extractBoolWithDefault : Bool -> Value -> Bool
 extractBoolWithDefault defaultBool value =
-    value
-        |> extractTypeFromValueWithDefault bool defaultBool
+    extractTypeFromValueWithDefault bool defaultBool value
 
 
 extractFloatWithDefault : Float -> Value -> Float
 extractFloatWithDefault defaultFloat value =
-    value
-        |> extractTypeFromValueWithDefault float defaultFloat
+    extractTypeFromValueWithDefault float defaultFloat value
 
 
 extractIntWithDefault : Int -> Value -> Int
 extractIntWithDefault defaultInt value =
-    value
-        |> extractTypeFromValueWithDefault int defaultInt
+    extractTypeFromValueWithDefault int defaultInt value
 
 
 extractStringWithDefault : String -> Value -> String
 extractStringWithDefault defaultString value =
-    value
-        |> extractTypeFromValueWithDefault string defaultString
+    extractTypeFromValueWithDefault string defaultString value
 
 
 

@@ -100,7 +100,7 @@ porter =
         , br [] []
         , a
             [ css [ Styles.creditsLink ]
-            , href "http://www.paulfioravanti.com"
+            , href "https://www.paulfioravanti.com"
             , target "_blank"
             ]
             [ text "Paul Fioravanti" ]

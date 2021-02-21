@@ -27,8 +27,9 @@ update msgs msg config =
         Msg.InitTags (Ok tags) ->
             let
                 randomGifForVideoPlayerId videoPlayerId =
-                    videoPlayerId
-                        |> Task.generateRandomGif msgs.generateRandomGifMsg
+                    Task.generateRandomGif
+                        msgs.generateRandomGifMsg
+                        videoPlayerId
 
                 initSecretConfigTags =
                     SecretConfig.initTags msgs.secretConfigMsg tags

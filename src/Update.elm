@@ -31,24 +31,21 @@ update msg model =
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
-                    model.audioPlayer
-                        |> AudioPlayer.update msgs msgForAudioPlayer
+                    AudioPlayer.update msgs msgForAudioPlayer model.audioPlayer
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
         Msg.Config msgForConfig ->
             let
                 ( config, cmd ) =
-                    model.config
-                        |> Config.update msgs msgForConfig
+                    Config.update msgs msgForConfig model.config
             in
             ( { model | config = config }, cmd )
 
         Msg.ControlPanel msgForControlPanel ->
             let
                 ( controlPanel, cmd ) =
-                    model.controlPanel
-                        |> ControlPanel.update msgForControlPanel
+                    ControlPanel.update msgForControlPanel model.controlPanel
             in
             ( { model | controlPanel = controlPanel }
             , Cmd.map Msg.controlPanel cmd
@@ -57,8 +54,7 @@ update msg model =
         Msg.BrowserVendor browserVendorMsg ->
             let
                 cmd =
-                    model.browserVendor
-                        |> BrowserVendor.cmd browserVendorMsg
+                    BrowserVendor.cmd browserVendorMsg model.browserVendor
             in
             ( model, cmd )
 
@@ -68,16 +64,14 @@ update msg model =
                     Config.randomTagGeneratedMsg Msg.config videoPlayerId
 
                 cmd =
-                    model.config.tags
-                        |> Gif.random randomTagGeneratedMsg
+                    Gif.random randomTagGeneratedMsg model.config.tags
             in
             ( model, cmd )
 
         Msg.KeyPressed code ->
             let
                 cmd =
-                    code
-                        |> Key.pressed msgs model
+                    Key.pressed msgs model code
             in
             ( model, cmd )
 
@@ -117,8 +111,7 @@ update msg model =
         Msg.SecretConfig msgForSecretConfig ->
             let
                 secretConfig =
-                    model.secretConfig
-                        |> SecretConfig.update msgForSecretConfig
+                    SecretConfig.update msgForSecretConfig model.secretConfig
             in
             ( { model | secretConfig = secretConfig }, Cmd.none )
 

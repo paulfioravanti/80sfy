@@ -20,13 +20,12 @@ type alias Model =
 
 
 init : Config -> BrowserVendor -> Model
-init config browserVendor =
-    { audioPlayer = AudioPlayer.init config.soundCloudPlaylistUrl
+init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
+    { audioPlayer = AudioPlayer.init soundCloudPlaylistUrl
     , browserVendor = browserVendor
     , config = config
     , controlPanel = ControlPanel.init
-    , secretConfig =
-        SecretConfig.init config.soundCloudPlaylistUrl config.gifDisplaySeconds
+    , secretConfig = SecretConfig.init soundCloudPlaylistUrl gifDisplaySeconds
     , videoPlayer1 = VideoPlayer.init "1" -4
     , videoPlayer2 = VideoPlayer.init "2" -5
     }

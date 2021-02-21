@@ -21,12 +21,10 @@ pauseMedia : msg -> msg -> Cmd msg
 pauseMedia pauseAudioMsg pauseVideosMsg =
     let
         pauseAudio =
-            pauseAudioMsg
-                |> Task.succeed
+            Task.succeed pauseAudioMsg
 
         pauseVideo =
-            pauseVideosMsg
-                |> Task.succeed
+            Task.succeed pauseVideosMsg
     in
     -- NOTE: These tasks need to be specifically ordered so that
     -- the player paused overlay is not displayed when the

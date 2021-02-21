@@ -12,6 +12,9 @@ import VideoPlayer
 subscriptions : Model -> Sub Msg
 subscriptions model =
     let
+        { audioPlayer, config, controlPanel, secretConfig, videoPlayer1 } =
+            model
+
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
             , noOpMsg = Msg.noOp
@@ -19,16 +22,15 @@ subscriptions model =
             }
 
         videoPlayerContext =
-            { audioPlayerId = model.audioPlayer.id
-            , gifDisplaySeconds = model.config.gifDisplaySeconds
-            , overrideInactivityPause =
-                model.secretConfig.overrideInactivityPause
+            { audioPlayerId = audioPlayer.id
+            , gifDisplaySeconds = config.gifDisplaySeconds
+            , overrideInactivityPause = secretConfig.overrideInactivityPause
             }
     in
     Sub.batch
-        [ AudioPlayer.subscriptions msgs model.audioPlayer
+        [ AudioPlayer.subscriptions msgs audioPlayer
         , BrowserVendor.subscriptions Msg.browserVendor
-        , ControlPanel.subscriptions Msg.controlPanel model.controlPanel
+        , ControlPanel.subscriptions Msg.controlPanel controlPanel
         , Key.subscriptions Msg.keyPressed
-        , VideoPlayer.subscriptions msgs videoPlayerContext model.videoPlayer1
+        , VideoPlayer.subscriptions msgs videoPlayerContext videoPlayer1
         ]

@@ -6,4 +6,8 @@ import Key.Model as Key exposing (Key)
 
 decoder : Decode.Decoder Key
 decoder =
-    Decode.map Key.fromString (Decode.field "key" string)
+    let
+        keyString =
+            Decode.field "key" string
+    in
+    Decode.map Key.fromString keyString

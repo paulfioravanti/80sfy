@@ -23,8 +23,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.AdjustVolume sliderVolume ->
             let
                 volume =
-                    sliderVolume
-                        |> Volume.setWithDefault audioPlayer.volume
+                    Volume.setWithDefault audioPlayer.volume sliderVolume
 
                 cmd =
                     if Status.isMuted audioPlayer.status then
@@ -111,8 +110,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.SetPlaylistLength playlistLength ->
             let
                 generatePlaylist =
-                    playlistLength
-                        |> Playlist.generate audioPlayerMsg
+                    Playlist.generate audioPlayerMsg playlistLength
             in
             ( { audioPlayer | playlistLength = playlistLength }
             , generatePlaylist

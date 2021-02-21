@@ -39,12 +39,12 @@ view audioPlaying msgs browserVendor videoPlayer =
                 _ ->
                     videoPlayer.fallbackGifUrl
 
+        videoPlayerPaused =
+            audioPlaying && not (videoPlayer.status == Status.playing)
+
         childElements =
             gifVideoPlayer gifUrl videoPlayer
-                :: (if
-                        audioPlaying
-                            && not (videoPlayer.status == Status.playing)
-                    then
+                :: (if videoPlayerPaused then
                         [ playerPausedOverlay ]
 
                     else

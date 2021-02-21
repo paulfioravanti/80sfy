@@ -17,8 +17,7 @@ init : Flags -> Config
 init flags =
     let
         giphyApiKey =
-            flags.giphyApiKey
-                |> Value.extractStringWithDefault ""
+            Value.extractStringWithDefault "" flags.giphyApiKey
 
         defaultSoundCloudPlaylistUrl =
             "https://api.soundcloud.com/playlists/193785575"

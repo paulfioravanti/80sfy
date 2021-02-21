@@ -10,15 +10,17 @@ update msg secretConfig =
         Msg.InitTags tagList ->
             let
                 tags =
-                    tagList
-                        |> String.join ", "
+                    String.join ", " tagList
             in
             { secretConfig | tags = tags }
 
         Msg.ToggleInactivityPauseOverride ->
-            { secretConfig
-                | overrideInactivityPause =
+            let
+                toggledOverrideInactivityPause =
                     not secretConfig.overrideInactivityPause
+            in
+            { secretConfig
+                | overrideInactivityPause = toggledOverrideInactivityPause
             }
 
         Msg.ToggleVisibility ->

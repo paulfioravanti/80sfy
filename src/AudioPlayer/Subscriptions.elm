@@ -37,17 +37,19 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
 
             else
                 audioPlayingSubscriptions msgs
+
+        handlePlaylistLengthFlag value =
+            value
+                |> Value.extractIntWithDefault 1
+                |> Msg.setPlaylistLength audioPlayerMsg
+
+        handleNextTrackNumberRequestFlag () =
+            Msg.nextTrackNumberRequested audioPlayerMsg
     in
     Sub.batch
         [ playingSubscription
-        , requestNextTrackNumber
-            (\() -> Msg.nextTrackNumberRequested audioPlayerMsg)
-        , setPlaylistLength
-            (\value ->
-                Msg.setPlaylistLength
-                    audioPlayerMsg
-                    (Value.extractIntWithDefault 1 value)
-            )
+        , requestNextTrackNumber handleNextTrackNumberRequestFlag
+        , setPlaylistLength handlePlaylistLengthFlag
         ]
 
 
@@ -60,11 +62,16 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
     let
-        pauseMedia msg currentPositionFlag =
+        audioPausedMsg =
+            Msg.audioPaused audioPlayerMsg
+
+        pauseVideosMsg =
+            VideoPlayer.pauseVideosMsg videoPlayerMsg
+
+        handleCurrentPositionFlag msg currentPositionFlag =
             let
                 currentPosition =
-                    currentPositionFlag
-                        |> Value.extractFloatWithDefault 0.0
+                    Value.extractFloatWithDefault 0.0 currentPositionFlag
             in
             if currentPosition > 0 then
                 msg
@@ -73,25 +80,28 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
                 noOpMsg
     in
     Sub.batch
-        [ audioPaused
-            (pauseMedia (Msg.audioPaused audioPlayerMsg))
-        , audioPaused
-            (pauseMedia (VideoPlayer.pauseVideosMsg videoPlayerMsg))
+        [ audioPaused (handleCurrentPositionFlag audioPausedMsg)
+        , audioPaused (handleCurrentPositionFlag pauseVideosMsg)
         ]
 
 
 audioPlayingSubscriptions : Msgs msgs msg -> Sub msg
 audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
-    -- Only perform actions if at least some of the sound from the
-    -- SoundCloud player has been loaded and can therefore
-    -- actually play.
     let
-        playMedia msg loadedProgressFlag =
+        audioPlayingMsg =
+            Msg.audioPlaying audioPlayerMsg
+
+        playVideosMsg =
+            VideoPlayer.playVideosMsg videoPlayerMsg
+
+        handleLoadedProgressFlag msg loadedProgressFlag =
             let
                 loadedProgress =
-                    loadedProgressFlag
-                        |> Value.extractFloatWithDefault 0.0
+                    Value.extractFloatWithDefault 0.0 loadedProgressFlag
             in
+            -- Only perform actions if at least some of the sound from the
+            -- SoundCloud player has been loaded and can therefore
+            -- actually play.
             if loadedProgress > 0 then
                 msg
 
@@ -99,8 +109,6 @@ audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
                 noOpMsg
     in
     Sub.batch
-        [ audioPlaying
-            (playMedia (Msg.audioPlaying audioPlayerMsg))
-        , audioPlaying
-            (playMedia (VideoPlayer.playVideosMsg videoPlayerMsg))
+        [ audioPlaying (handleLoadedProgressFlag audioPlayingMsg)
+        , audioPlaying (handleLoadedProgressFlag playVideosMsg)
         ]

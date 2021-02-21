@@ -43,5 +43,4 @@ random randomTagGeneratedMsg tags =
             Random.int 1 tagsLength
                 |> Random.map (Tags.tagAtIndex tags)
     in
-    generator
-        |> Random.generate randomTagGeneratedMsg
+    Random.generate randomTagGeneratedMsg generator
