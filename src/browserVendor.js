@@ -7,23 +7,23 @@ const WEBKIT = "webkit"
 const MOZILLA = "mozilla"
 const OTHER = "other"
 
-function init(app) {
+function init(ports) {
   switch(current()) {
     case WEBKIT:
-      initWebkitExitFullScreen(app)
-      initWebkitFullScreenToggle(app)
-      initWebkitRequestFullScreen(app)
+      initWebkitExitFullScreen(ports)
+      initWebkitFullScreenToggle(ports)
+      initWebkitRequestFullScreen(ports)
       break
     case MOZILLA:
-      initMozCancelFullScreen(app)
-      initMozFullScreenToggle(app)
+      initMozCancelFullScreen(ports)
+      initMozFullScreenToggle(ports)
       initMozFullScreenToggleHack()
-      initMozRequestFullScreen(app)
+      initMozRequestFullScreen(ports)
       break
     case OTHER:
-      initOtherExitFullScreen(app)
-      initOtherFullScreenToggle(app)
-      initOtherRequestFullScreen(app)
+      initOtherExitFullScreen(ports)
+      initOtherFullScreenToggle(ports)
+      initOtherRequestFullScreen(ports)
     default:
       console.log("Could not determine browser vendor!")
   }
@@ -49,21 +49,21 @@ function isWebkit() {
   )
 }
 
-function initWebkitExitFullScreen(app) {
-  app.ports.webkitExitFullScreen.subscribe(() => {
+function initWebkitExitFullScreen(ports) {
+  ports.webkitExitFullScreen.subscribe(() => {
     document.webkitExitFullscreen()
   })
 }
 
-function initWebkitFullScreenToggle(app) {
-  app.ports.webkitFullScreenToggle.subscribe(() => {
+function initWebkitFullScreenToggle(ports) {
+  ports.webkitFullScreenToggle.subscribe(() => {
     const isFullScreen = !!document.webkitFullscreenElement
-    app.ports.toggleFullScreen.send(isFullScreen)
+    ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
-function initWebkitRequestFullScreen(app) {
-  app.ports.webkitRequestFullScreen.subscribe(() => {
+function initWebkitRequestFullScreen(ports) {
+  ports.webkitRequestFullScreen.subscribe(() => {
     document.documentElement.webkitRequestFullScreen()
   })
 }
@@ -78,16 +78,16 @@ function isMozilla() {
   )
 }
 
-function initMozCancelFullScreen(app) {
-  app.ports.mozCancelFullScreen.subscribe(() => {
+function initMozCancelFullScreen(ports) {
+  ports.mozCancelFullScreen.subscribe(() => {
     document.mozCancelFullScreen()
   })
 }
 
-function initMozFullScreenToggle(app) {
-  app.ports.mozFullScreenToggle.subscribe(() => {
+function initMozFullScreenToggle(ports) {
+  ports.mozFullScreenToggle.subscribe(() => {
     const isFullScreen = !!document.mozFullScreenElement
-    app.ports.toggleFullScreen.send(isFullScreen)
+    ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
@@ -112,8 +112,8 @@ function initMozFullScreenToggleHack() {
   }
 }
 
-function initMozRequestFullScreen(app) {
-  app.ports.mozRequestFullScreen.subscribe(() => {
+function initMozRequestFullScreen(ports) {
+  ports.mozRequestFullScreen.subscribe(() => {
     document.documentElement.mozRequestFullScreen()
   })
 }
@@ -128,21 +128,21 @@ function isOtherFullScreenCapableBrowser() {
   )
 }
 
-function initOtherExitFullScreen(app) {
-  app.ports.otherExitFullScreen.subscribe(() => {
+function initOtherExitFullScreen(ports) {
+  ports.otherExitFullScreen.subscribe(() => {
     document.exitFullscreen()
   })
 }
 
-function initOtherFullScreenToggle(app) {
-  app.ports.otherFullScreenToggle.subscribe(() => {
+function initOtherFullScreenToggle(ports) {
+  ports.otherFullScreenToggle.subscribe(() => {
     const isFullScreen = !!document.fullscreenElement
-    app.ports.toggleFullScreen.send(isFullScreen)
+    ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
-function initOtherRequestFullScreen(app) {
-  app.ports.otherRequestFullScreen.subscribe(() => {
+function initOtherRequestFullScreen(ports) {
+  ports.otherRequestFullScreen.subscribe(() => {
     document.documentElement.requestFullScreen()
   })
 }

@@ -2,45 +2,45 @@ export const VideoPlayer = {
   init
 }
 
-function init(app) {
-  initHaltVideos(app)
-  initPauseVideos(app)
-  initPlayVideos(app)
-  initWindowBlurred(app)
-  initWindowFocused(app)
+function init(ports) {
+  initHaltVideos(ports)
+  initPauseVideos(ports)
+  initPlayVideos(ports)
+  initWindowBlurred(ports)
+  initWindowFocused(ports)
 }
 
-function initHaltVideos(app) {
-  app.ports.haltVideos.subscribe(() => {
+function initHaltVideos(ports) {
+  ports.haltVideos.subscribe(() => {
     pauseVideoPlayers()
-    app.ports.videosHalted.send(null)
+    ports.videosHalted.send(null)
   })
 }
 
-function initPauseVideos(app) {
-  app.ports.pauseVideos.subscribe(() => {
+function initPauseVideos(ports) {
+  ports.pauseVideos.subscribe(() => {
     pauseVideoPlayers()
-    app.ports.videosPaused.send(null)
+    ports.videosPaused.send(null)
   })
 }
 
-function initPlayVideos(app) {
-  app.ports.playVideos.subscribe(() => {
+function initPlayVideos(ports) {
+  ports.playVideos.subscribe(() => {
     playVideoPlayers()
-    app.ports.videosPlaying.send(null)
+    ports.videosPlaying.send(null)
   })
 }
 
-function initWindowBlurred(app) {
+function initWindowBlurred(ports) {
   window.addEventListener("blur", event => {
     const activeElementId = event.target.document.activeElement.id
-    app.ports.windowBlurred.send(activeElementId)
+    ports.windowBlurred.send(activeElementId)
   })
 }
 
-function initWindowFocused(app) {
+function initWindowFocused(ports) {
   window.addEventListener("focus", () => {
-    app.ports.windowFocused.send(null)
+    ports.windowFocused.send(null)
   })
 }
 

@@ -26,10 +26,10 @@ const app =
     }
   })
 
-app.ports.consoleLog.subscribe((json) => {
-  console.log(json)
-})
+const ports = app.ports
 
-VideoPlayer.init(app)
-AudioPlayer.init(app)
-BrowserVendor.init(app)
+ports.consoleLog.subscribe((json) => console.log(json))
+
+VideoPlayer.init(ports)
+AudioPlayer.init(ports)
+BrowserVendor.init(ports)
