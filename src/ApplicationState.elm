@@ -1,145 +1,140 @@
 module ApplicationState exposing (show)
 
-import AudioPlayer
-import ControlPanel
-import Json.Encode as Encode
+import AudioPlayer exposing (AudioPlayer)
+import Config exposing (Config)
+import ControlPanel exposing (ControlPanel)
+import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
 import Ports
-import VideoPlayer
+import SecretConfig exposing (SecretConfig)
+import VideoPlayer exposing (VideoPlayer)
 
 
 show : Model -> Cmd msg
-show ({ config, controlPanel, secretConfig } as model) =
+show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
     let
-        { audioPlayer, videoPlayer1, videoPlayer2 } =
-            model
-
-        audioPlayerJson =
-            Encode.object
-                [ ( "id"
-                  , Encode.string audioPlayer.id
-                  )
-                , ( "playlist"
-                  , Encode.list Encode.int audioPlayer.playlist
-                  )
-                , ( "playlistLength"
-                  , Encode.int audioPlayer.playlistLength
-                  )
-                , ( "soundCloudIframeUrl"
-                  , Encode.string audioPlayer.soundCloudIframeUrl
-                  )
-                , ( "status"
-                  , Encode.string
-                        (AudioPlayer.statusToString audioPlayer.status)
-                  )
-                ]
-
-        -- Do not output Giphy API key
-        configJson =
-            Encode.object
-                [ ( "gifDisplaySeconds"
-                  , Encode.float config.gifDisplaySeconds
-                  )
-                , ( "soundCloudPlaylistUrl"
-                  , Encode.string config.soundCloudPlaylistUrl
-                  )
-                , ( "tags"
-                  , Encode.list Encode.string config.tags
-                  )
-                , ( "volumeAdjustmentRate"
-                  , Encode.int config.volumeAdjustmentRate
-                  )
-                ]
-
-        -- Don't bother with printing the animation style state as it's too
-        -- hard to encode and doens't provide any real useful debug information.
-        controlPanelJson =
-            Encode.object
-                [ ( "state"
-                  , Encode.string
-                        (ControlPanel.stateToString controlPanel.state)
-                  )
-                ]
-
-        secretConfigJson =
-            Encode.object
-                [ ( "gifDisplaySeconds"
-                  , Encode.string secretConfig.gifDisplaySeconds
-                  )
-                , ( "overrideInactivityPause"
-                  , Encode.bool secretConfig.overrideInactivityPause
-                  )
-                , ( "soundCloudPlaylistUrl"
-                  , Encode.string secretConfig.soundCloudPlaylistUrl
-                  )
-                , ( "tags"
-                  , Encode.string secretConfig.tags
-                  )
-                , ( "visible"
-                  , Encode.bool secretConfig.visible
-                  )
-                ]
-
-        -- Don't bother with printing the animation style state as it's too
-        -- hard to encode and doens't provide any real useful debug information.
-        videoPlayer1Json =
-            Encode.object
-                [ ( "fallbackGifUrl"
-                  , Encode.string videoPlayer1.fallbackGifUrl
-                  )
-                , ( "gifUrl"
-                  , Encode.string
-                        (VideoPlayer.gifUrlToString videoPlayer1.gifUrl)
-                  )
-                , ( "id"
-                  , Encode.string videoPlayer1.id
-                  )
-                , ( "status"
-                  , Encode.string
-                        (VideoPlayer.statusToString videoPlayer1.status)
-                  )
-                , ( "visible"
-                  , Encode.bool videoPlayer1.visible
-                  )
-                , ( "zIndex"
-                  , Encode.int videoPlayer1.zIndex
-                  )
-                ]
-
-        -- Don't bother with printing the animation style state as it's too
-        -- hard to encode and doens't provide any real useful debug information.
-        videoPlayer2Json =
-            Encode.object
-                [ ( "fallbackGifUrl"
-                  , Encode.string videoPlayer2.fallbackGifUrl
-                  )
-                , ( "gifUrl"
-                  , Encode.string
-                        (VideoPlayer.gifUrlToString videoPlayer2.gifUrl)
-                  )
-                , ( "id"
-                  , Encode.string videoPlayer2.id
-                  )
-                , ( "status"
-                  , Encode.string
-                        (VideoPlayer.statusToString videoPlayer2.status)
-                  )
-                , ( "visible"
-                  , Encode.bool videoPlayer2.visible
-                  )
-                , ( "zIndex"
-                  , Encode.int videoPlayer2.zIndex
-                  )
-                ]
-
         applicationState =
             Encode.object
-                [ ( "Audio Player", audioPlayerJson )
-                , ( "Config", configJson )
-                , ( "Control Panel", controlPanelJson )
-                , ( "Secret Config", secretConfigJson )
-                , ( "Video Player 1", videoPlayer1Json )
-                , ( "Video Player 2", videoPlayer2Json )
+                [ ( "Audio Player", audioPlayerJson audioPlayer )
+                , ( "Config", configJson config )
+                , ( "Control Panel", controlPanelJson controlPanel )
+                , ( "Secret Config", secretConfigJson secretConfig )
+                , ( "Video Player 1", videoPlayerJson videoPlayer1 )
+                , ( "Video Player 2", videoPlayerJson videoPlayer2 )
                 ]
     in
     Ports.consoleLog applicationState
+
+
+
+-- PRIVATE
+
+
+audioPlayerJson : AudioPlayer -> Value
+audioPlayerJson audioPlayer =
+    let
+        audioPlayerStatus =
+            AudioPlayer.statusToString audioPlayer.status
+    in
+    Encode.object
+        [ ( "id"
+          , Encode.string audioPlayer.id
+          )
+        , ( "playlist"
+          , Encode.list Encode.int audioPlayer.playlist
+          )
+        , ( "playlistLength"
+          , Encode.int audioPlayer.playlistLength
+          )
+        , ( "soundCloudIframeUrl"
+          , Encode.string audioPlayer.soundCloudIframeUrl
+          )
+        , ( "status"
+          , Encode.string audioPlayerStatus
+          )
+        ]
+
+
+configJson : Config -> Value
+configJson config =
+    -- Do not output Giphy API key
+    Encode.object
+        [ ( "gifDisplaySeconds"
+          , Encode.float config.gifDisplaySeconds
+          )
+        , ( "soundCloudPlaylistUrl"
+          , Encode.string config.soundCloudPlaylistUrl
+          )
+        , ( "tags"
+          , Encode.list Encode.string config.tags
+          )
+        , ( "volumeAdjustmentRate"
+          , Encode.int config.volumeAdjustmentRate
+          )
+        ]
+
+
+controlPanelJson : ControlPanel -> Value
+controlPanelJson controlPanel =
+    -- Don't bother with printing the animation style state as it's too
+    -- hard to encode and doens't provide any real useful debug information.
+    let
+        controlPanelState =
+            ControlPanel.stateToString controlPanel.state
+    in
+    Encode.object
+        [ ( "state", Encode.string controlPanelState ) ]
+
+
+secretConfigJson : SecretConfig -> Value
+secretConfigJson secretConfig =
+    Encode.object
+        [ ( "gifDisplaySeconds"
+          , Encode.string secretConfig.gifDisplaySeconds
+          )
+        , ( "overrideInactivityPause"
+          , Encode.bool secretConfig.overrideInactivityPause
+          )
+        , ( "soundCloudPlaylistUrl"
+          , Encode.string secretConfig.soundCloudPlaylistUrl
+          )
+        , ( "tags"
+          , Encode.string secretConfig.tags
+          )
+        , ( "visible"
+          , Encode.bool secretConfig.visible
+          )
+        ]
+
+
+videoPlayerJson : VideoPlayer -> Value
+videoPlayerJson videoPlayer =
+    -- Don't bother with printing the animation style state as it's too
+    -- hard to encode and doens't provide any real useful debug information.
+    let
+        videoPlayerGifUrl =
+            VideoPlayer.gifUrlToString videoPlayer.gifUrl
+
+        videoPlayerStatus =
+            VideoPlayer.statusToString videoPlayer.status
+    in
+    Encode.object
+        [ ( "fallbackGifUrl"
+          , Encode.string videoPlayer.fallbackGifUrl
+          )
+        , ( "gifUrl"
+          , Encode.string videoPlayerGifUrl
+          )
+        , ( "id"
+          , Encode.string videoPlayer.id
+          )
+        , ( "status"
+          , Encode.string videoPlayerStatus
+          )
+        , ( "visible"
+          , Encode.bool videoPlayer.visible
+          )
+        , ( "zIndex"
+          , Encode.int videoPlayer.zIndex
+          )
+        ]
