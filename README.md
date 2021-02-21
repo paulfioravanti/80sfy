@@ -17,7 +17,7 @@ audio auto play by default.
 ### Dependencies
 
 - [Elm][] 0.19.1
-- [NodeJS][] 15.4.0
+- [NodeJS][] 15.9.0
 
 ## Setup
 
