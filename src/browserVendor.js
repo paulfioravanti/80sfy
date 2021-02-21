@@ -9,23 +9,24 @@ const OTHER = "other"
 
 function init(ports) {
   switch(current()) {
-    case WEBKIT:
-      initWebkitExitFullScreen(ports)
-      initWebkitFullScreenToggle(ports)
-      initWebkitRequestFullScreen(ports)
-      break
-    case MOZILLA:
-      initMozCancelFullScreen(ports)
-      initMozFullScreenToggle(ports)
-      initMozFullScreenToggleHack()
-      initMozRequestFullScreen(ports)
-      break
-    case OTHER:
-      initOtherExitFullScreen(ports)
-      initOtherFullScreenToggle(ports)
-      initOtherRequestFullScreen(ports)
-    default:
-      console.log("Could not determine browser vendor!")
+  case WEBKIT:
+    initWebkitExitFullScreen(ports)
+    initWebkitFullScreenToggle(ports)
+    initWebkitRequestFullScreen(ports)
+    break
+  case MOZILLA:
+    initMozCancelFullScreen(ports)
+    initMozFullScreenToggle(ports)
+    initMozFullScreenToggleHack()
+    initMozRequestFullScreen(ports)
+    break
+  case OTHER:
+    initOtherExitFullScreen(ports)
+    initOtherFullScreenToggle(ports)
+    initOtherRequestFullScreen(ports)
+    break
+  default:
+    console.log("Could not determine browser vendor!")
   }
 }
 

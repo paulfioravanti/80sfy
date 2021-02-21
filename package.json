@@ -13,5 +13,8 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0"
   }
 }
