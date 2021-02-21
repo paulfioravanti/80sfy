@@ -1,4 +1,8 @@
-export function init(app) {
+export const AudioPlayer = {
+  init
+}
+
+function init(app) {
   app.ports.initAudioPlayer.subscribe(({ id: id, volume: volume }) => {
     window.requestAnimationFrame(() => {
       const scPlayer = SC.Widget(id)

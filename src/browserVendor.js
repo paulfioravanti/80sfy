@@ -1,53 +1,81 @@
-export function init(app) {
-  initFullScreenToggle(app)
-  initRequestFullScreen(app)
-  initExitFullScreen(app)
-
-  initMozFullScreenToggle(app)
-  initMozFullScreenToggleHack()
-  initMozRequestFullScreen(app)
-  initMozCancelFullScreen(app)
-
-  initWebkitFullScreenToggle(app)
-  initWebkitRequestFullScreen(app)
-  initWebkitExitFullScreen(app)
+export const BrowserVendor = {
+  init,
+  current,
 }
 
-export function isMozilla() {
-  return (
-    document.mozFullScreenElement !== "undefined" &&
-    document.documentElement.mozRequestFullScreen &&
-    document.mozCancelFullScreen
-  )
+const WEBKIT = "webkit"
+const MOZILLA = "mozilla"
+const OTHER = "other"
+
+function init(app) {
+  switch(current()) {
+    case WEBKIT:
+      initWebkitExitFullScreen(app)
+      initWebkitFullScreenToggle(app)
+      initWebkitRequestFullScreen(app)
+      break
+    case MOZILLA:
+      initMozCancelFullScreen(app)
+      initMozFullScreenToggle(app)
+      initMozFullScreenToggleHack()
+      initMozRequestFullScreen(app)
+      break
+    case OTHER:
+      initOtherExitFullScreen(app)
+      initOtherFullScreenToggle(app)
+      initOtherRequestFullScreen(app)
+    default:
+      console.log("Could not determine browser vendor!")
+  }
 }
 
-export function isOtherFullScreenCapableBrowser() {
-  return (
-    document.fullScreenElement !== "undefined" &&
-    document.documentElement.requestFullScreen &&
-    document.exitFullscreen
-  )
+function current() {
+  if (isWebkit()) {
+    return WEBKIT
+  } else if (isMozilla()) {
+    return MOZILLA
+  } else if (isOtherFullScreenCapableBrowser()) {
+    return OTHER
+  }
 }
 
-export function isWebkit() {
+// WEBKIT
+
+function isWebkit() {
   return (
-    document.webkitFullscreenElement !== "undefined" &&
+    document.webkitFullscreenElement !== undefined &&
     document.documentElement.webkitRequestFullScreen &&
     document.webkitExitFullscreen
   )
 }
 
-function initExitFullScreen(app) {
-  app.ports.exitFullScreen.subscribe(() => {
-    document.exitFullscreen()
+function initWebkitExitFullScreen(app) {
+  app.ports.webkitExitFullScreen.subscribe(() => {
+    document.webkitExitFullscreen()
   })
 }
 
-function initFullScreenToggle(app) {
-  app.ports.fullScreenToggle.subscribe(() => {
-    const isFullScreen = !!document.fullscreenElement
+function initWebkitFullScreenToggle(app) {
+  app.ports.webkitFullScreenToggle.subscribe(() => {
+    const isFullScreen = !!document.webkitFullscreenElement
     app.ports.toggleFullScreen.send(isFullScreen)
   })
+}
+
+function initWebkitRequestFullScreen(app) {
+  app.ports.webkitRequestFullScreen.subscribe(() => {
+    document.documentElement.webkitRequestFullScreen()
+  })
+}
+
+// MOZILLA
+
+function isMozilla() {
+  return (
+    document.mozFullScreenElement !== undefined &&
+    document.documentElement.mozRequestFullScreen &&
+    document.mozCancelFullScreen
+  )
 }
 
 function initMozCancelFullScreen(app) {
@@ -90,27 +118,32 @@ function initMozRequestFullScreen(app) {
   })
 }
 
-function initRequestFullScreen(app) {
-  app.ports.requestFullScreen.subscribe(() => {
-    document.documentElement.requestFullScreen()
+// OTHER
+
+function isOtherFullScreenCapableBrowser() {
+  return (
+    document.fullScreenElement !== undefined &&
+    document.documentElement.requestFullScreen &&
+    document.exitFullscreen
+  )
+}
+
+
+function initOtherExitFullScreen(app) {
+  app.ports.exitFullScreen.subscribe(() => {
+    document.exitFullscreen()
   })
 }
 
-function initWebkitExitFullScreen(app) {
-  app.ports.webkitExitFullScreen.subscribe(() => {
-    document.webkitExitFullscreen()
-  })
-}
-
-function initWebkitFullScreenToggle(app) {
-  app.ports.webkitFullScreenToggle.subscribe(() => {
-    const isFullScreen = !!document.webkitFullscreenElement
+function initOtherFullScreenToggle(app) {
+  app.ports.fullScreenToggle.subscribe(() => {
+    const isFullScreen = !!document.fullscreenElement
     app.ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
-function initWebkitRequestFullScreen(app) {
-  app.ports.webkitRequestFullScreen.subscribe(() => {
-    document.documentElement.webkitRequestFullScreen()
+function initOtherRequestFullScreen(app) {
+  app.ports.requestFullScreen.subscribe(() => {
+    document.documentElement.requestFullScreen()
   })
 }

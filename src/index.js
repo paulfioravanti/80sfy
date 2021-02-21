@@ -13,16 +13,16 @@
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Elm } from "./Main"
-import * as AudioPlayer from "./audioPlayer"
-import * as BrowserVendor from "./browserVendor"
-import * as VideoPlayer from "./videoPlayer"
+import { AudioPlayer } from "./audioPlayer"
+import { BrowserVendor } from "./browserVendor"
+import { VideoPlayer } from "./videoPlayer"
 
 const app =
   Elm.Main.init({
     flags: {
       giphyApiKey: process.env.ELM_APP_GIPHY_API_KEY,
       soundCloudPlaylistUrl: process.env.ELM_APP_SOUNDCLOUD_PLAYLIST_URL,
-      browserVendor: determineBrowserVendor()
+      browserVendor: BrowserVendor.current()
     }
   })
 
@@ -33,13 +33,3 @@ app.ports.consoleLog.subscribe((json) => {
 VideoPlayer.init(app)
 AudioPlayer.init(app)
 BrowserVendor.init(app)
-
-function determineBrowserVendor() {
-  if (BrowserVendor.isWebkit()) {
-    return "webkit"
-  } else if (BrowserVendor.isMozilla()) {
-    return "mozilla"
-  } else if (BrowserVendor.isOtherFullScreenCapableBrowser()) {
-    return "other"
-  }
-}

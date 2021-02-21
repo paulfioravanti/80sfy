@@ -1,4 +1,8 @@
-export function init(app) {
+export const VideoPlayer = {
+  init
+}
+
+function init(app) {
   initHaltVideos(app)
   initPauseVideos(app)
   initPlayVideos(app)
