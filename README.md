@@ -61,7 +61,7 @@ Now, you should be able to use the app at the following address:
 
 ## Deployment
 
-Deployment is managed in the [`push`](push) script. It uses [gh-pages][] to
+Deployment is managed in the [`push`][] script. It uses [gh-pages][] to
 deploy out to [Github Pages][].
 
 ```sh
@@ -123,6 +123,7 @@ to play audio the first time the app is loaded.
 [Github Pages]: https://pages.github.com/
 [NodeJS]: https://nodejs.org/en/
 [original codebase repo]: https://bitbucket.org/asangurai/80sfy/src/master/
+[`push`]: ./push
 [Soundcloud]: https://soundcloud.com
 [Soundcloud register new app]: http://soundcloud.com/you/apps/new
 [synthwave]: https://en.wikipedia.org/wiki/Synthwave
