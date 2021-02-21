@@ -22,8 +22,7 @@ init : Value -> BrowserVendor
 init browserVendorFlag =
     let
         browser =
-            browserVendorFlag
-                |> Value.extractStringWithDefault "other"
+            Value.extractStringWithDefault "other" browserVendorFlag
     in
     case browser of
         "mozilla" ->
@@ -43,7 +42,7 @@ enterFullScreen browserVendor =
             Ports.mozRequestFullScreen ()
 
         Other ->
-            Ports.requestFullScreen ()
+            Ports.otherRequestFullScreen ()
 
         Webkit ->
             Ports.webkitRequestFullScreen ()
@@ -61,7 +60,7 @@ performFullScreenToggle browserVendor =
             Ports.mozFullScreenToggle ()
 
         Other ->
-            Ports.fullScreenToggle ()
+            Ports.otherFullScreenToggle ()
 
         Webkit ->
             Ports.webkitFullScreenToggle ()
@@ -74,7 +73,7 @@ leaveFullScreen browserVendor =
             Ports.mozCancelFullScreen ()
 
         Other ->
-            Ports.exitFullScreen ()
+            Ports.otherExitFullScreen ()
 
         Webkit ->
             Ports.webkitExitFullScreen ()

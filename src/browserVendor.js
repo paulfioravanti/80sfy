@@ -128,22 +128,21 @@ function isOtherFullScreenCapableBrowser() {
   )
 }
 
-
 function initOtherExitFullScreen(app) {
-  app.ports.exitFullScreen.subscribe(() => {
+  app.ports.otherExitFullScreen.subscribe(() => {
     document.exitFullscreen()
   })
 }
 
 function initOtherFullScreenToggle(app) {
-  app.ports.fullScreenToggle.subscribe(() => {
+  app.ports.otherFullScreenToggle.subscribe(() => {
     const isFullScreen = !!document.fullscreenElement
     app.ports.toggleFullScreen.send(isFullScreen)
   })
 }
 
 function initOtherRequestFullScreen(app) {
-  app.ports.requestFullScreen.subscribe(() => {
+  app.ports.otherRequestFullScreen.subscribe(() => {
     document.documentElement.requestFullScreen()
   })
 }

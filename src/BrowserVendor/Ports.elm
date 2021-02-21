@@ -1,20 +1,14 @@
 port module BrowserVendor.Ports exposing
-    ( exitFullScreen
-    , fullScreenToggle
-    , mozCancelFullScreen
+    ( mozCancelFullScreen
     , mozFullScreenToggle
     , mozRequestFullScreen
-    , requestFullScreen
+    , otherExitFullScreen
+    , otherFullScreenToggle
+    , otherRequestFullScreen
     , webkitExitFullScreen
     , webkitFullScreenToggle
     , webkitRequestFullScreen
     )
-
-
-port exitFullScreen : () -> Cmd msg
-
-
-port fullScreenToggle : () -> Cmd msg
 
 
 port mozCancelFullScreen : () -> Cmd msg
@@ -37,7 +31,13 @@ More information can be found at:
 port mozRequestFullScreen : () -> Cmd msg
 
 
-port requestFullScreen : () -> Cmd msg
+port otherExitFullScreen : () -> Cmd msg
+
+
+port otherFullScreenToggle : () -> Cmd msg
+
+
+port otherRequestFullScreen : () -> Cmd msg
 
 
 port webkitExitFullScreen : () -> Cmd msg
