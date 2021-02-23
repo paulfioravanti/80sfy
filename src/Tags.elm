@@ -5,14 +5,14 @@ import Json.Decode as Decode
 
 
 init : (Result Error (List String) -> msg) -> Cmd msg
-init fetchTagsMsg =
+init tagsFetchedMsg =
     let
         tagsDecoder =
             Decode.at [ "tags" ] (Decode.list Decode.string)
     in
     Http.get
         { url = "tags.json"
-        , expect = Http.expectJson fetchTagsMsg tagsDecoder
+        , expect = Http.expectJson tagsFetchedMsg tagsDecoder
         }
 
 

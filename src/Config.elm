@@ -2,9 +2,9 @@ module Config exposing
     ( Config
     , Msg
     , init
-    , initTagsMsg
     , randomTagGeneratedMsg
     , save
+    , tagsFetchedMsg
     , update
     )
 
@@ -29,11 +29,6 @@ init flags =
     Model.init flags
 
 
-initTagsMsg : (Msg -> msg) -> Result Error (List String) -> msg
-initTagsMsg configMsg tags =
-    Msg.initTags configMsg tags
-
-
 randomTagGeneratedMsg : (Msg -> msg) -> String -> String -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
@@ -42,6 +37,11 @@ randomTagGeneratedMsg configMsg videoPlayerId tag =
 save : (Msg -> msg) -> String -> String -> String -> Cmd msg
 save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
     Task.save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString
+
+
+tagsFetchedMsg : (Msg -> msg) -> Result Error (List String) -> msg
+tagsFetchedMsg configMsg tags =
+    Msg.tagsFetched configMsg tags
 
 
 update : Update.Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )

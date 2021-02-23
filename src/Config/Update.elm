@@ -24,35 +24,6 @@ type alias Msgs msgs msg =
 update : Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgs msg config =
     case msg of
-        Msg.InitTags (Ok tags) ->
-            let
-                randomGifForVideoPlayerId videoPlayerId =
-                    Task.generateRandomGif
-                        msgs.generateRandomGifMsg
-                        videoPlayerId
-
-                initSecretConfigTags =
-                    SecretConfig.initTags msgs.secretConfigMsg tags
-            in
-            ( { config | tags = tags }
-            , Cmd.batch
-                [ randomGifForVideoPlayerId "1"
-                , randomGifForVideoPlayerId "2"
-                , initSecretConfigTags
-                ]
-            )
-
-        Msg.InitTags (Err error) ->
-            let
-                message =
-                    Encode.object
-                        [ ( "InitTags Failed"
-                          , Encode.string (Error.toString error)
-                          )
-                        ]
-            in
-            ( config, Ports.consoleLog message )
-
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 randomGifUrlFetchedMsg =
@@ -90,3 +61,32 @@ update msgs msg config =
                             soundCloudPlaylistUrl
             in
             ( updatedConfig, cmd )
+
+        Msg.TagsFetched (Ok tags) ->
+            let
+                randomGifForVideoPlayerId videoPlayerId =
+                    Task.generateRandomGif
+                        msgs.generateRandomGifMsg
+                        videoPlayerId
+
+                initSecretConfigTags =
+                    SecretConfig.initTags msgs.secretConfigMsg tags
+            in
+            ( { config | tags = tags }
+            , Cmd.batch
+                [ randomGifForVideoPlayerId "1"
+                , randomGifForVideoPlayerId "2"
+                , initSecretConfigTags
+                ]
+            )
+
+        Msg.TagsFetched (Err error) ->
+            let
+                message =
+                    Encode.object
+                        [ ( "Fetching Tags Failed"
+                          , Encode.string (Error.toString error)
+                          )
+                        ]
+            in
+            ( config, Ports.consoleLog message )
