@@ -55,13 +55,16 @@ update msgs msg config =
 
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
-                fetchRandomGifMsg =
-                    VideoPlayer.fetchRandomGifMsg
+                randomGifUrlFetchedMsg =
+                    VideoPlayer.randomGifUrlFetchedMsg
                         msgs.videoPlayerMsg
                         videoPlayerId
 
                 fetchRandomGif =
-                    Gif.fetchRandomGif fetchRandomGifMsg config.giphyApiKey tag
+                    Gif.fetchRandomGifUrl
+                        randomGifUrlFetchedMsg
+                        config.giphyApiKey
+                        tag
             in
             ( config, fetchRandomGif )
 

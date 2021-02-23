@@ -63,7 +63,7 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             , generateRandomGifForHiddenVideoPlayer
             )
 
-        Msg.FetchRandomGif videoPlayerId (Ok url) ->
+        Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->
             let
                 cmd =
                     Cmd.none
@@ -83,7 +83,7 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
                 , cmd
                 )
 
-        Msg.FetchRandomGif videoPlayerId (Err error) ->
+        Msg.RandomGifUrlFetched videoPlayerId (Err error) ->
             let
                 message =
                     Encode.object

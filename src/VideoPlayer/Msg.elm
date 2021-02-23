@@ -2,10 +2,10 @@ module VideoPlayer.Msg exposing
     ( Msg(..)
     , animateVideoPlayer
     , crossFadePlayers
-    , fetchRandomGif
     , haltVideos
     , pauseVideos
     , playVideos
+    , randomGifUrlFetched
     , videosHalted
     , videosPaused
     , videosPlaying
@@ -19,7 +19,7 @@ import Time exposing (Posix)
 type Msg
     = AnimateVideoPlayer Animation.Msg
     | CrossFadePlayers Posix
-    | FetchRandomGif String (Result Error String)
+    | RandomGifUrlFetched String (Result Error String)
     | HaltVideos
     | PauseVideos
     | PlayVideos
@@ -38,9 +38,9 @@ crossFadePlayers videoPlayerMsg time =
     videoPlayerMsg (CrossFadePlayers time)
 
 
-fetchRandomGif : (Msg -> msg) -> String -> Result Error String -> msg
-fetchRandomGif videoPlayerMsg videoPlayerId gifUrl =
-    videoPlayerMsg (FetchRandomGif videoPlayerId gifUrl)
+randomGifUrlFetched : (Msg -> msg) -> String -> Result Error String -> msg
+randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl =
+    videoPlayerMsg (RandomGifUrlFetched videoPlayerId gifUrl)
 
 
 haltVideos : (Msg -> msg) -> msg

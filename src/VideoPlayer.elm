@@ -1,12 +1,12 @@
 module VideoPlayer exposing
     ( Msg
     , VideoPlayer
-    , fetchRandomGifMsg
     , gifUrlToString
     , init
     , pauseVideosMsg
     , playVideos
     , playVideosMsg
+    , randomGifUrlFetchedMsg
     , statusToString
     , subscriptions
     , update
@@ -40,9 +40,9 @@ init id zIndex =
     Model.init id zIndex
 
 
-fetchRandomGifMsg : (Msg -> msg) -> String -> Result Error String -> msg
-fetchRandomGifMsg videoPlayerMsg tag gifUrl =
-    Msg.fetchRandomGif videoPlayerMsg tag gifUrl
+randomGifUrlFetchedMsg : (Msg -> msg) -> String -> Result Error String -> msg
+randomGifUrlFetchedMsg videoPlayerMsg tag gifUrl =
+    Msg.randomGifUrlFetched videoPlayerMsg tag gifUrl
 
 
 gifUrlToString : WebData String -> String

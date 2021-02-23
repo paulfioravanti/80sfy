@@ -1,4 +1,4 @@
-module Gif exposing (fetchRandomGif, random)
+module Gif exposing (fetchRandomGifUrl, random)
 
 import Http exposing (Error)
 import Json.Decode as Decode
@@ -6,8 +6,8 @@ import Random
 import Tags
 
 
-fetchRandomGif : (Result Error String -> msg) -> String -> String -> Cmd msg
-fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
+fetchRandomGifUrl : (Result Error String -> msg) -> String -> String -> Cmd msg
+fetchRandomGifUrl randomGifUrlFetchedMsg giphyApiKey tag =
     let
         host =
             "https://api.giphy.com"
@@ -29,7 +29,7 @@ fetchRandomGif fetchRandomGifMsg giphyApiKey tag =
     in
     Http.get
         { url = url
-        , expect = Http.expectJson fetchRandomGifMsg decodeGifUrl
+        , expect = Http.expectJson randomGifUrlFetchedMsg decodeGifUrl
         }
 
 
