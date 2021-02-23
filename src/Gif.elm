@@ -39,8 +39,10 @@ random randomTagGeneratedMsg tags =
         tagsLength =
             List.length tags - 1
 
-        generator =
+        randomTagIndex =
             Random.int 1 tagsLength
-                |> Random.map (Tags.tagAtIndex tags)
+
+        generator =
+            Random.map (Tags.tagAtIndex tags) randomTagIndex
     in
     Random.generate randomTagGeneratedMsg generator
