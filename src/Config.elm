@@ -14,6 +14,7 @@ import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias Config =
@@ -29,7 +30,7 @@ init flags =
     Model.init flags
 
 
-randomTagGeneratedMsg : (Msg -> msg) -> String -> String -> msg
+randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> String -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
 

@@ -14,7 +14,7 @@ import Html.Styled.Attributes
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
 import RemoteData
-import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status
 import VideoPlayer.Styles as Styles
@@ -125,8 +125,11 @@ gifVideoPlayer gifUrl videoPlayer =
                         []
                    )
 
+        videoPlayerRawId =
+            Model.rawId videoPlayer.id
+
         playerAttributes =
-            [ attribute "data-name" ("player-" ++ videoPlayer.id)
+            [ attribute "data-name" ("player-" ++ videoPlayerRawId)
             , src gifUrl
             , css [ Styles.videoPlayer ]
             ]

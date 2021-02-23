@@ -6,7 +6,7 @@ import Json.Encode as Encode
 import Ports
 import RemoteData
 import Task_
-import VideoPlayer.Model exposing (VideoPlayer)
+import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
 import VideoPlayer.Status as Status
@@ -20,7 +20,7 @@ type alias Context a =
 
 
 update :
-    (String -> msg)
+    (VideoPlayerId -> msg)
     -> Msg
     -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
@@ -39,10 +39,10 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             let
                 ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId, opacity ) =
                     if videoPlayer1.visible then
-                        ( False, "1", 0 )
+                        ( False, Model.wrappedId "1", 0 )
 
                     else
-                        ( True, "2", 1 )
+                        ( True, Model.wrappedId "2", 1 )
 
                 animateToNewOpacity =
                     Animation.interrupt
@@ -70,8 +70,11 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
 
                 gifUrl =
                     RemoteData.Success url
+
+                videoPlayerRawId =
+                    Model.rawId videoPlayerId
             in
-            if videoPlayerId == "1" then
+            if videoPlayerRawId == "1" then
                 ( { videoPlayer1 | gifUrl = gifUrl }
                 , videoPlayer2
                 , cmd
@@ -85,9 +88,12 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
 
         Msg.RandomGifUrlFetched videoPlayerId (Err error) ->
             let
+                videoPlayerRawId =
+                    Model.rawId videoPlayerId
+
                 message =
                     Encode.object
-                        [ ( "FetchRandomGif Failed for " ++ videoPlayerId
+                        [ ( "fetchRandomGifUrl Failed for " ++ videoPlayerRawId
                           , Encode.string (Error.toString error)
                           )
                         ]

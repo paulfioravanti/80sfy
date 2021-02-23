@@ -1,16 +1,19 @@
 module VideoPlayer exposing
     ( Msg
     , VideoPlayer
+    , VideoPlayerId
     , gifUrlToString
     , init
     , pauseVideosMsg
     , playVideos
     , playVideosMsg
     , randomGifUrlFetchedMsg
+    , rawId
     , statusToString
     , subscriptions
     , update
     , view
+    , wrappedId
     )
 
 import BrowserVendor exposing (BrowserVendor)
@@ -31,18 +34,26 @@ type alias VideoPlayer =
     Model.VideoPlayer
 
 
+type alias VideoPlayerId =
+    Model.VideoPlayerId
+
+
 type alias Msg =
     Msg.Msg
 
 
 init : String -> Int -> VideoPlayer
-init id zIndex =
-    Model.init id zIndex
+init idString zIndex =
+    Model.init idString zIndex
 
 
-randomGifUrlFetchedMsg : (Msg -> msg) -> String -> Result Error String -> msg
-randomGifUrlFetchedMsg videoPlayerMsg tag gifUrl =
-    Msg.randomGifUrlFetched videoPlayerMsg tag gifUrl
+randomGifUrlFetchedMsg :
+    (Msg -> msg)
+    -> VideoPlayerId
+    -> Result Error String
+    -> msg
+randomGifUrlFetchedMsg videoPlayerMsg videoPlayerId gifUrl =
+    Msg.randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl
 
 
 gifUrlToString : WebData String -> String
@@ -65,6 +76,11 @@ playVideosMsg videoPlayerMsg =
     Msg.playVideos videoPlayerMsg
 
 
+rawId : VideoPlayerId -> String
+rawId videoPlayerId =
+    Model.rawId videoPlayerId
+
+
 statusToString : Status -> String
 statusToString status =
     Status.toString status
@@ -80,7 +96,7 @@ subscriptions msgs context videoPlayer1 =
 
 
 update :
-    (String -> msg)
+    (VideoPlayerId -> msg)
     -> Msg
     -> Update.Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
@@ -91,3 +107,8 @@ update generateRandomGifMsg msg context =
 view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
 view audioPlaying msgs browserVendor videoPlayer =
     View.view audioPlaying msgs browserVendor videoPlayer
+
+
+wrappedId : String -> VideoPlayerId
+wrappedId rawIdValue =
+    Model.wrappedId rawIdValue

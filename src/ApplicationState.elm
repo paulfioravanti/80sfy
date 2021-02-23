@@ -117,6 +117,9 @@ videoPlayerJson videoPlayer =
 
         videoPlayerStatus =
             VideoPlayer.statusToString videoPlayer.status
+
+        videoPlayerRawId =
+            VideoPlayer.rawId videoPlayer.id
     in
     Encode.object
         [ ( "fallbackGifUrl"
@@ -126,7 +129,7 @@ videoPlayerJson videoPlayer =
           , Encode.string videoPlayerGifUrl
           )
         , ( "id"
-          , Encode.string videoPlayer.id
+          , Encode.string videoPlayerRawId
           )
         , ( "status"
           , Encode.string videoPlayerStatus

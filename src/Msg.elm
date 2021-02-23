@@ -21,7 +21,7 @@ import Config
 import ControlPanel
 import Key
 import SecretConfig
-import VideoPlayer
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
@@ -29,7 +29,7 @@ type Msg
     | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
-    | GenerateRandomGif String
+    | GenerateRandomGif VideoPlayerId
     | KeyPressed Key.Key
     | NoOp
     | Pause
@@ -60,9 +60,9 @@ config configMsg =
     Config configMsg
 
 
-generateRandomGif : String -> Msg
-generateRandomGif tag =
-    GenerateRandomGif tag
+generateRandomGif : VideoPlayerId -> Msg
+generateRandomGif videoPlayerId =
+    GenerateRandomGif videoPlayerId
 
 
 keyPressed : Key.Key -> Msg

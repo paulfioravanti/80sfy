@@ -9,13 +9,13 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import SecretConfig
-import VideoPlayer
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , generateRandomGifMsg : String -> msg
+        , generateRandomGifMsg : VideoPlayerId -> msg
         , secretConfigMsg : SecretConfig.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
@@ -74,8 +74,8 @@ update msgs msg config =
             in
             ( { config | tags = tags }
             , Cmd.batch
-                [ randomGifForVideoPlayerId "1"
-                , randomGifForVideoPlayerId "2"
+                [ randomGifForVideoPlayerId (VideoPlayer.wrappedId "1")
+                , randomGifForVideoPlayerId (VideoPlayer.wrappedId "2")
                 , initSecretConfigTags
                 ]
             )

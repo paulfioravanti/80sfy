@@ -14,12 +14,13 @@ module VideoPlayer.Msg exposing
 import Animation
 import Http exposing (Error)
 import Time exposing (Posix)
+import VideoPlayer.Model exposing (VideoPlayerId)
 
 
 type Msg
     = AnimateVideoPlayer Animation.Msg
     | CrossFadePlayers Posix
-    | RandomGifUrlFetched String (Result Error String)
+    | RandomGifUrlFetched VideoPlayerId (Result Error String)
     | HaltVideos
     | PauseVideos
     | PlayVideos
@@ -38,7 +39,11 @@ crossFadePlayers videoPlayerMsg time =
     videoPlayerMsg (CrossFadePlayers time)
 
 
-randomGifUrlFetched : (Msg -> msg) -> String -> Result Error String -> msg
+randomGifUrlFetched :
+    (Msg -> msg)
+    -> VideoPlayerId
+    -> Result Error String
+    -> msg
 randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl =
     videoPlayerMsg (RandomGifUrlFetched videoPlayerId gifUrl)
 

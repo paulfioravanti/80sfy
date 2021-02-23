@@ -2,9 +2,10 @@ module Config.Task exposing (generateRandomGif, save)
 
 import Config.Msg as Msg exposing (Msg)
 import Task
+import VideoPlayer exposing (VideoPlayerId)
 
 
-generateRandomGif : (String -> msg) -> String -> Cmd msg
+generateRandomGif : (VideoPlayerId -> msg) -> VideoPlayerId -> Cmd msg
 generateRandomGif generateRandomGifMsg videoPlayerId =
     generateRandomGifMsg videoPlayerId
         |> Task.succeed
