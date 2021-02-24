@@ -1,13 +1,13 @@
-module Config.Task exposing (generateRandomGif, save)
+module Config.Task exposing (generateRandomTag, save)
 
 import Config.Msg as Msg exposing (Msg)
 import Task
 import VideoPlayer exposing (VideoPlayerId)
 
 
-generateRandomGif : (VideoPlayerId -> msg) -> VideoPlayerId -> Cmd msg
-generateRandomGif generateRandomGifMsg videoPlayerId =
-    generateRandomGifMsg videoPlayerId
+generateRandomTag : (VideoPlayerId -> msg) -> VideoPlayerId -> Cmd msg
+generateRandomTag generateRandomTagMsg videoPlayerId =
+    generateRandomTagMsg videoPlayerId
         |> Task.succeed
         |> Task.perform identity
 

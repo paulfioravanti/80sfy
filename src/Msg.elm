@@ -4,7 +4,7 @@ module Msg exposing
     , browserVendor
     , config
     , controlPanel
-    , generateRandomGif
+    , generateRandomTag
     , keyPressed
     , noOp
     , pause
@@ -29,7 +29,7 @@ type Msg
     | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
-    | GenerateRandomGif VideoPlayerId
+    | GenerateRandomTag VideoPlayerId
     | KeyPressed Key.Key
     | NoOp
     | Pause
@@ -60,9 +60,9 @@ config configMsg =
     Config configMsg
 
 
-generateRandomGif : VideoPlayerId -> Msg
-generateRandomGif videoPlayerId =
-    GenerateRandomGif videoPlayerId
+generateRandomTag : VideoPlayerId -> Msg
+generateRandomTag videoPlayerId =
+    GenerateRandomTag videoPlayerId
 
 
 keyPressed : Key.Key -> Msg

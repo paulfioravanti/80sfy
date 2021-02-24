@@ -5,11 +5,11 @@ import AudioPlayer
 import BrowserVendor
 import Config
 import ControlPanel
-import Gif
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
+import Tag
 import Task_
 import VideoPlayer
 
@@ -20,7 +20,7 @@ update msg model =
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
             , browserVendorMsg = Msg.browserVendor
-            , generateRandomGifMsg = Msg.generateRandomGif
+            , generateRandomTagMsg = Msg.generateRandomTag
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
             , secretConfigMsg = Msg.secretConfig
@@ -58,13 +58,15 @@ update msg model =
             in
             ( model, cmd )
 
-        Msg.GenerateRandomGif videoPlayerId ->
+        Msg.GenerateRandomTag videoPlayerId ->
             let
                 randomTagGeneratedMsg =
                     Config.randomTagGeneratedMsg Msg.config videoPlayerId
 
                 cmd =
-                    Gif.random randomTagGeneratedMsg model.config.tags
+                    Tag.generateRandomTag
+                        randomTagGeneratedMsg
+                        model.config.tags
             in
             ( model, cmd )
 
@@ -122,7 +124,7 @@ update msg model =
             let
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
-                        Msg.generateRandomGif
+                        Msg.generateRandomTag
                         msgForVideoPlayer
                         model
             in

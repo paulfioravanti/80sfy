@@ -16,7 +16,7 @@ import VideoPlayer exposing (VideoPlayerId)
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , generateRandomGifMsg : VideoPlayerId -> msg
+        , generateRandomTagMsg : VideoPlayerId -> msg
         , secretConfigMsg : SecretConfig.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
@@ -75,8 +75,8 @@ update msgs msg config =
                     List.map Tag.tag rawTags
 
                 randomGifForVideoPlayerId videoPlayerId =
-                    Task.generateRandomGif
-                        msgs.generateRandomGifMsg
+                    Task.generateRandomTag
+                        msgs.generateRandomTagMsg
                         videoPlayerId
 
                 initSecretConfigTags =
