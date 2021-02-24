@@ -8,7 +8,7 @@ import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Subscriptions
-import Tags
+import Tag
 import Update
 import View
 
@@ -42,7 +42,7 @@ init flags =
     in
     ( model
     , Cmd.batch
-        [ Tags.fetchTags (Config.tagsFetchedMsg Msg.config)
+        [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
         , AudioPlayer.initAudioPlayer audioPlayerPortFlags
         ]
     )

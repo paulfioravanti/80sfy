@@ -7,6 +7,7 @@ module Config.Model exposing
     )
 
 import Flags exposing (Flags)
+import Tag exposing (Tag)
 import Value
 
 
@@ -18,7 +19,7 @@ type alias Config =
     { gifDisplaySeconds : Float
     , giphyApiKey : GiphyAPIKey
     , soundCloudPlaylistUrl : String
-    , tags : List String
+    , tags : List Tag
     , volumeAdjustmentRate : Int
     }
 
@@ -56,6 +57,7 @@ update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
             tagsString
                 |> String.split ", "
                 |> List.map String.trim
+                |> List.map Tag.tag
 
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then

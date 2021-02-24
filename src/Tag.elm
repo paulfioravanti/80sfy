@@ -1,7 +1,19 @@
-module Tags exposing (fetchTags, tagAtIndex)
+module Tag exposing (Tag, atIndex, fetchTags, rawTag, tag)
 
 import Http exposing (Error)
 import Json.Decode as Decode
+
+
+type Tag
+    = Tag String
+
+
+atIndex : List Tag -> Int -> Tag
+atIndex tags index =
+    tags
+        |> List.drop index
+        |> List.head
+        |> Maybe.withDefault (Tag "80s")
 
 
 fetchTags : (Result Error (List String) -> msg) -> Cmd msg
@@ -16,9 +28,11 @@ fetchTags tagsFetchedMsg =
         }
 
 
-tagAtIndex : List String -> Int -> String
-tagAtIndex tags numberOfMembers =
-    tags
-        |> List.drop numberOfMembers
-        |> List.head
-        |> Maybe.withDefault "80s"
+rawTag : Tag -> String
+rawTag (Tag tagString) =
+    tagString
+
+
+tag : String -> Tag
+tag tagString =
+    Tag tagString

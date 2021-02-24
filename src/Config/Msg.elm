@@ -1,16 +1,17 @@
 module Config.Msg exposing (Msg(..), randomTagGenerated, save, tagsFetched)
 
 import Http exposing (Error)
+import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
     = TagsFetched (Result Error (List String))
-    | RandomTagGenerated VideoPlayerId String
+    | RandomTagGenerated VideoPlayerId Tag
     | Save String String String
 
 
-randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> String -> msg
+randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
 randomTagGenerated configMsg videoPlayerId tag =
     configMsg (RandomTagGenerated videoPlayerId tag)
 

@@ -3,11 +3,11 @@ module Gif exposing (fetchRandomGifUrl, random)
 import Http exposing (Error)
 import Json.Decode as Decode
 import Random
-import Tags
+import Tag exposing (Tag)
 
 
 fetchRandomGifUrl : (Result Error String -> msg) -> String -> String -> Cmd msg
-fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey tag =
+fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey rawTag =
     let
         host =
             "https://api.giphy.com"
@@ -21,7 +21,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey tag =
                 ++ "?api_key="
                 ++ rawGiphyApiKey
                 ++ "&tag="
-                ++ tag
+                ++ rawTag
                 ++ "&rating=pg-13"
 
         decodeGifUrl =
@@ -33,7 +33,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey tag =
         }
 
 
-random : (String -> msg) -> List String -> Cmd msg
+random : (Tag -> msg) -> List Tag -> Cmd msg
 random randomTagGeneratedMsg tags =
     let
         tagsLength =
@@ -43,6 +43,6 @@ random randomTagGeneratedMsg tags =
             Random.int 1 tagsLength
 
         generator =
-            Random.map (Tags.tagAtIndex tags) randomTagIndex
+            Random.map (Tag.atIndex tags) randomTagIndex
     in
     Random.generate randomTagGeneratedMsg generator

@@ -7,6 +7,7 @@ import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
 import Ports
 import SecretConfig exposing (SecretConfig)
+import Tag
 import VideoPlayer exposing (VideoPlayer)
 
 
@@ -60,6 +61,10 @@ audioPlayerJson audioPlayer =
 
 configJson : Config -> Value
 configJson config =
+    let
+        tags =
+            List.map Tag.rawTag config.tags
+    in
     -- Do not output Giphy API key
     Encode.object
         [ ( "gifDisplaySeconds"
@@ -69,7 +74,7 @@ configJson config =
           , Encode.string config.soundCloudPlaylistUrl
           )
         , ( "tags"
-          , Encode.list Encode.string config.tags
+          , Encode.list Encode.string tags
           )
         , ( "volumeAdjustmentRate"
           , Encode.int config.volumeAdjustmentRate

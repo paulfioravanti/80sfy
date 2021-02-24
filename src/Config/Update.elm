@@ -9,6 +9,7 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import SecretConfig
+import Tag
 import VideoPlayer exposing (VideoPlayerId)
 
 
@@ -34,11 +35,14 @@ update msgs msg config =
                 rawGiphyApiKey =
                     Model.rawGiphyApiKey config.giphyApiKey
 
+                rawTag =
+                    Tag.rawTag tag
+
                 fetchRandomGif =
                     Gif.fetchRandomGifUrl
                         randomGifUrlFetchedMsg
                         rawGiphyApiKey
-                        tag
+                        rawTag
             in
             ( config, fetchRandomGif )
 
@@ -65,15 +69,18 @@ update msgs msg config =
             in
             ( updatedConfig, cmd )
 
-        Msg.TagsFetched (Ok tags) ->
+        Msg.TagsFetched (Ok rawTags) ->
             let
+                tags =
+                    List.map Tag.tag rawTags
+
                 randomGifForVideoPlayerId videoPlayerId =
                     Task.generateRandomGif
                         msgs.generateRandomGifMsg
                         videoPlayerId
 
                 initSecretConfigTags =
-                    SecretConfig.initTags msgs.secretConfigMsg tags
+                    SecretConfig.initTags msgs.secretConfigMsg rawTags
             in
             ( { config | tags = tags }
             , Cmd.batch

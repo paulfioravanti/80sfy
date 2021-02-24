@@ -14,6 +14,7 @@ import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
+import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
 
@@ -30,7 +31,7 @@ init flags =
     Model.init flags
 
 
-randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> String -> msg
+randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
 
