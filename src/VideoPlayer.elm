@@ -3,6 +3,7 @@ module VideoPlayer exposing
     , VideoPlayer
     , VideoPlayerId
     , gifUrlToString
+    , id
     , init
     , pauseVideosMsg
     , playVideos
@@ -13,7 +14,6 @@ module VideoPlayer exposing
     , subscriptions
     , update
     , view
-    , wrappedId
     )
 
 import BrowserVendor exposing (BrowserVendor)
@@ -47,13 +47,9 @@ init idString zIndex =
     Model.init idString zIndex
 
 
-randomGifUrlFetchedMsg :
-    (Msg -> msg)
-    -> VideoPlayerId
-    -> Result Error String
-    -> msg
-randomGifUrlFetchedMsg videoPlayerMsg videoPlayerId gifUrl =
-    Msg.randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl
+id : String -> VideoPlayerId
+id rawIdValue =
+    Model.id rawIdValue
 
 
 gifUrlToString : WebData String -> String
@@ -74,6 +70,15 @@ playVideos videoPlayerMsg =
 playVideosMsg : (Msg -> msg) -> msg
 playVideosMsg videoPlayerMsg =
     Msg.playVideos videoPlayerMsg
+
+
+randomGifUrlFetchedMsg :
+    (Msg -> msg)
+    -> VideoPlayerId
+    -> Result Error String
+    -> msg
+randomGifUrlFetchedMsg videoPlayerMsg videoPlayerId gifUrl =
+    Msg.randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl
 
 
 rawId : VideoPlayerId -> String
@@ -107,8 +112,3 @@ update generateRandomGifMsg msg context =
 view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
 view audioPlaying msgs browserVendor videoPlayer =
     View.view audioPlaying msgs browserVendor videoPlayer
-
-
-wrappedId : String -> VideoPlayerId
-wrappedId rawIdValue =
-    Model.wrappedId rawIdValue

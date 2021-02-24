@@ -39,10 +39,10 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             let
                 ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId, opacity ) =
                     if videoPlayer1.visible then
-                        ( False, Model.wrappedId "1", 0 )
+                        ( False, Model.id "1", 0 )
 
                     else
-                        ( True, Model.wrappedId "2", 1 )
+                        ( True, Model.id "2", 1 )
 
                 animateToNewOpacity =
                     Animation.interrupt

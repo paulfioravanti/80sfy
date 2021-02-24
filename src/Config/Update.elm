@@ -74,8 +74,8 @@ update msgs msg config =
             in
             ( { config | tags = tags }
             , Cmd.batch
-                [ randomGifForVideoPlayerId (VideoPlayer.wrappedId "1")
-                , randomGifForVideoPlayerId (VideoPlayer.wrappedId "2")
+                [ randomGifForVideoPlayerId (VideoPlayer.id "1")
+                , randomGifForVideoPlayerId (VideoPlayer.id "2")
                 , initSecretConfigTags
                 ]
             )

@@ -1,9 +1,9 @@
 module VideoPlayer.Model exposing
     ( VideoPlayer
     , VideoPlayerId
+    , id
     , init
     , rawId
-    , wrappedId
     )
 
 import Animation exposing (State)
@@ -38,11 +38,11 @@ init rawIdValue zIndex =
     }
 
 
+id : String -> VideoPlayerId
+id rawIdValue =
+    VideoPlayerId rawIdValue
+
+
 rawId : VideoPlayerId -> String
 rawId (VideoPlayerId rawIdValue) =
     rawIdValue
-
-
-wrappedId : String -> VideoPlayerId
-wrappedId rawIdValue =
-    VideoPlayerId rawIdValue
