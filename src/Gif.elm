@@ -7,7 +7,7 @@ import Tags
 
 
 fetchRandomGifUrl : (Result Error String -> msg) -> String -> String -> Cmd msg
-fetchRandomGifUrl randomGifUrlFetchedMsg giphyApiKey tag =
+fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey tag =
     let
         host =
             "https://api.giphy.com"
@@ -19,7 +19,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg giphyApiKey tag =
             host
                 ++ path
                 ++ "?api_key="
-                ++ giphyApiKey
+                ++ rawGiphyApiKey
                 ++ "&tag="
                 ++ tag
                 ++ "&rating=pg-13"

@@ -1,12 +1,22 @@
-module Config.Model exposing (Config, init, update)
+module Config.Model exposing
+    ( Config
+    , GiphyAPIKey
+    , init
+    , rawGiphyApiKey
+    , update
+    )
 
 import Flags exposing (Flags)
 import Value
 
 
+type GiphyAPIKey
+    = GiphyAPIKey String
+
+
 type alias Config =
     { gifDisplaySeconds : Float
-    , giphyApiKey : String
+    , giphyApiKey : GiphyAPIKey
     , soundCloudPlaylistUrl : String
     , tags : List String
     , volumeAdjustmentRate : Int
@@ -16,7 +26,7 @@ type alias Config =
 init : Flags -> Config
 init flags =
     let
-        giphyApiKey =
+        rawGiphyApiKeyValue =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
         defaultSoundCloudPlaylistUrl =
@@ -27,11 +37,16 @@ init flags =
                 |> Value.extractStringWithDefault defaultSoundCloudPlaylistUrl
     in
     { gifDisplaySeconds = 4
-    , giphyApiKey = giphyApiKey
+    , giphyApiKey = GiphyAPIKey rawGiphyApiKeyValue
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = []
     , volumeAdjustmentRate = 20
     }
+
+
+rawGiphyApiKey : GiphyAPIKey -> String
+rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyValue) =
+    rawGiphyApiKeyValue
 
 
 update : String -> String -> String -> Config -> Config
