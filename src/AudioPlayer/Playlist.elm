@@ -13,5 +13,8 @@ generate audioPlayerMsg playlistLength =
 
         generator =
             Random.List.shuffle trackList
+
+        playlistGeneratedMsg =
+            Msg.playlistGenerated audioPlayerMsg
     in
-    Random.generate (Msg.playlistGenerated audioPlayerMsg) generator
+    Random.generate playlistGeneratedMsg generator
