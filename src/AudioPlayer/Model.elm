@@ -1,10 +1,14 @@
-module AudioPlayer.Model exposing (AudioPlayer, init)
+module AudioPlayer.Model exposing (AudioPlayer, AudioPlayerId, init, rawId)
 
 import AudioPlayer.Status as Status exposing (Status)
 
 
+type AudioPlayerId
+    = AudioPlayerId String
+
+
 type alias AudioPlayer =
-    { id : String
+    { id : AudioPlayerId
     , playlist : List Int
     , playlistLength : Int
     , soundCloudIframeUrl : String
@@ -15,13 +19,18 @@ type alias AudioPlayer =
 
 init : String -> AudioPlayer
 init soundCloudPlaylistUrl =
-    { id = "track-player"
+    { id = AudioPlayerId "track-player"
     , playlist = []
     , playlistLength = 0
     , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
     , status = Status.paused
     , volume = 80
     }
+
+
+rawId : AudioPlayerId -> String
+rawId (AudioPlayerId rawIdValue) =
+    rawIdValue
 
 
 

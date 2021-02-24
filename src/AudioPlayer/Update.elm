@@ -99,7 +99,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.ReInitAudioPlayer soundCloudPlaylistUrl ->
             let
                 initAudioPlayerFlags =
-                    { id = audioPlayer.id
+                    { id = Model.rawId audioPlayer.id
                     , volume = audioPlayer.volume
                     }
             in

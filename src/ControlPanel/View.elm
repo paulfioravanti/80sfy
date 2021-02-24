@@ -99,14 +99,18 @@ logo =
 
 trackInfo : AudioPlayer -> Html msg
 trackInfo { id, soundCloudIframeUrl } =
+    let
+        audioPlayerId =
+            AudioPlayer.rawId id
+    in
     div
         [ attribute "data-name" "track-info"
         , css [ Styles.trackInfo ]
         ]
         [ iframe
             [ css [ Styles.trackPlayer ]
-            , attribute "data-name" id
-            , Attributes.id id
+            , attribute "data-name" audioPlayerId
+            , Attributes.id audioPlayerId
             , src soundCloudIframeUrl
             ]
             []

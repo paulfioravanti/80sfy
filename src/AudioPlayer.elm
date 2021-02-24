@@ -1,5 +1,6 @@
 module AudioPlayer exposing
     ( AudioPlayer
+    , AudioPlayerId
     , Msg
     , adjustVolume
     , adjustVolumeMsg
@@ -13,6 +14,7 @@ module AudioPlayer exposing
     , pauseAudioMsg
     , playAudio
     , playAudioMsg
+    , rawId
     , reInitAudioPlayer
     , statusToString
     , subscriptions
@@ -33,6 +35,10 @@ import AudioPlayer.Update as Update
 
 type alias AudioPlayer =
     Model.AudioPlayer
+
+
+type alias AudioPlayerId =
+    Model.AudioPlayerId
 
 
 type alias Msg =
@@ -97,6 +103,11 @@ playAudio audioPlayerMsg =
 playAudioMsg : (Msg -> msg) -> msg
 playAudioMsg audioPlayerMsg =
     Msg.playAudio audioPlayerMsg
+
+
+rawId : AudioPlayerId -> String
+rawId audioPlayerId =
+    Model.rawId audioPlayerId
 
 
 reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg

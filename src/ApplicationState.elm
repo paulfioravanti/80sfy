@@ -33,12 +33,15 @@ show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlaye
 audioPlayerJson : AudioPlayer -> Value
 audioPlayerJson audioPlayer =
     let
+        audioPlayerRawId =
+            AudioPlayer.rawId audioPlayer.id
+
         audioPlayerStatus =
             AudioPlayer.statusToString audioPlayer.status
     in
     Encode.object
         [ ( "id"
-          , Encode.string audioPlayer.id
+          , Encode.string audioPlayerRawId
           )
         , ( "playlist"
           , Encode.list Encode.int audioPlayer.playlist

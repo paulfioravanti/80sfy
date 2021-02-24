@@ -35,14 +35,14 @@ init flags =
         ({ audioPlayer } as model) =
             Model.init config browserVendor
 
-        audioPlayerFlags =
-            { id = audioPlayer.id
+        audioPlayerPortFlags =
+            { id = AudioPlayer.rawId audioPlayer.id
             , volume = audioPlayer.volume
             }
     in
     ( model
     , Cmd.batch
         [ Tags.init (Config.tagsFetchedMsg Msg.config)
-        , AudioPlayer.initAudioPlayer audioPlayerFlags
+        , AudioPlayer.initAudioPlayer audioPlayerPortFlags
         ]
     )
