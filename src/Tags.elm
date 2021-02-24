@@ -1,11 +1,11 @@
-module Tags exposing (init, tagAtIndex)
+module Tags exposing (fetchTags, tagAtIndex)
 
 import Http exposing (Error)
 import Json.Decode as Decode
 
 
-init : (Result Error (List String) -> msg) -> Cmd msg
-init tagsFetchedMsg =
+fetchTags : (Result Error (List String) -> msg) -> Cmd msg
+fetchTags tagsFetchedMsg =
     let
         tagsDecoder =
             Decode.at [ "tags" ] (Decode.list Decode.string)

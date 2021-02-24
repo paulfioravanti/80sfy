@@ -42,7 +42,7 @@ init flags =
     in
     ( model
     , Cmd.batch
-        [ Tags.init (Config.tagsFetchedMsg Msg.config)
+        [ Tags.fetchTags (Config.tagsFetchedMsg Msg.config)
         , AudioPlayer.initAudioPlayer audioPlayerPortFlags
         ]
     )
