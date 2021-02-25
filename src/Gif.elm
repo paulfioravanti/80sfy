@@ -7,6 +7,7 @@ module Gif exposing
 
 import Http exposing (Error)
 import Json.Decode as Decode
+import Tag exposing (Tag)
 
 
 type GiphyAPIKey
@@ -16,15 +17,18 @@ type GiphyAPIKey
 fetchRandomGifUrl :
     (Result Error String -> msg)
     -> GiphyAPIKey
-    -> String
+    -> Tag
     -> Cmd msg
-fetchRandomGifUrl randomGifUrlFetchedMsg apiKey rawTag =
+fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
     let
         host =
             "https://api.giphy.com"
 
         path =
             "/v1/gifs/random"
+
+        rawTag =
+            Tag.rawTag tag
 
         url =
             host
@@ -33,7 +37,8 @@ fetchRandomGifUrl randomGifUrlFetchedMsg apiKey rawTag =
                 ++ rawGiphyApiKey apiKey
                 ++ "&tag="
                 ++ rawTag
-                ++ "&rating=pg-13"
+                ++ "&rating="
+                ++ "pg-13"
 
         decodeGifUrl =
             Decode.at [ "data", "image_mp4_url" ] Decode.string
