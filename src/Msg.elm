@@ -19,7 +19,7 @@ import AudioPlayer
 import BrowserVendor
 import Config
 import ControlPanel
-import Key
+import Key exposing (Key)
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import VideoPlayer exposing (VideoPlayerId)
@@ -31,7 +31,7 @@ type Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | GenerateRandomTag VideoPlayerId
-    | KeyPressed Key.Key
+    | KeyPressed Key
     | NoOp
     | Pause
     | Play
@@ -66,7 +66,7 @@ generateRandomTag videoPlayerId =
     GenerateRandomTag videoPlayerId
 
 
-keyPressed : Key.Key -> Msg
+keyPressed : Key -> Msg
 keyPressed key =
     KeyPressed key
 
