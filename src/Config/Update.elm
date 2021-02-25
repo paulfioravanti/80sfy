@@ -32,16 +32,13 @@ update msgs msg config =
                         msgs.videoPlayerMsg
                         videoPlayerId
 
-                rawGiphyApiKey =
-                    Model.rawGiphyApiKey config.giphyApiKey
-
                 rawTag =
                     Tag.rawTag tag
 
                 fetchRandomGif =
                     Gif.fetchRandomGifUrl
                         randomGifUrlFetchedMsg
-                        rawGiphyApiKey
+                        config.giphyApiKey
                         rawTag
             in
             ( config, fetchRandomGif )

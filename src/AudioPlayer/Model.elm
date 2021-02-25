@@ -30,5 +30,5 @@ init soundCloudPlaylistUrl =
 
 
 rawId : AudioPlayerId -> String
-rawId (AudioPlayerId rawIdValue) =
-    rawIdValue
+rawId (AudioPlayerId rawIdString) =
+    rawIdString

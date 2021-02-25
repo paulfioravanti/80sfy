@@ -1,19 +1,14 @@
 module Config.Model exposing
     ( Config
-    , GiphyAPIKey
     , init
-    , rawGiphyApiKey
     , update
     )
 
 import Flags exposing (Flags)
+import Gif exposing (GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import Value
-
-
-type GiphyAPIKey
-    = GiphyAPIKey String
 
 
 type alias Config =
@@ -37,17 +32,12 @@ init flags =
                 flags.soundCloudPlaylistUrl
     in
     { gifDisplaySeconds = 4
-    , giphyApiKey = GiphyAPIKey rawGiphyApiKeyString
+    , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , soundCloudPlaylistUrl =
         SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
     , tags = []
     , volumeAdjustmentRate = 20
     }
-
-
-rawGiphyApiKey : GiphyAPIKey -> String
-rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyValue) =
-    rawGiphyApiKeyValue
 
 
 update : SoundCloudPlaylistUrl -> String -> String -> Config -> Config

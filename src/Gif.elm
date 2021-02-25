@@ -1,11 +1,24 @@
-module Gif exposing (fetchRandomGifUrl)
+module Gif exposing
+    ( GiphyAPIKey
+    , fetchRandomGifUrl
+    , giphyApiKey
+    , rawGiphyApiKey
+    )
 
 import Http exposing (Error)
 import Json.Decode as Decode
 
 
-fetchRandomGifUrl : (Result Error String -> msg) -> String -> String -> Cmd msg
-fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey rawTag =
+type GiphyAPIKey
+    = GiphyAPIKey String
+
+
+fetchRandomGifUrl :
+    (Result Error String -> msg)
+    -> GiphyAPIKey
+    -> String
+    -> Cmd msg
+fetchRandomGifUrl randomGifUrlFetchedMsg apiKey rawTag =
     let
         host =
             "https://api.giphy.com"
@@ -17,7 +30,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey rawTag =
             host
                 ++ path
                 ++ "?api_key="
-                ++ rawGiphyApiKey
+                ++ rawGiphyApiKey apiKey
                 ++ "&tag="
                 ++ rawTag
                 ++ "&rating=pg-13"
@@ -29,3 +42,13 @@ fetchRandomGifUrl randomGifUrlFetchedMsg rawGiphyApiKey rawTag =
         { url = url
         , expect = Http.expectJson randomGifUrlFetchedMsg decodeGifUrl
         }
+
+
+giphyApiKey : String -> GiphyAPIKey
+giphyApiKey rawGiphyApiKeyString =
+    GiphyAPIKey rawGiphyApiKeyString
+
+
+rawGiphyApiKey : GiphyAPIKey -> String
+rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyString) =
+    rawGiphyApiKeyString
