@@ -35,15 +35,18 @@ show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlaye
 audioPlayerJson : AudioPlayer -> Value
 audioPlayerJson audioPlayer =
     let
-        audioPlayerRawId =
+        rawAudioPlayerId =
             AudioPlayer.rawId audioPlayer.id
 
         audioPlayerStatus =
             AudioPlayer.statusToString audioPlayer.status
+
+        rawSoundCloudIframeUrl =
+            SoundCloud.rawIframeUrl audioPlayer.soundCloudIframeUrl
     in
     Encode.object
         [ ( "id"
-          , Encode.string audioPlayerRawId
+          , Encode.string rawAudioPlayerId
           )
         , ( "playlist"
           , Encode.list Encode.int audioPlayer.playlist
@@ -52,7 +55,7 @@ audioPlayerJson audioPlayer =
           , Encode.int audioPlayer.playlistLength
           )
         , ( "soundCloudIframeUrl"
-          , Encode.string audioPlayer.soundCloudIframeUrl
+          , Encode.string rawSoundCloudIframeUrl
           )
         , ( "status"
           , Encode.string audioPlayerStatus

@@ -21,6 +21,7 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
+import SoundCloud
 
 
 type alias Context a =
@@ -102,6 +103,9 @@ trackInfo { id, soundCloudIframeUrl } =
     let
         audioPlayerId =
             AudioPlayer.rawId id
+
+        rawSoundCloudIframeUrl =
+            SoundCloud.rawIframeUrl soundCloudIframeUrl
     in
     div
         [ attribute "data-name" "track-info"
@@ -111,7 +115,7 @@ trackInfo { id, soundCloudIframeUrl } =
             [ css [ Styles.trackPlayer ]
             , attribute "data-name" audioPlayerId
             , Attributes.id audioPlayerId
-            , src soundCloudIframeUrl
+            , src rawSoundCloudIframeUrl
             ]
             []
         ]

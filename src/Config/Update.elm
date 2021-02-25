@@ -9,7 +9,6 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import SecretConfig
-import SoundCloud
 import Tag
 import VideoPlayer exposing (VideoPlayerId)
 

@@ -1,7 +1,7 @@
 module AudioPlayer.Model exposing (AudioPlayer, AudioPlayerId, init, rawId)
 
 import AudioPlayer.Status as Status exposing (Status)
-import SoundCloud exposing (SoundCloudPlaylistUrl)
+import SoundCloud exposing (SoundCloudIframeUrl, SoundCloudPlaylistUrl)
 
 
 type AudioPlayerId
@@ -12,7 +12,7 @@ type alias AudioPlayer =
     { id : AudioPlayerId
     , playlist : List Int
     , playlistLength : Int
-    , soundCloudIframeUrl : String
+    , soundCloudIframeUrl : SoundCloudIframeUrl
     , status : Status
     , volume : Int
     }
@@ -23,7 +23,7 @@ init soundCloudPlaylistUrl =
     { id = AudioPlayerId "track-player"
     , playlist = []
     , playlistLength = 0
-    , soundCloudIframeUrl = iframeUrl soundCloudPlaylistUrl
+    , soundCloudIframeUrl = SoundCloud.iframeUrl soundCloudPlaylistUrl
     , status = Status.paused
     , volume = 80
     }
@@ -32,26 +32,3 @@ init soundCloudPlaylistUrl =
 rawId : AudioPlayerId -> String
 rawId (AudioPlayerId rawIdValue) =
     rawIdValue
-
-
-
--- PRIVATE
-
-
-iframeUrl : SoundCloudPlaylistUrl -> String
-iframeUrl soundCloudPlaylistUrl =
-    "https://w.soundcloud.com/player/"
-        ++ "?url="
-        ++ SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
-        ++ "&auto_play=false"
-        ++ "&buying=true"
-        ++ "&liking=true"
-        ++ "&download=true"
-        ++ "&sharing=true"
-        ++ "&show_artwork=true"
-        ++ "&show_comments=false"
-        ++ "&show_playcount=false"
-        ++ "&show_user=false"
-        ++ "&hide_related=false"
-        ++ "&visual=false"
-        ++ "&callback=true"

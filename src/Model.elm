@@ -5,7 +5,6 @@ import BrowserVendor exposing (BrowserVendor)
 import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import SecretConfig exposing (SecretConfig)
-import SoundCloud
 import VideoPlayer exposing (VideoPlayer)
 
 
