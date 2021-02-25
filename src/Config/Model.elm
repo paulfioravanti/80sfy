@@ -1,8 +1,10 @@
 module Config.Model exposing
     ( Config
     , GiphyAPIKey
+    , SoundCloudPlaylistUrl
     , init
     , rawGiphyApiKey
+    , rawSoundCloudPlaylistUrl
     , update
     )
 
@@ -15,10 +17,14 @@ type GiphyAPIKey
     = GiphyAPIKey String
 
 
+type SoundCloudPlaylistUrl
+    = SoundCloudPlaylistUrl String
+
+
 type alias Config =
     { gifDisplaySeconds : Float
     , giphyApiKey : GiphyAPIKey
-    , soundCloudPlaylistUrl : String
+    , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
     , volumeAdjustmentRate : Int
     }
@@ -27,19 +33,21 @@ type alias Config =
 init : Flags -> Config
 init flags =
     let
-        rawGiphyApiKeyValue =
+        rawGiphyApiKeyString =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
-        defaultSoundCloudPlaylistUrl =
+        defaultSoundCloudPlaylistUrlString =
             "https://api.soundcloud.com/playlists/193785575"
 
-        soundCloudPlaylistUrl =
-            flags.soundCloudPlaylistUrl
-                |> Value.extractStringWithDefault defaultSoundCloudPlaylistUrl
+        rawSoundCloudPlaylistUrlString =
+            Value.extractStringWithDefault
+                defaultSoundCloudPlaylistUrlString
+                flags.soundCloudPlaylistUrl
     in
     { gifDisplaySeconds = 4
-    , giphyApiKey = GiphyAPIKey rawGiphyApiKeyValue
-    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+    , giphyApiKey = GiphyAPIKey rawGiphyApiKeyString
+    , soundCloudPlaylistUrl =
+        SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString
     , tags = []
     , volumeAdjustmentRate = 20
     }
@@ -48,6 +56,11 @@ init flags =
 rawGiphyApiKey : GiphyAPIKey -> String
 rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyValue) =
     rawGiphyApiKeyValue
+
+
+rawSoundCloudPlaylistUrl : SoundCloudPlaylistUrl -> String
+rawSoundCloudPlaylistUrl (SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString) =
+    rawSoundCloudPlaylistUrlString
 
 
 update : String -> String -> String -> Config -> Config
@@ -74,6 +87,6 @@ update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
     in
     { config
         | gifDisplaySeconds = gifDisplaySeconds
-        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+        , soundCloudPlaylistUrl = SoundCloudPlaylistUrl soundCloudPlaylistUrl
         , tags = tags
     }

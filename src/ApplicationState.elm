@@ -62,8 +62,11 @@ audioPlayerJson audioPlayer =
 configJson : Config -> Value
 configJson config =
     let
-        tags =
+        rawTags =
             List.map Tag.rawTag config.tags
+
+        rawSoundCloudPlaylistUrl =
+            Config.rawSoundCloudPlaylistUrl config.soundCloudPlaylistUrl
     in
     -- Do not output Giphy API key
     Encode.object
@@ -71,10 +74,10 @@ configJson config =
           , Encode.float config.gifDisplaySeconds
           )
         , ( "soundCloudPlaylistUrl"
-          , Encode.string config.soundCloudPlaylistUrl
+          , Encode.string rawSoundCloudPlaylistUrl
           )
         , ( "tags"
-          , Encode.list Encode.string tags
+          , Encode.list Encode.string rawTags
           )
         , ( "volumeAdjustmentRate"
           , Encode.int config.volumeAdjustmentRate

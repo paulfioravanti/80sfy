@@ -58,7 +58,8 @@ update msgs msg config =
                 cmd =
                     if
                         soundCloudPlaylistUrl
-                            == config.soundCloudPlaylistUrl
+                            == Model.rawSoundCloudPlaylistUrl
+                                config.soundCloudPlaylistUrl
                     then
                         Cmd.none
 

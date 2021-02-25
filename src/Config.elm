@@ -1,8 +1,10 @@
 module Config exposing
     ( Config
     , Msg
+    , SoundCloudPlaylistUrl
     , init
     , randomTagGeneratedMsg
+    , rawSoundCloudPlaylistUrl
     , save
     , tagsFetchedMsg
     , update
@@ -26,6 +28,10 @@ type alias Msg =
     Msg.Msg
 
 
+type alias SoundCloudPlaylistUrl =
+    Model.SoundCloudPlaylistUrl
+
+
 init : Flags -> Config
 init flags =
     Model.init flags
@@ -34,6 +40,11 @@ init flags =
 randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
+
+
+rawSoundCloudPlaylistUrl : SoundCloudPlaylistUrl -> String
+rawSoundCloudPlaylistUrl soundCloudPlaylistUrl =
+    Model.rawSoundCloudPlaylistUrl soundCloudPlaylistUrl
 
 
 save : (Msg -> msg) -> String -> String -> String -> Cmd msg
