@@ -7,6 +7,7 @@ import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
 import Ports
 import SecretConfig exposing (SecretConfig)
+import SoundCloud
 import Tag
 import VideoPlayer exposing (VideoPlayer)
 
@@ -66,7 +67,7 @@ configJson config =
             List.map Tag.rawTag config.tags
 
         rawSoundCloudPlaylistUrl =
-            Config.rawSoundCloudPlaylistUrl config.soundCloudPlaylistUrl
+            SoundCloud.rawPlaylistUrl config.soundCloudPlaylistUrl
     in
     -- Do not output Giphy API key
     Encode.object
@@ -99,6 +100,10 @@ controlPanelJson controlPanel =
 
 secretConfigJson : SecretConfig -> Value
 secretConfigJson secretConfig =
+    let
+        rawSoundCloudPlaylistUrl =
+            SoundCloud.rawPlaylistUrl secretConfig.soundCloudPlaylistUrl
+    in
     Encode.object
         [ ( "gifDisplaySeconds"
           , Encode.string secretConfig.gifDisplaySeconds
@@ -107,7 +112,7 @@ secretConfigJson secretConfig =
           , Encode.bool secretConfig.overrideInactivityPause
           )
         , ( "soundCloudPlaylistUrl"
-          , Encode.string secretConfig.soundCloudPlaylistUrl
+          , Encode.string rawSoundCloudPlaylistUrl
           )
         , ( "tags"
           , Encode.string secretConfig.tags

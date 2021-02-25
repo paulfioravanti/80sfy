@@ -1,16 +1,18 @@
 module SecretConfig.Model exposing (SecretConfig, init)
 
+import SoundCloud exposing (SoundCloudPlaylistUrl)
+
 
 type alias SecretConfig =
     { gifDisplaySeconds : String
     , overrideInactivityPause : Bool
-    , soundCloudPlaylistUrl : String
+    , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : String
     , visible : Bool
     }
 
 
-init : String -> Float -> SecretConfig
+init : SoundCloudPlaylistUrl -> Float -> SecretConfig
 init soundCloudPlaylistUrl gifDisplaySeconds =
     { gifDisplaySeconds = String.fromFloat gifDisplaySeconds
     , overrideInactivityPause = False

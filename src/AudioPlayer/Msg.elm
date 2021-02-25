@@ -13,6 +13,8 @@ module AudioPlayer.Msg exposing
     , toggleMute
     )
 
+import SoundCloud exposing (SoundCloudPlaylistUrl)
+
 
 type Msg
     = AdjustVolume String
@@ -23,7 +25,7 @@ type Msg
     | PauseAudio
     | PlayAudio
     | PlaylistGenerated (List Int)
-    | ReInitAudioPlayer String
+    | ReInitAudioPlayer SoundCloudPlaylistUrl
     | SetPlaylistLength Int
     | ToggleMute
 
@@ -68,7 +70,7 @@ playlistGenerated audioPlayerMsg playlist =
     audioPlayerMsg (PlaylistGenerated playlist)
 
 
-reInitAudioPlayer : (Msg -> msg) -> String -> msg
+reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> msg
 reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
     audioPlayerMsg (ReInitAudioPlayer soundCloudPlaylistUrl)
 

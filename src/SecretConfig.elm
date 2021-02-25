@@ -13,6 +13,7 @@ import SecretConfig.Msg as Msg
 import SecretConfig.Task as Task
 import SecretConfig.Update as Update
 import SecretConfig.View as View
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
 type alias SecretConfig =
@@ -23,7 +24,7 @@ type alias Msg =
     Msg.Msg
 
 
-init : String -> Float -> SecretConfig
+init : SoundCloudPlaylistUrl -> Float -> SecretConfig
 init soundCloudPlaylistUrl gifDisplaySeconds =
     Model.init soundCloudPlaylistUrl gifDisplaySeconds
 

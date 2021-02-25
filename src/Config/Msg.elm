@@ -1,6 +1,7 @@
 module Config.Msg exposing (Msg(..), randomTagGenerated, save, tagsFetched)
 
 import Http exposing (Error)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -8,7 +9,7 @@ import VideoPlayer exposing (VideoPlayerId)
 type Msg
     = TagsFetched (Result Error (List String))
     | RandomTagGenerated VideoPlayerId Tag
-    | Save String String String
+    | Save SoundCloudPlaylistUrl String String
 
 
 randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
@@ -16,7 +17,7 @@ randomTagGenerated configMsg videoPlayerId tag =
     configMsg (RandomTagGenerated videoPlayerId tag)
 
 
-save : (Msg -> msg) -> String -> String -> String -> msg
+save : (Msg -> msg) -> SoundCloudPlaylistUrl -> String -> String -> msg
 save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
     configMsg (Save soundCloudPlaylistUrl tagsString gifDisplaySecondsString)
 

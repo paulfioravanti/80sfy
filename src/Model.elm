@@ -5,6 +5,7 @@ import BrowserVendor exposing (BrowserVendor)
 import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import SecretConfig exposing (SecretConfig)
+import SoundCloud
 import VideoPlayer exposing (VideoPlayer)
 
 
@@ -22,11 +23,8 @@ type alias Model =
 init : Config -> BrowserVendor -> Model
 init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
     let
-        rawSoundCloudPlaylistUrl =
-            Config.rawSoundCloudPlaylistUrl soundCloudPlaylistUrl
-
         secretConfig =
-            SecretConfig.init rawSoundCloudPlaylistUrl gifDisplaySeconds
+            SecretConfig.init soundCloudPlaylistUrl gifDisplaySeconds
 
         videoPlayer1zIndex =
             -4
@@ -34,7 +32,7 @@ init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
         videoPlayer2zIndex =
             -5
     in
-    { audioPlayer = AudioPlayer.init rawSoundCloudPlaylistUrl
+    { audioPlayer = AudioPlayer.init soundCloudPlaylistUrl
     , browserVendor = browserVendor
     , config = config
     , controlPanel = ControlPanel.init

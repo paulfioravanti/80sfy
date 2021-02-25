@@ -39,8 +39,8 @@ updateGifDisplaySeconds secretConfigMsg displaySeconds =
 
 
 updateSoundCloudPlaylistUrl : (Msg -> msg) -> String -> msg
-updateSoundCloudPlaylistUrl secretConfigMsg soundCloudPlaylistUrl =
-    secretConfigMsg (UpdateSoundCloudPlaylistUrl soundCloudPlaylistUrl)
+updateSoundCloudPlaylistUrl secretConfigMsg rawSoundCloudPlaylistUrl =
+    secretConfigMsg (UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl)
 
 
 updateTags : (Msg -> msg) -> String -> msg

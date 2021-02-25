@@ -1,24 +1,19 @@
 module Config.Model exposing
     ( Config
     , GiphyAPIKey
-    , SoundCloudPlaylistUrl
     , init
     , rawGiphyApiKey
-    , rawSoundCloudPlaylistUrl
     , update
     )
 
 import Flags exposing (Flags)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import Value
 
 
 type GiphyAPIKey
     = GiphyAPIKey String
-
-
-type SoundCloudPlaylistUrl
-    = SoundCloudPlaylistUrl String
 
 
 type alias Config =
@@ -36,18 +31,15 @@ init flags =
         rawGiphyApiKeyString =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
-        defaultSoundCloudPlaylistUrlString =
-            "https://api.soundcloud.com/playlists/193785575"
-
         rawSoundCloudPlaylistUrlString =
             Value.extractStringWithDefault
-                defaultSoundCloudPlaylistUrlString
+                SoundCloud.defaultPlaylistUrlString
                 flags.soundCloudPlaylistUrl
     in
     { gifDisplaySeconds = 4
     , giphyApiKey = GiphyAPIKey rawGiphyApiKeyString
     , soundCloudPlaylistUrl =
-        SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString
+        SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
     , tags = []
     , volumeAdjustmentRate = 20
     }
@@ -58,12 +50,7 @@ rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyValue) =
     rawGiphyApiKeyValue
 
 
-rawSoundCloudPlaylistUrl : SoundCloudPlaylistUrl -> String
-rawSoundCloudPlaylistUrl (SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString) =
-    rawSoundCloudPlaylistUrlString
-
-
-update : String -> String -> String -> Config -> Config
+update : SoundCloudPlaylistUrl -> String -> String -> Config -> Config
 update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
     let
         tags =
@@ -87,6 +74,6 @@ update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
     in
     { config
         | gifDisplaySeconds = gifDisplaySeconds
-        , soundCloudPlaylistUrl = SoundCloudPlaylistUrl soundCloudPlaylistUrl
+        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = tags
     }

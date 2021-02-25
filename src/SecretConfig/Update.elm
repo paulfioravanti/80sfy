@@ -2,6 +2,7 @@ module SecretConfig.Update exposing (update)
 
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
+import SoundCloud
 
 
 update : Msg -> SecretConfig -> SecretConfig
@@ -29,8 +30,12 @@ update msg secretConfig =
         Msg.UpdateGifDisplaySeconds seconds ->
             { secretConfig | gifDisplaySeconds = seconds }
 
-        Msg.UpdateSoundCloudPlaylistUrl url ->
-            { secretConfig | soundCloudPlaylistUrl = url }
+        Msg.UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl ->
+            let
+                soundCloudPlaylistUrl =
+                    SoundCloud.playlistUrl rawSoundCloudPlaylistUrl
+            in
+            { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
 
         Msg.UpdateTags tags ->
             { secretConfig | tags = tags }

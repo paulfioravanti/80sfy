@@ -39,10 +39,10 @@ init rawIdValue zIndex =
 
 
 id : String -> VideoPlayerId
-id rawIdValue =
-    VideoPlayerId rawIdValue
+id rawIdString =
+    VideoPlayerId rawIdString
 
 
 rawId : VideoPlayerId -> String
-rawId (VideoPlayerId rawIdValue) =
-    rawIdValue
+rawId (VideoPlayerId rawIdString) =
+    rawIdString

@@ -7,6 +7,7 @@ module AudioPlayer.Task exposing
     )
 
 import AudioPlayer.Msg as Msg exposing (Msg)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Task
 
 
@@ -31,7 +32,7 @@ playAudio audioPlayerMsg =
         |> Task.perform identity
 
 
-reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg
+reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
 reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
     Msg.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
         |> Task.succeed

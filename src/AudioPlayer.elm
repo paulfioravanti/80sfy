@@ -31,6 +31,7 @@ import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Task as Task
 import AudioPlayer.Update as Update
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
 type alias AudioPlayer =
@@ -45,7 +46,7 @@ type alias Msg =
     Msg.Msg
 
 
-init : String -> AudioPlayer
+init : SoundCloudPlaylistUrl -> AudioPlayer
 init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
@@ -110,7 +111,7 @@ rawId audioPlayerId =
     Model.rawId audioPlayerId
 
 
-reInitAudioPlayer : (Msg -> msg) -> String -> Cmd msg
+reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
 reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
     Task.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
 

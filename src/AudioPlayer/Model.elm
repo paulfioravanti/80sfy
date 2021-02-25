@@ -1,6 +1,7 @@
 module AudioPlayer.Model exposing (AudioPlayer, AudioPlayerId, init, rawId)
 
 import AudioPlayer.Status as Status exposing (Status)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
 type AudioPlayerId
@@ -17,7 +18,7 @@ type alias AudioPlayer =
     }
 
 
-init : String -> AudioPlayer
+init : SoundCloudPlaylistUrl -> AudioPlayer
 init soundCloudPlaylistUrl =
     { id = AudioPlayerId "track-player"
     , playlist = []
@@ -37,11 +38,11 @@ rawId (AudioPlayerId rawIdValue) =
 -- PRIVATE
 
 
-iframeUrl : String -> String
+iframeUrl : SoundCloudPlaylistUrl -> String
 iframeUrl soundCloudPlaylistUrl =
     "https://w.soundcloud.com/player/"
         ++ "?url="
-        ++ soundCloudPlaylistUrl
+        ++ SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
         ++ "&auto_play=false"
         ++ "&buying=true"
         ++ "&liking=true"

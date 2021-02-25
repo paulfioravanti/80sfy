@@ -21,6 +21,7 @@ import Config
 import ControlPanel
 import Key
 import SecretConfig
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import VideoPlayer exposing (VideoPlayerId)
 
 
@@ -34,7 +35,7 @@ type Msg
     | NoOp
     | Pause
     | Play
-    | SaveConfig String String String
+    | SaveConfig SoundCloudPlaylistUrl String String
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
@@ -85,7 +86,7 @@ play =
     Play
 
 
-saveConfig : String -> String -> String -> Msg
+saveConfig : SoundCloudPlaylistUrl -> String -> String -> Msg
 saveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
     SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString
 

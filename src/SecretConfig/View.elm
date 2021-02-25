@@ -22,6 +22,7 @@ import Html.Styled.Events exposing (onClick, onInput)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import VideoPlayer
 
 
@@ -29,7 +30,7 @@ type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : ControlPanel.Msg -> msg
-        , saveConfigMsg : String -> String -> String -> msg
+        , saveConfigMsg : SoundCloudPlaylistUrl -> String -> String -> msg
         , secretConfigMsg : Msg -> msg
         , showApplicationStateMsg : msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
@@ -100,12 +101,12 @@ gifTagsInput secretConfigMsg tags =
         [ text tags ]
 
 
-soundCloudPlaylistUrlInput : (Msg -> msg) -> String -> Html msg
+soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
 soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
     input
         [ attribute "data-name" "playlist-input"
         , css [ Styles.configInput ]
-        , value soundCloudPlaylistUrl
+        , value (SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl)
         , onInput (Msg.updateSoundCloudPlaylistUrl secretConfigMsg)
         ]
         []
@@ -123,7 +124,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
 
 
 saveSettingsButton :
-    (String -> String -> String -> msg)
+    (SoundCloudPlaylistUrl -> String -> String -> msg)
     -> SecretConfig
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =

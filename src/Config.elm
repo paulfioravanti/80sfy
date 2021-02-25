@@ -1,10 +1,8 @@
 module Config exposing
     ( Config
     , Msg
-    , SoundCloudPlaylistUrl
     , init
     , randomTagGeneratedMsg
-    , rawSoundCloudPlaylistUrl
     , save
     , tagsFetchedMsg
     , update
@@ -16,6 +14,7 @@ import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -28,10 +27,6 @@ type alias Msg =
     Msg.Msg
 
 
-type alias SoundCloudPlaylistUrl =
-    Model.SoundCloudPlaylistUrl
-
-
 init : Flags -> Config
 init flags =
     Model.init flags
@@ -42,12 +37,7 @@ randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
 
 
-rawSoundCloudPlaylistUrl : SoundCloudPlaylistUrl -> String
-rawSoundCloudPlaylistUrl soundCloudPlaylistUrl =
-    Model.rawSoundCloudPlaylistUrl soundCloudPlaylistUrl
-
-
-save : (Msg -> msg) -> String -> String -> String -> Cmd msg
+save : (Msg -> msg) -> SoundCloudPlaylistUrl -> String -> String -> Cmd msg
 save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
     Task.save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString
 
