@@ -1,4 +1,4 @@
-module Tag exposing (Tag, fetchTags, generateRandomTag, rawTag, tag)
+module Tag exposing (Tag, fetchTags, generateRandomTag, rawTag, tag, tagList)
 
 import Http exposing (Error)
 import Json.Decode as Decode
@@ -44,6 +44,14 @@ rawTag (Tag tagString) =
 tag : String -> Tag
 tag tagString =
     Tag tagString
+
+
+tagList : String -> List Tag
+tagList tagsString =
+    tagsString
+        |> String.split ", "
+        |> List.map String.trim
+        |> List.map tag
 
 
 

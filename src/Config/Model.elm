@@ -43,12 +43,6 @@ init flags =
 update : SoundCloudPlaylistUrl -> String -> String -> Config -> Config
 update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
     let
-        tags =
-            tagsString
-                |> String.split ", "
-                |> List.map String.trim
-                |> List.map Tag.tag
-
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then
                 config.gifDisplaySeconds
@@ -65,5 +59,5 @@ update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
     { config
         | gifDisplaySeconds = gifDisplaySeconds
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-        , tags = tags
+        , tags = Tag.tagList tagsString
     }
