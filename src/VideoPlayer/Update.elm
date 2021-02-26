@@ -39,10 +39,10 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
             let
                 ( newVideoPlayer1Visibility, nowHiddenVideoPlayerId, opacity ) =
                     if videoPlayer1.visible then
-                        ( False, Model.id "1", 0 )
+                        ( False, videoPlayer1.id, 0 )
 
                     else
-                        ( True, Model.id "2", 1 )
+                        ( True, videoPlayer2.id, 1 )
 
                 animateToNewOpacity =
                     Animation.interrupt
@@ -70,11 +70,8 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
 
                 gifUrl =
                     RemoteData.Success url
-
-                videoPlayerRawId =
-                    Model.rawId videoPlayerId
             in
-            if videoPlayerRawId == "1" then
+            if videoPlayerId == videoPlayer1.id then
                 ( { videoPlayer1 | gifUrl = gifUrl }
                 , videoPlayer2
                 , cmd
