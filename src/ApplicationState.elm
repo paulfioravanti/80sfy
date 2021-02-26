@@ -3,6 +3,7 @@ module ApplicationState exposing (show)
 import AudioPlayer exposing (AudioPlayer)
 import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
+import Gif
 import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
 import Ports
@@ -132,7 +133,7 @@ videoPlayerJson videoPlayer =
     -- hard to encode and doens't provide any real useful debug information.
     let
         videoPlayerGifUrl =
-            VideoPlayer.gifUrlToString videoPlayer.gifUrl
+            Gif.rawWebDataUrl videoPlayer.gifUrl
 
         videoPlayerStatus =
             VideoPlayer.statusToString videoPlayer.status
@@ -142,10 +143,13 @@ videoPlayerJson videoPlayer =
 
         rawVideoPlayerZIndex =
             VideoPlayer.rawZIndex videoPlayer.zIndex
+
+        rawFallbackGifUrl =
+            Gif.rawUrl videoPlayer.fallbackGifUrl
     in
     Encode.object
         [ ( "fallbackGifUrl"
-          , Encode.string videoPlayer.fallbackGifUrl
+          , Encode.string rawFallbackGifUrl
           )
         , ( "gifUrl"
           , Encode.string videoPlayerGifUrl

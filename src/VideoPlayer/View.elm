@@ -2,6 +2,7 @@ module VideoPlayer.View exposing (Msgs, view)
 
 import Animation
 import BrowserVendor exposing (BrowserVendor)
+import Gif exposing (GifUrl)
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
     exposing
@@ -106,7 +107,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
     List.append animations videoPlayerAttributes
 
 
-gifVideoPlayer : String -> VideoPlayer -> Html msg
+gifVideoPlayer : GifUrl -> VideoPlayer -> Html msg
 gifVideoPlayer gifUrl videoPlayer =
     let
         true =
@@ -128,12 +129,15 @@ gifVideoPlayer gifUrl videoPlayer =
                         []
                    )
 
-        videoPlayerRawId =
+        rawVideoPlayerId =
             Model.rawId videoPlayer.id
 
+        rawGifUrl =
+            Gif.rawUrl gifUrl
+
         playerAttributes =
-            [ attribute "data-name" ("player-" ++ videoPlayerRawId)
-            , src gifUrl
+            [ attribute "data-name" ("player-" ++ rawVideoPlayerId)
+            , src rawGifUrl
             , css [ Styles.videoPlayer ]
             ]
     in

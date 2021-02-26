@@ -2,7 +2,6 @@ module VideoPlayer exposing
     ( Msg
     , VideoPlayer
     , VideoPlayerId
-    , gifUrlToString
     , id
     , init
     , pauseVideosMsg
@@ -21,10 +20,8 @@ module VideoPlayer exposing
 import BrowserVendor exposing (BrowserVendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
-import RemoteData exposing (WebData)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
-import VideoPlayer.RemoteData as RemoteData
 import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Task as Task
@@ -56,11 +53,6 @@ init videoPlayerId videoPlayerZIndex =
 id : String -> VideoPlayerId
 id rawIdString =
     Model.id rawIdString
-
-
-gifUrlToString : WebData String -> String
-gifUrlToString webData =
-    RemoteData.toString webData
 
 
 pauseVideosMsg : (Msg -> msg) -> msg

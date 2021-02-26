@@ -10,6 +10,7 @@ module VideoPlayer.Model exposing
     )
 
 import Animation exposing (State)
+import Gif exposing (GifUrl)
 import RemoteData exposing (WebData)
 import VideoPlayer.Status as Status exposing (Status)
 
@@ -23,8 +24,8 @@ type VideoPlayerZIndex
 
 
 type alias VideoPlayer =
-    { fallbackGifUrl : String
-    , gifUrl : WebData String
+    { fallbackGifUrl : GifUrl
+    , gifUrl : WebData GifUrl
     , id : VideoPlayerId
     , status : Status
     , style : State
@@ -35,7 +36,7 @@ type alias VideoPlayer =
 
 init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
 init videoPlayerId videoPlayerZIndex =
-    { fallbackGifUrl = "/assets/tv-static.mp4"
+    { fallbackGifUrl = Gif.url "/assets/tv-static.mp4"
     , gifUrl = RemoteData.NotAsked
     , id = videoPlayerId
     , status = Status.paused

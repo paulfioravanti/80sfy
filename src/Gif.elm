@@ -1,13 +1,23 @@
 module Gif exposing
-    ( GiphyAPIKey
+    ( GifUrl
+    , GiphyAPIKey
     , fetchRandomGifUrl
     , giphyApiKey
     , rawGiphyApiKey
+    , rawUrl
+    , rawWebDataUrl
+    , url
     )
 
+import Error
 import Http exposing (Error)
 import Json.Decode as Decode
+import RemoteData exposing (WebData)
 import Tag exposing (Tag)
+
+
+type GifUrl
+    = GifUrl String
 
 
 type GiphyAPIKey
@@ -30,7 +40,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
         rawTag =
             Tag.rawTag tag
 
-        url =
+        giphyUrl =
             host
                 ++ path
                 ++ "?api_key="
@@ -44,7 +54,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
             Decode.at [ "data", "image_mp4_url" ] Decode.string
     in
     Http.get
-        { url = url
+        { url = giphyUrl
         , expect = Http.expectJson randomGifUrlFetchedMsg decodeGifUrl
         }
 
@@ -57,3 +67,29 @@ giphyApiKey rawGiphyApiKeyString =
 rawGiphyApiKey : GiphyAPIKey -> String
 rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyString) =
     rawGiphyApiKeyString
+
+
+rawUrl : GifUrl -> String
+rawUrl (GifUrl rawUrlString) =
+    rawUrlString
+
+
+rawWebDataUrl : WebData GifUrl -> String
+rawWebDataUrl webData =
+    case webData of
+        RemoteData.NotAsked ->
+            "NotAsked"
+
+        RemoteData.Loading ->
+            "Loading"
+
+        RemoteData.Failure error ->
+            "Failure: " ++ Error.toString error
+
+        RemoteData.Success gifUrl ->
+            rawUrl gifUrl
+
+
+url : String -> GifUrl
+url rawUrlString =
+    GifUrl rawUrlString

@@ -2,6 +2,7 @@ module VideoPlayer.Update exposing (Context, update)
 
 import Animation
 import Error
+import Gif
 import Json.Encode as Encode
 import Ports
 import RemoteData
@@ -69,7 +70,7 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
                     Cmd.none
 
                 gifUrl =
-                    RemoteData.Success url
+                    RemoteData.Success (Gif.url url)
             in
             if videoPlayerId == videoPlayer1.id then
                 ( { videoPlayer1 | gifUrl = gifUrl }
