@@ -1,14 +1,45 @@
-module AudioPlayer.Volume exposing (setWithDefault)
+module AudioPlayer.Volume exposing
+    ( AudioPlayerVolume
+    , adjustDown
+    , adjustUp
+    , rawVolume
+    , setWithDefault
+    , volume
+    )
 
 
-setWithDefault : Int -> String -> Int
+type AudioPlayerVolume
+    = AudioPlayerVolume Int
+
+
+adjustDown : AudioPlayerVolume -> Int -> AudioPlayerVolume
+adjustDown (AudioPlayerVolume rawAudioPlayerVolumeInt) volumeAdjustmentRate =
+    AudioPlayerVolume (rawAudioPlayerVolumeInt - volumeAdjustmentRate)
+
+
+adjustUp : AudioPlayerVolume -> Int -> AudioPlayerVolume
+adjustUp (AudioPlayerVolume rawAudioPlayerVolumeInt) volumeAdjustmentRate =
+    AudioPlayerVolume (rawAudioPlayerVolumeInt + volumeAdjustmentRate)
+
+
+setWithDefault : AudioPlayerVolume -> String -> AudioPlayerVolume
 setWithDefault currentVolume sliderVolume =
     case String.toInt sliderVolume of
-        Just volume ->
-            contain volume
+        Just rawVolumeInt ->
+            AudioPlayerVolume (contain rawVolumeInt)
 
         Nothing ->
             currentVolume
+
+
+rawVolume : AudioPlayerVolume -> Int
+rawVolume (AudioPlayerVolume rawVolumeInt) =
+    rawVolumeInt
+
+
+volume : Int -> AudioPlayerVolume
+volume rawVolumeInt =
+    AudioPlayerVolume rawVolumeInt
 
 
 
@@ -16,7 +47,7 @@ setWithDefault currentVolume sliderVolume =
 
 
 contain : Int -> Int
-contain volume =
+contain rawVolumeInt =
     let
         maxVolume =
             100
@@ -24,11 +55,11 @@ contain volume =
         minVolume =
             0
     in
-    if volume < minVolume then
+    if rawVolumeInt < minVolume then
         minVolume
 
-    else if volume > maxVolume then
+    else if rawVolumeInt > maxVolume then
         maxVolume
 
     else
-        volume
+        rawVolumeInt

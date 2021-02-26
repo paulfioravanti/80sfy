@@ -62,7 +62,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
         UpArrow ->
             let
                 newVolume =
-                    audioPlayer.volume
+                    AudioPlayer.rawVolume audioPlayer.volume
                         + config.volumeAdjustmentRate
                         |> String.fromInt
             in
@@ -74,7 +74,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
         DownArrow ->
             let
                 newVolume =
-                    audioPlayer.volume
+                    AudioPlayer.rawVolume audioPlayer.volume
                         - config.volumeAdjustmentRate
                         |> String.fromInt
             in

@@ -123,6 +123,15 @@ trackInfo { id, soundCloudIframeUrl } =
 
 volumeControl : (AudioPlayer.Msg -> msg) -> AudioPlayer -> Html msg
 volumeControl audioPlayerMsg { volume } =
+    let
+        volumeString =
+            volume
+                |> AudioPlayer.rawVolume
+                |> String.fromInt
+
+        adjustVolumeMsg =
+            AudioPlayer.adjustVolumeMsg audioPlayerMsg
+    in
     div
         [ attribute "data-name" "volume"
         , css [ Styles.volume ]
@@ -135,8 +144,8 @@ volumeControl audioPlayerMsg { volume } =
             , Attributes.min "0"
             , Attributes.max "100"
             , step "5"
-            , value (String.fromInt volume)
-            , onInput (AudioPlayer.adjustVolumeMsg audioPlayerMsg)
+            , value volumeString
+            , onInput adjustVolumeMsg
             ]
             []
         ]

@@ -37,7 +37,7 @@ init flags =
 
         audioPlayerPortFlags =
             { id = AudioPlayer.rawId audioPlayer.id
-            , volume = audioPlayer.volume
+            , volume = AudioPlayer.rawVolume audioPlayer.volume
             }
     in
     ( model

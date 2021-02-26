@@ -1,9 +1,12 @@
 module AudioPlayer exposing
     ( AudioPlayer
     , AudioPlayerId
+    , AudioPlayerVolume
     , Msg
     , adjustVolume
+    , adjustVolumeDown
     , adjustVolumeMsg
+    , adjustVolumeUp
     , generatePlaylist
     , init
     , initAudioPlayer
@@ -15,6 +18,7 @@ module AudioPlayer exposing
     , playAudio
     , playAudioMsg
     , rawId
+    , rawVolume
     , reInitAudioPlayer
     , statusToString
     , subscriptions
@@ -31,6 +35,7 @@ import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Task as Task
 import AudioPlayer.Update as Update
+import AudioPlayer.Volume as Volume
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
@@ -40,6 +45,10 @@ type alias AudioPlayer =
 
 type alias AudioPlayerId =
     Model.AudioPlayerId
+
+
+type alias AudioPlayerVolume =
+    Volume.AudioPlayerVolume
 
 
 type alias Msg =
@@ -52,13 +61,23 @@ init soundCloudPlaylistUrl =
 
 
 adjustVolume : (Msg -> msg) -> String -> Cmd msg
-adjustVolume audioPlayerMsg volume =
-    Task.adjustVolume audioPlayerMsg volume
+adjustVolume audioPlayerMsg sliderVolume =
+    Task.adjustVolume audioPlayerMsg sliderVolume
+
+
+adjustVolumeDown : AudioPlayerVolume -> Int -> AudioPlayerVolume
+adjustVolumeDown audioPlayerVolume volumeAdjustmentRate =
+    Volume.adjustDown audioPlayerVolume volumeAdjustmentRate
 
 
 adjustVolumeMsg : (Msg -> msg) -> String -> msg
-adjustVolumeMsg audioPlayerMsg volume =
-    Msg.adjustVolume audioPlayerMsg volume
+adjustVolumeMsg audioPlayerMsg sliderVolume =
+    Msg.adjustVolume audioPlayerMsg sliderVolume
+
+
+adjustVolumeUp : AudioPlayerVolume -> Int -> AudioPlayerVolume
+adjustVolumeUp audioPlayerVolume volumeAdjustmentRate =
+    Volume.adjustUp audioPlayerVolume volumeAdjustmentRate
 
 
 generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
@@ -109,6 +128,11 @@ playAudioMsg audioPlayerMsg =
 rawId : AudioPlayerId -> String
 rawId audioPlayerId =
     Model.rawId audioPlayerId
+
+
+rawVolume : AudioPlayerVolume -> Int
+rawVolume audioPlayerVolume =
+    Volume.rawVolume audioPlayerVolume
 
 
 reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg

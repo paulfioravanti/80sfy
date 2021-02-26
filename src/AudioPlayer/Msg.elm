@@ -31,8 +31,8 @@ type Msg
 
 
 adjustVolume : (Msg -> msg) -> String -> msg
-adjustVolume audioPlayerMsg volume =
-    audioPlayerMsg (AdjustVolume volume)
+adjustVolume audioPlayerMsg sliderVolume =
+    audioPlayerMsg (AdjustVolume sliderVolume)
 
 
 audioPaused : (Msg -> msg) -> msg

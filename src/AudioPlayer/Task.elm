@@ -12,8 +12,8 @@ import Task
 
 
 adjustVolume : (Msg -> msg) -> String -> Cmd msg
-adjustVolume audioPlayerMsg volume =
-    Msg.adjustVolume audioPlayerMsg volume
+adjustVolume audioPlayerMsg sliderVolume =
+    Msg.adjustVolume audioPlayerMsg sliderVolume
         |> Task.succeed
         |> Task.perform identity
 

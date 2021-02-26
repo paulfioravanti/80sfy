@@ -30,7 +30,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                         Cmd.none
 
                     else
-                        Ports.setVolume volume
+                        Ports.setVolume (Volume.rawVolume volume)
             in
             ( { audioPlayer | volume = volume }, cmd )
 
@@ -100,7 +100,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             let
                 initAudioPlayerFlags =
                     { id = Model.rawId audioPlayer.id
-                    , volume = audioPlayer.volume
+                    , volume = Volume.rawVolume audioPlayer.volume
                     }
             in
             ( Model.init soundCloudPlaylistUrl
@@ -124,7 +124,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 ( newStatus, cmd ) =
                     if Status.isMuted currentStatus then
                         ( Status.unMute currentStatus
-                        , Ports.setVolume audioPlayer.volume
+                        , Ports.setVolume (Volume.rawVolume audioPlayer.volume)
                         )
 
                     else

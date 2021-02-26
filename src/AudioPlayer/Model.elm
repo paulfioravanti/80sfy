@@ -1,6 +1,12 @@
-module AudioPlayer.Model exposing (AudioPlayer, AudioPlayerId, init, rawId)
+module AudioPlayer.Model exposing
+    ( AudioPlayer
+    , AudioPlayerId
+    , init
+    , rawId
+    )
 
 import AudioPlayer.Status as Status exposing (Status)
+import AudioPlayer.Volume as Volume exposing (AudioPlayerVolume)
 import SoundCloud exposing (SoundCloudIframeUrl, SoundCloudPlaylistUrl)
 
 
@@ -14,7 +20,7 @@ type alias AudioPlayer =
     , playlistLength : Int
     , soundCloudIframeUrl : SoundCloudIframeUrl
     , status : Status
-    , volume : Int
+    , volume : AudioPlayerVolume
     }
 
 
@@ -25,7 +31,7 @@ init soundCloudPlaylistUrl =
     , playlistLength = 0
     , soundCloudIframeUrl = SoundCloud.iframeUrl soundCloudPlaylistUrl
     , status = Status.paused
-    , volume = 80
+    , volume = Volume.volume 80
     }
 
 
