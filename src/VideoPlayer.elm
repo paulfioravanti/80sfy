@@ -42,14 +42,14 @@ type alias Msg =
     Msg.Msg
 
 
-init : String -> Int -> VideoPlayer
-init idString zIndex =
-    Model.init idString zIndex
+init : VideoPlayerId -> Int -> VideoPlayer
+init videoPlayerId zIndex =
+    Model.init videoPlayerId zIndex
 
 
 id : String -> VideoPlayerId
-id rawIdValue =
-    Model.id rawIdValue
+id rawIdString =
+    Model.id rawIdString
 
 
 gifUrlToString : WebData String -> String

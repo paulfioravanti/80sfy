@@ -36,6 +36,6 @@ init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
     , config = config
     , controlPanel = ControlPanel.init
     , secretConfig = secretConfig
-    , videoPlayer1 = VideoPlayer.init "1" videoPlayer1zIndex
-    , videoPlayer2 = VideoPlayer.init "2" videoPlayer2zIndex
+    , videoPlayer1 = VideoPlayer.init (VideoPlayer.id "1") videoPlayer1zIndex
+    , videoPlayer2 = VideoPlayer.init (VideoPlayer.id "2") videoPlayer2zIndex
     }

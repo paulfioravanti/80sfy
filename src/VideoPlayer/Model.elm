@@ -26,11 +26,11 @@ type alias VideoPlayer =
     }
 
 
-init : String -> Int -> VideoPlayer
-init rawIdValue zIndex =
+init : VideoPlayerId -> Int -> VideoPlayer
+init videoPlayerId zIndex =
     { fallbackGifUrl = "/assets/tv-static.mp4"
     , gifUrl = RemoteData.NotAsked
-    , id = VideoPlayerId rawIdValue
+    , id = videoPlayerId
     , status = Status.paused
     , style = Animation.style [ Animation.opacity 1 ]
     , visible = True
