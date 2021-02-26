@@ -24,7 +24,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/80sfy/favicon.ico"
   },
   {
-    "revision": "b4b30b0f35ab631bcca825fa85acea99",
+    "revision": "194ce30b0a5346f0c297d31f301df70e",
     "url": "/80sfy/index.html"
   },
   {
@@ -36,8 +36,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/80sfy/static/css/vendors~main.e6f595e7.chunk.css"
   },
   {
-    "revision": "c3c58c7575b3c37afa8b",
-    "url": "/80sfy/static/js/main.c3c58c75.chunk.js"
+    "revision": "363ea179a48b5b6dd4cb",
+    "url": "/80sfy/static/js/main.363ea179.chunk.js"
   },
   {
     "revision": "0d357bf12e913b6f0d08",
