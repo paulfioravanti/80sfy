@@ -26,10 +26,10 @@ init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
             SecretConfig.init soundCloudPlaylistUrl gifDisplaySeconds
 
         videoPlayer1zIndex =
-            -4
+            VideoPlayer.zIndex -4
 
         videoPlayer2zIndex =
-            -5
+            VideoPlayer.zIndex -5
     in
     { audioPlayer = AudioPlayer.init soundCloudPlaylistUrl
     , browserVendor = browserVendor

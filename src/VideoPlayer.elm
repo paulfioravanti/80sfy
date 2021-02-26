@@ -10,10 +10,12 @@ module VideoPlayer exposing
     , playVideosMsg
     , randomGifUrlFetchedMsg
     , rawId
+    , rawZIndex
     , statusToString
     , subscriptions
     , update
     , view
+    , zIndex
     )
 
 import BrowserVendor exposing (BrowserVendor)
@@ -38,13 +40,17 @@ type alias VideoPlayerId =
     Model.VideoPlayerId
 
 
+type alias VideoPlayerZIndex =
+    Model.VideoPlayerZIndex
+
+
 type alias Msg =
     Msg.Msg
 
 
-init : VideoPlayerId -> Int -> VideoPlayer
-init videoPlayerId zIndex =
-    Model.init videoPlayerId zIndex
+init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
+init videoPlayerId videoPlayerZIndex =
+    Model.init videoPlayerId videoPlayerZIndex
 
 
 id : String -> VideoPlayerId
@@ -86,6 +92,11 @@ rawId videoPlayerId =
     Model.rawId videoPlayerId
 
 
+rawZIndex : VideoPlayerZIndex -> Int
+rawZIndex videoPlayerZIndex =
+    Model.rawZIndex videoPlayerZIndex
+
+
 statusToString : Status -> String
 statusToString status =
     Status.toString status
@@ -112,3 +123,8 @@ update generateRandomGifMsg msg context =
 view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
 view audioPlaying msgs browserVendor videoPlayer =
     View.view audioPlaying msgs browserVendor videoPlayer
+
+
+zIndex : Int -> VideoPlayerZIndex
+zIndex rawZIndexInt =
+    Model.zIndex rawZIndexInt

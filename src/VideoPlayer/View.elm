@@ -91,11 +91,14 @@ attributes audioPlaying msgs browserVendor videoPlayer =
             else
                 onClick noOpMsg
 
+        rawVideoPlayerZIndex =
+            Model.rawZIndex videoPlayer.zIndex
+
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
             , onDoubleClickAttribute
             , clickOnPlayAttribute
-            , css [ Styles.gifContainer videoPlayer.zIndex ]
+            , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             , onDoubleClick
                 (BrowserVendor.performFullScreenToggleMsg browserVendorMsg)
             ]

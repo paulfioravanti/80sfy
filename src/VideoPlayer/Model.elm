@@ -1,9 +1,12 @@
 module VideoPlayer.Model exposing
     ( VideoPlayer
     , VideoPlayerId
+    , VideoPlayerZIndex
     , id
     , init
     , rawId
+    , rawZIndex
+    , zIndex
     )
 
 import Animation exposing (State)
@@ -15,6 +18,10 @@ type VideoPlayerId
     = VideoPlayerId String
 
 
+type VideoPlayerZIndex
+    = VideoPlayerZIndex Int
+
+
 type alias VideoPlayer =
     { fallbackGifUrl : String
     , gifUrl : WebData String
@@ -22,19 +29,19 @@ type alias VideoPlayer =
     , status : Status
     , style : State
     , visible : Bool
-    , zIndex : Int
+    , zIndex : VideoPlayerZIndex
     }
 
 
-init : VideoPlayerId -> Int -> VideoPlayer
-init videoPlayerId zIndex =
+init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
+init videoPlayerId videoPlayerZIndex =
     { fallbackGifUrl = "/assets/tv-static.mp4"
     , gifUrl = RemoteData.NotAsked
     , id = videoPlayerId
     , status = Status.paused
     , style = Animation.style [ Animation.opacity 1 ]
     , visible = True
-    , zIndex = zIndex
+    , zIndex = videoPlayerZIndex
     }
 
 
@@ -46,3 +53,13 @@ id rawIdString =
 rawId : VideoPlayerId -> String
 rawId (VideoPlayerId rawIdString) =
     rawIdString
+
+
+rawZIndex : VideoPlayerZIndex -> Int
+rawZIndex (VideoPlayerZIndex rawZIndexInt) =
+    rawZIndexInt
+
+
+zIndex : Int -> VideoPlayerZIndex
+zIndex rawZIndexInt =
+    VideoPlayerZIndex rawZIndexInt

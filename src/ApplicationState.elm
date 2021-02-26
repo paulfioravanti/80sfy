@@ -139,6 +139,9 @@ videoPlayerJson videoPlayer =
 
         videoPlayerRawId =
             VideoPlayer.rawId videoPlayer.id
+
+        rawVideoPlayerZIndex =
+            VideoPlayer.rawZIndex videoPlayer.zIndex
     in
     Encode.object
         [ ( "fallbackGifUrl"
@@ -157,6 +160,6 @@ videoPlayerJson videoPlayer =
           , Encode.bool videoPlayer.visible
           )
         , ( "zIndex"
-          , Encode.int videoPlayer.zIndex
+          , Encode.int rawVideoPlayerZIndex
           )
         ]
