@@ -3,10 +3,14 @@ module SoundCloud exposing
     , SoundCloudPlaylistUrl
     , defaultPlaylistUrlString
     , iframeUrl
+    , initWidget
     , playlistUrl
     , rawIframeUrl
     , rawPlaylistUrl
     )
+
+import SoundCloud.Flags exposing (Flags)
+import SoundCloud.Ports as Ports
 
 
 type SoundCloudIframeUrl
@@ -43,6 +47,11 @@ iframeUrl soundCloudPlaylistUrl =
                 ++ "&callback=true"
     in
     SoundCloudIframeUrl rawIframeUrlString
+
+
+initWidget : Flags -> Cmd msg
+initWidget flags =
+    Ports.initSoundCloudWidget flags
 
 
 rawIframeUrl : SoundCloudIframeUrl -> String

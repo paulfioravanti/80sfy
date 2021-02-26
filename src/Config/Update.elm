@@ -57,7 +57,7 @@ update msgs msg config =
                         Cmd.none
 
                     else
-                        AudioPlayer.reInitAudioPlayer
+                        AudioPlayer.resetAudioPlayer
                             msgs.audioPlayerMsg
                             soundCloudPlaylistUrl
             in

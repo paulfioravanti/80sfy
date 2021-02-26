@@ -8,7 +8,7 @@ module AudioPlayer.Msg exposing
     , pauseAudio
     , playAudio
     , playlistGenerated
-    , reInitAudioPlayer
+    , resetAudioPlayer
     , setPlaylistLength
     , toggleMute
     )
@@ -25,7 +25,7 @@ type Msg
     | PauseAudio
     | PlayAudio
     | PlaylistGenerated (List Int)
-    | ReInitAudioPlayer SoundCloudPlaylistUrl
+    | ResetAudioPlayer SoundCloudPlaylistUrl
     | SetPlaylistLength Int
     | ToggleMute
 
@@ -70,9 +70,9 @@ playlistGenerated audioPlayerMsg playlist =
     audioPlayerMsg (PlaylistGenerated playlist)
 
 
-reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> msg
-reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
-    audioPlayerMsg (ReInitAudioPlayer soundCloudPlaylistUrl)
+resetAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> msg
+resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
+    audioPlayerMsg (ResetAudioPlayer soundCloudPlaylistUrl)
 
 
 setPlaylistLength : (Msg -> msg) -> Int -> msg

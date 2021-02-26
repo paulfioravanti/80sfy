@@ -7,6 +7,7 @@ import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
 import AudioPlayer.Task as Task
 import AudioPlayer.Volume as Volume
+import SoundCloud
 import VideoPlayer
 
 
@@ -96,15 +97,15 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
         Msg.PlayAudio ->
             ( audioPlayer, Ports.playAudio () )
 
-        Msg.ReInitAudioPlayer soundCloudPlaylistUrl ->
+        Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
             let
-                initAudioPlayerFlags =
+                soundCloudWidgetFlags =
                     { id = Model.rawId audioPlayer.id
                     , volume = Volume.rawVolume audioPlayer.volume
                     }
             in
             ( Model.init soundCloudPlaylistUrl
-            , Ports.initAudioPlayer initAudioPlayerFlags
+            , SoundCloud.initWidget soundCloudWidgetFlags
             )
 
         Msg.SetPlaylistLength playlistLength ->

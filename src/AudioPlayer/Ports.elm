@@ -1,16 +1,10 @@
 port module AudioPlayer.Ports exposing
-    ( initAudioPlayer
-    , nextTrack
+    ( nextTrack
     , pauseAudio
     , playAudio
     , setVolume
     , skipToTrack
     )
-
-import AudioPlayer.Flags exposing (Flags)
-
-
-port initAudioPlayer : Flags -> Cmd msg
 
 
 port nextTrack : () -> Cmd msg

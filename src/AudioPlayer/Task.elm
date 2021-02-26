@@ -2,8 +2,8 @@ module AudioPlayer.Task exposing
     ( adjustVolume
     , nextTrack
     , playAudio
-    , reInitAudioPlayer
     , requestNextTrackNumber
+    , resetAudioPlayer
     )
 
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -32,15 +32,15 @@ playAudio audioPlayerMsg =
         |> Task.perform identity
 
 
-reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
-reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
-    Msg.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
+requestNextTrackNumber : (Msg -> msg) -> Cmd msg
+requestNextTrackNumber audioPlayerMsg =
+    Msg.nextTrackNumberRequested audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
 
 
-requestNextTrackNumber : (Msg -> msg) -> Cmd msg
-requestNextTrackNumber audioPlayerMsg =
-    Msg.nextTrackNumberRequested audioPlayerMsg
+resetAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
+resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
+    Msg.resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
         |> Task.succeed
         |> Task.perform identity

@@ -9,7 +9,6 @@ module AudioPlayer exposing
     , adjustVolumeUp
     , generatePlaylist
     , init
-    , initAudioPlayer
     , isMuted
     , isPlaying
     , nextTrack
@@ -19,18 +18,16 @@ module AudioPlayer exposing
     , playAudioMsg
     , rawId
     , rawVolume
-    , reInitAudioPlayer
+    , resetAudioPlayer
     , statusToString
     , subscriptions
     , toggleMuteMsg
     , update
     )
 
-import AudioPlayer.Flags exposing (Flags)
 import AudioPlayer.Model as Model
 import AudioPlayer.Msg as Msg
 import AudioPlayer.Playlist as Playlist
-import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Task as Task
@@ -85,11 +82,6 @@ generatePlaylist audioPlayerMsg playlistLength =
     Playlist.generate audioPlayerMsg playlistLength
 
 
-initAudioPlayer : Flags -> Cmd msg
-initAudioPlayer flags =
-    Ports.initAudioPlayer flags
-
-
 isMuted : AudioPlayer -> Bool
 isMuted audioPlayer =
     Status.isMuted audioPlayer.status
@@ -135,9 +127,9 @@ rawVolume audioPlayerVolume =
     Volume.rawVolume audioPlayerVolume
 
 
-reInitAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
-reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
-    Task.reInitAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
+resetAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
+resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
+    Task.resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
 
 
 statusToString : Status -> String

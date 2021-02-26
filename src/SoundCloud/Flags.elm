@@ -1,4 +1,4 @@
-module AudioPlayer.Flags exposing (Flags)
+module SoundCloud.Flags exposing (Flags)
 
 
 type alias Flags =

@@ -3,7 +3,7 @@ export const AudioPlayer = {
 }
 
 function init(ports) {
-  ports.initAudioPlayer.subscribe(({ id: id, volume: volume }) => {
+  ports.initSoundCloudWidget.subscribe(({ id: id, volume: volume }) => {
     window.requestAnimationFrame(() => {
       const scPlayer = SC.Widget(id)
       scPlayer.bind(SC.Widget.Events.READY, () => {
