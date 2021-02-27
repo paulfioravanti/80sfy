@@ -131,8 +131,12 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
                 ( newStatus, cmd ) =
                     if Status.isMuted currentStatus then
+                        let
+                            volume =
+                                Volume.rawVolume audioPlayer.volume
+                        in
                         ( Status.unMute currentStatus
-                        , Ports.setVolume (Volume.rawVolume audioPlayer.volume)
+                        , Ports.setVolume volume
                         )
 
                     else
