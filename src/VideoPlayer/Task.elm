@@ -1,11 +1,11 @@
-module VideoPlayer.Task exposing (playVideos)
+module VideoPlayer.Task exposing (performPlayVideos)
 
 import Task
 import VideoPlayer.Msg as Msg exposing (Msg)
 
 
-playVideos : (Msg -> msg) -> Cmd msg
-playVideos videoPlayerMsg =
+performPlayVideos : (Msg -> msg) -> Cmd msg
+performPlayVideos videoPlayerMsg =
     Msg.playVideos videoPlayerMsg
         |> Task.succeed
         |> Task.perform identity

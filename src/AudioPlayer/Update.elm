@@ -63,14 +63,14 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 performNextTrackNumberRequest =
                     Task.performNextTrackNumberRequest audioPlayerMsg
 
-                playVideos =
-                    VideoPlayer.playVideos videoPlayerMsg
+                performPlayVideos =
+                    VideoPlayer.performPlayVideos videoPlayerMsg
 
                 status =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ performNextTrackNumberRequest, playVideos ]
+            , Cmd.batch [ performNextTrackNumberRequest, performPlayVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
