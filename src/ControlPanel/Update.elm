@@ -1,15 +1,19 @@
-module ControlPanel.Update exposing (update)
+module ControlPanel.Update exposing (Msgs, update)
 
 import Animation
 import ControlPanel.Animations as Animations
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
-import Task
+import ControlPanel.Task as Task
 
 
-update : Msg -> ControlPanel -> ( ControlPanel, Cmd Msg )
-update msg controlPanel =
+type alias Msgs msgs msg =
+    { msgs | controlPanelMsg : Msg -> msg }
+
+
+update : Msgs msgs msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update { controlPanelMsg } msg controlPanel =
     case msg of
         Msg.AnimateControlPanel animateMsg ->
             ( { controlPanel
@@ -26,12 +30,10 @@ update msg controlPanel =
             in
             if secondsVisible > timeoutSeconds then
                 let
-                    hideControlPanelMsg =
-                        Msg.HideControlPanel
-                            |> Task.succeed
-                            |> Task.perform identity
+                    performHideControlPanel =
+                        Task.performHideControlPanel controlPanelMsg
                 in
-                ( controlPanel, hideControlPanelMsg )
+                ( controlPanel, performHideControlPanel )
 
             else
                 ( { controlPanel | state = State.setIdle (secondsVisible + 1) }

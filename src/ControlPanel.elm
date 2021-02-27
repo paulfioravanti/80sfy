@@ -46,9 +46,9 @@ toggleHideWhenInactiveMsg controlPanelMsg =
     Msg.toggleHideWhenInactive controlPanelMsg
 
 
-update : Msg -> ControlPanel -> ( ControlPanel, Cmd Msg )
-update msg controlPanel =
-    Update.update msg controlPanel
+update : Update.Msgs msgs msg -> Msg -> ControlPanel -> ( ControlPanel, Cmd msg )
+update msgs msg controlPanel =
+    Update.update msgs msg controlPanel
 
 
 view : View.Msgs msgs msg -> View.Context a -> Html msg

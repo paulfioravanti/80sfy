@@ -2,6 +2,7 @@ module ControlPanel.Msg exposing
     ( Msg(..)
     , animateControlPanel
     , countdownToHideControlPanel
+    , hideControlPanel
     , leaveControlPanel
     , toggleHideWhenInactive
     , useControlPanel
@@ -29,6 +30,11 @@ animateControlPanel controlPanelMsg animationMsg =
 countdownToHideControlPanel : (Msg -> msg) -> Int -> Posix -> msg
 countdownToHideControlPanel controlPanelMsg secondsVisible time =
     controlPanelMsg (CountdownToHideControlPanel secondsVisible time)
+
+
+hideControlPanel : (Msg -> msg) -> msg
+hideControlPanel controlPanelMsg =
+    controlPanelMsg HideControlPanel
 
 
 leaveControlPanel : (Msg -> msg) -> msg

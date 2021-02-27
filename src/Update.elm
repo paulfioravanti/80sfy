@@ -20,6 +20,7 @@ update msg model =
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
             , browserVendorMsg = Msg.browserVendor
+            , controlPanelMsg = Msg.controlPanel
             , generateRandomTagMsg = Msg.generateRandomTag
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
@@ -45,11 +46,9 @@ update msg model =
         Msg.ControlPanel msgForControlPanel ->
             let
                 ( controlPanel, cmd ) =
-                    ControlPanel.update msgForControlPanel model.controlPanel
+                    ControlPanel.update msgs msgForControlPanel model.controlPanel
             in
-            ( { model | controlPanel = controlPanel }
-            , Cmd.map Msg.controlPanel cmd
-            )
+            ( { model | controlPanel = controlPanel }, cmd )
 
         Msg.BrowserVendor browserVendorMsg ->
             let
