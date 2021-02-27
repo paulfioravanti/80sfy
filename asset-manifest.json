@@ -1,6 +1,6 @@
 {
-  "main.js": "/80sfy/static/js/main.16fb3414.chunk.js",
-  "main.js.map": "/80sfy/static/js/main.16fb3414.chunk.js.map",
+  "main.js": "/80sfy/static/js/main.470cb1c2.chunk.js",
+  "main.js.map": "/80sfy/static/js/main.470cb1c2.chunk.js.map",
   "runtime~main.js": "/80sfy/static/js/runtime~main.0d357bf1.js",
   "runtime~main.js.map": "/80sfy/static/js/runtime~main.0d357bf1.js.map",
   "vendors~main.css": "/80sfy/static/css/vendors~main.e6f595e7.chunk.css",
@@ -15,7 +15,7 @@
   "favicon.ico": "/80sfy/favicon.ico",
   "index.html": "/80sfy/index.html",
   "manifest.json": "/80sfy/manifest.json",
-  "precache-manifest.5fe69faadafb61d86e1fe4fa8de1ab56.js": "/80sfy/precache-manifest.5fe69faadafb61d86e1fe4fa8de1ab56.js",
+  "precache-manifest.0c9e2d116fbd32cc5685e36a0508b050.js": "/80sfy/precache-manifest.0c9e2d116fbd32cc5685e36a0508b050.js",
   "static/media/fa-solid.css": "/80sfy/static/media/fa-solid-900.d279d01b.svg",
   "tags.json": "/80sfy/tags.json"
 }
