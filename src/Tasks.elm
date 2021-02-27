@@ -1,7 +1,7 @@
 module Tasks exposing
     ( performPause
     , performPlay
-    , performRandomGifGeneration
+    , performRandomTagGeneration
     )
 
 import Task
@@ -31,8 +31,8 @@ performPlay playMsg =
         |> Task.perform identity
 
 
-performRandomGifGeneration : msg -> Cmd msg
-performRandomGifGeneration generateRandomGifMsg =
-    generateRandomGifMsg
+performRandomTagGeneration : msg -> Cmd msg
+performRandomTagGeneration generateRandomTagMsg =
+    generateRandomTagMsg
         |> Task.succeed
         |> Task.perform identity

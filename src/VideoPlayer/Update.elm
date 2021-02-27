@@ -25,7 +25,7 @@ update :
     -> Msg
     -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
+update generateRandomTagMsg msg { videoPlayer1, videoPlayer2 } =
     case msg of
         Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
@@ -52,16 +52,16 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
                         ]
                         videoPlayer1.style
 
-                generateRandomGifForHiddenVideoPlayer =
-                    Tasks.performRandomGifGeneration
-                        (generateRandomGifMsg nowHiddenVideoPlayerId)
+                performRandomTagGenerationForHiddenVideoPlayer =
+                    Tasks.performRandomTagGeneration
+                        (generateRandomTagMsg nowHiddenVideoPlayerId)
             in
             ( { videoPlayer1
                 | style = animateToNewOpacity
                 , visible = newVideoPlayer1Visibility
               }
             , videoPlayer2
-            , generateRandomGifForHiddenVideoPlayer
+            , performRandomTagGenerationForHiddenVideoPlayer
             )
 
         Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->

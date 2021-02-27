@@ -68,7 +68,7 @@ update msgs msg config =
                 tags =
                     List.map Tag.tag rawTags
 
-                randomGifForVideoPlayerId videoPlayerId =
+                generateRandomTagForVideoPlayer videoPlayerId =
                     Task.generateRandomTag
                         msgs.generateRandomTagMsg
                         videoPlayerId
@@ -78,8 +78,8 @@ update msgs msg config =
             in
             ( { config | tags = tags }
             , Cmd.batch
-                [ randomGifForVideoPlayerId (VideoPlayer.id "1")
-                , randomGifForVideoPlayerId (VideoPlayer.id "2")
+                [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
+                , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
                 , initSecretConfigTags
                 ]
             )
