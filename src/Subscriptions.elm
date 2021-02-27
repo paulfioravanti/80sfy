@@ -23,7 +23,7 @@ subscriptions model =
 
         videoPlayerContext =
             { audioPlayerRawId = AudioPlayer.rawId audioPlayer.id
-            , gifDisplaySeconds = config.gifDisplaySeconds
+            , gifDisplayIntervalSeconds = config.gifDisplayIntervalSeconds
             , overrideInactivityPause = secretConfig.overrideInactivityPause
             }
     in

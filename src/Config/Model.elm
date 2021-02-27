@@ -18,7 +18,7 @@ type VolumeAdjustmentRate
 
 
 type alias Config =
-    { gifDisplaySeconds : GifDisplayIntervalSeconds
+    { gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
     , giphyApiKey : GiphyAPIKey
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
@@ -37,7 +37,7 @@ init flags =
                 SoundCloud.defaultPlaylistUrlString
                 flags.soundCloudPlaylistUrl
     in
-    { gifDisplaySeconds = Gif.displayIntervalSeconds 4
+    { gifDisplayIntervalSeconds = Gif.displayIntervalSeconds 4
     , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , soundCloudPlaylistUrl =
         SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
@@ -61,18 +61,18 @@ update soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds config =
     let
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then
-                config.gifDisplaySeconds
+                config.gifDisplayIntervalSeconds
 
             else
                 Gif.displayIntervalSeconds seconds
 
-        gifDisplaySeconds =
+        displayIntervalSeconds =
             gifDisplayIntervalSeconds
                 |> Gif.rawDisplayIntervalSeconds
                 |> ignoreNonPositiveSeconds
     in
     { config
-        | gifDisplaySeconds = gifDisplaySeconds
+        | gifDisplayIntervalSeconds = displayIntervalSeconds
         , soundCloudPlaylistUrl = soundCloudPlaylistUrl
         , tags = Tag.tagList tagsString
     }

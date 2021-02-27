@@ -27,7 +27,7 @@ port windowFocused : (() -> msg) -> Sub msg
 
 type alias Context =
     { audioPlayerRawId : String
-    , gifDisplaySeconds : GifDisplayIntervalSeconds
+    , gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
     , overrideInactivityPause : Bool
     }
 
@@ -46,7 +46,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
             fetchNextGifSubscription
                 videoPlayerMsg
                 videoPlayer1.status
-                context.gifDisplaySeconds
+                context.gifDisplayIntervalSeconds
 
         videosHalted_ =
             videosHaltedSubscription

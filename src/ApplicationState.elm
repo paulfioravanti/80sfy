@@ -74,14 +74,14 @@ configJson config =
             SoundCloud.rawPlaylistUrl config.soundCloudPlaylistUrl
 
         gifDisplayIntervalSeconds =
-            Gif.rawDisplayIntervalSeconds config.gifDisplaySeconds
+            Gif.rawDisplayIntervalSeconds config.gifDisplayIntervalSeconds
 
         volumeAdjustmentRate =
             Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
     in
     -- Do not output Giphy API key
     Encode.object
-        [ ( "gifDisplaySeconds"
+        [ ( "gifDisplayIntervalSeconds"
           , Encode.float gifDisplayIntervalSeconds
           )
         , ( "soundCloudPlaylistUrl"
@@ -118,7 +118,7 @@ secretConfigJson secretConfig =
             Gif.rawDisplayIntervalSeconds secretConfig.gifDisplaySeconds
     in
     Encode.object
-        [ ( "gifDisplaySeconds"
+        [ ( "gifDisplayIntervalSeconds"
           , Encode.float gifDisplayIntervalSeconds
           )
         , ( "overrideInactivityPause"

@@ -20,10 +20,10 @@ type alias Model =
 
 
 init : Config -> BrowserVendor -> Model
-init ({ gifDisplaySeconds, soundCloudPlaylistUrl } as config) browserVendor =
+init ({ gifDisplayIntervalSeconds, soundCloudPlaylistUrl } as config) browserVendor =
     let
         secretConfig =
-            SecretConfig.init soundCloudPlaylistUrl gifDisplaySeconds
+            SecretConfig.init soundCloudPlaylistUrl gifDisplayIntervalSeconds
 
         videoPlayer1zIndex =
             VideoPlayer.zIndex -4
