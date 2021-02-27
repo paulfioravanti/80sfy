@@ -2,6 +2,7 @@ module SecretConfig.View exposing (Msgs, view)
 
 import AudioPlayer
 import ControlPanel
+import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled
     exposing
         ( Html
@@ -30,7 +31,11 @@ type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : ControlPanel.Msg -> msg
-        , saveConfigMsg : SoundCloudPlaylistUrl -> String -> String -> msg
+        , saveConfigMsg :
+            SoundCloudPlaylistUrl
+            -> String
+            -> GifDisplayIntervalSeconds
+            -> msg
         , secretConfigMsg : Msg -> msg
         , showApplicationStateMsg : msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
@@ -103,17 +108,27 @@ gifTagsInput secretConfigMsg tags =
 
 soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
 soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
+    let
+        playlistUrl =
+            SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
+    in
     input
         [ attribute "data-name" "playlist-input"
         , css [ Styles.configInput ]
-        , value (SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl)
+        , value playlistUrl
         , onInput (Msg.updateSoundCloudPlaylistUrl secretConfigMsg)
         ]
         []
 
 
-gifDisplaySecondsInput : (Msg -> msg) -> String -> Html msg
-gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
+gifDisplaySecondsInput : (Msg -> msg) -> GifDisplayIntervalSeconds -> Html msg
+gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
+    let
+        gifDisplaySeconds =
+            gifDisplayIntervalSeconds
+                |> Gif.rawDisplayIntervalSeconds
+                |> String.fromFloat
+    in
     input
         [ attribute "data-name" "gif-display-seconds-input"
         , css [ Styles.configInput ]
@@ -124,7 +139,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplaySeconds =
 
 
 saveSettingsButton :
-    (SoundCloudPlaylistUrl -> String -> String -> msg)
+    (SoundCloudPlaylistUrl -> String -> GifDisplayIntervalSeconds -> msg)
     -> SecretConfig
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =

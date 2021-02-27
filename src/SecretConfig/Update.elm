@@ -1,5 +1,6 @@
 module SecretConfig.Update exposing (update)
 
+import Gif
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SoundCloud
@@ -28,7 +29,19 @@ update msg secretConfig =
             { secretConfig | visible = not secretConfig.visible }
 
         Msg.UpdateGifDisplaySeconds seconds ->
-            { secretConfig | gifDisplaySeconds = seconds }
+            let
+                gifDisplayIntervalSeconds =
+                    let
+                        defaultGifDisplayIntervalSeconds =
+                            Gif.rawDisplayIntervalSeconds
+                                secretConfig.gifDisplaySeconds
+                    in
+                    seconds
+                        |> String.toFloat
+                        |> Maybe.withDefault defaultGifDisplayIntervalSeconds
+                        |> Gif.displayIntervalSeconds
+            in
+            { secretConfig | gifDisplaySeconds = gifDisplayIntervalSeconds }
 
         Msg.UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl ->
             let

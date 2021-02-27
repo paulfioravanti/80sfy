@@ -72,11 +72,14 @@ configJson config =
 
         rawSoundCloudPlaylistUrl =
             SoundCloud.rawPlaylistUrl config.soundCloudPlaylistUrl
+
+        gifDisplayIntervalSeconds =
+            Gif.rawDisplayIntervalSeconds config.gifDisplaySeconds
     in
     -- Do not output Giphy API key
     Encode.object
         [ ( "gifDisplaySeconds"
-          , Encode.float config.gifDisplaySeconds
+          , Encode.float gifDisplayIntervalSeconds
           )
         , ( "soundCloudPlaylistUrl"
           , Encode.string rawSoundCloudPlaylistUrl
@@ -107,10 +110,13 @@ secretConfigJson secretConfig =
     let
         rawSoundCloudPlaylistUrl =
             SoundCloud.rawPlaylistUrl secretConfig.soundCloudPlaylistUrl
+
+        gifDisplayIntervalSeconds =
+            Gif.rawDisplayIntervalSeconds secretConfig.gifDisplaySeconds
     in
     Encode.object
         [ ( "gifDisplaySeconds"
-          , Encode.string secretConfig.gifDisplaySeconds
+          , Encode.float gifDisplayIntervalSeconds
           )
         , ( "overrideInactivityPause"
           , Encode.bool secretConfig.overrideInactivityPause

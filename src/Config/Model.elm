@@ -5,14 +5,14 @@ module Config.Model exposing
     )
 
 import Flags exposing (Flags)
-import Gif exposing (GiphyAPIKey)
+import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import Value
 
 
 type alias Config =
-    { gifDisplaySeconds : Float
+    { gifDisplaySeconds : GifDisplayIntervalSeconds
     , giphyApiKey : GiphyAPIKey
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
@@ -31,7 +31,7 @@ init flags =
                 SoundCloud.defaultPlaylistUrlString
                 flags.soundCloudPlaylistUrl
     in
-    { gifDisplaySeconds = 4
+    { gifDisplaySeconds = Gif.displayIntervalSeconds 4
     , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , soundCloudPlaylistUrl =
         SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
@@ -40,21 +40,25 @@ init flags =
     }
 
 
-update : SoundCloudPlaylistUrl -> String -> String -> Config -> Config
-update soundCloudPlaylistUrl tagsString gifDisplaySecondsString config =
+update :
+    SoundCloudPlaylistUrl
+    -> String
+    -> GifDisplayIntervalSeconds
+    -> Config
+    -> Config
+update soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds config =
     let
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then
                 config.gifDisplaySeconds
 
             else
-                seconds
+                Gif.displayIntervalSeconds seconds
 
         gifDisplaySeconds =
-            gifDisplaySecondsString
-                |> String.toFloat
-                |> Maybe.map ignoreNonPositiveSeconds
-                |> Maybe.withDefault config.gifDisplaySeconds
+            gifDisplayIntervalSeconds
+                |> Gif.rawDisplayIntervalSeconds
+                |> ignoreNonPositiveSeconds
     in
     { config
         | gifDisplaySeconds = gifDisplaySeconds

@@ -1,6 +1,7 @@
 port module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 
 import Animation
+import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
 import Time
 import Value
@@ -26,7 +27,7 @@ port windowFocused : (() -> msg) -> Sub msg
 
 type alias Context =
     { audioPlayerRawId : String
-    , gifDisplaySeconds : Float
+    , gifDisplaySeconds : GifDisplayIntervalSeconds
     , overrideInactivityPause : Bool
     }
 
@@ -81,11 +82,19 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 -- PRIVATE
 
 
-fetchNextGifSubscription : (Msg -> msg) -> Status -> Float -> Sub msg
-fetchNextGifSubscription videoPlayerMsg status gifDisplaySeconds =
+fetchNextGifSubscription :
+    (Msg -> msg)
+    -> Status
+    -> GifDisplayIntervalSeconds
+    -> Sub msg
+fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
     if status == Status.playing then
+        let
+            rawGifDisplayMilliSeconds =
+                Gif.rawDisplayIntervalSeconds gifDisplayIntervalSeconds * 1000
+        in
         Time.every
-            (gifDisplaySeconds * 1000)
+            rawGifDisplayMilliSeconds
             (Msg.crossFadePlayers videoPlayerMsg)
 
     else

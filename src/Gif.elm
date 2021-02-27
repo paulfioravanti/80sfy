@@ -1,8 +1,11 @@
 module Gif exposing
-    ( GifUrl
+    ( GifDisplayIntervalSeconds
+    , GifUrl
     , GiphyAPIKey
+    , displayIntervalSeconds
     , fetchRandomGifUrl
     , giphyApiKey
+    , rawDisplayIntervalSeconds
     , rawGiphyApiKey
     , rawUrl
     , rawWebDataUrl
@@ -16,12 +19,21 @@ import RemoteData exposing (WebData)
 import Tag exposing (Tag)
 
 
+type GifDisplayIntervalSeconds
+    = GifDisplayIntervalSeconds Float
+
+
 type GifUrl
     = GifUrl String
 
 
 type GiphyAPIKey
     = GiphyAPIKey String
+
+
+displayIntervalSeconds : Float -> GifDisplayIntervalSeconds
+displayIntervalSeconds rawDisplayIntervalSecondsFloat =
+    GifDisplayIntervalSeconds rawDisplayIntervalSecondsFloat
 
 
 fetchRandomGifUrl :
@@ -62,6 +74,11 @@ fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
 giphyApiKey : String -> GiphyAPIKey
 giphyApiKey rawGiphyApiKeyString =
     GiphyAPIKey rawGiphyApiKeyString
+
+
+rawDisplayIntervalSeconds : GifDisplayIntervalSeconds -> Float
+rawDisplayIntervalSeconds (GifDisplayIntervalSeconds rawDisplayIntervalSecondsFloat) =
+    rawDisplayIntervalSecondsFloat
 
 
 rawGiphyApiKey : GiphyAPIKey -> String

@@ -40,13 +40,13 @@ update msgs msg config =
             in
             ( config, fetchRandomGif )
 
-        Msg.Save soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
+        Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
             let
                 updatedConfig =
                     Model.update
                         soundCloudPlaylistUrl
                         tagsString
-                        gifDisplaySecondsString
+                        gifDisplayIntervalSeconds
                         config
 
                 cmd =

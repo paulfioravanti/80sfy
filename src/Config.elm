@@ -13,6 +13,7 @@ import Config.Msg as Msg
 import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
+import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
@@ -36,14 +37,14 @@ performSave :
     (Msg -> msg)
     -> SoundCloudPlaylistUrl
     -> String
-    -> String
+    -> GifDisplayIntervalSeconds
     -> Cmd msg
-performSave configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
+performSave configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
     Task.performSave
         configMsg
         soundCloudPlaylistUrl
         tagsString
-        gifDisplaySecondsString
+        gifDisplayIntervalSeconds
 
 
 randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
