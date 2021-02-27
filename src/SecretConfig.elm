@@ -2,7 +2,7 @@ module SecretConfig exposing
     ( Msg
     , SecretConfig
     , init
-    , initTags
+    , performInitTags
     , update
     , view
     )
@@ -30,9 +30,9 @@ init soundCloudPlaylistUrl gifDisplayIntervalSeconds =
     Model.init soundCloudPlaylistUrl gifDisplayIntervalSeconds
 
 
-initTags : (Msg -> msg) -> List String -> Cmd msg
-initTags secretConfigMsg tags =
-    Task.initTags secretConfigMsg tags
+performInitTags : (Msg -> msg) -> List String -> Cmd msg
+performInitTags secretConfigMsg tags =
+    Task.performInitTags secretConfigMsg tags
 
 
 update : Msg -> SecretConfig -> SecretConfig

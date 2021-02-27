@@ -73,14 +73,14 @@ update msgs msg config =
                         msgs.generateRandomTagMsg
                         videoPlayerId
 
-                initSecretConfigTags =
-                    SecretConfig.initTags msgs.secretConfigMsg rawTags
+                performInitSecretConfigTags =
+                    SecretConfig.performInitTags msgs.secretConfigMsg rawTags
             in
             ( { config | tags = tags }
             , Cmd.batch
                 [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
                 , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
-                , initSecretConfigTags
+                , performInitSecretConfigTags
                 ]
             )
 

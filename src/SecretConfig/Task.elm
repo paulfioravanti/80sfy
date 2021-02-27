@@ -1,11 +1,11 @@
-module SecretConfig.Task exposing (initTags)
+module SecretConfig.Task exposing (performInitTags)
 
 import SecretConfig.Msg as Msg exposing (Msg)
 import Task
 
 
-initTags : (Msg -> msg) -> List String -> Cmd msg
-initTags secretConfigMsg tags =
+performInitTags : (Msg -> msg) -> List String -> Cmd msg
+performInitTags secretConfigMsg tags =
     Msg.initTags secretConfigMsg tags
         |> Task.succeed
         |> Task.perform identity
