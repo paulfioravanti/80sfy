@@ -10,7 +10,7 @@ import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
 import Tag
-import Task_
+import Tasks
 import VideoPlayer
 
 
@@ -83,7 +83,7 @@ update msg model =
         Msg.Pause ->
             let
                 pauseMedia =
-                    Task_.pauseMedia
+                    Tasks.pauseMedia
                         (AudioPlayer.pauseAudioMsg Msg.audioPlayer)
                         (VideoPlayer.pauseVideosMsg Msg.videoPlayer)
             in

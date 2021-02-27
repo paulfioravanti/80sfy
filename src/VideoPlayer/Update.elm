@@ -6,7 +6,7 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import RemoteData
-import Task_
+import Tasks
 import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
@@ -53,7 +53,7 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
                         videoPlayer1.style
 
                 generateRandomGifForHiddenVideoPlayer =
-                    Task_.generateRandomGif
+                    Tasks.generateRandomGif
                         (generateRandomGifMsg nowHiddenVideoPlayerId)
             in
             ( { videoPlayer1

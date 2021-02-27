@@ -1,4 +1,4 @@
-module Task_ exposing (generateRandomGif, pause, pauseMedia, play)
+module Tasks exposing (generateRandomGif, pause, pauseMedia, play)
 
 import Task
 

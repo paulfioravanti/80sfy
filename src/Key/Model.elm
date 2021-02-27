@@ -3,7 +3,7 @@ module Key.Model exposing (Key, Msgs, fromString, pressed)
 import AudioPlayer
 import BrowserVendor
 import Model exposing (Model)
-import Task_
+import Tasks
 
 
 type Key
@@ -54,10 +54,10 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
-                Task_.pause msgs.pauseMsg
+                Tasks.pause msgs.pauseMsg
 
             else
-                Task_.play msgs.playMsg
+                Tasks.play msgs.playMsg
 
         UpArrow ->
             let
