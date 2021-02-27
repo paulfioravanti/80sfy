@@ -69,7 +69,7 @@ update msgs msg config =
                     List.map Tag.tag rawTags
 
                 generateRandomTagForVideoPlayer videoPlayerId =
-                    Task.generateRandomTag
+                    Task.performRandomTagGeneration
                         msgs.generateRandomTagMsg
                         videoPlayerId
 

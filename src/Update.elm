@@ -101,14 +101,14 @@ update msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                saveConfig =
-                    Config.save
+                performSaveConfig =
+                    Config.performSave
                         Msg.config
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
             in
-            ( model, saveConfig )
+            ( model, performSaveConfig )
 
         Msg.SecretConfig msgForSecretConfig ->
             let

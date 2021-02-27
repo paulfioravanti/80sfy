@@ -2,8 +2,8 @@ module Config exposing
     ( Config
     , Msg
     , init
+    , performSave
     , randomTagGeneratedMsg
-    , save
     , tagsFetchedMsg
     , update
     )
@@ -32,14 +32,23 @@ init flags =
     Model.init flags
 
 
+performSave :
+    (Msg -> msg)
+    -> SoundCloudPlaylistUrl
+    -> String
+    -> String
+    -> Cmd msg
+performSave configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
+    Task.performSave
+        configMsg
+        soundCloudPlaylistUrl
+        tagsString
+        gifDisplaySecondsString
+
+
 randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
-
-
-save : (Msg -> msg) -> SoundCloudPlaylistUrl -> String -> String -> Cmd msg
-save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString =
-    Task.save configMsg soundCloudPlaylistUrl tagsString gifDisplaySecondsString
 
 
 tagsFetchedMsg : (Msg -> msg) -> Result Error (List String) -> msg
