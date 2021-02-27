@@ -49,18 +49,6 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
-        Msg.PlaylistGenerated rawPlaylist ->
-            let
-                performNextTrackNumberRequest =
-                    Task.performNextTrackNumberRequest audioPlayerMsg
-
-                playlist =
-                    List.map Playlist.trackIndex rawPlaylist
-            in
-            ( { audioPlayer | playlist = playlist }
-            , performNextTrackNumberRequest
-            )
-
         Msg.NextTrack ->
             let
                 performNextTrackNumberRequest =
@@ -103,6 +91,18 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         Msg.PlayAudio ->
             ( audioPlayer, Ports.playAudio () )
+
+        Msg.PlaylistGenerated rawPlaylist ->
+            let
+                performNextTrackNumberRequest =
+                    Task.performNextTrackNumberRequest audioPlayerMsg
+
+                playlist =
+                    List.map Playlist.trackIndex rawPlaylist
+            in
+            ( { audioPlayer | playlist = playlist }
+            , performNextTrackNumberRequest
+            )
 
         Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
             let
