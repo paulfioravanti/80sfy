@@ -1,6 +1,8 @@
 module Config.Model exposing
     ( Config
+    , VolumeAdjustmentRate
     , init
+    , rawVolumeAdjustmentRate
     , update
     )
 
@@ -11,12 +13,16 @@ import Tag exposing (Tag)
 import Value
 
 
+type VolumeAdjustmentRate
+    = VolumeAdjustmentRate Int
+
+
 type alias Config =
     { gifDisplaySeconds : GifDisplayIntervalSeconds
     , giphyApiKey : GiphyAPIKey
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
-    , volumeAdjustmentRate : Int
+    , volumeAdjustmentRate : VolumeAdjustmentRate
     }
 
 
@@ -36,8 +42,13 @@ init flags =
     , soundCloudPlaylistUrl =
         SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
     , tags = []
-    , volumeAdjustmentRate = 20
+    , volumeAdjustmentRate = VolumeAdjustmentRate 20
     }
+
+
+rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int
+rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
+    rawVolumeAdjustmentRateInt
 
 
 update :

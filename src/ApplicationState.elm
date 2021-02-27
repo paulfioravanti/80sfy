@@ -75,6 +75,9 @@ configJson config =
 
         gifDisplayIntervalSeconds =
             Gif.rawDisplayIntervalSeconds config.gifDisplaySeconds
+
+        volumeAdjustmentRate =
+            Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
     in
     -- Do not output Giphy API key
     Encode.object
@@ -88,7 +91,7 @@ configJson config =
           , Encode.list Encode.string rawTags
           )
         , ( "volumeAdjustmentRate"
-          , Encode.int config.volumeAdjustmentRate
+          , Encode.int volumeAdjustmentRate
           )
         ]
 

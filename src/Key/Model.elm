@@ -2,6 +2,7 @@ module Key.Model exposing (Key, Msgs, fromString, pressed)
 
 import AudioPlayer
 import BrowserVendor
+import Config
 import Model exposing (Model)
 import Tasks
 import VideoPlayer
@@ -65,9 +66,15 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         UpArrow ->
             let
-                newVolume =
+                currentVolume =
                     AudioPlayer.rawVolume audioPlayer.volume
-                        + config.volumeAdjustmentRate
+
+                adjustmentRate =
+                    Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
+
+                newVolume =
+                    currentVolume
+                        + adjustmentRate
                         |> String.fromInt
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
@@ -77,9 +84,15 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         DownArrow ->
             let
-                newVolume =
+                currentVolume =
                     AudioPlayer.rawVolume audioPlayer.volume
-                        - config.volumeAdjustmentRate
+
+                adjustmentRate =
+                    Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
+
+                newVolume =
+                    currentVolume
+                        - adjustmentRate
                         |> String.fromInt
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
