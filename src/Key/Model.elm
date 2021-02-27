@@ -52,7 +52,7 @@ pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Escape ->
-            BrowserVendor.leaveFullScreen msgs.browserVendorMsg
+            BrowserVendor.performLeaveFullScreen msgs.browserVendorMsg
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then

@@ -1,11 +1,11 @@
-module BrowserVendor.Task exposing (leaveFullScreen)
+module BrowserVendor.Task exposing (performLeaveFullScreen)
 
 import BrowserVendor.Msg as Msg exposing (Msg)
 import Task
 
 
-leaveFullScreen : (Msg -> msg) -> Cmd msg
-leaveFullScreen browserVendorMsg =
+performLeaveFullScreen : (Msg -> msg) -> Cmd msg
+performLeaveFullScreen browserVendorMsg =
     Msg.leaveFullScreen browserVendorMsg
         |> Task.succeed
         |> Task.perform identity

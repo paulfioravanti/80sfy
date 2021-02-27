@@ -109,7 +109,7 @@ fullscreenButton { browserVendorMsg } browserVendor =
 
             else
                 onClick
-                    (BrowserVendor.performFullScreenToggleMsg browserVendorMsg)
+                    (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
     in
     div
         [ onClickAttribute

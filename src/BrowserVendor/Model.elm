@@ -4,7 +4,7 @@ module BrowserVendor.Model exposing
     , init
     , leaveFullScreen
     , mozilla
-    , performFullScreenToggle
+    , toggleFullScreen
     )
 
 import BrowserVendor.Ports as Ports
@@ -53,8 +53,8 @@ mozilla =
     Mozilla
 
 
-performFullScreenToggle : BrowserVendor -> Cmd msg
-performFullScreenToggle browserVendor =
+toggleFullScreen : BrowserVendor -> Cmd msg
+toggleFullScreen browserVendor =
     case browserVendor of
         Mozilla ->
             Ports.mozFullScreenToggle ()

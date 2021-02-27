@@ -12,7 +12,11 @@ subscriptions : (Msg -> msg) -> Sub msg
 subscriptions browserVendorMsg =
     let
         handleIsFullScreenFlag isFullScreenFlag =
-            if Value.extractBoolWithDefault False isFullScreenFlag then
+            let
+                isFullScreen =
+                    Value.extractBoolWithDefault False isFullScreenFlag
+            in
+            if isFullScreen then
                 Msg.leaveFullScreen browserVendorMsg
 
             else
