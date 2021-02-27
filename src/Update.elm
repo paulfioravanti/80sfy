@@ -91,13 +91,13 @@ update msg model =
 
         Msg.Play ->
             let
-                playAudio =
-                    AudioPlayer.playAudio Msg.audioPlayer
+                performPlayAudio =
+                    AudioPlayer.performPlayAudio Msg.audioPlayer
 
                 playVideos =
                     VideoPlayer.playVideos Msg.videoPlayer
             in
-            ( model, Cmd.batch [ playVideos, playAudio ] )
+            ( model, Cmd.batch [ playVideos, performPlayAudio ] )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let

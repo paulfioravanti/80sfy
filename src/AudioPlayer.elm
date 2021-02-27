@@ -3,7 +3,6 @@ module AudioPlayer exposing
     , AudioPlayerId
     , AudioPlayerVolume
     , Msg
-    , adjustVolume
     , adjustVolumeDown
     , adjustVolumeMsg
     , adjustVolumeUp
@@ -11,14 +10,15 @@ module AudioPlayer exposing
     , init
     , isMuted
     , isPlaying
-    , nextTrack
     , nextTrackMsg
     , pauseAudioMsg
-    , playAudio
+    , performAudioPlayerReset
+    , performNextTrackSelection
+    , performPlayAudio
+    , performVolumeAdjustment
     , playAudioMsg
     , rawId
     , rawVolume
-    , resetAudioPlayer
     , statusToString
     , subscriptions
     , toggleMuteMsg
@@ -57,11 +57,6 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-adjustVolume : (Msg -> msg) -> String -> Cmd msg
-adjustVolume audioPlayerMsg sliderVolume =
-    Task.adjustVolume audioPlayerMsg sliderVolume
-
-
 adjustVolumeDown : AudioPlayerVolume -> Int -> AudioPlayerVolume
 adjustVolumeDown audioPlayerVolume volumeAdjustmentRate =
     Volume.adjustDown audioPlayerVolume volumeAdjustmentRate
@@ -92,11 +87,6 @@ isPlaying audioPlayer =
     Status.isPlaying audioPlayer.status
 
 
-nextTrack : (Msg -> msg) -> Cmd msg
-nextTrack audioPlayerMsg =
-    Task.nextTrack audioPlayerMsg
-
-
 nextTrackMsg : (Msg -> msg) -> msg
 nextTrackMsg audioPlayerMsg =
     Msg.nextTrack audioPlayerMsg
@@ -107,9 +97,24 @@ pauseAudioMsg audioPlayerMsg =
     Msg.pauseAudio audioPlayerMsg
 
 
-playAudio : (Msg -> msg) -> Cmd msg
-playAudio audioPlayerMsg =
-    Task.playAudio audioPlayerMsg
+performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
+performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
+    Task.performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl
+
+
+performNextTrackSelection : (Msg -> msg) -> Cmd msg
+performNextTrackSelection audioPlayerMsg =
+    Task.performNextTrackSelection audioPlayerMsg
+
+
+performPlayAudio : (Msg -> msg) -> Cmd msg
+performPlayAudio audioPlayerMsg =
+    Task.performPlayAudio audioPlayerMsg
+
+
+performVolumeAdjustment : (Msg -> msg) -> String -> Cmd msg
+performVolumeAdjustment audioPlayerMsg sliderVolume =
+    Task.performVolumeAdjustment audioPlayerMsg sliderVolume
 
 
 playAudioMsg : (Msg -> msg) -> msg
@@ -125,11 +130,6 @@ rawId audioPlayerId =
 rawVolume : AudioPlayerVolume -> Int
 rawVolume audioPlayerVolume =
     Volume.rawVolume audioPlayerVolume
-
-
-resetAudioPlayer : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
-resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl =
-    Task.resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
 
 
 statusToString : Status -> String

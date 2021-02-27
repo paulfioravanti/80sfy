@@ -70,10 +70,10 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                         + config.volumeAdjustmentRate
                         |> String.fromInt
             in
-            AudioPlayer.adjustVolume audioPlayerMsg newVolume
+            AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
         RightArrow ->
-            AudioPlayer.nextTrack audioPlayerMsg
+            AudioPlayer.performNextTrackSelection audioPlayerMsg
 
         DownArrow ->
             let
@@ -82,7 +82,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                         - config.volumeAdjustmentRate
                         |> String.fromInt
             in
-            AudioPlayer.adjustVolume audioPlayerMsg newVolume
+            AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
         _ ->
             Cmd.none

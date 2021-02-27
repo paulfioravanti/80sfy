@@ -51,17 +51,17 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         Msg.PlaylistGenerated playlist ->
             let
-                requestNextTrackNumber =
-                    Task.requestNextTrackNumber audioPlayerMsg
+                performNextTrackNumberRequest =
+                    Task.performNextTrackNumberRequest audioPlayerMsg
             in
             ( { audioPlayer | playlist = playlist }
-            , requestNextTrackNumber
+            , performNextTrackNumberRequest
             )
 
         Msg.NextTrack ->
             let
-                requestNextTrackNumber =
-                    Task.requestNextTrackNumber audioPlayerMsg
+                performNextTrackNumberRequest =
+                    Task.performNextTrackNumberRequest audioPlayerMsg
 
                 playVideos =
                     VideoPlayer.playVideos videoPlayerMsg
@@ -70,7 +70,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ requestNextTrackNumber, playVideos ]
+            , Cmd.batch [ performNextTrackNumberRequest, playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
