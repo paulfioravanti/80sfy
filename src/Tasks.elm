@@ -1,6 +1,5 @@
 module Tasks exposing
     ( performPause
-    , performPauseMedia
     , performPlay
     , performRandomGifGeneration
     )
@@ -8,15 +7,8 @@ module Tasks exposing
 import Task
 
 
-performPause : msg -> Cmd msg
-performPause pauseMsg =
-    pauseMsg
-        |> Task.succeed
-        |> Task.perform identity
-
-
-performPauseMedia : msg -> msg -> Cmd msg
-performPauseMedia pauseAudioMsg pauseVideosMsg =
+performPause : msg -> msg -> Cmd msg
+performPause pauseAudioMsg pauseVideosMsg =
     let
         pauseAudio =
             Task.succeed pauseAudioMsg

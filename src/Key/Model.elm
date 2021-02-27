@@ -4,6 +4,7 @@ import AudioPlayer
 import BrowserVendor
 import Model exposing (Model)
 import Tasks
+import VideoPlayer
 
 
 type Key
@@ -21,6 +22,7 @@ type alias Msgs msgs msg =
         , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
 
@@ -54,7 +56,9 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
-                Tasks.performPause msgs.pauseMsg
+                Tasks.performPause
+                    (AudioPlayer.pauseAudioMsg msgs.audioPlayerMsg)
+                    (VideoPlayer.pauseVideosMsg msgs.videoPlayerMsg)
 
             else
                 Tasks.performPlay msgs.playMsg
