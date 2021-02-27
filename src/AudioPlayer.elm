@@ -54,7 +54,7 @@ type alias Msg =
 
 
 type alias TrackIndex =
-    Model.TrackIndex
+    Playlist.TrackIndex
 
 
 init : SoundCloudPlaylistUrl -> AudioPlayer
@@ -134,7 +134,7 @@ rawId audioPlayerId =
 
 rawTrackIndex : TrackIndex -> Int
 rawTrackIndex trackIndex =
-    Model.rawTrackIndex trackIndex
+    Playlist.rawTrackIndex trackIndex
 
 
 rawVolume : AudioPlayerVolume -> Int

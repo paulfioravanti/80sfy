@@ -55,7 +55,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                     Task.performNextTrackNumberRequest audioPlayerMsg
 
                 playlist =
-                    List.map Model.trackIndex rawPlaylist
+                    List.map Playlist.trackIndex rawPlaylist
             in
             ( { audioPlayer | playlist = playlist }
             , performNextTrackNumberRequest
@@ -83,7 +83,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                         head :: tail ->
                             let
                                 trackNumber =
-                                    Model.rawTrackIndex head
+                                    Playlist.rawTrackIndex head
                             in
                             ( tail, Ports.skipToTrack trackNumber )
 
