@@ -8,7 +8,7 @@ module Gif exposing
     , rawDisplayIntervalSeconds
     , rawGiphyApiKey
     , rawUrl
-    , rawWebDataUrl
+    , rawUrlFromWebData
     , url
     )
 
@@ -91,8 +91,8 @@ rawUrl (GifUrl rawUrlString) =
     rawUrlString
 
 
-rawWebDataUrl : WebData GifUrl -> String
-rawWebDataUrl webData =
+rawUrlFromWebData : WebData GifUrl -> String
+rawUrlFromWebData webData =
     case webData of
         RemoteData.NotAsked ->
             "NotAsked"

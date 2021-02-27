@@ -145,7 +145,7 @@ videoPlayerJson videoPlayer =
     -- hard to encode and doens't provide any real useful debug information.
     let
         videoPlayerGifUrl =
-            Gif.rawWebDataUrl videoPlayer.gifUrl
+            Gif.rawUrlFromWebData videoPlayer.gifUrl
 
         videoPlayerStatus =
             VideoPlayer.statusToString videoPlayer.status
