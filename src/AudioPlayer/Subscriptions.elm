@@ -14,10 +14,10 @@ port audioPaused : (Value -> msg) -> Sub msg
 port audioPlaying : (Value -> msg) -> Sub msg
 
 
-port setPlaylistLength : (Value -> msg) -> Sub msg
+port playlistLengthSet : (Value -> msg) -> Sub msg
 
 
-port requestNextTrackNumber : (() -> msg) -> Sub msg
+port nextTrackNumberRequested : (() -> msg) -> Sub msg
 
 
 type alias Msgs msgs msg =
@@ -48,8 +48,8 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
     in
     Sub.batch
         [ playingSubscription
-        , requestNextTrackNumber handleNextTrackNumberRequestFlag
-        , setPlaylistLength handlePlaylistLengthFlag
+        , nextTrackNumberRequested handleNextTrackNumberRequestFlag
+        , playlistLengthSet handlePlaylistLengthFlag
         ]
 
 

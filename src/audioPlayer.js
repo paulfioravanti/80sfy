@@ -21,7 +21,7 @@ function init(ports) {
 function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
   scPlayer.getSounds(sounds => {
-    ports.setPlaylistLength.send(sounds.length)
+    ports.playlistLengthSet.send(sounds.length)
   })
   // NOTE: This call is to make sure that when the site is first loaded,
   // the videos play (without sound), but the control panel button shows
@@ -68,6 +68,6 @@ function initSkipToTrack(scPlayer, ports) {
 
 function initTrackFinished(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
-    ports.requestNextTrackNumber.send(null)
+    ports.nextTrackNumberRequested.send(null)
   })
 }
