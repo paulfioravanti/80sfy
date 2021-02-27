@@ -53,7 +53,7 @@ update generateRandomGifMsg msg { videoPlayer1, videoPlayer2 } =
                         videoPlayer1.style
 
                 generateRandomGifForHiddenVideoPlayer =
-                    Tasks.generateRandomGif
+                    Tasks.performRandomGifGeneration
                         (generateRandomGifMsg nowHiddenVideoPlayerId)
             in
             ( { videoPlayer1

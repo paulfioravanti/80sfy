@@ -54,10 +54,10 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
-                Tasks.pause msgs.pauseMsg
+                Tasks.performPause msgs.pauseMsg
 
             else
-                Tasks.play msgs.playMsg
+                Tasks.performPlay msgs.playMsg
 
         UpArrow ->
             let

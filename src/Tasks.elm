@@ -1,24 +1,22 @@
-module Tasks exposing (generateRandomGif, pause, pauseMedia, play)
+module Tasks exposing
+    ( performPause
+    , performPauseMedia
+    , performPlay
+    , performRandomGifGeneration
+    )
 
 import Task
 
 
-generateRandomGif : msg -> Cmd msg
-generateRandomGif generateRandomGifMsg =
-    generateRandomGifMsg
-        |> Task.succeed
-        |> Task.perform identity
-
-
-pause : msg -> Cmd msg
-pause pauseMsg =
+performPause : msg -> Cmd msg
+performPause pauseMsg =
     pauseMsg
         |> Task.succeed
         |> Task.perform identity
 
 
-pauseMedia : msg -> msg -> Cmd msg
-pauseMedia pauseAudioMsg pauseVideosMsg =
+performPauseMedia : msg -> msg -> Cmd msg
+performPauseMedia pauseAudioMsg pauseVideosMsg =
     let
         pauseAudio =
             Task.succeed pauseAudioMsg
@@ -34,8 +32,15 @@ pauseMedia pauseAudioMsg pauseVideosMsg =
         |> Task.perform identity
 
 
-play : msg -> Cmd msg
-play playMsg =
+performPlay : msg -> Cmd msg
+performPlay playMsg =
     playMsg
+        |> Task.succeed
+        |> Task.perform identity
+
+
+performRandomGifGeneration : msg -> Cmd msg
+performRandomGifGeneration generateRandomGifMsg =
+    generateRandomGifMsg
         |> Task.succeed
         |> Task.perform identity
