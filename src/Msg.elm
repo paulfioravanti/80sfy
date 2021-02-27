@@ -23,6 +23,7 @@ import Gif exposing (GifDisplayIntervalSeconds)
 import Key exposing (Key)
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (TagsString)
 import VideoPlayer exposing (VideoPlayerId)
 
 
@@ -36,7 +37,7 @@ type Msg
     | NoOp
     | Pause
     | Play
-    | SaveConfig SoundCloudPlaylistUrl String GifDisplayIntervalSeconds
+    | SaveConfig SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
@@ -87,7 +88,11 @@ play =
     Play
 
 
-saveConfig : SoundCloudPlaylistUrl -> String -> GifDisplayIntervalSeconds -> Msg
+saveConfig :
+    SoundCloudPlaylistUrl
+    -> TagsString
+    -> GifDisplayIntervalSeconds
+    -> Msg
 saveConfig soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
     SaveConfig soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
 

@@ -9,7 +9,7 @@ module Config.Model exposing
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
+import Tag exposing (Tag, TagsString)
 import Value
 
 
@@ -53,7 +53,7 @@ rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
 
 update :
     SoundCloudPlaylistUrl
-    -> String
+    -> TagsString
     -> GifDisplayIntervalSeconds
     -> Config
     -> Config

@@ -3,14 +3,14 @@ module Config.Msg exposing (Msg(..), randomTagGenerated, save, tagsFetched)
 import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
+import Tag exposing (Tag, TagsString)
 import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
     = TagsFetched (Result Error (List String))
     | RandomTagGenerated VideoPlayerId Tag
-    | Save SoundCloudPlaylistUrl String GifDisplayIntervalSeconds
+    | Save SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
 
 
 randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
@@ -21,7 +21,7 @@ randomTagGenerated configMsg videoPlayerId tag =
 save :
     (Msg -> msg)
     -> SoundCloudPlaylistUrl
-    -> String
+    -> TagsString
     -> GifDisplayIntervalSeconds
     -> msg
 save configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =

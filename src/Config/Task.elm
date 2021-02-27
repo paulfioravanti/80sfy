@@ -3,6 +3,7 @@ module Config.Task exposing (performRandomTagGeneration, performSave)
 import Config.Msg as Msg exposing (Msg)
 import Gif exposing (GifDisplayIntervalSeconds)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (TagsString)
 import Task
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -17,7 +18,7 @@ performRandomTagGeneration generateRandomTagMsg videoPlayerId =
 performSave :
     (Msg -> msg)
     -> SoundCloudPlaylistUrl
-    -> String
+    -> TagsString
     -> GifDisplayIntervalSeconds
     -> Cmd msg
 performSave configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =

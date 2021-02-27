@@ -4,6 +4,7 @@ import Gif
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SoundCloud
+import Tag
 
 
 update : Msg -> SecretConfig -> SecretConfig
@@ -12,7 +13,9 @@ update msg secretConfig =
         Msg.InitTags tagList ->
             let
                 tags =
-                    String.join ", " tagList
+                    tagList
+                        |> String.join ", "
+                        |> Tag.tagsString
             in
             { secretConfig | tags = tags }
 
@@ -51,4 +54,4 @@ update msg secretConfig =
             { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
 
         Msg.UpdateTags tags ->
-            { secretConfig | tags = tags }
+            { secretConfig | tags = Tag.tagsString tags }

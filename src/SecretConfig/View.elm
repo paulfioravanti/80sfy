@@ -24,6 +24,7 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles
 import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (TagsString)
 import VideoPlayer
 
 
@@ -33,7 +34,7 @@ type alias Msgs msgs msg =
         , controlPanelMsg : ControlPanel.Msg -> msg
         , saveConfigMsg :
             SoundCloudPlaylistUrl
-            -> String
+            -> TagsString
             -> GifDisplayIntervalSeconds
             -> msg
         , secretConfigMsg : Msg -> msg
@@ -96,14 +97,18 @@ secretConfigSettings msgs secretConfig =
         ]
 
 
-gifTagsInput : (Msg -> msg) -> String -> Html msg
+gifTagsInput : (Msg -> msg) -> TagsString -> Html msg
 gifTagsInput secretConfigMsg tags =
+    let
+        rawTags =
+            Tag.rawTagsString tags
+    in
     textarea
         [ attribute "data-name" "search-tags"
         , css [ Styles.gifTags ]
         , onInput (Msg.updateTags secretConfigMsg)
         ]
-        [ text tags ]
+        [ text rawTags ]
 
 
 soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
@@ -139,7 +144,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
 
 
 saveSettingsButton :
-    (SoundCloudPlaylistUrl -> String -> GifDisplayIntervalSeconds -> msg)
+    (SoundCloudPlaylistUrl -> TagsString -> GifDisplayIntervalSeconds -> msg)
     -> SecretConfig
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =

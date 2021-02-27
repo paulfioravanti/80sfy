@@ -114,12 +114,15 @@ secretConfigJson secretConfig =
         rawSoundCloudPlaylistUrl =
             SoundCloud.rawPlaylistUrl secretConfig.soundCloudPlaylistUrl
 
-        gifDisplayIntervalSeconds =
+        rawGifDisplayIntervalSeconds =
             Gif.rawDisplayIntervalSeconds secretConfig.gifDisplaySeconds
+
+        rawTags =
+            Tag.rawTagsString secretConfig.tags
     in
     Encode.object
         [ ( "gifDisplayIntervalSeconds"
-          , Encode.float gifDisplayIntervalSeconds
+          , Encode.float rawGifDisplayIntervalSeconds
           )
         , ( "overrideInactivityPause"
           , Encode.bool secretConfig.overrideInactivityPause
@@ -128,7 +131,7 @@ secretConfigJson secretConfig =
           , Encode.string rawSoundCloudPlaylistUrl
           )
         , ( "tags"
-          , Encode.string secretConfig.tags
+          , Encode.string rawTags
           )
         , ( "visible"
           , Encode.bool secretConfig.visible

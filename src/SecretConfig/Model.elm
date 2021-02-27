@@ -2,13 +2,14 @@ module SecretConfig.Model exposing (SecretConfig, init)
 
 import Gif exposing (GifDisplayIntervalSeconds)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (TagsString)
 
 
 type alias SecretConfig =
     { gifDisplaySeconds : GifDisplayIntervalSeconds
     , overrideInactivityPause : Bool
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
-    , tags : String
+    , tags : TagsString
     , visible : Bool
     }
 
@@ -18,6 +19,6 @@ init soundCloudPlaylistUrl gifDisplaySeconds =
     { gifDisplaySeconds = gifDisplaySeconds
     , overrideInactivityPause = False
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-    , tags = ""
+    , tags = Tag.tagsString ""
     , visible = False
     }

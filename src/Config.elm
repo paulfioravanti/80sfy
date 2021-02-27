@@ -18,7 +18,7 @@ import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
+import Tag exposing (Tag, TagsString)
 import VideoPlayer exposing (VideoPlayerId)
 
 
@@ -42,7 +42,7 @@ init flags =
 performSave :
     (Msg -> msg)
     -> SoundCloudPlaylistUrl
-    -> String
+    -> TagsString
     -> GifDisplayIntervalSeconds
     -> Cmd msg
 performSave configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
