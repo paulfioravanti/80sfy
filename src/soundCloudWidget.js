@@ -1,4 +1,4 @@
-export const AudioPlayer = {
+export const SoundCloudWidget = {
   init
 }
 

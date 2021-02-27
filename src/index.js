@@ -13,7 +13,7 @@
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Elm } from "./Main"
-import { AudioPlayer } from "./audioPlayer"
+import { SoundCloudWidget } from "./soundCloudWidget"
 import { BrowserVendor } from "./browserVendor"
 import { VideoPlayer } from "./videoPlayer"
 
@@ -31,5 +31,5 @@ const ports = app.ports
 ports.consoleLog.subscribe((json) => console.log(json))
 
 VideoPlayer.init(ports)
-AudioPlayer.init(ports)
+SoundCloudWidget.init(ports)
 BrowserVendor.init(ports)
