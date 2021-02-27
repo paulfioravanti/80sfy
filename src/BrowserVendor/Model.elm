@@ -1,5 +1,5 @@
 module BrowserVendor.Model exposing
-    ( BrowserVendor(..)
+    ( BrowserVendor
     , enterFullScreen
     , init
     , leaveFullScreen
