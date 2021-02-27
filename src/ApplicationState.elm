@@ -44,13 +44,16 @@ audioPlayerJson audioPlayer =
 
         rawSoundCloudIframeUrl =
             SoundCloud.rawIframeUrl audioPlayer.soundCloudIframeUrl
+
+        rawPlaylist =
+            List.map AudioPlayer.rawTrackIndex audioPlayer.playlist
     in
     Encode.object
         [ ( "id"
           , Encode.string rawAudioPlayerId
           )
         , ( "playlist"
-          , Encode.list Encode.int audioPlayer.playlist
+          , Encode.list Encode.int rawPlaylist
           )
         , ( "playlistLength"
           , Encode.int audioPlayer.playlistLength

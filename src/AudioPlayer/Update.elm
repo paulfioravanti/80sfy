@@ -49,10 +49,13 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             in
             ( { audioPlayer | status = status }, Cmd.none )
 
-        Msg.PlaylistGenerated playlist ->
+        Msg.PlaylistGenerated rawPlaylist ->
             let
                 performNextTrackNumberRequest =
                     Task.performNextTrackNumberRequest audioPlayerMsg
+
+                playlist =
+                    List.map Model.trackIndex rawPlaylist
             in
             ( { audioPlayer | playlist = playlist }
             , performNextTrackNumberRequest
@@ -78,7 +81,11 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 ( playlist, cmd ) =
                     case audioPlayer.playlist of
                         head :: tail ->
-                            ( tail, Ports.skipToTrack head )
+                            let
+                                trackNumber =
+                                    Model.rawTrackIndex head
+                            in
+                            ( tail, Ports.skipToTrack trackNumber )
 
                         [] ->
                             ( []

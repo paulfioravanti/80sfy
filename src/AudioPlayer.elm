@@ -18,6 +18,7 @@ module AudioPlayer exposing
     , performVolumeAdjustment
     , playAudioMsg
     , rawId
+    , rawTrackIndex
     , rawVolume
     , statusToString
     , subscriptions
@@ -50,6 +51,10 @@ type alias AudioPlayerVolume =
 
 type alias Msg =
     Msg.Msg
+
+
+type alias TrackIndex =
+    Model.TrackIndex
 
 
 init : SoundCloudPlaylistUrl -> AudioPlayer
@@ -125,6 +130,11 @@ playAudioMsg audioPlayerMsg =
 rawId : AudioPlayerId -> String
 rawId audioPlayerId =
     Model.rawId audioPlayerId
+
+
+rawTrackIndex : TrackIndex -> Int
+rawTrackIndex trackIndex =
+    Model.rawTrackIndex trackIndex
 
 
 rawVolume : AudioPlayerVolume -> Int

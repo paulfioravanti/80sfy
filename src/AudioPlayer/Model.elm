@@ -1,8 +1,11 @@
 module AudioPlayer.Model exposing
     ( AudioPlayer
     , AudioPlayerId
+    , TrackIndex
     , init
     , rawId
+    , rawTrackIndex
+    , trackIndex
     )
 
 import AudioPlayer.Status as Status exposing (Status)
@@ -14,9 +17,13 @@ type AudioPlayerId
     = AudioPlayerId String
 
 
+type TrackIndex
+    = TrackIndex Int
+
+
 type alias AudioPlayer =
     { id : AudioPlayerId
-    , playlist : List Int
+    , playlist : List TrackIndex
     , playlistLength : Int
     , soundCloudIframeUrl : SoundCloudIframeUrl
     , status : Status
@@ -38,3 +45,13 @@ init soundCloudPlaylistUrl =
 rawId : AudioPlayerId -> String
 rawId (AudioPlayerId rawIdString) =
     rawIdString
+
+
+rawTrackIndex : TrackIndex -> Int
+rawTrackIndex (TrackIndex rawTrackIndexInt) =
+    rawTrackIndexInt
+
+
+trackIndex : Int -> TrackIndex
+trackIndex rawTrackIndexInt =
+    TrackIndex rawTrackIndexInt
