@@ -1,8 +1,8 @@
 port module BrowserVendor.Subscriptions exposing (Msgs, subscriptions)
 
 import BrowserVendor.Msg as Msg exposing (Msg)
-import Json.Decode as Decode exposing (Decoder, Value, bool, string)
-import Json.Decode.Pipeline exposing (required)
+import Json.Decode as Decode exposing (Value)
+import PortMessage
 import Value
 
 
@@ -16,46 +16,37 @@ type alias Msgs msgs msg =
     }
 
 
-type alias SubMessage =
-    { tag : String
-    , payload : Bool
-    }
-
-
 subscriptions : Msgs msgs msg -> Sub msg
 subscriptions msgs =
-    fromBrowserVendor (handleSubMessage msgs)
+    fromBrowserVendor (handlePortMessage msgs)
 
 
 
 -- PRIVATE
 
 
-decoder : Decoder SubMessage
-decoder =
-    Decode.succeed SubMessage
-        |> required "tag" string
-        |> required "payload" bool
-
-
-handleSubMessage : Msgs msgs msg -> Value -> msg
-handleSubMessage { browserVendorMsg, noOpMsg } subMessageFlag =
+handlePortMessage : Msgs msgs msg -> Value -> msg
+handlePortMessage ({ noOpMsg } as msgs) portMessage =
     let
-        subMessage =
-            Decode.decodeValue decoder subMessageFlag
+        { tag, payload } =
+            PortMessage.decode portMessage
     in
-    case subMessage of
-        Ok { tag, payload } ->
-            case tag of
-                "IS_FULL_SCREEN" ->
-                    if payload then
-                        Msg.leaveFullScreen browserVendorMsg
+    case tag of
+        "IS_FULL_SCREEN" ->
+            handleIsFullScreenMessage msgs payload
 
-                    else
-                        Msg.enterFullScreen browserVendorMsg
-
-                _ ->
-                    noOpMsg
-
-        Err _ ->
+        _ ->
             noOpMsg
+
+
+handleIsFullScreenMessage : Msgs msgs msg -> Value -> msg
+handleIsFullScreenMessage { browserVendorMsg, noOpMsg } payload =
+    let
+        isFullScreen =
+            Value.extractBoolWithDefault False payload
+    in
+    if isFullScreen then
+        Msg.leaveFullScreen browserVendorMsg
+
+    else
+        Msg.enterFullScreen browserVendorMsg
