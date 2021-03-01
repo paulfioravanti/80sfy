@@ -10,9 +10,7 @@ const OTHER = "other"
 function init(ports) {
   switch(current()) {
   case WEBKIT:
-    initWebkitExitFullScreen(ports)
-    initWebkitFullScreenToggle(ports)
-    initWebkitRequestFullScreen(ports)
+    handleWebkitMessages(ports)
     break
   case MOZILLA:
     initMozCancelFullScreen(ports)
@@ -50,22 +48,26 @@ function isWebkit() {
   )
 }
 
-function initWebkitExitFullScreen(ports) {
-  ports.webkitExitFullScreen.subscribe(() => {
-    document.webkitExitFullscreen()
-  })
-}
-
-function initWebkitFullScreenToggle(ports) {
-  ports.webkitFullScreenToggle.subscribe(() => {
-    const isFullScreen = !!document.webkitFullscreenElement
-    ports.toggleFullScreen.send(isFullScreen)
-  })
-}
-
-function initWebkitRequestFullScreen(ports) {
-  ports.webkitRequestFullScreen.subscribe(() => {
-    document.documentElement.webkitRequestFullScreen()
+function handleWebkitMessages(ports) {
+  ports.toBrowserVendor.subscribe(({ tag }) => {
+    switch (tag) {
+    case "EXIT_FULL_SCREEN":
+      document.webkitExitFullscreen()
+      break
+    case "FULL_SCREEN_TOGGLE": {
+      const isFullScreen = !!document.webkitFullscreenElement
+      ports.fromBrowserVendor.send({
+        "tag": "IS_FULL_SCREEN",
+        "payload": isFullScreen
+      })
+      break
+    }
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.webkitRequestFullScreen()
+      break
+    default:
+      console.log(`Unexpected tag ${tag}`)
+    }
   })
 }
 

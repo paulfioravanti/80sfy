@@ -10,6 +10,11 @@ port module BrowserVendor.Ports exposing
     , webkitRequestFullScreen
     )
 
+import PortMessage exposing (PortMessage)
+
+
+port toBrowserVendor : PortMessage -> Cmd msg
+
 
 port mozCancelFullScreen : () -> Cmd msg
 
@@ -40,10 +45,16 @@ port otherFullScreenToggle : () -> Cmd msg
 port otherRequestFullScreen : () -> Cmd msg
 
 
-port webkitExitFullScreen : () -> Cmd msg
+webkitExitFullScreen : Cmd msg
+webkitExitFullScreen =
+    toBrowserVendor (PortMessage.new "EXIT_FULL_SCREEN")
 
 
-port webkitFullScreenToggle : () -> Cmd msg
+webkitFullScreenToggle : Cmd msg
+webkitFullScreenToggle =
+    toBrowserVendor (PortMessage.new "FULL_SCREEN_TOGGLE")
 
 
-port webkitRequestFullScreen : () -> Cmd msg
+webkitRequestFullScreen : Cmd msg
+webkitRequestFullScreen =
+    toBrowserVendor (PortMessage.new "REQUEST_FULL_SCREEN")

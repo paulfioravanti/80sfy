@@ -25,6 +25,10 @@ type alias Msg =
     Msg.Msg
 
 
+type alias Msgs msgs msg =
+    Subscriptions.Msgs msgs msg
+
+
 init : Flags -> BrowserVendor
 init flags =
     Model.init flags.browserVendor
@@ -55,6 +59,6 @@ performLeaveFullScreen browserVendorMsg =
     Task.performLeaveFullScreen browserVendorMsg
 
 
-subscriptions : (Msg -> msg) -> Sub msg
-subscriptions browserVendorMsg =
-    Subscriptions.subscriptions browserVendorMsg
+subscriptions : Msgs msgs msg -> Sub msg
+subscriptions msgs =
+    Subscriptions.subscriptions msgs

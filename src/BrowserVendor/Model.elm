@@ -45,7 +45,7 @@ enterFullScreen browserVendor =
             Ports.otherRequestFullScreen ()
 
         Webkit ->
-            Ports.webkitRequestFullScreen ()
+            Ports.webkitRequestFullScreen
 
 
 mozilla : BrowserVendor
@@ -63,7 +63,7 @@ toggleFullScreen browserVendor =
             Ports.otherFullScreenToggle ()
 
         Webkit ->
-            Ports.webkitFullScreenToggle ()
+            Ports.webkitFullScreenToggle
 
 
 leaveFullScreen : BrowserVendor -> Cmd msg
@@ -76,4 +76,4 @@ leaveFullScreen browserVendor =
             Ports.otherExitFullScreen ()
 
         Webkit ->
-            Ports.webkitExitFullScreen ()
+            Ports.webkitExitFullScreen

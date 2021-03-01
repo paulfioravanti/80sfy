@@ -17,6 +17,7 @@ subscriptions model =
 
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
+            , browserVendorMsg = Msg.browserVendor
             , noOpMsg = Msg.noOp
             , videoPlayerMsg = Msg.videoPlayer
             }
@@ -29,7 +30,7 @@ subscriptions model =
     in
     Sub.batch
         [ AudioPlayer.subscriptions msgs audioPlayer
-        , BrowserVendor.subscriptions Msg.browserVendor
+        , BrowserVendor.subscriptions msgs
         , ControlPanel.subscriptions Msg.controlPanel controlPanel
         , Key.subscriptions Msg.keyPressed
         , VideoPlayer.subscriptions msgs videoPlayerContext videoPlayer1
