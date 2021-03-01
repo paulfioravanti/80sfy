@@ -68,7 +68,10 @@ function handleWebkitMessages(ports) {
     case "EXIT_FULL_SCREEN":
       document.webkitExitFullscreen()
       break
-    case "FULL_SCREEN_TOGGLE": {
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.webkitRequestFullScreen()
+      break
+    case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.webkitFullscreenElement
       ports.fromBrowserVendor.send({
         "tag": "IS_FULL_SCREEN",
@@ -76,9 +79,6 @@ function handleWebkitMessages(ports) {
       })
       break
     }
-    case "REQUEST_FULL_SCREEN":
-      document.documentElement.webkitRequestFullScreen()
-      break
     default:
       console.log(`Unexpected tag ${tag}`)
     }
@@ -101,7 +101,10 @@ function handleMozillaMessages(ports) {
     case "EXIT_FULL_SCREEN":
       document.mozCancelFullScreen()
       break
-    case "FULL_SCREEN_TOGGLE": {
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.mozRequestFullScreen()
+      break
+    case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.mozFullScreenElement
       ports.fromBrowserVendor.send({
         "tag": "IS_FULL_SCREEN",
@@ -109,9 +112,6 @@ function handleMozillaMessages(ports) {
       })
       break
     }
-    case "REQUEST_FULL_SCREEN":
-      document.documentElement.mozRequestFullScreen()
-      break
     default:
       console.log(`Unexpected tag ${tag}`)
     }
@@ -134,7 +134,10 @@ function handleOtherMessages(ports) {
     case "EXIT_FULL_SCREEN":
       document.exitFullscreen()
       break
-    case "FULL_SCREEN_TOGGLE": {
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.requestFullScreen()
+      break
+    case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.fullscreenElement
       ports.fromBrowserVendor.send({
         "tag": "IS_FULL_SCREEN",
@@ -142,9 +145,6 @@ function handleOtherMessages(ports) {
       })
       break
     }
-    case "REQUEST_FULL_SCREEN":
-      document.documentElement.requestFullScreen()
-      break
     default:
       console.log(`Unexpected tag ${tag}`)
     }

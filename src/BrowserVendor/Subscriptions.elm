@@ -46,7 +46,7 @@ handleIsFullScreenMessage { browserVendorMsg } payload =
             Value.extractBoolWithDefault False payload
     in
     if isFullScreen then
-        Msg.leaveFullScreen browserVendorMsg
+        Msg.exitFullScreen browserVendorMsg
 
     else
-        Msg.enterFullScreen browserVendorMsg
+        Msg.requestFullScreen browserVendorMsg

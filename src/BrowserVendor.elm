@@ -2,10 +2,10 @@ module BrowserVendor exposing
     ( BrowserVendor
     , Msg
     , cmd
+    , exitFullScreenMsg
     , init
-    , leaveFullScreenMsg
     , mozilla
-    , performLeaveFullScreen
+    , performExitFullScreen
     , subscriptions
     , toggleFullScreenMsg
     )
@@ -34,14 +34,14 @@ init flags =
     Model.init flags.browserVendor
 
 
-cmd : Msg -> BrowserVendor -> Cmd msg
-cmd msg browserVendor =
-    Msg.toCmd msg browserVendor
+cmd : Msg -> Cmd msg
+cmd msg =
+    Msg.toCmd msg
 
 
-leaveFullScreenMsg : (Msg -> msg) -> msg
-leaveFullScreenMsg browserVendorMsg =
-    Msg.leaveFullScreen browserVendorMsg
+exitFullScreenMsg : (Msg -> msg) -> msg
+exitFullScreenMsg browserVendorMsg =
+    Msg.exitFullScreen browserVendorMsg
 
 
 mozilla : BrowserVendor
@@ -49,16 +49,16 @@ mozilla =
     Model.mozilla
 
 
-toggleFullScreenMsg : (Msg -> msg) -> msg
-toggleFullScreenMsg browserVendorMsg =
-    Msg.toggleFullScreen browserVendorMsg
-
-
-performLeaveFullScreen : (Msg -> msg) -> Cmd msg
-performLeaveFullScreen browserVendorMsg =
-    Task.performLeaveFullScreen browserVendorMsg
+performExitFullScreen : (Msg -> msg) -> Cmd msg
+performExitFullScreen browserVendorMsg =
+    Task.performExitFullScreen browserVendorMsg
 
 
 subscriptions : Msgs msgs msg -> Sub msg
 subscriptions msgs =
     Subscriptions.subscriptions msgs
+
+
+toggleFullScreenMsg : (Msg -> msg) -> msg
+toggleFullScreenMsg browserVendorMsg =
+    Msg.toggleFullScreen browserVendorMsg

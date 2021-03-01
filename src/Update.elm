@@ -50,10 +50,10 @@ update msg model =
             in
             ( { model | controlPanel = controlPanel }, cmd )
 
-        Msg.BrowserVendor browserVendorMsg ->
+        Msg.BrowserVendor msgForBrowserVendor ->
             let
                 cmd =
-                    BrowserVendor.cmd browserVendorMsg model.browserVendor
+                    BrowserVendor.cmd msgForBrowserVendor
             in
             ( model, cmd )
 

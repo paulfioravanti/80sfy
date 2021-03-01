@@ -1,41 +1,41 @@
 module BrowserVendor.Msg exposing
     ( Msg
-    , enterFullScreen
-    , leaveFullScreen
+    , exitFullScreen
+    , requestFullScreen
     , toCmd
     , toggleFullScreen
     )
 
-import BrowserVendor.Model as Model exposing (BrowserVendor)
+import BrowserVendor.Ports as Ports
 
 
 type Msg
-    = EnterFullScreen
-    | LeaveFullScreen
+    = ExitFullScreen
+    | RequestFullScreen
     | ToggleFullScreen
 
 
-enterFullScreen : (Msg -> msg) -> msg
-enterFullScreen browserVendorMsg =
-    browserVendorMsg EnterFullScreen
+exitFullScreen : (Msg -> msg) -> msg
+exitFullScreen browserVendorMsg =
+    browserVendorMsg ExitFullScreen
 
 
-leaveFullScreen : (Msg -> msg) -> msg
-leaveFullScreen browserVendorMsg =
-    browserVendorMsg LeaveFullScreen
+requestFullScreen : (Msg -> msg) -> msg
+requestFullScreen browserVendorMsg =
+    browserVendorMsg RequestFullScreen
 
 
-toCmd : Msg -> BrowserVendor -> Cmd msg
-toCmd msg browserVendor =
+toCmd : Msg -> Cmd msg
+toCmd msg =
     case msg of
-        EnterFullScreen ->
-            Model.enterFullScreen browserVendor
+        RequestFullScreen ->
+            Ports.requestFullScreen
 
-        LeaveFullScreen ->
-            Model.leaveFullScreen browserVendor
+        ExitFullScreen ->
+            Ports.exitFullScreen
 
         ToggleFullScreen ->
-            Model.toggleFullScreen browserVendor
+            Ports.toggleFullScreen
 
 
 toggleFullScreen : (Msg -> msg) -> msg
