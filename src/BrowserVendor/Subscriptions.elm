@@ -1,7 +1,7 @@
 port module BrowserVendor.Subscriptions exposing (Msgs, subscriptions)
 
 import BrowserVendor.Msg as Msg exposing (Msg)
-import Json.Decode as Decode exposing (Value)
+import Json.Decode exposing (Value)
 import PortMessage
 import Value
 
@@ -40,7 +40,7 @@ handlePortMessage ({ noOpMsg } as msgs) portMessage =
 
 
 handleIsFullScreenMessage : Msgs msgs msg -> Value -> msg
-handleIsFullScreenMessage { browserVendorMsg, noOpMsg } payload =
+handleIsFullScreenMessage { browserVendorMsg } payload =
     let
         isFullScreen =
             Value.extractBoolWithDefault False payload

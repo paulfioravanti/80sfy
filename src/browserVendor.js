@@ -13,15 +13,29 @@ function init(ports) {
     handleWebkitMessages(ports)
     break
   case MOZILLA:
-    initMozCancelFullScreen(ports)
-    initMozFullScreenToggle(ports)
-    initMozFullScreenToggleHack()
-    initMozRequestFullScreen(ports)
+    handleMozillaMessages(ports)
+    // Hopefully this function can be removed in later versions of Elm, but
+    // the issue is that the Elm-style initMozFullScreenToggle function above
+    // does not seem to work as Firefox requires the fullscreen event to occur
+    // in the same clock tick as the user click. If you use the function
+    // above, in the console, you will see "Request for fullscreen was denied
+    // because Element.requestFullscreen() was not called from inside a short
+    // running user-generated event handler.". I don't currently know how to
+    // fix this.
+    // More information can be found at:
+    // - https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ
+    // - https://stackoverflow.com/q/43240352/567863
+    window.mozFullScreenToggleHack = () => {
+      const isFullScreen = !!document.mozFullScreenElement
+      if (isFullScreen) {
+        document.mozCancelFullScreen()
+      } else {
+        document.documentElement.mozRequestFullScreen()
+      }
+    }
     break
   case OTHER:
-    initOtherExitFullScreen(ports)
-    initOtherFullScreenToggle(ports)
-    initOtherRequestFullScreen(ports)
+    handleOtherMessages(ports)
     break
   default:
     console.log("Could not determine browser vendor!")
@@ -81,43 +95,26 @@ function isMozilla() {
   )
 }
 
-function initMozCancelFullScreen(ports) {
-  ports.mozCancelFullScreen.subscribe(() => {
-    document.mozCancelFullScreen()
-  })
-}
-
-function initMozFullScreenToggle(ports) {
-  ports.mozFullScreenToggle.subscribe(() => {
-    const isFullScreen = !!document.mozFullScreenElement
-    ports.toggleFullScreen.send(isFullScreen)
-  })
-}
-
-// Hopefully this function can be removed in later versions of Elm, but the
-// issue is that the Elm-style initMozFullScreenToggle function above does not
-// seem to work as Firefox requires the fullscreen event to occur in the same
-// clock tick as the user click. If you use the function above, in the console,
-// you will see "Request for fullscreen was denied because
-// Element.requestFullscreen() was not called from inside a short running
-// user-generated event handler.". I don't currently know how to fix this.
-// More information can be found at:
-// - https://groups.google.com/d/msg/elm-dev/hhNu6SGOM54/TS0pDPtKCAAJ
-// - https://stackoverflow.com/q/43240352/567863
-function initMozFullScreenToggleHack() {
-  window.mozFullScreenToggleHack = () => {
-    const isFullScreen = !!document.mozFullScreenElement
-    if (isFullScreen) {
+function handleMozillaMessages(ports) {
+  ports.toBrowserVendor.subscribe(({ tag }) => {
+    switch (tag) {
+    case "EXIT_FULL_SCREEN":
       document.mozCancelFullScreen()
-    } else {
-      document.documentElement.mozRequestFullScreen()
+      break
+    case "FULL_SCREEN_TOGGLE": {
+      const isFullScreen = !!document.mozFullScreenElement
+      ports.fromBrowserVendor.send({
+        "tag": "IS_FULL_SCREEN",
+        "payload": isFullScreen
+      })
+      break
     }
-  }
-}
-
-function initMozRequestFullScreen(ports) {
-  ports.mozRequestFullScreen.subscribe(() => {
-    document.documentElement.mozRequestFullScreen()
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.mozRequestFullScreen()
+      break
+    default:
+      console.log(`Unexpected tag ${tag}`)
+    }
   })
 }
 
@@ -131,21 +128,25 @@ function isOtherFullScreenCapableBrowser() {
   )
 }
 
-function initOtherExitFullScreen(ports) {
-  ports.otherExitFullScreen.subscribe(() => {
-    document.exitFullscreen()
-  })
-}
-
-function initOtherFullScreenToggle(ports) {
-  ports.otherFullScreenToggle.subscribe(() => {
-    const isFullScreen = !!document.fullscreenElement
-    ports.toggleFullScreen.send(isFullScreen)
-  })
-}
-
-function initOtherRequestFullScreen(ports) {
-  ports.otherRequestFullScreen.subscribe(() => {
-    document.documentElement.requestFullScreen()
+function handleOtherMessages(ports) {
+  ports.toBrowserVendor.subscribe(({ tag }) => {
+    switch (tag) {
+    case "EXIT_FULL_SCREEN":
+      document.exitFullscreen()
+      break
+    case "FULL_SCREEN_TOGGLE": {
+      const isFullScreen = !!document.fullscreenElement
+      ports.fromBrowserVendor.send({
+        "tag": "IS_FULL_SCREEN",
+        "payload": isFullScreen
+      })
+      break
+    }
+    case "REQUEST_FULL_SCREEN":
+      document.documentElement.requestFullScreen()
+      break
+    default:
+      console.log(`Unexpected tag ${tag}`)
+    }
   })
 }

@@ -39,10 +39,10 @@ enterFullScreen : BrowserVendor -> Cmd msg
 enterFullScreen browserVendor =
     case browserVendor of
         Mozilla ->
-            Ports.mozRequestFullScreen ()
+            Ports.mozRequestFullScreen
 
         Other ->
-            Ports.otherRequestFullScreen ()
+            Ports.otherRequestFullScreen
 
         Webkit ->
             Ports.webkitRequestFullScreen
@@ -57,10 +57,10 @@ toggleFullScreen : BrowserVendor -> Cmd msg
 toggleFullScreen browserVendor =
     case browserVendor of
         Mozilla ->
-            Ports.mozFullScreenToggle ()
+            Ports.mozFullScreenToggle
 
         Other ->
-            Ports.otherFullScreenToggle ()
+            Ports.otherFullScreenToggle
 
         Webkit ->
             Ports.webkitFullScreenToggle
@@ -70,10 +70,10 @@ leaveFullScreen : BrowserVendor -> Cmd msg
 leaveFullScreen browserVendor =
     case browserVendor of
         Mozilla ->
-            Ports.mozCancelFullScreen ()
+            Ports.mozCancelFullScreen
 
         Other ->
-            Ports.otherExitFullScreen ()
+            Ports.otherExitFullScreen
 
         Webkit ->
             Ports.webkitExitFullScreen
