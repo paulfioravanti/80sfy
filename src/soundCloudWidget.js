@@ -5,19 +5,8 @@ export const SoundCloudWidget = {
 function init(ports) {
   ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
     switch (tag) {
-    case "INIT": {
-      const { id, volume } = payload
-      window.requestAnimationFrame(() => {
-        const scPlayer = SC.Widget(id)
-        scPlayer.bind(SC.Widget.Events.READY, () => {
-          initAudioPlayer(scPlayer, volume, ports)
-          initPlayAudio(scPlayer, ports)
-          initPauseAudio(scPlayer, ports)
-          initSetVolume(scPlayer, ports)
-          initSkipToTrack(scPlayer, ports)
-          initTrackFinished(scPlayer, ports)
-        })
-      })
+    case "INIT_WIDGET": {
+      initWidget(ports, payload)
       break
     }
     default:
@@ -26,10 +15,29 @@ function init(ports) {
   })
 }
 
+function initWidget(ports, { id, volume }) {
+  window.requestAnimationFrame(() => {
+    const scPlayer = SC.Widget(id)
+    scPlayer.bind(SC.Widget.Events.READY, () => {
+      initAudioPlayer(scPlayer, volume, ports)
+      // ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
+      initPlayAudio(scPlayer, ports)
+      initPauseAudio(scPlayer, ports)
+      initSetVolume(scPlayer, ports)
+      initSkipToTrack(scPlayer, ports)
+      initTrackFinished(scPlayer, ports)
+      // })
+    })
+  })
+}
+
 function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
   scPlayer.getSounds(sounds => {
-    ports.playlistLengthSet.send(sounds.length)
+    ports.fromSoundCloudWidget.send({
+      "tag": "PLAYLIST_LENGTH_SET",
+      "payload": sounds.length
+    })
   })
   // NOTE: This call is to make sure that when the site is first loaded,
   // the videos play (without sound), but the control panel button shows
@@ -41,7 +49,7 @@ function initAudioPlayer(scPlayer, volume, ports) {
   // suddenly for what looks like no reason. This is also the only time when
   // the controls on the control panel and the video playback itself should
   // be "out of sync".
-  ports.videosPlaying.send(null)
+  ports.fromSoundCloudWidget.send({ "tag": "VIDEOS_PLAYING" })
 }
 
 function initPlayAudio(scPlayer, ports) {

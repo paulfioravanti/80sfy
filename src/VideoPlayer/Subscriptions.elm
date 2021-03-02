@@ -3,6 +3,8 @@ port module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 import Animation
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
+import PortMessage
+import Ports
 import Time
 import Value
 import VideoPlayer.Model exposing (VideoPlayer)
@@ -62,24 +64,35 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 
         handleVideosPaused () =
             Msg.videosPaused videoPlayerMsg
-
-        handleVideosPlaying () =
-            Msg.videosPlaying videoPlayerMsg
     in
     Sub.batch
         [ fetchNextGif
         , videosHalted_
         , windowEvent
         , videosPaused handleVideosPaused
-        , videosPlaying handleVideosPlaying
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
+        , Ports.fromSoundCloudWidget (handlePortMessage msgs)
         ]
 
 
 
 -- PRIVATE
+
+
+handlePortMessage : Msgs msgs msg -> Value -> msg
+handlePortMessage { videoPlayerMsg, noOpMsg } portMessage =
+    let
+        { tag } =
+            PortMessage.decode portMessage
+    in
+    case tag of
+        "VIDEOS_PLAYING" ->
+            Msg.videosPlaying videoPlayerMsg
+
+        _ ->
+            noOpMsg
 
 
 fetchNextGifSubscription :

@@ -27,7 +27,7 @@ function initPauseVideos(ports) {
 function initPlayVideos(ports) {
   ports.playVideos.subscribe(() => {
     playVideoPlayers()
-    ports.videosPlaying.send(null)
+    ports.fromSoundCloudWidget.send({ "tag": "VIDEOS_PLAYING" })
   })
 }
 

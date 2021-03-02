@@ -15,5 +15,8 @@ initSoundCloudWidget ( id, volume ) =
                 [ ( "id", Encode.string id )
                 , ( "volume", Encode.int volume )
                 ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
     in
-    toSoundCloudWidget (PortMessage.withTaggedPayload ( "INIT", payload ))
+    toSoundCloudWidget portMessage

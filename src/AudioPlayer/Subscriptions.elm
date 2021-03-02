@@ -4,6 +4,8 @@ import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Status as Status
 import Json.Decode exposing (Value)
+import PortMessage
+import Ports
 import Value
 import VideoPlayer
 
@@ -12,9 +14,6 @@ port audioPaused : (Value -> msg) -> Sub msg
 
 
 port audioPlaying : (Value -> msg) -> Sub msg
-
-
-port playlistLengthSet : (Value -> msg) -> Sub msg
 
 
 port nextTrackNumberRequested : (() -> msg) -> Sub msg
@@ -38,23 +37,41 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
             else
                 audioPlayingSubscriptions msgs
 
-        handlePlaylistLengthFlag value =
-            value
-                |> Value.extractIntWithDefault 1
-                |> Msg.setPlaylistLength audioPlayerMsg
-
         handleNextTrackNumberRequestFlag () =
             Msg.nextTrackNumberRequested audioPlayerMsg
     in
     Sub.batch
         [ playingSubscription
         , nextTrackNumberRequested handleNextTrackNumberRequestFlag
-        , playlistLengthSet handlePlaylistLengthFlag
+        , Ports.fromSoundCloudWidget (handlePortMessage msgs)
         ]
 
 
 
 -- PRIVATE
+
+
+handlePortMessage : Msgs msgs msg -> Value -> msg
+handlePortMessage { audioPlayerMsg, noOpMsg } portMessage =
+    let
+        { tag, payload } =
+            PortMessage.decode portMessage
+    in
+    case tag of
+        "PLAYLIST_LENGTH_SET" ->
+            handlePlaylistLengthSet audioPlayerMsg payload
+
+        _ ->
+            noOpMsg
+
+
+handlePlaylistLengthSet : (Msg -> msg) -> Value -> msg
+handlePlaylistLengthSet audioPlayerMsg payload =
+    let
+        playlistLength =
+            Value.extractIntWithDefault 1 payload
+    in
+    Msg.setPlaylistLength audioPlayerMsg playlistLength
 
 
 audioPausedSubscriptions : Msgs msgs msg -> Sub msg

@@ -40,4 +40,4 @@ decoder : Decoder PortMessage
 decoder =
     Decode.succeed PortMessage
         |> Pipeline.required "tag" Decode.string
-        |> Pipeline.required "payload" Decode.value
+        |> Pipeline.optional "payload" Decode.value Encode.null
