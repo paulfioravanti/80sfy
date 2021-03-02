@@ -36,14 +36,14 @@ init flags =
         ({ audioPlayer } as model) =
             Model.init config browserVendor
 
-        soundCloudWidgetFlags =
-            { id = AudioPlayer.rawId audioPlayer.id
-            , volume = AudioPlayer.rawVolume audioPlayer.volume
-            }
+        initSoundCloudWidgetPayloadValues =
+            ( AudioPlayer.rawId audioPlayer.id
+            , AudioPlayer.rawVolume audioPlayer.volume
+            )
     in
     ( model
     , Cmd.batch
         [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
-        , SoundCloud.initWidget soundCloudWidgetFlags
+        , SoundCloud.initWidget initSoundCloudWidgetPayloadValues
         ]
     )

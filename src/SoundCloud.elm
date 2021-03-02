@@ -9,61 +9,43 @@ module SoundCloud exposing
     , rawPlaylistUrl
     )
 
-import SoundCloud.Flags exposing (Flags)
 import SoundCloud.Ports as Ports
+import SoundCloud.Url as Url
 
 
-type SoundCloudIframeUrl
-    = SoundCloudIframeUrl String
+type alias SoundCloudIframeUrl =
+    Url.SoundCloudIframeUrl
 
 
-type SoundCloudPlaylistUrl
-    = SoundCloudPlaylistUrl String
+type alias SoundCloudPlaylistUrl =
+    Url.SoundCloudPlaylistUrl
 
 
 defaultPlaylistUrlString : String
 defaultPlaylistUrlString =
-    "https://api.soundcloud.com/playlists/193785575"
+    Url.defaultPlaylistUrlString
 
 
 iframeUrl : SoundCloudPlaylistUrl -> SoundCloudIframeUrl
 iframeUrl soundCloudPlaylistUrl =
-    let
-        rawIframeUrlString =
-            "https://w.soundcloud.com/player/"
-                ++ "?url="
-                ++ rawPlaylistUrl soundCloudPlaylistUrl
-                ++ "&auto_play=false"
-                ++ "&buying=true"
-                ++ "&liking=true"
-                ++ "&download=true"
-                ++ "&sharing=true"
-                ++ "&show_artwork=true"
-                ++ "&show_comments=false"
-                ++ "&show_playcount=false"
-                ++ "&show_user=false"
-                ++ "&hide_related=false"
-                ++ "&visual=false"
-                ++ "&callback=true"
-    in
-    SoundCloudIframeUrl rawIframeUrlString
+    Url.iframeUrl soundCloudPlaylistUrl
 
 
-initWidget : Flags -> Cmd msg
-initWidget flags =
-    Ports.initSoundCloudWidget flags
+initWidget : ( String, Int ) -> Cmd msg
+initWidget payloadValues =
+    Ports.initSoundCloudWidget payloadValues
 
 
 rawIframeUrl : SoundCloudIframeUrl -> String
-rawIframeUrl (SoundCloudIframeUrl rawIframeUrlString) =
-    rawIframeUrlString
+rawIframeUrl soundCloudIframeUrl =
+    Url.rawIframeUrl soundCloudIframeUrl
 
 
 rawPlaylistUrl : SoundCloudPlaylistUrl -> String
-rawPlaylistUrl (SoundCloudPlaylistUrl rawplaylistUrlString) =
-    rawplaylistUrlString
+rawPlaylistUrl soundCloudPlaylistUrl =
+    Url.rawPlaylistUrl soundCloudPlaylistUrl
 
 
 playlistUrl : String -> SoundCloudPlaylistUrl
 playlistUrl rawSoundCloudPlaylistUrlString =
-    SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString
+    Url.playlistUrl rawSoundCloudPlaylistUrlString

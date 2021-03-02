@@ -106,13 +106,13 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
 
         Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
             let
-                soundCloudWidgetFlags =
-                    { id = Model.rawId audioPlayer.id
-                    , volume = Volume.rawVolume audioPlayer.volume
-                    }
+                initSoundCloudWidgetPayloadValues =
+                    ( Model.rawId audioPlayer.id
+                    , Volume.rawVolume audioPlayer.volume
+                    )
             in
             ( Model.init soundCloudPlaylistUrl
-            , SoundCloud.initWidget soundCloudWidgetFlags
+            , SoundCloud.initWidget initSoundCloudWidgetPayloadValues
             )
 
         Msg.SetPlaylistLength playlistLength ->

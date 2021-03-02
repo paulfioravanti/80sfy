@@ -8,7 +8,7 @@ const MOZILLA = "mozilla"
 const OTHER = "other"
 
 function init(ports) {
-  switch(current()) {
+  switch (current()) {
   case WEBKIT:
     handleWebkitMessages(ports)
     break

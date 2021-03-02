@@ -3,18 +3,26 @@ export const SoundCloudWidget = {
 }
 
 function init(ports) {
-  ports.initSoundCloudWidget.subscribe(({ id: id, volume: volume }) => {
-    window.requestAnimationFrame(() => {
-      const scPlayer = SC.Widget(id)
-      scPlayer.bind(SC.Widget.Events.READY, () => {
-        initAudioPlayer(scPlayer, volume, ports)
-        initPlayAudio(scPlayer, ports)
-        initPauseAudio(scPlayer, ports)
-        initSetVolume(scPlayer, ports)
-        initSkipToTrack(scPlayer, ports)
-        initTrackFinished(scPlayer, ports)
+  ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
+    switch (tag) {
+    case "INIT": {
+      const { id, volume } = payload
+      window.requestAnimationFrame(() => {
+        const scPlayer = SC.Widget(id)
+        scPlayer.bind(SC.Widget.Events.READY, () => {
+          initAudioPlayer(scPlayer, volume, ports)
+          initPlayAudio(scPlayer, ports)
+          initPauseAudio(scPlayer, ports)
+          initSetVolume(scPlayer, ports)
+          initSkipToTrack(scPlayer, ports)
+          initTrackFinished(scPlayer, ports)
+        })
       })
-    })
+      break
+    }
+    default:
+      console.log(`Unexpected SoundCloudWidget tag ${tag}`)
+    }
   })
 }
 
