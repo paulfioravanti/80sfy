@@ -28,7 +28,15 @@ const app =
 
 const ports = app.ports
 
-ports.consoleLog.subscribe((json) => console.log(json))
+ports.console.subscribe(({ tag, payload }) => {
+  switch (tag) {
+  case "LOG":
+    console.log(payload)
+    break
+  default:
+    console.log(`Unexpected console tag ${tag}`)
+  }
+})
 
 VideoPlayer.init(ports)
 SoundCloudWidget.init(ports)

@@ -26,7 +26,7 @@ show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlaye
                 , ( "Video Player 2", videoPlayerJson videoPlayer2 )
                 ]
     in
-    Ports.consoleLog applicationState
+    Ports.log applicationState
 
 
 

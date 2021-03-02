@@ -93,4 +93,4 @@ update msgs msg config =
                           )
                         ]
             in
-            ( config, Ports.consoleLog message )
+            ( config, Ports.log message )

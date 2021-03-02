@@ -146,7 +146,7 @@ function handleOtherMessages(ports) {
       break
     }
     default:
-      console.log(`Unexpected tag ${tag}`)
+      console.log(`Unexpected browserVendor tag ${tag}`)
     }
   })
 }

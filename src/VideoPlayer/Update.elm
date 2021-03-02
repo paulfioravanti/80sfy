@@ -96,7 +96,7 @@ update generateRandomTagMsg msg { videoPlayer1, videoPlayer2 } =
                           )
                         ]
             in
-            ( videoPlayer1, videoPlayer2, Ports.consoleLog message )
+            ( videoPlayer1, videoPlayer2, Ports.log message )
 
         Msg.HaltVideos ->
             ( videoPlayer1, videoPlayer2, Ports.haltVideos () )
