@@ -1,8 +1,8 @@
-module PortMessage exposing (PortMessage, decode, new, withPayload)
+module PortMessage exposing (PortMessage, decode, withTag, withTaggedPayload)
 
-import Json.Decode as Decode exposing (Decoder, Value, string, value)
-import Json.Decode.Pipeline exposing (required)
-import Json.Encode exposing (Value, null)
+import Json.Decode as Decode exposing (Decoder, Value)
+import Json.Decode.Pipeline as Pipeline
+import Json.Encode as Encode exposing (Value)
 
 
 type alias PortMessage =
@@ -15,19 +15,21 @@ decode : Value -> PortMessage
 decode value =
     value
         |> Decode.decodeValue decoder
-        |> Result.withDefault (new "")
+        |> Result.withDefault (withTag "")
 
 
-new : String -> PortMessage
-new tag =
+withTag : String -> PortMessage
+withTag tag =
     { tag = tag
-    , payload = null
+    , payload = Encode.null
     }
 
 
-withPayload : Value -> PortMessage -> PortMessage
-withPayload payload portMessage =
-    { portMessage | payload = payload }
+withTaggedPayload : ( String, Value ) -> PortMessage
+withTaggedPayload ( tag, payload ) =
+    { tag = tag
+    , payload = payload
+    }
 
 
 
@@ -37,5 +39,5 @@ withPayload payload portMessage =
 decoder : Decoder PortMessage
 decoder =
     Decode.succeed PortMessage
-        |> required "tag" string
-        |> required "payload" value
+        |> Pipeline.required "tag" Decode.string
+        |> Pipeline.required "payload" Decode.value

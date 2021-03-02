@@ -8,10 +8,5 @@ port console : PortMessage -> Cmd msg
 
 
 log : Value -> Cmd msg
-log value =
-    let
-        portMessage =
-            PortMessage.new "LOG"
-                |> PortMessage.withPayload value
-    in
-    console portMessage
+log payload =
+    console (PortMessage.withTaggedPayload ( "LOG", payload ))

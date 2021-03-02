@@ -12,14 +12,14 @@ port toBrowserVendor : PortMessage -> Cmd msg
 
 exitFullScreen : Cmd msg
 exitFullScreen =
-    toBrowserVendor (PortMessage.new "EXIT_FULL_SCREEN")
+    toBrowserVendor (PortMessage.withTag "EXIT_FULL_SCREEN")
 
 
 toggleFullScreen : Cmd msg
 toggleFullScreen =
-    toBrowserVendor (PortMessage.new "TOGGLE_FULL_SCREEN")
+    toBrowserVendor (PortMessage.withTag "TOGGLE_FULL_SCREEN")
 
 
 requestFullScreen : Cmd msg
 requestFullScreen =
-    toBrowserVendor (PortMessage.new "REQUEST_FULL_SCREEN")
+    toBrowserVendor (PortMessage.withTag "REQUEST_FULL_SCREEN")
