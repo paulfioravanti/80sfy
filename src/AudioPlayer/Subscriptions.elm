@@ -16,9 +16,6 @@ port audioPaused : (Value -> msg) -> Sub msg
 port audioPlaying : (Value -> msg) -> Sub msg
 
 
-port nextTrackNumberRequested : (() -> msg) -> Sub msg
-
-
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : Msg -> msg
@@ -36,13 +33,9 @@ subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
 
             else
                 audioPlayingSubscriptions msgs
-
-        handleNextTrackNumberRequestFlag () =
-            Msg.nextTrackNumberRequested audioPlayerMsg
     in
     Sub.batch
         [ playingSubscription
-        , nextTrackNumberRequested handleNextTrackNumberRequestFlag
         , Ports.fromSoundCloudWidget (handlePortMessage msgs)
         ]
 
@@ -58,11 +51,19 @@ handlePortMessage { audioPlayerMsg, noOpMsg } portMessage =
             PortMessage.decode portMessage
     in
     case tag of
+        "NEXT_TRACK_NUMBER_REQUESTED" ->
+            handleNextTrackNumberRequested audioPlayerMsg
+
         "PLAYLIST_LENGTH_SET" ->
             handlePlaylistLengthSet audioPlayerMsg payload
 
         _ ->
             noOpMsg
+
+
+handleNextTrackNumberRequested : (Msg -> msg) -> msg
+handleNextTrackNumberRequested audioPlayerMsg =
+    Msg.nextTrackNumberRequested audioPlayerMsg
 
 
 handlePlaylistLengthSet : (Msg -> msg) -> Value -> msg

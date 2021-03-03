@@ -54,7 +54,7 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
     ports.audioPaused.send(sound.currentPosition)
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
-    ports.nextTrackNumberRequested.send(null)
+    ports.fromSoundCloudWidget.send({ "tag": "NEXT_TRACK_NUMBER_REQUESTED" })
   })
 }
 
