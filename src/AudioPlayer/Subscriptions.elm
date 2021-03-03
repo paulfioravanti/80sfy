@@ -25,7 +25,7 @@ type alias Msgs msgs msg =
 
 
 subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
-subscriptions ({ audioPlayerMsg } as msgs) audioPlayer =
+subscriptions msgs audioPlayer =
     let
         playingSubscription =
             if Status.isPlaying audioPlayer.status then
