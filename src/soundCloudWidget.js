@@ -5,10 +5,9 @@ export const SoundCloudWidget = {
 function init(ports) {
   ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
     switch (tag) {
-    case "INIT_WIDGET": {
+    case "INIT_WIDGET":
       initWidget(ports, payload)
       break
-    }
     default:
       console.log(`Unexpected SoundCloudWidget tag ${tag}`)
     }
@@ -20,13 +19,8 @@ function initWidget(ports, { id, volume }) {
     const scPlayer = SC.Widget(id)
     scPlayer.bind(SC.Widget.Events.READY, () => {
       initAudioPlayer(scPlayer, volume, ports)
-      // ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
-      initPlayAudio(scPlayer, ports)
-      initPauseAudio(scPlayer, ports)
-      initSetVolume(scPlayer, ports)
-      initSkipToTrack(scPlayer, ports)
-      initTrackFinished(scPlayer, ports)
-      // })
+      bindSoundCloudWidgetEvents(scPlayer, ports)
+      initPortSubscriptions(scPlayer, ports)
     })
   })
 }
@@ -52,38 +46,35 @@ function initAudioPlayer(scPlayer, volume, ports) {
   ports.fromSoundCloudWidget.send({ "tag": "VIDEOS_PLAYING" })
 }
 
-function initPlayAudio(scPlayer, ports) {
-  ports.playAudio.subscribe(() => {
-    scPlayer.play()
-  })
+function bindSoundCloudWidgetEvents(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
     ports.audioPlaying.send(sound.loadedProgress)
-  })
-}
-
-function initPauseAudio(scPlayer, ports) {
-  ports.pauseAudio.subscribe(() => {
-    scPlayer.pause()
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
     ports.audioPaused.send(sound.currentPosition)
   })
-}
-
-function initSetVolume(scPlayer, ports) {
-  ports.setVolume.subscribe(volume => {
-    scPlayer.setVolume(volume)
-  })
-}
-
-function initSkipToTrack(scPlayer, ports) {
-  ports.skipToTrack.subscribe(trackNumber => {
-    scPlayer.skip(trackNumber)
-  })
-}
-
-function initTrackFinished(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
     ports.nextTrackNumberRequested.send(null)
+  })
+}
+
+function initPortSubscriptions(scPlayer, ports) {
+  ports.toSoundCloudWidget.subscribe(({ tag, payload }) => {
+    switch (tag) {
+    case "PLAY_AUDIO":
+      scPlayer.play()
+      break
+    case "PAUSE_AUDIO":
+      scPlayer.pause()
+      break
+    case "SET_VOLUME":
+      scPlayer.setVolume(payload.volume)
+      break
+    case "SKIP_TO_TRACK":
+      scPlayer.skip(payload.trackNumber)
+      break
+    default:
+      console.log(`Unexpected SoundCloudWidget tag ${tag}`)
+    }
   })
 }

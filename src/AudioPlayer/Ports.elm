@@ -1,22 +1,44 @@
-port module AudioPlayer.Ports exposing
-    ( nextTrack
-    , pauseAudio
+module AudioPlayer.Ports exposing
+    ( pauseAudio
     , playAudio
     , setVolume
     , skipToTrack
     )
 
-
-port nextTrack : () -> Cmd msg
-
-
-port pauseAudio : () -> Cmd msg
+import Json.Encode as Encode
+import PortMessage
+import Ports
 
 
-port playAudio : () -> Cmd msg
+pauseAudio : Cmd msg
+pauseAudio =
+    Ports.toSoundCloudWidget (PortMessage.withTag "PAUSE_AUDIO")
 
 
-port setVolume : Int -> Cmd msg
+playAudio : Cmd msg
+playAudio =
+    Ports.toSoundCloudWidget (PortMessage.withTag "PLAY_AUDIO")
 
 
-port skipToTrack : Int -> Cmd msg
+setVolume : Int -> Cmd msg
+setVolume volume =
+    let
+        payload =
+            Encode.object [ ( "volume", Encode.int volume ) ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
+    in
+    Ports.toSoundCloudWidget portMessage
+
+
+skipToTrack : Int -> Cmd msg
+skipToTrack trackNumber =
+    let
+        payload =
+            Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
+    in
+    Ports.toSoundCloudWidget portMessage

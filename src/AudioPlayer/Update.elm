@@ -87,10 +87,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             )
 
         Msg.PauseAudio ->
-            ( audioPlayer, Ports.pauseAudio () )
+            ( audioPlayer, Ports.pauseAudio )
 
         Msg.PlayAudio ->
-            ( audioPlayer, Ports.playAudio () )
+            ( audioPlayer, Ports.playAudio )
 
         Msg.PlaylistGenerated rawPlaylist ->
             let
