@@ -77,8 +77,6 @@ handlePlaylistLengthSet audioPlayerMsg payload =
 
 audioPausedSubscriptions : Msgs msgs msg -> Sub msg
 audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
-    -- Only perform actions if at least some of the sound from the
-    -- SoundCloud player has been actually played.
     let
         audioPausedMsg =
             Msg.audioPaused audioPlayerMsg
@@ -91,6 +89,8 @@ audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
                 currentPosition =
                     Value.extractFloatWithDefault 0.0 currentPositionFlag
             in
+            -- Only perform actions if at least some of the sound from the
+            -- SoundCloud player has been actually played.
             if currentPosition > 0 then
                 msg
 
