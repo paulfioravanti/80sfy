@@ -74,13 +74,13 @@ function handleWebkitMessages(ports) {
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.webkitFullscreenElement
       ports.fromBrowserVendor.send({
-        "tag": "IS_FULL_SCREEN",
-        "payload": isFullScreen
+        tag: "IS_FULL_SCREEN",
+        payload: isFullScreen
       })
       break
     }
     default:
-      console.log(`Unexpected tag ${tag}`)
+      console.log(`Unexpected browserVendor tag ${tag}`)
     }
   })
 }
@@ -107,13 +107,13 @@ function handleMozillaMessages(ports) {
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.mozFullScreenElement
       ports.fromBrowserVendor.send({
-        "tag": "IS_FULL_SCREEN",
-        "payload": isFullScreen
+        tag: "IS_FULL_SCREEN",
+        payload: isFullScreen
       })
       break
     }
     default:
-      console.log(`Unexpected tag ${tag}`)
+      console.log(`Unexpected browserVendor tag ${tag}`)
     }
   })
 }
@@ -140,8 +140,8 @@ function handleOtherMessages(ports) {
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.fullscreenElement
       ports.fromBrowserVendor.send({
-        "tag": "IS_FULL_SCREEN",
-        "payload": isFullScreen
+        tag: "IS_FULL_SCREEN",
+        payload: isFullScreen
       })
       break
     }

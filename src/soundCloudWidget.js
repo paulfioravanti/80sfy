@@ -9,7 +9,7 @@ function init(ports) {
       initWidget(ports, payload)
       break
     default:
-      console.log(`Unexpected SoundCloudWidget tag ${tag}`)
+      console.log(`Unexpected soundCloudWidget tag ${tag}`)
     }
   })
 }
@@ -29,8 +29,8 @@ function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
   scPlayer.getSounds(sounds => {
     ports.fromSoundCloudWidget.send({
-      "tag": "PLAYLIST_LENGTH_SET",
-      "payload": sounds.length
+      tag: "PLAYLIST_LENGTH_SET",
+      payload: sounds.length
     })
   })
   // NOTE: This call is to make sure that when the site is first loaded,
@@ -43,25 +43,27 @@ function initAudioPlayer(scPlayer, volume, ports) {
   // suddenly for what looks like no reason. This is also the only time when
   // the controls on the control panel and the video playback itself should
   // be "out of sync".
-  ports.fromSoundCloudWidget.send({ "tag": "VIDEOS_PLAYING" })
+  ports.fromSoundCloudWidget.send({
+    tag: "VIDEOS_PLAYING"
+  })
 }
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
     ports.fromSoundCloudWidget.send({
-      "tag": "AUDIO_PLAYING",
-      "payload": sound.loadedProgress
+      tag: "AUDIO_PLAYING",
+      payload: sound.loadedProgress
     })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
     ports.fromSoundCloudWidget.send({
-      "tag": "AUDIO_PAUSED",
-      "payload": sound.currentPosition
+      tag: "AUDIO_PAUSED",
+      payload: sound.currentPosition
     })
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
     ports.fromSoundCloudWidget.send({
-      "tag": "NEXT_TRACK_NUMBER_REQUESTED"
+      tag: "NEXT_TRACK_NUMBER_REQUESTED"
     })
   })
 }
