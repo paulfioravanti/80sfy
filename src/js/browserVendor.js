@@ -1,36 +1,27 @@
-import {
-  WEBKIT,
-  isWebkit,
-  handleWebkitMessages
-} from "./browserVendor/webkit"
-import {
-  MOZILLA,
-  isMozilla,
-  handleMozillaMessages,
-  initMozillaFullScreenHack
-} from "./browserVendor/mozilla"
-import {
-  OTHER,
-  isOtherFullScreenCapableBrowser,
-  handleOtherMessages
-} from "./browserVendor/other"
+import { Mozilla } from "./browserVendor/mozilla"
+import { Other } from "./browserVendor/other"
+import { Webkit } from "./browserVendor/webkit"
 
 export const BrowserVendor = {
   init,
   current,
 }
 
+const MOZILLA = "mozilla"
+const OTHER = "other"
+const WEBKIT = "webkit"
+
 function init(ports) {
   switch (current()) {
-  case WEBKIT:
-    handleWebkitMessages(ports)
-    break
   case MOZILLA:
-    handleMozillaMessages(ports)
-    initMozillaFullScreenHack()
+    Mozilla.handleMessages(ports)
+    Mozilla.initFullScreenHack()
     break
   case OTHER:
-    handleOtherMessages(ports)
+    Other.handleOtherMessages(ports)
+    break
+  case WEBKIT:
+    Webkit.handleMessages(ports)
     break
   default:
     console.log("Could not determine browser vendor!")
@@ -38,11 +29,13 @@ function init(ports) {
 }
 
 function current() {
-  if (isWebkit()) {
-    return WEBKIT
-  } else if (isMozilla()) {
+  if (Mozilla.isMozilla()) {
     return MOZILLA
-  } else if (isOtherFullScreenCapableBrowser()) {
+  } else if (Other.isFullScreenCapableBrowser()) {
     return OTHER
+  } else if (Webkit.isWebkit()) {
+    return WEBKIT
+  } else {
+    return null
   }
 }

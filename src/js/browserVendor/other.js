@@ -1,6 +1,9 @@
-export const OTHER = "other"
+export const Other = {
+  isFullScreenCapableBrowser,
+  handleMessages
+}
 
-export function isOtherFullScreenCapableBrowser() {
+function isFullScreenCapableBrowser() {
   return (
     document.fullScreenElement !== undefined &&
     document.documentElement.requestFullScreen &&
@@ -8,7 +11,7 @@ export function isOtherFullScreenCapableBrowser() {
   )
 }
 
-export function handleOtherMessages(ports) {
+function handleMessages(ports) {
   ports.toBrowserVendor.subscribe(({ tag }) => {
     switch (tag) {
     case "EXIT_FULL_SCREEN":

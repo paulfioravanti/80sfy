@@ -1,6 +1,10 @@
-export const MOZILLA = "mozilla"
+export const Mozilla = {
+  isMozilla,
+  handleMessages,
+  initFullScreenHack
+}
 
-export function isMozilla() {
+function isMozilla() {
   return (
     document.mozFullScreenElement !== undefined &&
     document.documentElement.mozRequestFullScreen &&
@@ -8,7 +12,7 @@ export function isMozilla() {
   )
 }
 
-export function handleMozillaMessages(ports) {
+function handleMessages(ports) {
   ports.toBrowserVendor.subscribe(({ tag }) => {
     switch (tag) {
     case "EXIT_FULL_SCREEN":
@@ -32,7 +36,7 @@ export function handleMozillaMessages(ports) {
   })
 }
 
-export function initMozillaFullScreenHack() {
+function initFullScreenHack() {
   // Hopefully this function can be removed in later versions of Elm, but
   // the issue is that the Elm-style initMozFullScreenToggle function above
   // does not seem to work as Firefox requires the fullscreen event to occur

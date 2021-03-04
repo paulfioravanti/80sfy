@@ -1,6 +1,9 @@
-export const WEBKIT = "webkit"
+export const Webkit = {
+  isWebkit,
+  handleMessages
+}
 
-export function isWebkit() {
+function isWebkit() {
   return (
     document.webkitFullscreenElement !== undefined &&
     document.documentElement.webkitRequestFullScreen &&
@@ -8,7 +11,7 @@ export function isWebkit() {
   )
 }
 
-export function handleWebkitMessages(ports) {
+function handleMessages(ports) {
   ports.toBrowserVendor.subscribe(({ tag }) => {
     switch (tag) {
     case "EXIT_FULL_SCREEN":
