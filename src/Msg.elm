@@ -1,6 +1,7 @@
 module Msg exposing
     ( Msg(..)
     , audioPlayer
+    , audioPlaying
     , browserVendor
     , config
     , controlPanel
@@ -29,6 +30,7 @@ import VideoPlayer exposing (VideoPlayerId)
 
 type Msg
     = AudioPlayer AudioPlayer.Msg
+    | AudioPlaying
     | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
@@ -46,6 +48,11 @@ type Msg
 audioPlayer : AudioPlayer.Msg -> Msg
 audioPlayer audioPlayerMsg =
     AudioPlayer audioPlayerMsg
+
+
+audioPlaying : Msg
+audioPlaying =
+    AudioPlaying
 
 
 browserVendor : BrowserVendor.Msg -> Msg

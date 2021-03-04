@@ -13,6 +13,7 @@ module AudioPlayer exposing
     , nextTrackMsg
     , pauseAudioMsg
     , performAudioPlayerReset
+    , performAudioPlaying
     , performNextTrackSelection
     , performPlayAudio
     , performVolumeAdjustment
@@ -105,6 +106,11 @@ pauseAudioMsg audioPlayerMsg =
 performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
 performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
     Task.performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl
+
+
+performAudioPlaying : (Msg -> msg) -> Cmd msg
+performAudioPlaying audioPlayerMsg =
+    Task.performAudioPlaying audioPlayerMsg
 
 
 performNextTrackSelection : (Msg -> msg) -> Cmd msg

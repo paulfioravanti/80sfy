@@ -48,7 +48,10 @@ function initAudioPlayer(scPlayer, volume, ports) {
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
-    ports.audioPlaying.send(sound.loadedProgress)
+    ports.fromSoundCloudWidget.send({
+      "tag": "AUDIO_PLAYING",
+      "payload": sound.loadedProgress
+    })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
     ports.audioPaused.send(sound.currentPosition)

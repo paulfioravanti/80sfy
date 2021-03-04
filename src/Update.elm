@@ -36,6 +36,16 @@ update msg model =
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
+        Msg.AudioPlaying ->
+            let
+                performAudioPlaying =
+                    AudioPlayer.performAudioPlaying Msg.audioPlayer
+
+                performPlayVideos =
+                    VideoPlayer.performPlayVideos Msg.videoPlayer
+            in
+            ( model, Cmd.batch [ performPlayVideos, performAudioPlaying ] )
+
         Msg.Config msgForConfig ->
             let
                 ( config, cmd ) =

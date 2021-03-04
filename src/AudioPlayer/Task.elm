@@ -1,5 +1,6 @@
 module AudioPlayer.Task exposing
     ( performAudioPlayerReset
+    , performAudioPlaying
     , performNextTrackNumberRequest
     , performNextTrackSelection
     , performPlayAudio
@@ -14,6 +15,13 @@ import Task
 performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
 performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
     Msg.resetAudioPlayer audioPlayerMsg soundCloudPlaylistUrl
+        |> Task.succeed
+        |> Task.perform identity
+
+
+performAudioPlaying : (Msg -> msg) -> Cmd msg
+performAudioPlaying audioPlayerMsg =
+    Msg.audioPlaying audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
 
