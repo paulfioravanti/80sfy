@@ -13,9 +13,9 @@
 import "@fortawesome/fontawesome-free-webfonts"
 import "@fortawesome/fontawesome-free-webfonts/css/fa-solid.css"
 import { Elm } from "./Main"
-import { SoundCloudWidget } from "./soundCloudWidget"
-import { BrowserVendor } from "./browserVendor"
-import { VideoPlayer } from "./videoPlayer"
+import { SoundCloudWidget } from "./js/soundCloudWidget"
+import { BrowserVendor } from "./js/browserVendor"
+import { VideoPlayer } from "./js/videoPlayer"
 
 const app =
   Elm.Main.init({
