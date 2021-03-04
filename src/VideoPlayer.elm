@@ -5,6 +5,7 @@ module VideoPlayer exposing
     , id
     , init
     , pauseVideosMsg
+    , performPauseVideos
     , performPlayVideos
     , playVideosMsg
     , randomGifUrlFetchedMsg
@@ -58,6 +59,11 @@ id rawIdString =
 pauseVideosMsg : (Msg -> msg) -> msg
 pauseVideosMsg videoPlayerMsg =
     Msg.pauseVideos videoPlayerMsg
+
+
+performPauseVideos : (Msg -> msg) -> Cmd msg
+performPauseVideos videoPlayerMsg =
+    Task.performPauseVideos videoPlayerMsg
 
 
 performPlayVideos : (Msg -> msg) -> Cmd msg

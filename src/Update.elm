@@ -29,6 +29,16 @@ update msg model =
             }
     in
     case msg of
+        Msg.AudioPaused ->
+            let
+                performAudioPaused =
+                    AudioPlayer.performAudioPaused Msg.audioPlayer
+
+                performPauseVideos =
+                    VideoPlayer.performPauseVideos Msg.videoPlayer
+            in
+            ( model, Cmd.batch [ performPauseVideos, performAudioPaused ] )
+
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =

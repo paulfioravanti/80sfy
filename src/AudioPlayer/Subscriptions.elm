@@ -1,4 +1,4 @@
-port module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
+module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
 
 import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -10,12 +10,10 @@ import Value
 import VideoPlayer
 
 
-port audioPaused : (Value -> msg) -> Sub msg
-
-
 type alias Msgs msgs msg =
     { msgs
-        | audioPlayerMsg : Msg -> msg
+        | audioPausedMsg : msg
+        , audioPlayerMsg : Msg -> msg
         , audioPlayingMsg : msg
         , noOpMsg : msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
@@ -24,14 +22,7 @@ type alias Msgs msgs msg =
 
 subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
 subscriptions msgs audioPlayer =
-    let
-        playingSubscription =
-            audioPausedSubscriptions msgs
-    in
-    Sub.batch
-        [ playingSubscription
-        , Ports.fromSoundCloudWidget (handlePortMessage msgs audioPlayer)
-        ]
+    Ports.fromSoundCloudWidget (handlePortMessage msgs audioPlayer)
 
 
 
@@ -45,6 +36,13 @@ handlePortMessage ({ audioPlayerMsg, noOpMsg } as msgs) audioPlayer portMessage 
             PortMessage.decode portMessage
     in
     case tag of
+        "AUDIO_PAUSED" ->
+            if Status.isPlaying audioPlayer.status then
+                handleAudioPaused msgs payload
+
+            else
+                noOpMsg
+
         "AUDIO_PLAYING" ->
             if not (Status.isPlaying audioPlayer.status) then
                 handleAudioPlaying msgs payload
@@ -76,6 +74,21 @@ handlePlaylistLengthSet audioPlayerMsg payload =
     Msg.setPlaylistLength audioPlayerMsg playlistLength
 
 
+handleAudioPaused : Msgs msgs msg -> Value -> msg
+handleAudioPaused { audioPausedMsg, noOpMsg } payload =
+    let
+        currentPosition =
+            Value.extractFloatWithDefault 0.0 payload
+    in
+    -- Only perform actions if at least some of the sound from the
+    -- SoundCloud player has been actually played.
+    if currentPosition > 0 then
+        audioPausedMsg
+
+    else
+        noOpMsg
+
+
 handleAudioPlaying : Msgs msgs msg -> Value -> msg
 handleAudioPlaying { audioPlayingMsg, noOpMsg } payload =
     let
@@ -90,58 +103,3 @@ handleAudioPlaying { audioPlayingMsg, noOpMsg } payload =
 
     else
         noOpMsg
-
-
-audioPausedSubscriptions : Msgs msgs msg -> Sub msg
-audioPausedSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
-    let
-        audioPausedMsg =
-            Msg.audioPaused audioPlayerMsg
-
-        pauseVideosMsg =
-            VideoPlayer.pauseVideosMsg videoPlayerMsg
-
-        handleCurrentPositionFlag msg currentPositionFlag =
-            let
-                currentPosition =
-                    Value.extractFloatWithDefault 0.0 currentPositionFlag
-            in
-            -- Only perform actions if at least some of the sound from the
-            -- SoundCloud player has been actually played.
-            if currentPosition > 0 then
-                msg
-
-            else
-                noOpMsg
-    in
-    Sub.batch
-        [ audioPaused (handleCurrentPositionFlag audioPausedMsg)
-        , audioPaused (handleCurrentPositionFlag pauseVideosMsg)
-        ]
-
-
-
--- audioPlayingSubscriptions : Msgs msgs msg -> Sub msg
--- audioPlayingSubscriptions { audioPlayerMsg, noOpMsg, videoPlayerMsg } =
---     let
---         audioPlayingMsg =
---             Msg.audioPlaying audioPlayerMsg
---         playVideosMsg =
---             VideoPlayer.playVideosMsg videoPlayerMsg
---         handleLoadedProgressFlag msg loadedProgressFlag =
---             let
---                 loadedProgress =
---                     Value.extractFloatWithDefault 0.0 loadedProgressFlag
---             in
---             -- Only perform actions if at least some of the sound from the
---             -- SoundCloud player has been loaded and can therefore
---             -- actually play.
---             if loadedProgress > 0 then
---                 msg
---             else
---                 noOpMsg
---     in
---     Sub.batch
---         [ audioPlaying (handleLoadedProgressFlag audioPlayingMsg)
---         , audioPlaying (handleLoadedProgressFlag playVideosMsg)
---         ]

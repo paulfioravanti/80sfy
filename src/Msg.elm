@@ -1,5 +1,6 @@
 module Msg exposing
     ( Msg(..)
+    , audioPaused
     , audioPlayer
     , audioPlaying
     , browserVendor
@@ -29,7 +30,8 @@ import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
-    = AudioPlayer AudioPlayer.Msg
+    = AudioPaused
+    | AudioPlayer AudioPlayer.Msg
     | AudioPlaying
     | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
@@ -43,6 +45,11 @@ type Msg
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
+
+
+audioPaused : Msg
+audioPaused =
+    AudioPaused
 
 
 audioPlayer : AudioPlayer.Msg -> Msg
