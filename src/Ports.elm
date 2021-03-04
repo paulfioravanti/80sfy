@@ -1,18 +1,15 @@
-port module Ports exposing (fromSoundCloudWidget, log, toSoundCloudWidget)
+port module Ports exposing (log, soundCloudWidgetOut)
 
 import Json.Encode exposing (Value)
 import PortMessage exposing (PortMessage)
 
 
-port console : PortMessage -> Cmd msg
+port consoleOut : PortMessage -> Cmd msg
 
 
-port fromSoundCloudWidget : (Value -> msg) -> Sub msg
-
-
-port toSoundCloudWidget : PortMessage -> Cmd msg
+port soundCloudWidgetOut : PortMessage -> Cmd msg
 
 
 log : Value -> Cmd msg
 log payload =
-    console (PortMessage.withTaggedPayload ( "LOG", payload ))
+    consoleOut (PortMessage.withTaggedPayload ( "LOG", payload ))

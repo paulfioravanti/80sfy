@@ -1,13 +1,15 @@
-module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
+port module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
 
 import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Status as Status
 import Json.Decode exposing (Value)
 import PortMessage
-import Ports
 import Value
 import VideoPlayer
+
+
+port audioPlayerIn : (Value -> msg) -> Sub msg
 
 
 type alias Msgs msgs msg =
@@ -22,7 +24,7 @@ type alias Msgs msgs msg =
 
 subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
 subscriptions msgs audioPlayer =
-    Ports.fromSoundCloudWidget (handlePortMessage msgs audioPlayer)
+    audioPlayerIn (handlePortMessage msgs audioPlayer)
 
 
 

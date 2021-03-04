@@ -4,12 +4,14 @@ import Animation
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
 import PortMessage
-import Ports
 import Time
 import Value
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status exposing (Status)
+
+
+port videoPlayerIn : (Value -> msg) -> Sub msg
 
 
 port videosHalted : (() -> msg) -> Sub msg
@@ -73,7 +75,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
-        , Ports.fromSoundCloudWidget (handlePortMessage msgs)
+        , videoPlayerIn (handlePortMessage msgs)
         ]
 
 
