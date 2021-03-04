@@ -1,7 +1,6 @@
 module Subscriptions exposing (subscriptions)
 
 import AudioPlayer
-import BrowserVendor
 import ControlPanel
 import Key
 import Model exposing (Model)
@@ -32,7 +31,6 @@ subscriptions model =
     in
     Sub.batch
         [ AudioPlayer.subscriptions msgs audioPlayer
-        , BrowserVendor.subscriptions msgs
         , ControlPanel.subscriptions Msg.controlPanel controlPanel
         , Key.subscriptions Msg.keyPressed
         , VideoPlayer.subscriptions msgs videoPlayerContext videoPlayer1
