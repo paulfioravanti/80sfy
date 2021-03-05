@@ -145,7 +145,7 @@ secretConfigJson secretConfig =
 videoPlayerJson : VideoPlayer -> Value
 videoPlayerJson videoPlayer =
     -- Don't bother with printing the animation style state as it's too
-    -- hard to encode and doens't provide any real useful debug information.
+    -- hard to encode and doesn't provide any real useful debug information.
     let
         videoPlayerGifUrl =
             Gif.rawUrlFromWebData videoPlayer.gifUrl
