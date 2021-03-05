@@ -17,7 +17,7 @@ function init(ports) {
     case "PLAY_VIDEOS":
       playVideoPlayers()
       ports.videoPlayerIn.send({
-        "tag": "VIDEOS_PLAYING"
+        tag: "VIDEOS_PLAYING"
       })
       break
     default:
@@ -32,7 +32,9 @@ function initWindowEventListeners(ports) {
     ports.windowBlurred.send(activeElementId)
   })
   window.addEventListener("focus", () => {
-    ports.windowFocused.send(null)
+    ports.videoPlayerIn.send({
+      tag: "WINDOW_FOCUSED"
+    })
   })
 }
 

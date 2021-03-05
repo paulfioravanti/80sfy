@@ -20,13 +20,7 @@ port videosHalted : (() -> msg) -> Sub msg
 port videosPaused : (() -> msg) -> Sub msg
 
 
-port videosPlaying : (() -> msg) -> Sub msg
-
-
 port windowBlurred : (Value -> msg) -> Sub msg
-
-
-port windowFocused : (() -> msg) -> Sub msg
 
 
 type alias Context =
@@ -75,7 +69,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
-        , videoPlayerIn (handlePortMessage msgs)
+        , videoPlayerIn (handlePortMessage msgs videoPlayer1)
         ]
 
 
@@ -83,8 +77,8 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 -- PRIVATE
 
 
-handlePortMessage : Msgs msgs msg -> Value -> msg
-handlePortMessage { videoPlayerMsg, noOpMsg } portMessage =
+handlePortMessage : Msgs msgs msg -> VideoPlayer -> Value -> msg
+handlePortMessage { videoPlayerMsg, noOpMsg } videoPlayer1 portMessage =
     let
         { tag } =
             PortMessage.decode portMessage
@@ -92,6 +86,13 @@ handlePortMessage { videoPlayerMsg, noOpMsg } portMessage =
     case tag of
         "VIDEOS_PLAYING" ->
             Msg.videosPlaying videoPlayerMsg
+
+        "WINDOW_FOCUSED" ->
+            if videoPlayer1.status == Status.halted then
+                Msg.playVideos videoPlayerMsg
+
+            else
+                noOpMsg
 
         _ ->
             noOpMsg
@@ -142,15 +143,9 @@ windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerRawId status =
 
             else
                 Msg.haltVideos videoPlayerMsg
-
-        handleWindowFocused () =
-            Msg.playVideos videoPlayerMsg
     in
     if status == Status.playing then
         windowBlurred handleWindowBlurred
-
-    else if status == Status.halted then
-        windowFocused handleWindowFocused
 
     else
         Sub.none
