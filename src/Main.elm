@@ -36,7 +36,7 @@ init flags =
         ({ audioPlayer } as model) =
             Model.init config browserVendor
 
-        initSoundCloudWidgetPayloadValues =
+        initialPayloadValues =
             ( AudioPlayer.rawId audioPlayer.id
             , AudioPlayer.rawVolume audioPlayer.volume
             )
@@ -44,6 +44,6 @@ init flags =
     ( model
     , Cmd.batch
         [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
-        , SoundCloud.initWidget initSoundCloudWidgetPayloadValues
+        , SoundCloud.initWidget initialPayloadValues
         ]
     )
