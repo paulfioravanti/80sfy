@@ -15,7 +15,7 @@ port videoPlayerIn : (Value -> msg) -> Sub msg
 
 
 type alias Context =
-    { audioPlayerRawId : String
+    { rawAudioPlayerId : String
     , gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
     , overrideInactivityPause : Bool
     }
@@ -81,7 +81,7 @@ handlePortMessage msgs context videoPlayer1 portMessage =
 
         "WINDOW_BLURRED" ->
             if videoPlayer1.status == Status.playing then
-                handleWindowBlurred msgs context.audioPlayerRawId payload
+                handleWindowBlurred msgs context.rawAudioPlayerId payload
 
             else
                 noOpMsg
@@ -117,7 +117,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
 
 
 handleWindowBlurred : Msgs msgs msg -> String -> Value -> msg
-handleWindowBlurred { videoPlayerMsg, noOpMsg } audioPlayerRawId payload =
+handleWindowBlurred { videoPlayerMsg, noOpMsg } rawAudioPlayerId payload =
     let
         activeElementId =
             Value.extractStringWithDefault "" payload
@@ -126,7 +126,7 @@ handleWindowBlurred { videoPlayerMsg, noOpMsg } audioPlayerRawId payload =
     -- to the SoundCloud iframe, then the Elm app does not need to
     -- consider this a "real" blur for purposes of displaying the
     -- "Gifs Paused" overlay.
-    if activeElementId == audioPlayerRawId then
+    if activeElementId == rawAudioPlayerId then
         noOpMsg
 
     else
