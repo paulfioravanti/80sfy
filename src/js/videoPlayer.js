@@ -14,7 +14,9 @@ function init(ports) {
       break
     case "PAUSE_VIDEOS":
       pauseVideoPlayers()
-      ports.videosPaused.send(null)
+      ports.videoPlayerIn.send({
+        tag: "VIDEOS_PAUSED"
+      })
       break
     case "PLAY_VIDEOS":
       playVideoPlayers()

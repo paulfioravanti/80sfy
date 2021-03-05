@@ -14,9 +14,6 @@ import VideoPlayer.Status as Status exposing (Status)
 port videoPlayerIn : (Value -> msg) -> Sub msg
 
 
-port videosPaused : (() -> msg) -> Sub msg
-
-
 type alias Context =
     { audioPlayerRawId : String
     , gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
@@ -40,15 +37,14 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
                 videoPlayer1.status
                 context.gifDisplayIntervalSeconds
 
-        handleVideosPaused () =
-            Msg.videosPaused videoPlayerMsg
+        animateVideoPlayer =
+            Animation.subscription
+                (Msg.animateVideoPlayer videoPlayerMsg)
+                [ videoPlayer1.style ]
     in
     Sub.batch
         [ fetchNextGif
-        , videosPaused handleVideosPaused
-        , Animation.subscription
-            (Msg.animateVideoPlayer videoPlayerMsg)
-            [ videoPlayer1.style ]
+        , animateVideoPlayer
         , videoPlayerIn (handlePortMessage msgs context videoPlayer1)
         ]
 
@@ -58,8 +54,11 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 
 
 handlePortMessage : Msgs msgs msg -> Context -> VideoPlayer -> Value -> msg
-handlePortMessage ({ videoPlayerMsg, noOpMsg } as msgs) context videoPlayer1 portMessage =
+handlePortMessage msgs context videoPlayer1 portMessage =
     let
+        { videoPlayerMsg, noOpMsg } =
+            msgs
+
         { tag, payload } =
             PortMessage.decode portMessage
     in
@@ -73,6 +72,9 @@ handlePortMessage ({ videoPlayerMsg, noOpMsg } as msgs) context videoPlayer1 por
 
             else
                 noOpMsg
+
+        "VIDEOS_PAUSED" ->
+            Msg.videosPaused videoPlayerMsg
 
         "VIDEOS_PLAYING" ->
             Msg.videosPlaying videoPlayerMsg
