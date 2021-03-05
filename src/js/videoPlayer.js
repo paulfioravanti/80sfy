@@ -29,7 +29,10 @@ function init(ports) {
 function initWindowEventListeners(ports) {
   window.addEventListener("blur", event => {
     const activeElementId = event.target.document.activeElement.id
-    ports.windowBlurred.send(activeElementId)
+    ports.videoPlayerIn.send({
+      tag: "WINDOW_BLURRED",
+      payload: activeElementId
+    })
   })
   window.addEventListener("focus", () => {
     ports.videoPlayerIn.send({

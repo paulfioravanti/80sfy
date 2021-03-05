@@ -20,9 +20,6 @@ port videosHalted : (() -> msg) -> Sub msg
 port videosPaused : (() -> msg) -> Sub msg
 
 
-port windowBlurred : (Value -> msg) -> Sub msg
-
-
 type alias Context =
     { audioPlayerRawId : String
     , gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
@@ -52,24 +49,17 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
                 videoPlayer1.status
                 context.overrideInactivityPause
 
-        windowEvent =
-            windowEventSubscription
-                msgs
-                context.audioPlayerRawId
-                videoPlayer1.status
-
         handleVideosPaused () =
             Msg.videosPaused videoPlayerMsg
     in
     Sub.batch
         [ fetchNextGif
         , videosHalted_
-        , windowEvent
         , videosPaused handleVideosPaused
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
             [ videoPlayer1.style ]
-        , videoPlayerIn (handlePortMessage msgs videoPlayer1)
+        , videoPlayerIn (handlePortMessage msgs context videoPlayer1)
         ]
 
 
@@ -77,15 +67,22 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 -- PRIVATE
 
 
-handlePortMessage : Msgs msgs msg -> VideoPlayer -> Value -> msg
-handlePortMessage { videoPlayerMsg, noOpMsg } videoPlayer1 portMessage =
+handlePortMessage : Msgs msgs msg -> Context -> VideoPlayer -> Value -> msg
+handlePortMessage ({ videoPlayerMsg, noOpMsg } as msgs) context videoPlayer1 portMessage =
     let
-        { tag } =
+        { tag, payload } =
             PortMessage.decode portMessage
     in
     case tag of
         "VIDEOS_PLAYING" ->
             Msg.videosPlaying videoPlayerMsg
+
+        "WINDOW_BLURRED" ->
+            if videoPlayer1.status == Status.playing then
+                handleWindowBlurred msgs context.audioPlayerRawId payload
+
+            else
+                noOpMsg
 
         "WINDOW_FOCUSED" ->
             if videoPlayer1.status == Status.halted then
@@ -130,31 +127,18 @@ videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
         Sub.none
 
 
-windowEventSubscription : Msgs msgs msg -> String -> Status -> Sub msg
-windowEventSubscription { videoPlayerMsg, noOpMsg } audioPlayerRawId status =
-    let
-        -- NOTE: If the document target has "blurred" from the video player
-        -- to the SoundCloud iframe, then the Elm app does not need to
-        -- consider this a "real" blur for purposes of displaying the
-        -- "Gifs Paused" overlay.
-        handleWindowBlurred activeElementIdFlag =
-            if audioPlayerActive activeElementIdFlag audioPlayerRawId then
-                noOpMsg
-
-            else
-                Msg.haltVideos videoPlayerMsg
-    in
-    if status == Status.playing then
-        windowBlurred handleWindowBlurred
-
-    else
-        Sub.none
-
-
-audioPlayerActive : Value -> String -> Bool
-audioPlayerActive activeElementIdFlag audioPlayerRawId =
+handleWindowBlurred : Msgs msgs msg -> String -> Value -> msg
+handleWindowBlurred { videoPlayerMsg, noOpMsg } audioPlayerRawId payload =
     let
         activeElementId =
-            Value.extractStringWithDefault "" activeElementIdFlag
+            Value.extractStringWithDefault "" payload
     in
-    activeElementId == audioPlayerRawId
+    -- NOTE: If the document target has "blurred" from the video player
+    -- to the SoundCloud iframe, then the Elm app does not need to
+    -- consider this a "real" blur for purposes of displaying the
+    -- "Gifs Paused" overlay.
+    if activeElementId == audioPlayerRawId then
+        noOpMsg
+
+    else
+        Msg.haltVideos videoPlayerMsg
