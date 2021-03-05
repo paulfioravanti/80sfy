@@ -8,7 +8,9 @@ function init(ports) {
     switch (tag) {
     case "HALT_VIDEOS":
       pauseVideoPlayers()
-      ports.videosHalted.send(null)
+      ports.videoPlayerIn.send({
+        tag: "VIDEOS_HALTED"
+      })
       break
     case "PAUSE_VIDEOS":
       pauseVideoPlayers()

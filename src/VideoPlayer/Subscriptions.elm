@@ -14,9 +14,6 @@ import VideoPlayer.Status as Status exposing (Status)
 port videoPlayerIn : (Value -> msg) -> Sub msg
 
 
-port videosHalted : (() -> msg) -> Sub msg
-
-
 port videosPaused : (() -> msg) -> Sub msg
 
 
@@ -43,18 +40,11 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
                 videoPlayer1.status
                 context.gifDisplayIntervalSeconds
 
-        videosHalted_ =
-            videosHaltedSubscription
-                videoPlayerMsg
-                videoPlayer1.status
-                context.overrideInactivityPause
-
         handleVideosPaused () =
             Msg.videosPaused videoPlayerMsg
     in
     Sub.batch
         [ fetchNextGif
-        , videosHalted_
         , videosPaused handleVideosPaused
         , Animation.subscription
             (Msg.animateVideoPlayer videoPlayerMsg)
@@ -74,6 +64,16 @@ handlePortMessage ({ videoPlayerMsg, noOpMsg } as msgs) context videoPlayer1 por
             PortMessage.decode portMessage
     in
     case tag of
+        "VIDEOS_HALTED" ->
+            if
+                (videoPlayer1.status == Status.playing)
+                    && not context.overrideInactivityPause
+            then
+                Msg.videosHalted videoPlayerMsg
+
+            else
+                noOpMsg
+
         "VIDEOS_PLAYING" ->
             Msg.videosPlaying videoPlayerMsg
 
@@ -109,19 +109,6 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
         Time.every
             rawGifDisplayMilliSeconds
             (Msg.crossFadePlayers videoPlayerMsg)
-
-    else
-        Sub.none
-
-
-videosHaltedSubscription : (Msg -> msg) -> Status -> Bool -> Sub msg
-videosHaltedSubscription videoPlayerMsg status overrideInactivityPause =
-    let
-        handleVideosHalted () =
-            Msg.videosHalted videoPlayerMsg
-    in
-    if (status == Status.playing) && not overrideInactivityPause then
-        videosHalted handleVideosHalted
 
     else
         Sub.none
