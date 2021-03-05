@@ -99,13 +99,13 @@ update generateRandomTagMsg msg { videoPlayer1, videoPlayer2 } =
             ( videoPlayer1, videoPlayer2, Ports.log message )
 
         Msg.HaltVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.haltVideos () )
+            ( videoPlayer1, videoPlayer2, Ports.haltVideos )
 
         Msg.PauseVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.pauseVideos () )
+            ( videoPlayer1, videoPlayer2, Ports.pauseVideos )
 
         Msg.PlayVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.playVideos () )
+            ( videoPlayer1, videoPlayer2, Ports.playVideos )
 
         Msg.VideosHalted ->
             ( { videoPlayer1 | status = Status.halted }

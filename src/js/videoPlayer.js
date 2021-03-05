@@ -3,44 +3,34 @@ export const VideoPlayer = {
 }
 
 function init(ports) {
-  initHaltVideos(ports)
-  initPauseVideos(ports)
-  initPlayVideos(ports)
-  initWindowBlurred(ports)
-  initWindowFocused(ports)
-}
-
-function initHaltVideos(ports) {
-  ports.haltVideos.subscribe(() => {
-    pauseVideoPlayers()
-    ports.videosHalted.send(null)
+  initWindowEventListeners(ports)
+  ports.videoPlayerOut.subscribe(({ tag }) => {
+    switch (tag) {
+    case "HALT_VIDEOS":
+      pauseVideoPlayers()
+      ports.videosHalted.send(null)
+      break
+    case "PAUSE_VIDEOS":
+      pauseVideoPlayers()
+      ports.videosPaused.send(null)
+      break
+    case "PLAY_VIDEOS":
+      playVideoPlayers()
+      ports.videoPlayerIn.send({
+        "tag": "VIDEOS_PLAYING"
+      })
+      break
+    default:
+      console.log(`Unexpected videoPlayer tag ${tag}`)
+    }
   })
 }
 
-function initPauseVideos(ports) {
-  ports.pauseVideos.subscribe(() => {
-    pauseVideoPlayers()
-    ports.videosPaused.send(null)
-  })
-}
-
-function initPlayVideos(ports) {
-  ports.playVideos.subscribe(() => {
-    playVideoPlayers()
-    ports.videoPlayerIn.send({
-      "tag": "VIDEOS_PLAYING"
-    })
-  })
-}
-
-function initWindowBlurred(ports) {
+function initWindowEventListeners(ports) {
   window.addEventListener("blur", event => {
     const activeElementId = event.target.document.activeElement.id
     ports.windowBlurred.send(activeElementId)
   })
-}
-
-function initWindowFocused(ports) {
   window.addEventListener("focus", () => {
     ports.windowFocused.send(null)
   })
