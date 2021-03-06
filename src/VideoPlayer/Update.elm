@@ -66,22 +66,19 @@ update generateRandomTagMsg msg { videoPlayer1, videoPlayer2 } =
 
         Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->
             let
-                cmd =
-                    Cmd.none
-
                 gifUrl =
                     RemoteData.Success (Gif.url url)
             in
             if videoPlayerId == videoPlayer1.id then
                 ( { videoPlayer1 | gifUrl = gifUrl }
                 , videoPlayer2
-                , cmd
+                , Cmd.none
                 )
 
             else
                 ( videoPlayer1
                 , { videoPlayer2 | gifUrl = gifUrl }
-                , cmd
+                , Cmd.none
                 )
 
         Msg.RandomGifUrlFetched videoPlayerId (Err error) ->
