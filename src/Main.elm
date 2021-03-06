@@ -2,7 +2,6 @@ module Main exposing (main)
 
 import AudioPlayer
 import Browser
-import BrowserVendor
 import Config
 import Flags exposing (Flags)
 import Model exposing (Model)
@@ -30,11 +29,8 @@ init flags =
         config =
             Config.init flags
 
-        browserVendor =
-            BrowserVendor.init flags
-
         ({ audioPlayer } as model) =
-            Model.init config browserVendor
+            Model.init config
 
         initialPayloadValues =
             ( AudioPlayer.rawId audioPlayer.id

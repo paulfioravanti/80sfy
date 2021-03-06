@@ -12,7 +12,7 @@ import VideoPlayer
 
 
 view : Model -> Document Msg
-view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
+view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
@@ -38,8 +38,8 @@ view ({ browserVendor, secretConfig, videoPlayer1, videoPlayer2 } as model) =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view msgs model
-                , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer1
-                , VideoPlayer.view audioPlaying msgs browserVendor videoPlayer2
+                , VideoPlayer.view audioPlaying msgs videoPlayer1
+                , VideoPlayer.view audioPlaying msgs videoPlayer2
                 , SecretConfig.view msgs secretConfig
                 ]
             ]

@@ -2,7 +2,7 @@ module ControlPanel.View exposing (Context, Msgs, view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (BrowserVendor)
+import BrowserVendor
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -26,8 +26,7 @@ import SoundCloud
 
 type alias Context a =
     { a
-        | browserVendor : BrowserVendor
-        , audioPlayer : AudioPlayer
+        | audioPlayer : AudioPlayer
         , controlPanel : ControlPanel
     }
 

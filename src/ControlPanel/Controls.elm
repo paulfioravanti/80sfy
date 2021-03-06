@@ -1,7 +1,7 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor exposing (BrowserVendor)
+import BrowserVendor
 import ControlPanel.Styles as Styles
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
@@ -43,8 +43,7 @@ type alias Msgs msgs msg =
 
 type alias Context a =
     { a
-        | browserVendor : BrowserVendor
-        , audioPlayer : AudioPlayer
+        | audioPlayer : AudioPlayer
     }
 
 

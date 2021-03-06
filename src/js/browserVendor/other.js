@@ -1,9 +1,9 @@
 export const Other = {
-  isFullScreenEnabledBrowser,
+  isFullscreenEnabledBrowser,
   handleMessages
 }
 
-function isFullScreenEnabledBrowser() {
+function isFullscreenEnabledBrowser() {
   return (
     document.fullscreenEnabled &&
     document.documentElement.requestFullscreen &&
@@ -18,14 +18,14 @@ function handleMessages(ports) {
       document.exitFullscreen()
       break
     case "REQUEST_FULL_SCREEN":
-      document.documentElement.requestFullScreen()
+      document.documentElement.requestFullscreen()
       break
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.fullscreenElement
       if (isFullScreen) {
         document.exitFullscreen()
       } else {
-        document.documentElement.requestFullScreen()
+        document.documentElement.requestFullscreen()
       }
       break
     }

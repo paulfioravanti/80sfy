@@ -25,7 +25,7 @@ function init(ports) {
 function current() {
   if (Webkit.isWebkit()) {
     return WEBKIT
-  } else if (Other.isFullScreenEnabledBrowser()) {
+  } else if (Other.isFullscreenEnabledBrowser()) {
     return OTHER
   } else {
     return null

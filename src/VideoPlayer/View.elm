@@ -1,7 +1,7 @@
 module VideoPlayer.View exposing (Msgs, view)
 
 import Animation
-import BrowserVendor exposing (BrowserVendor)
+import BrowserVendor
 import Gif exposing (GifUrl)
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
@@ -29,8 +29,8 @@ type alias Msgs msgs msg =
     }
 
 
-view : Bool -> Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
-view audioPlaying msgs browserVendor videoPlayer =
+view : Bool -> Msgs msgs msg -> VideoPlayer -> Html msg
+view audioPlaying msgs videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -53,7 +53,7 @@ view audioPlaying msgs browserVendor videoPlayer =
                    )
     in
     div
-        (attributes audioPlaying msgs browserVendor videoPlayer)
+        (attributes audioPlaying msgs videoPlayer)
         childElements
 
 
@@ -64,10 +64,9 @@ view audioPlaying msgs browserVendor videoPlayer =
 attributes :
     Bool
     -> Msgs msgs msg
-    -> BrowserVendor
     -> VideoPlayer
     -> List (Html.Attribute msg)
-attributes audioPlaying msgs browserVendor videoPlayer =
+attributes audioPlaying msgs videoPlayer =
     let
         { browserVendorMsg, noOpMsg, videoPlayerMsg } =
             msgs
@@ -76,14 +75,6 @@ attributes audioPlaying msgs browserVendor videoPlayer =
             videoPlayer.style
                 |> Animation.render
                 |> List.map fromUnstyled
-
-        onDoubleClickAttribute =
-            if browserVendor == BrowserVendor.mozilla then
-                attribute "onDblClick" "window.mozFullScreenToggleHack()"
-
-            else
-                onDoubleClick
-                    (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
@@ -97,7 +88,7 @@ attributes audioPlaying msgs browserVendor videoPlayer =
 
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
-            , onDoubleClickAttribute
+            , onDoubleClick (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
             , clickOnPlayAttribute
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             , onDoubleClick

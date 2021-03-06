@@ -18,7 +18,6 @@ module VideoPlayer exposing
     , zIndex
     )
 
-import BrowserVendor exposing (BrowserVendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
 import Tag exposing (Tag)
@@ -120,9 +119,9 @@ update randomTagGeneratedMsg tags msg context =
     Update.update randomTagGeneratedMsg tags msg context
 
 
-view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
-view audioPlaying msgs browserVendor videoPlayer =
-    View.view audioPlaying msgs browserVendor videoPlayer
+view : Bool -> View.Msgs msgs msg -> VideoPlayer -> Html msg
+view audioPlaying msgs videoPlayer =
+    View.view audioPlaying msgs videoPlayer
 
 
 zIndex : Int -> VideoPlayerZIndex
