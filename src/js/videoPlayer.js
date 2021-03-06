@@ -4,23 +4,23 @@ export const VideoPlayer = {
 
 function init(ports) {
   initWindowEventListeners(ports)
-  ports.out.subscribe(({ tag }) => {
+  ports.outbound.subscribe(({ tag }) => {
     switch (tag) {
     case "HALT_VIDEOS":
       pauseVideoPlayers()
-      ports.videoPlayerIn.send({
+      ports.inbound.send({
         tag: "VIDEOS_HALTED"
       })
       break
     case "PAUSE_VIDEOS":
       pauseVideoPlayers()
-      ports.videoPlayerIn.send({
+      ports.inbound.send({
         tag: "VIDEOS_PAUSED"
       })
       break
     case "PLAY_VIDEOS":
       playVideoPlayers()
-      ports.videoPlayerIn.send({
+      ports.inbound.send({
         tag: "VIDEOS_PLAYING"
       })
       break
@@ -33,13 +33,13 @@ function init(ports) {
 function initWindowEventListeners(ports) {
   window.addEventListener("blur", event => {
     const activeElementId = event.target.document.activeElement.id
-    ports.videoPlayerIn.send({
+    ports.inbound.send({
       tag: "WINDOW_BLURRED",
       payload: activeElementId
     })
   })
   window.addEventListener("focus", () => {
-    ports.videoPlayerIn.send({
+    ports.inbound.send({
       tag: "WINDOW_FOCUSED"
     })
   })

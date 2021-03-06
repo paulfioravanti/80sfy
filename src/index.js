@@ -27,7 +27,7 @@ const app =
 
 const ports = app.ports
 
-ports.out.subscribe(({ tag, payload }) => {
+ports.outbound.subscribe(({ tag, payload }) => {
   switch (tag) {
   case "LOG":
     console.log(payload)

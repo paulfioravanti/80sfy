@@ -3,7 +3,7 @@ export const SoundCloudWidget = {
 }
 
 function init(ports) {
-  ports.out.subscribe(({ tag, payload }) => {
+  ports.outbound.subscribe(({ tag, payload }) => {
     switch (tag) {
     case "INIT_WIDGET":
       initWidget(ports, payload)
@@ -26,7 +26,7 @@ function initWidget(ports, { id, volume }) {
 function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
   scPlayer.getSounds(sounds => {
-    ports.audioPlayerIn.send({
+    ports.inbound.send({
       tag: "PLAYLIST_LENGTH_SET",
       payload: sounds.length
     })
@@ -41,33 +41,33 @@ function initAudioPlayer(scPlayer, volume, ports) {
   // suddenly for what looks like no reason. This is also the only time when
   // the controls on the control panel and the video playback itself should
   // be "out of sync".
-  ports.videoPlayerIn.send({
+  ports.inbound.send({
     tag: "VIDEOS_PLAYING"
   })
 }
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
-    ports.audioPlayerIn.send({
+    ports.inbound.send({
       tag: "AUDIO_PLAYING",
       payload: sound.loadedProgress
     })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
-    ports.audioPlayerIn.send({
+    ports.inbound.send({
       tag: "AUDIO_PAUSED",
       payload: sound.currentPosition
     })
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
-    ports.audioPlayerIn.send({
+    ports.inbound.send({
       tag: "NEXT_TRACK_NUMBER_REQUESTED"
     })
   })
 }
 
 function initPortSubscriptions(scPlayer, ports) {
-  ports.out.subscribe(({ tag, payload }) => {
+  ports.outbound.subscribe(({ tag, payload }) => {
     switch (tag) {
     case "PLAY_AUDIO":
       scPlayer.play()

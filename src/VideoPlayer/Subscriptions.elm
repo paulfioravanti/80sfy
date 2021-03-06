@@ -1,17 +1,15 @@
-port module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
+module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 
 import Animation
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
 import PortMessage
+import Ports
 import Time
 import Value
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status exposing (Status)
-
-
-port videoPlayerIn : (Value -> msg) -> Sub msg
 
 
 type alias Context =
@@ -45,7 +43,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
     Sub.batch
         [ fetchNextGif
         , animateVideoPlayer
-        , videoPlayerIn (handlePortMessage msgs context videoPlayer1)
+        , Ports.inbound (handlePortMessage msgs context videoPlayer1)
         ]
 
 

@@ -1,12 +1,15 @@
-port module Ports exposing (log, out)
+port module Ports exposing (inbound, log, outbound)
 
 import Json.Encode exposing (Value)
 import PortMessage exposing (PortMessage)
 
 
-port out : PortMessage -> Cmd msg
+port inbound : (Value -> msg) -> Sub msg
+
+
+port outbound : PortMessage -> Cmd msg
 
 
 log : Value -> Cmd msg
 log payload =
-    out (PortMessage.withTaggedPayload ( "LOG", payload ))
+    outbound (PortMessage.withTaggedPayload ( "LOG", payload ))

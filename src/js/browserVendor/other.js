@@ -12,7 +12,7 @@ function isFullscreenEnabledBrowser() {
 }
 
 function handleMessages(ports) {
-  ports.out.subscribe(({ tag }) => {
+  ports.outbound.subscribe(({ tag }) => {
     switch (tag) {
     case "EXIT_FULL_SCREEN":
       document.exitFullscreen()

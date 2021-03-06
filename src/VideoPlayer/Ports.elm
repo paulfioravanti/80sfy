@@ -6,14 +6,14 @@ import Ports
 
 haltVideos : Cmd msg
 haltVideos =
-    Ports.out (PortMessage.withTag "HALT_VIDEOS")
+    Ports.outbound (PortMessage.withTag "HALT_VIDEOS")
 
 
 pauseVideos : Cmd msg
 pauseVideos =
-    Ports.out (PortMessage.withTag "PAUSE_VIDEOS")
+    Ports.outbound (PortMessage.withTag "PAUSE_VIDEOS")
 
 
 playVideos : Cmd msg
 playVideos =
-    Ports.out (PortMessage.withTag "PLAY_VIDEOS")
+    Ports.outbound (PortMessage.withTag "PLAY_VIDEOS")

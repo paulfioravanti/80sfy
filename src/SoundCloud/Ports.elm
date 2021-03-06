@@ -17,4 +17,4 @@ initSoundCloudWidget ( id, volume ) =
         portMessage =
             PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
     in
-    Ports.out portMessage
+    Ports.outbound portMessage
