@@ -1,4 +1,4 @@
-module VideoPlayer.Update exposing (Context, update)
+module VideoPlayer.Update exposing (Context, Msgs, update)
 
 import Animation
 import Error
@@ -20,12 +20,18 @@ type alias Context a =
     }
 
 
+type alias Msgs msgs msg =
+    { msgs
+        | generateRandomTagMsg : VideoPlayerId -> msg
+    }
+
+
 update :
-    (VideoPlayerId -> msg)
+    Msgs msgs msg
     -> Msg
     -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomTagMsg msg { videoPlayer1, videoPlayer2 } =
+update { generateRandomTagMsg } msg { videoPlayer1, videoPlayer2 } =
     case msg of
         Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1

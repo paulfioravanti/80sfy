@@ -143,10 +143,7 @@ update msg model =
         Msg.VideoPlayer msgForVideoPlayer ->
             let
                 ( videoPlayer1, videoPlayer2, cmd ) =
-                    VideoPlayer.update
-                        Msg.generateRandomTag
-                        msgForVideoPlayer
-                        model
+                    VideoPlayer.update msgs msgForVideoPlayer model
             in
             ( { model
                 | videoPlayer1 = videoPlayer1

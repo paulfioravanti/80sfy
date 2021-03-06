@@ -110,12 +110,12 @@ subscriptions msgs context videoPlayer1 =
 
 
 update :
-    (VideoPlayerId -> msg)
+    Update.Msgs msgs msg
     -> Msg
     -> Update.Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update generateRandomGifMsg msg context =
-    Update.update generateRandomGifMsg msg context
+update msgs msg context =
+    Update.update msgs msg context
 
 
 view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg
