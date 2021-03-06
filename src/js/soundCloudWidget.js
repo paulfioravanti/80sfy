@@ -9,7 +9,7 @@ function init(ports) {
       initWidget(ports, payload)
       break
     default:
-      console.log(`Unexpected soundCloudWidget tag ${tag}`)
+      console.log(`Unexpected pre-init soundCloudWidget tag ${tag}`)
     }
   })
 }
