@@ -1,21 +1,19 @@
-port module VideoPlayer.Ports exposing (haltVideos, pauseVideos, playVideos)
+module VideoPlayer.Ports exposing (haltVideos, pauseVideos, playVideos)
 
-import PortMessage exposing (PortMessage)
-
-
-port videoPlayerOut : PortMessage -> Cmd msg
+import PortMessage
+import Ports
 
 
 haltVideos : Cmd msg
 haltVideos =
-    videoPlayerOut (PortMessage.withTag "HALT_VIDEOS")
+    Ports.out (PortMessage.withTag "HALT_VIDEOS")
 
 
 pauseVideos : Cmd msg
 pauseVideos =
-    videoPlayerOut (PortMessage.withTag "PAUSE_VIDEOS")
+    Ports.out (PortMessage.withTag "PAUSE_VIDEOS")
 
 
 playVideos : Cmd msg
 playVideos =
-    videoPlayerOut (PortMessage.withTag "PLAY_VIDEOS")
+    Ports.out (PortMessage.withTag "PLAY_VIDEOS")

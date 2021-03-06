@@ -3,7 +3,7 @@ export const SoundCloudWidget = {
 }
 
 function init(ports) {
-  ports.soundCloudWidgetOut.subscribe(({ tag, payload }) => {
+  ports.out.subscribe(({ tag, payload }) => {
     switch (tag) {
     case "INIT_WIDGET":
       initWidget(ports, payload)
@@ -67,7 +67,7 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
 }
 
 function initPortSubscriptions(scPlayer, ports) {
-  ports.soundCloudWidgetOut.subscribe(({ tag, payload }) => {
+  ports.out.subscribe(({ tag, payload }) => {
     switch (tag) {
     case "PLAY_AUDIO":
       scPlayer.play()

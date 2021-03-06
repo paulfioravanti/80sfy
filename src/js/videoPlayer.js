@@ -4,7 +4,7 @@ export const VideoPlayer = {
 
 function init(ports) {
   initWindowEventListeners(ports)
-  ports.videoPlayerOut.subscribe(({ tag }) => {
+  ports.out.subscribe(({ tag }) => {
     switch (tag) {
     case "HALT_VIDEOS":
       pauseVideoPlayers()

@@ -1,25 +1,23 @@
-port module BrowserVendor.Ports exposing
+module BrowserVendor.Ports exposing
     ( exitFullScreen
     , requestFullScreen
     , toggleFullScreen
     )
 
-import PortMessage exposing (PortMessage)
-
-
-port toBrowserVendor : PortMessage -> Cmd msg
+import PortMessage
+import Ports
 
 
 exitFullScreen : Cmd msg
 exitFullScreen =
-    toBrowserVendor (PortMessage.withTag "EXIT_FULL_SCREEN")
+    Ports.out (PortMessage.withTag "EXIT_FULL_SCREEN")
 
 
 toggleFullScreen : Cmd msg
 toggleFullScreen =
-    toBrowserVendor (PortMessage.withTag "TOGGLE_FULL_SCREEN")
+    Ports.out (PortMessage.withTag "TOGGLE_FULL_SCREEN")
 
 
 requestFullScreen : Cmd msg
 requestFullScreen =
-    toBrowserVendor (PortMessage.withTag "REQUEST_FULL_SCREEN")
+    Ports.out (PortMessage.withTag "REQUEST_FULL_SCREEN")
