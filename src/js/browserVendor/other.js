@@ -1,12 +1,12 @@
 export const Other = {
-  isFullScreenCapableBrowser,
+  isFullScreenEnabledBrowser,
   handleMessages
 }
 
-function isFullScreenCapableBrowser() {
+function isFullScreenEnabledBrowser() {
   return (
-    document.fullScreenElement !== undefined &&
-    document.documentElement.requestFullScreen &&
+    document.fullscreenEnabled &&
+    document.documentElement.requestFullscreen &&
     document.exitFullscreen
   )
 }

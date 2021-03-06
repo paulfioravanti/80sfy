@@ -9,7 +9,7 @@ import Html.Styled.Events exposing (onClick)
 
 
 view : Msgs msgs msg -> Context a -> Html msg
-view msgs { browserVendor, audioPlayer } =
+view msgs { audioPlayer } =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -24,7 +24,7 @@ view msgs { browserVendor, audioPlayer } =
         [ muteUnmuteButton msgs muted
         , playPauseButton msgs playing
         , nextTrackButton msgs
-        , fullscreenButton msgs browserVendor
+        , fullscreenButton msgs
         ]
 
 
@@ -100,19 +100,10 @@ nextTrackButton { audioPlayerMsg } =
         ]
 
 
-fullscreenButton : Msgs msgs msg -> BrowserVendor -> Html msg
-fullscreenButton { browserVendorMsg } browserVendor =
-    let
-        onClickAttribute =
-            if browserVendor == BrowserVendor.mozilla then
-                attribute "onClick" "window.mozFullScreenToggleHack()"
-
-            else
-                onClick
-                    (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
-    in
+fullscreenButton : Msgs msgs msg -> Html msg
+fullscreenButton { browserVendorMsg } =
     div
-        [ onClickAttribute
+        [ onClick (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
         , css [ Styles.button ]
         , attribute "data-name" "fullscreen"
         ]

@@ -5,7 +5,7 @@ export const Webkit = {
 
 function isWebkit() {
   return (
-    document.webkitFullscreenElement !== undefined &&
+    document.webkitFullscreenEnabled &&
     document.documentElement.webkitRequestFullScreen &&
     document.webkitExitFullscreen
   )
