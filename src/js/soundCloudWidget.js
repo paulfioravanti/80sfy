@@ -36,8 +36,8 @@ function initAudioPlayer(scPlayer, volume, ports) {
   // the play button to start the SoundCloud player (and technically the
   // videos as well), rather than the pause button.
   //
-  // This is a bit of a hack for aesthetic reasons: I didn't want the site
-  // to start with videos playing for a bit, and then automatically paused
+  // This is a bit of a hack for ａｅｓｔｈｅｔｉｃ reasons: I didn't want the
+  // site to start with videos playing for a bit, and then automatically paused
   // suddenly for what looks like no reason. This is also the only time when
   // the controls on the control panel and the video playback itself should
   // be "out of sync".
