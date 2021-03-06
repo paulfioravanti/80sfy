@@ -3,7 +3,6 @@ module Config.Update exposing (Msgs, update)
 import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
-import Config.Task as Task
 import Error
 import Gif
 import Json.Encode as Encode
@@ -16,6 +15,7 @@ import VideoPlayer exposing (VideoPlayerId)
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , configMsg : Msg -> msg
         , generateRandomTagMsg : VideoPlayerId -> msg
         , secretConfigMsg : SecretConfig.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
@@ -68,18 +68,18 @@ update msgs msg config =
                 tags =
                     List.map Tag.tag rawTags
 
-                performRandomTagGenerationForVideoPlayer videoPlayerId =
-                    Task.performRandomTagGeneration
-                        msgs.generateRandomTagMsg
-                        videoPlayerId
+                generateRandomTagForVideoPlayer videoPlayerId =
+                    Tag.generateRandomTag
+                        (Msg.randomTagGenerated msgs.configMsg videoPlayerId)
+                        tags
 
                 performInitSecretConfigTags =
                     SecretConfig.performInitTags msgs.secretConfigMsg rawTags
             in
             ( { config | tags = tags }
             , Cmd.batch
-                [ performRandomTagGenerationForVideoPlayer (VideoPlayer.id "1")
-                , performRandomTagGenerationForVideoPlayer (VideoPlayer.id "2")
+                [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
+                , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
                 , performInitSecretConfigTags
                 ]
             )

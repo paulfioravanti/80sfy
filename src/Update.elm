@@ -20,6 +20,7 @@ update msg model =
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
             , browserVendorMsg = Msg.browserVendor
+            , configMsg = Msg.config
             , controlPanelMsg = Msg.controlPanel
             , generateRandomTagMsg = Msg.generateRandomTag
             , pauseMsg = Msg.pause
