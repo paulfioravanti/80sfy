@@ -9,14 +9,13 @@ import Json.Encode as Encode
 import Ports
 import SecretConfig
 import Tag
-import VideoPlayer exposing (VideoPlayerId)
+import VideoPlayer
 
 
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , configMsg : Msg -> msg
-        , generateRandomTagMsg : VideoPlayerId -> msg
         , secretConfigMsg : SecretConfig.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }

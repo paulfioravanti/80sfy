@@ -21,6 +21,7 @@ module VideoPlayer exposing
 import BrowserVendor exposing (BrowserVendor)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
+import Tag exposing (Tag)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Status as Status exposing (Status)
@@ -110,12 +111,13 @@ subscriptions msgs context videoPlayer1 =
 
 
 update :
-    Update.Msgs msgs msg
+    (VideoPlayerId -> Tag -> msg)
+    -> List Tag
     -> Msg
     -> Update.Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msgs msg context =
-    Update.update msgs msg context
+update randomTagGeneratedMsg tags msg context =
+    Update.update randomTagGeneratedMsg tags msg context
 
 
 view : Bool -> View.Msgs msgs msg -> BrowserVendor -> VideoPlayer -> Html msg

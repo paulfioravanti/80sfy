@@ -6,7 +6,6 @@ module Msg exposing
     , browserVendor
     , config
     , controlPanel
-    , generateRandomTag
     , keyPressed
     , noOp
     , pause
@@ -26,7 +25,7 @@ import Key exposing (Key)
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (TagsString)
-import VideoPlayer exposing (VideoPlayerId)
+import VideoPlayer
 
 
 type Msg
@@ -36,7 +35,6 @@ type Msg
     | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
-    | GenerateRandomTag VideoPlayerId
     | KeyPressed Key
     | NoOp
     | Pause
@@ -75,11 +73,6 @@ controlPanel controlPanelMsg =
 config : Config.Msg -> Msg
 config configMsg =
     Config configMsg
-
-
-generateRandomTag : VideoPlayerId -> Msg
-generateRandomTag videoPlayerId =
-    GenerateRandomTag videoPlayerId
 
 
 keyPressed : Key -> Msg

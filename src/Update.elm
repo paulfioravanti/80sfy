@@ -9,7 +9,6 @@ import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import SecretConfig
-import Tag
 import Tasks
 import VideoPlayer
 
@@ -22,7 +21,6 @@ update msg model =
             , browserVendorMsg = Msg.browserVendor
             , configMsg = Msg.config
             , controlPanelMsg = Msg.controlPanel
-            , generateRandomTagMsg = Msg.generateRandomTag
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
             , secretConfigMsg = Msg.secretConfig
@@ -78,18 +76,6 @@ update msg model =
             in
             ( model, cmd )
 
-        Msg.GenerateRandomTag videoPlayerId ->
-            let
-                randomTagGeneratedMsg =
-                    Config.randomTagGeneratedMsg Msg.config videoPlayerId
-
-                cmd =
-                    Tag.generateRandomTag
-                        randomTagGeneratedMsg
-                        model.config.tags
-            in
-            ( model, cmd )
-
         Msg.KeyPressed code ->
             let
                 cmd =
@@ -142,8 +128,15 @@ update msg model =
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let
+                randomTagGeneratedMsg =
+                    Config.randomTagGeneratedMsg Msg.config
+
                 ( videoPlayer1, videoPlayer2, cmd ) =
-                    VideoPlayer.update msgs msgForVideoPlayer model
+                    VideoPlayer.update
+                        randomTagGeneratedMsg
+                        model.config.tags
+                        msgForVideoPlayer
+                        model
             in
             ( { model
                 | videoPlayer1 = videoPlayer1

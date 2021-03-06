@@ -1,4 +1,4 @@
-module VideoPlayer.Update exposing (Context, Msgs, update)
+module VideoPlayer.Update exposing (Context, update)
 
 import Animation
 import Error
@@ -6,7 +6,7 @@ import Gif
 import Json.Encode as Encode
 import Ports
 import RemoteData
-import Tasks
+import Tag exposing (Tag)
 import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Ports as Ports
@@ -20,18 +20,13 @@ type alias Context a =
     }
 
 
-type alias Msgs msgs msg =
-    { msgs
-        | generateRandomTagMsg : VideoPlayerId -> msg
-    }
-
-
 update :
-    Msgs msgs msg
+    (VideoPlayerId -> Tag -> msg)
+    -> List Tag
     -> Msg
     -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update { generateRandomTagMsg } msg { videoPlayer1, videoPlayer2 } =
+update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
     case msg of
         Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
@@ -58,16 +53,19 @@ update { generateRandomTagMsg } msg { videoPlayer1, videoPlayer2 } =
                         ]
                         videoPlayer1.style
 
-                performRandomTagGenerationForHiddenVideoPlayer =
-                    Tasks.performRandomTagGeneration
-                        (generateRandomTagMsg nowHiddenVideoPlayerId)
+                generateRandomTagForHiddenVideoPlayer videoPlayerId =
+                    -- Tasks.performRandomTagGeneration
+                    --     (generateRandomTagMsg nowHiddenVideoPlayerId)
+                    Tag.generateRandomTag
+                        (randomTagGeneratedMsg videoPlayerId)
+                        tags
             in
             ( { videoPlayer1
                 | style = animateToNewOpacity
                 , visible = newVideoPlayer1Visibility
               }
             , videoPlayer2
-            , performRandomTagGenerationForHiddenVideoPlayer
+            , generateRandomTagForHiddenVideoPlayer nowHiddenVideoPlayerId
             )
 
         Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->

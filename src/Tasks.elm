@@ -1,7 +1,6 @@
 module Tasks exposing
     ( performPause
     , performPlay
-    , performRandomTagGeneration
     )
 
 import Task
@@ -27,12 +26,5 @@ performPause pauseAudioMsg pauseVideosMsg =
 performPlay : msg -> Cmd msg
 performPlay playMsg =
     playMsg
-        |> Task.succeed
-        |> Task.perform identity
-
-
-performRandomTagGeneration : msg -> Cmd msg
-performRandomTagGeneration generateRandomTagMsg =
-    generateRandomTagMsg
         |> Task.succeed
         |> Task.perform identity
