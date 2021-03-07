@@ -29,13 +29,13 @@ update msgs msg config =
                         msgs.videoPlayerMsg
                         videoPlayerId
 
-                fetchRandomGif =
+                fetchRandomGifUrl =
                     Gif.fetchRandomGifUrl
                         randomGifUrlFetchedMsg
                         config.giphyApiKey
                         tag
             in
-            ( config, fetchRandomGif )
+            ( config, fetchRandomGifUrl )
 
         Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
             let
