@@ -32,8 +32,6 @@ ports.outbound.subscribe(({ tag, payload }) => {
   case "LOG":
     console.log(payload)
     break
-  default:
-    console.log(`Unexpected console tag ${tag}`)
   }
 })
 

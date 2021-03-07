@@ -24,19 +24,24 @@ function init(ports) {
         tag: "VIDEOS_PLAYING"
       })
       break
-    default:
-      console.log(`Unexpected videoPlayer tag ${tag}`)
     }
   })
 }
 
 function initWindowEventListeners(ports) {
   window.addEventListener("blur", event => {
-    const activeElementId = event.target.document.activeElement.id
-    ports.inbound.send({
-      tag: "WINDOW_BLURRED",
-      payload: activeElementId
-    })
+    // NOTE: Reason for the setTimeout is for Firefox reasons:
+    // https://gist.github.com/jaydson/1780598#gistcomment-2609301
+    // "The problem seems to be that, at the time Firefox fires the blur event,
+    // it has not yet updated the document.activeElement, so it evaluates to
+    // false" and hence the id always ends up being blank.
+    window.setTimeout(() => {
+      const activeElementId = event.target.document.activeElement.id
+      ports.inbound.send({
+        tag: "WINDOW_BLURRED",
+        payload: activeElementId
+      })
+    }, 0)
   })
   window.addEventListener("focus", () => {
     ports.inbound.send({

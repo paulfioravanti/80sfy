@@ -29,8 +29,6 @@ function handleMessages(ports) {
       }
       break
     }
-    default:
-      console.log(`Unexpected browserVendor tag ${tag}`)
     }
   })
 }

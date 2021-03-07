@@ -81,8 +81,6 @@ function initPortSubscriptions(scPlayer, ports) {
     case "SKIP_TO_TRACK":
       scPlayer.skip(payload.trackNumber)
       break
-    default:
-      console.log(`Unexpected SoundCloudWidget tag ${tag}`)
     }
   })
 }
