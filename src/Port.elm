@@ -4,6 +4,7 @@ port module Port exposing
     , inbound
     , initSoundCloudWidget
     , log
+    , logError
     , outbound
     , pauseAudio
     , pauseVideos
@@ -15,6 +16,8 @@ port module Port exposing
     , toggleFullscreen
     )
 
+import Error
+import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
 import PortMessage exposing (PortMessage)
 
@@ -53,6 +56,19 @@ initSoundCloudWidget ( id, volume ) =
 log : Value -> Cmd msg
 log payload =
     outbound (PortMessage.withTaggedPayload ( "LOG", payload ))
+
+
+logError : String -> Error -> Cmd msg
+logError message error =
+    let
+        payload =
+            Encode.object
+                [ ( message
+                  , Encode.string (Error.toString error)
+                  )
+                ]
+    in
+    log payload
 
 
 pauseAudio : Cmd msg

@@ -3,9 +3,7 @@ module Config.Update exposing (Msgs, update)
 import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
-import Error
 import Gif
-import Json.Encode as Encode
 import Port
 import SecretConfig
 import Tag
@@ -84,12 +82,4 @@ update msgs msg config =
             )
 
         Msg.TagsFetched (Err error) ->
-            let
-                message =
-                    Encode.object
-                        [ ( "Fetching Tags Failed"
-                          , Encode.string (Error.toString error)
-                          )
-                        ]
-            in
-            ( config, Port.log message )
+            ( config, Port.logError "Fetching Tags Failed" error )
