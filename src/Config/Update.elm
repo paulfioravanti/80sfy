@@ -6,7 +6,7 @@ import Config.Msg as Msg exposing (Msg)
 import Error
 import Gif
 import Json.Encode as Encode
-import Ports
+import Port
 import SecretConfig
 import Tag
 import VideoPlayer
@@ -92,4 +92,4 @@ update msgs msg config =
                           )
                         ]
             in
-            ( config, Ports.log message )
+            ( config, Port.log message )

@@ -4,12 +4,11 @@ import Animation
 import Error
 import Gif
 import Json.Encode as Encode
-import Ports
+import Port
 import RemoteData
 import Tag exposing (Tag)
 import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
 import VideoPlayer.Msg as Msg exposing (Msg)
-import VideoPlayer.Ports as Ports
 import VideoPlayer.Status as Status
 
 
@@ -97,16 +96,16 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                           )
                         ]
             in
-            ( videoPlayer1, videoPlayer2, Ports.log message )
+            ( videoPlayer1, videoPlayer2, Port.log message )
 
         Msg.HaltVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.haltVideos )
+            ( videoPlayer1, videoPlayer2, Port.haltVideos )
 
         Msg.PauseVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.pauseVideos )
+            ( videoPlayer1, videoPlayer2, Port.pauseVideos )
 
         Msg.PlayVideos ->
-            ( videoPlayer1, videoPlayer2, Ports.playVideos )
+            ( videoPlayer1, videoPlayer2, Port.playVideos )
 
         Msg.VideosHalted ->
             ( { videoPlayer1 | status = Status.halted }

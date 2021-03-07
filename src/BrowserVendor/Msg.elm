@@ -6,7 +6,7 @@ module BrowserVendor.Msg exposing
     , toggleFullScreen
     )
 
-import BrowserVendor.Ports as Ports
+import Port
 
 
 type Msg
@@ -29,13 +29,13 @@ toCmd : Msg -> Cmd msg
 toCmd msg =
     case msg of
         RequestFullScreen ->
-            Ports.requestFullScreen
+            Port.requestFullScreen
 
         ExitFullScreen ->
-            Ports.exitFullScreen
+            Port.exitFullScreen
 
         ToggleFullScreen ->
-            Ports.toggleFullScreen
+            Port.toggleFullScreen
 
 
 toggleFullScreen : (Msg -> msg) -> msg

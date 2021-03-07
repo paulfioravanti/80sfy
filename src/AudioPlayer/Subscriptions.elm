@@ -4,8 +4,8 @@ import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Status as Status
 import Json.Decode exposing (Value)
+import Port
 import PortMessage
-import Ports
 import Value
 import VideoPlayer
 
@@ -22,7 +22,7 @@ type alias Msgs msgs msg =
 
 subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
 subscriptions msgs audioPlayer =
-    Ports.inbound (handlePortMessage msgs audioPlayer)
+    Port.inbound (handlePortMessage msgs audioPlayer)
 
 
 

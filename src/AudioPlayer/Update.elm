@@ -3,10 +3,10 @@ module AudioPlayer.Update exposing (Msgs, update)
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Playlist as Playlist
-import AudioPlayer.Ports as Ports
 import AudioPlayer.Status as Status
 import AudioPlayer.Task as Task
 import AudioPlayer.Volume as Volume
+import Port
 import SoundCloud
 import VideoPlayer
 
@@ -31,7 +31,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                         Cmd.none
 
                     else
-                        Ports.setVolume (Volume.rawVolume volume)
+                        Port.setVolume (Volume.rawVolume volume)
             in
             ( { audioPlayer | volume = volume }, cmd )
 
@@ -73,7 +73,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                                 trackNumber =
                                     Playlist.rawTrackIndex head
                             in
-                            ( tail, Ports.skipToTrack trackNumber )
+                            ( tail, Port.skipToTrack trackNumber )
 
                         [] ->
                             ( []
@@ -87,10 +87,10 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             )
 
         Msg.PauseAudio ->
-            ( audioPlayer, Ports.pauseAudio )
+            ( audioPlayer, Port.pauseAudio )
 
         Msg.PlayAudio ->
-            ( audioPlayer, Ports.playAudio )
+            ( audioPlayer, Port.playAudio )
 
         Msg.PlaylistGenerated rawPlaylist ->
             let
@@ -136,12 +136,12 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                                 Volume.rawVolume audioPlayer.volume
                         in
                         ( Status.unMute currentStatus
-                        , Ports.setVolume volume
+                        , Port.setVolume volume
                         )
 
                     else
                         ( Status.mute currentStatus
-                        , Ports.setVolume 0
+                        , Port.setVolume 0
                         )
             in
             ( { audioPlayer | status = newStatus }, cmd )

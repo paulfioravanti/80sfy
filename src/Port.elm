@@ -1,0 +1,109 @@
+port module Port exposing
+    ( exitFullScreen
+    , haltVideos
+    , inbound
+    , initSoundCloudWidget
+    , log
+    , outbound
+    , pauseAudio
+    , pauseVideos
+    , playAudio
+    , playVideos
+    , requestFullScreen
+    , setVolume
+    , skipToTrack
+    , toggleFullScreen
+    )
+
+import Json.Encode as Encode exposing (Value)
+import PortMessage exposing (PortMessage)
+
+
+port inbound : (Value -> msg) -> Sub msg
+
+
+port outbound : PortMessage -> Cmd msg
+
+
+exitFullScreen : Cmd msg
+exitFullScreen =
+    outbound (PortMessage.withTag "EXIT_FULL_SCREEN")
+
+
+haltVideos : Cmd msg
+haltVideos =
+    outbound (PortMessage.withTag "HALT_VIDEOS")
+
+
+initSoundCloudWidget : ( String, Int ) -> Cmd msg
+initSoundCloudWidget ( id, volume ) =
+    let
+        payload =
+            Encode.object
+                [ ( "id", Encode.string id )
+                , ( "volume", Encode.int volume )
+                ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
+    in
+    outbound portMessage
+
+
+log : Value -> Cmd msg
+log payload =
+    outbound (PortMessage.withTaggedPayload ( "LOG", payload ))
+
+
+pauseAudio : Cmd msg
+pauseAudio =
+    outbound (PortMessage.withTag "PAUSE_AUDIO")
+
+
+pauseVideos : Cmd msg
+pauseVideos =
+    outbound (PortMessage.withTag "PAUSE_VIDEOS")
+
+
+playAudio : Cmd msg
+playAudio =
+    outbound (PortMessage.withTag "PLAY_AUDIO")
+
+
+playVideos : Cmd msg
+playVideos =
+    outbound (PortMessage.withTag "PLAY_VIDEOS")
+
+
+requestFullScreen : Cmd msg
+requestFullScreen =
+    outbound (PortMessage.withTag "REQUEST_FULL_SCREEN")
+
+
+setVolume : Int -> Cmd msg
+setVolume volume =
+    let
+        payload =
+            Encode.object [ ( "volume", Encode.int volume ) ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
+    in
+    outbound portMessage
+
+
+skipToTrack : Int -> Cmd msg
+skipToTrack trackNumber =
+    let
+        payload =
+            Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
+
+        portMessage =
+            PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
+    in
+    outbound portMessage
+
+
+toggleFullScreen : Cmd msg
+toggleFullScreen =
+    outbound (PortMessage.withTag "TOGGLE_FULL_SCREEN")

@@ -9,7 +9,7 @@ module SoundCloud exposing
     , rawPlaylistUrl
     )
 
-import SoundCloud.Ports as Ports
+import Port
 import SoundCloud.Url as Url
 
 
@@ -33,7 +33,7 @@ iframeUrl soundCloudPlaylistUrl =
 
 initWidget : ( String, Int ) -> Cmd msg
 initWidget payloadValues =
-    Ports.initSoundCloudWidget payloadValues
+    Port.initSoundCloudWidget payloadValues
 
 
 rawIframeUrl : SoundCloudIframeUrl -> String

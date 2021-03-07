@@ -6,7 +6,7 @@ import ControlPanel exposing (ControlPanel)
 import Gif
 import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
-import Ports
+import Port
 import SecretConfig exposing (SecretConfig)
 import SoundCloud
 import Tag
@@ -26,7 +26,7 @@ show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlaye
                 , ( "Video Player 2", videoPlayerJson videoPlayer2 )
                 ]
     in
-    Ports.log applicationState
+    Port.log applicationState
 
 
 
