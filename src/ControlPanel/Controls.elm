@@ -102,7 +102,7 @@ nextTrackButton { audioPlayerMsg } =
 fullscreenButton : Msgs msgs msg -> Html msg
 fullscreenButton { browserVendorMsg } =
     div
-        [ onClick (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
+        [ onClick (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
         , css [ Styles.button ]
         , attribute "data-name" "fullscreen"
         ]

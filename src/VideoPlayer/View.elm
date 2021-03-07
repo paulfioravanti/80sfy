@@ -88,11 +88,11 @@ attributes audioPlaying msgs videoPlayer =
 
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
-            , onDoubleClick (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
+            , onDoubleClick (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
             , clickOnPlayAttribute
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             , onDoubleClick
-                (BrowserVendor.toggleFullScreenMsg browserVendorMsg)
+                (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
             ]
     in
     List.append animations videoPlayerAttributes

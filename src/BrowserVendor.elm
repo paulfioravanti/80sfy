@@ -1,9 +1,9 @@
 module BrowserVendor exposing
     ( Msg
     , cmd
-    , exitFullScreenMsg
-    , performExitFullScreen
-    , toggleFullScreenMsg
+    , exitFullscreenMsg
+    , performExitFullscreen
+    , toggleFullscreenMsg
     )
 
 import BrowserVendor.Msg as Msg
@@ -19,16 +19,16 @@ cmd msg =
     Msg.toCmd msg
 
 
-exitFullScreenMsg : (Msg -> msg) -> msg
-exitFullScreenMsg browserVendorMsg =
-    Msg.exitFullScreen browserVendorMsg
+exitFullscreenMsg : (Msg -> msg) -> msg
+exitFullscreenMsg browserVendorMsg =
+    Msg.exitFullscreen browserVendorMsg
 
 
-performExitFullScreen : (Msg -> msg) -> Cmd msg
-performExitFullScreen browserVendorMsg =
-    Task.performExitFullScreen browserVendorMsg
+performExitFullscreen : (Msg -> msg) -> Cmd msg
+performExitFullscreen browserVendorMsg =
+    Task.performExitFullscreen browserVendorMsg
 
 
-toggleFullScreenMsg : (Msg -> msg) -> msg
-toggleFullScreenMsg browserVendorMsg =
-    Msg.toggleFullScreen browserVendorMsg
+toggleFullscreenMsg : (Msg -> msg) -> msg
+toggleFullscreenMsg browserVendorMsg =
+    Msg.toggleFullscreen browserVendorMsg
