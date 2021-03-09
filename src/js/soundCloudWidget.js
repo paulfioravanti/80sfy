@@ -27,7 +27,7 @@ function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
   scPlayer.getSounds(sounds => {
     ports.inbound.send({
-      tag: "PLAYLIST_LENGTH_SET",
+      tag: "PLAYLIST_LENGTH_FETCHED",
       payload: sounds.length
     })
   })

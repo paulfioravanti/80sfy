@@ -53,8 +53,8 @@ handlePortMessage ({ audioPlayerMsg, noOpMsg } as msgs) audioPlayer portMessage 
         "NEXT_TRACK_NUMBER_REQUESTED" ->
             handleNextTrackNumberRequested audioPlayerMsg
 
-        "PLAYLIST_LENGTH_SET" ->
-            handlePlaylistLengthSet audioPlayerMsg payload
+        "PLAYLIST_LENGTH_FETCHED" ->
+            handlePlaylistLengthFetched audioPlayerMsg payload
 
         _ ->
             noOpMsg
@@ -65,13 +65,13 @@ handleNextTrackNumberRequested audioPlayerMsg =
     Msg.nextTrackNumberRequested audioPlayerMsg
 
 
-handlePlaylistLengthSet : (Msg -> msg) -> Value -> msg
-handlePlaylistLengthSet audioPlayerMsg payload =
+handlePlaylistLengthFetched : (Msg -> msg) -> Value -> msg
+handlePlaylistLengthFetched audioPlayerMsg payload =
     let
         playlistLength =
             Value.extractIntWithDefault 1 payload
     in
-    Msg.setPlaylistLength audioPlayerMsg playlistLength
+    Msg.playlistLengthFetched audioPlayerMsg playlistLength
 
 
 handleAudioPaused : Msgs msgs msg -> Value -> msg

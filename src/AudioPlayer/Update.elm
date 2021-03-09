@@ -115,7 +115,7 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             , SoundCloud.initWidget initSoundCloudWidgetPayloadValues
             )
 
-        Msg.SetPlaylistLength playlistLength ->
+        Msg.PlaylistLengthFetched playlistLength ->
             let
                 generatePlaylist =
                     Playlist.generate audioPlayerMsg playlistLength
