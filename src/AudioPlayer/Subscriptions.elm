@@ -7,7 +7,6 @@ import Json.Decode exposing (Value)
 import Port
 import PortMessage
 import Value
-import VideoPlayer
 
 
 type alias Msgs msgs msg =
@@ -16,7 +15,6 @@ type alias Msgs msgs msg =
         , audioPlayerMsg : Msg -> msg
         , audioPlayingMsg : msg
         , noOpMsg : msg
-        , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
 
