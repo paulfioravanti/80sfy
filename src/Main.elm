@@ -33,9 +33,7 @@ init flags =
             Model.init config
 
         initialPayloadValues =
-            ( AudioPlayer.rawId audioPlayer.id
-            , AudioPlayer.rawVolume audioPlayer.volume
-            )
+            AudioPlayer.soundCloudWidgetPayload audioPlayer
     in
     ( model
     , Cmd.batch

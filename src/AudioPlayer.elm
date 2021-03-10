@@ -22,6 +22,7 @@ module AudioPlayer exposing
     , rawId
     , rawTrackIndex
     , rawVolume
+    , soundCloudWidgetPayload
     , statusToString
     , subscriptions
     , toggleMuteMsg
@@ -152,6 +153,11 @@ rawTrackIndex trackIndex =
 rawVolume : AudioPlayerVolume -> Int
 rawVolume audioPlayerVolume =
     Volume.rawVolume audioPlayerVolume
+
+
+soundCloudWidgetPayload : AudioPlayer -> ( String, Int )
+soundCloudWidgetPayload audioPlayer =
+    Model.soundCloudWidgetPayload audioPlayer
 
 
 statusToString : Status -> String

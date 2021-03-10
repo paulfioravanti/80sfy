@@ -3,6 +3,7 @@ module AudioPlayer.Model exposing
     , AudioPlayerId
     , init
     , rawId
+    , soundCloudWidgetPayload
     )
 
 import AudioPlayer.Playlist exposing (TrackIndex)
@@ -39,3 +40,10 @@ init soundCloudPlaylistUrl =
 rawId : AudioPlayerId -> String
 rawId (AudioPlayerId rawIdString) =
     rawIdString
+
+
+soundCloudWidgetPayload : AudioPlayer -> ( String, Int )
+soundCloudWidgetPayload { id, volume } =
+    ( rawId id
+    , Volume.rawVolume volume
+    )
