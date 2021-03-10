@@ -58,8 +58,8 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
                 Tasks.performPause
-                    (Port.pauseAudioPortMsg msgs.portMsg)
-                    (Port.pauseVideosPortMsg msgs.portMsg)
+                    (Port.pauseAudioParentMsg msgs.portMsg)
+                    (Port.pauseVideosParentMsg msgs.portMsg)
 
             else
                 Tasks.performPlay msgs.playMsg

@@ -76,7 +76,7 @@ attributes audioPlaying msgs videoPlayer =
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
-                onClick (Port.playVideosPortMsg portMsg)
+                onClick (Port.playVideosParentMsg portMsg)
 
             else
                 onClick noOpMsg

@@ -10,13 +10,13 @@ port module Port exposing
     , logError
     , outbound
     , pauseAudioMsg
-    , pauseAudioPortMsg
+    , pauseAudioParentMsg
     , pauseVideosMsg
-    , pauseVideosPortMsg
+    , pauseVideosParentMsg
     , playAudioMsg
-    , playAudioPortMsg
+    , playAudioParentMsg
     , playVideosMsg
-    , playVideosPortMsg
+    , playVideosParentMsg
     , setVolumeMsg
     , skipToTrackMsg
     , toggleFullscreenMsg
@@ -153,8 +153,8 @@ pauseAudioMsg =
     PauseAudio
 
 
-pauseAudioPortMsg : (Msg -> msg) -> msg
-pauseAudioPortMsg portMsg =
+pauseAudioParentMsg : (Msg -> msg) -> msg
+pauseAudioParentMsg portMsg =
     portMsg PauseAudio
 
 
@@ -163,8 +163,8 @@ pauseVideosMsg =
     PauseVideos
 
 
-pauseVideosPortMsg : (Msg -> msg) -> msg
-pauseVideosPortMsg portMsg =
+pauseVideosParentMsg : (Msg -> msg) -> msg
+pauseVideosParentMsg portMsg =
     portMsg PauseVideos
 
 
@@ -173,8 +173,8 @@ playAudioMsg =
     PlayAudio
 
 
-playAudioPortMsg : (Msg -> msg) -> msg
-playAudioPortMsg portMsg =
+playAudioParentMsg : (Msg -> msg) -> msg
+playAudioParentMsg portMsg =
     portMsg PlayAudio
 
 
@@ -183,8 +183,8 @@ playVideosMsg =
     PlayVideos
 
 
-playVideosPortMsg : (Msg -> msg) -> msg
-playVideosPortMsg portMsg =
+playVideosParentMsg : (Msg -> msg) -> msg
+playVideosParentMsg portMsg =
     portMsg PlayVideos
 
 

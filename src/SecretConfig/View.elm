@@ -193,7 +193,7 @@ pauseGifRotationButton : (Port.Msg -> msg) -> Html msg
 pauseGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseVideosPortMsg portMsg)
+        , onClick (Port.pauseVideosParentMsg portMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
@@ -202,7 +202,7 @@ playGifRotationButton : (Port.Msg -> msg) -> Html msg
 playGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playVideosPortMsg portMsg)
+        , onClick (Port.playVideosParentMsg portMsg)
         ]
         [ text "Play Gif Rotation" ]
 
@@ -211,7 +211,7 @@ playAudioButton : (Port.Msg -> msg) -> Html msg
 playAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playAudioPortMsg portMsg)
+        , onClick (Port.playAudioParentMsg portMsg)
         ]
         [ text "Play Audio" ]
 
@@ -220,6 +220,6 @@ pauseAudioButton : (Port.Msg -> msg) -> Html msg
 pauseAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseAudioPortMsg portMsg)
+        , onClick (Port.pauseAudioParentMsg portMsg)
         ]
         [ text "Pause Audio" ]
