@@ -1,13 +1,10 @@
-port module Port exposing
-    ( Msg
+module Port.Msg exposing
+    ( Msg(..)
     , SoundCloudWidgetPayload
-    , cmd
     , exitFullscreenMsg
     , haltVideosMsg
-    , inbound
     , initSoundCloudWidgetMsg
-    , log
-    , logError
+    , logMsg
     , pauseAudioMsg
     , pauseAudioParentMsg
     , pauseVideosMsg
@@ -21,112 +18,99 @@ port module Port exposing
     , toggleFullscreenMsg
     )
 
-import Error
-import Http exposing (Error)
-import Json.Encode as Encode exposing (Value)
-import Port.Cmd as Cmd
-import Port.Msg as Msg
-
-
-type alias Msg =
-    Msg.Msg
+import Json.Encode exposing (Value)
 
 
 type alias SoundCloudWidgetPayload =
-    Msg.SoundCloudWidgetPayload
+    { id : String
+    , volume : Int
+    }
 
 
-port inbound : (Value -> msg) -> Sub msg
-
-
-cmd : Msg -> Cmd msg
-cmd msg =
-    Cmd.cmd msg
+type Msg
+    = ExitFullscreen
+    | HaltVideos
+    | InitSoundCloudWidget SoundCloudWidgetPayload
+    | Log Value
+    | PauseAudio
+    | PauseVideos
+    | PlayAudio
+    | PlayVideos
+    | SetVolume Int
+    | SkipToTrack Int
+    | ToggleFullscreen
 
 
 exitFullscreenMsg : Msg
 exitFullscreenMsg =
-    Msg.exitFullscreenMsg
+    ExitFullscreen
 
 
 haltVideosMsg : (Msg -> msg) -> msg
 haltVideosMsg portMsg =
-    Msg.haltVideosMsg portMsg
+    portMsg HaltVideos
 
 
 initSoundCloudWidgetMsg : SoundCloudWidgetPayload -> Msg
 initSoundCloudWidgetMsg payload =
-    Msg.initSoundCloudWidgetMsg payload
+    InitSoundCloudWidget payload
 
 
-log : Value -> Cmd msg
-log payload =
-    cmd (Msg.logMsg payload)
-
-
-logError : String -> Error -> Cmd msg
-logError message error =
-    let
-        payload =
-            Encode.object
-                [ ( message
-                  , Encode.string (Error.toString error)
-                  )
-                ]
-    in
-    log payload
+logMsg : Value -> Msg
+logMsg payload =
+    Log payload
 
 
 pauseAudioMsg : Msg
 pauseAudioMsg =
-    Msg.pauseAudioMsg
+    PauseAudio
 
 
 pauseAudioParentMsg : (Msg -> msg) -> msg
 pauseAudioParentMsg portMsg =
-    Msg.pauseAudioParentMsg portMsg
+    portMsg PauseAudio
 
 
 pauseVideosMsg : Msg
 pauseVideosMsg =
-    Msg.pauseVideosMsg
+    PauseVideos
 
 
 pauseVideosParentMsg : (Msg -> msg) -> msg
 pauseVideosParentMsg portMsg =
-    Msg.pauseVideosParentMsg portMsg
+    portMsg PauseVideos
 
 
 playAudioMsg : Msg
 playAudioMsg =
-    Msg.playAudioMsg
+    PlayAudio
 
 
 playAudioParentMsg : (Msg -> msg) -> msg
 playAudioParentMsg portMsg =
-    Msg.playAudioParentMsg portMsg
+    portMsg PlayAudio
 
 
 playVideosMsg : Msg
 playVideosMsg =
-    Msg.playVideosMsg
+    PlayVideos
 
 
 playVideosParentMsg : (Msg -> msg) -> msg
 playVideosParentMsg portMsg =
-    Msg.playVideosParentMsg portMsg
+    portMsg PlayVideos
 
 
 setVolumeMsg : Int -> Msg
 setVolumeMsg rawVolume =
-    Msg.setVolumeMsg rawVolume
+    SetVolume rawVolume
 
 
 skipToTrackMsg : Int -> Msg
 skipToTrackMsg trackNumber =
-    Msg.skipToTrackMsg trackNumber
+    SkipToTrack trackNumber
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
 toggleFullscreenMsg portMsg =
-    Msg.toggleFullscreenMsg portMsg
+    portMsg ToggleFullscreen
