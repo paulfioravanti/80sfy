@@ -30,7 +30,11 @@ update { audioPlayerMsg } msg audioPlayer =
                         Cmd.none
 
                     else
-                        Port.setVolume (Volume.rawVolume volume)
+                        let
+                            rawVolume =
+                                Volume.rawVolume volume
+                        in
+                        Port.cmd (Port.setVolumeMsg rawVolume)
             in
             ( { audioPlayer | volume = volume }, cmd )
 
@@ -130,12 +134,12 @@ update { audioPlayerMsg } msg audioPlayer =
                                 Volume.rawVolume audioPlayer.volume
                         in
                         ( Status.unMute currentStatus
-                        , Port.setVolume volume
+                        , Port.cmd (Port.setVolumeMsg volume)
                         )
 
                     else
                         ( Status.mute currentStatus
-                        , Port.setVolume 0
+                        , Port.cmd (Port.setVolumeMsg 0)
                         )
             in
             ( { audioPlayer | status = newStatus }, cmd )
