@@ -37,6 +37,7 @@ import AudioPlayer.Subscriptions as Subscriptions
 import AudioPlayer.Task as Task
 import AudioPlayer.Update as Update
 import AudioPlayer.Volume as Volume
+import Port exposing (SoundCloudWidgetPayload)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
@@ -155,7 +156,7 @@ rawVolume audioPlayerVolume =
     Volume.rawVolume audioPlayerVolume
 
 
-soundCloudWidgetPayload : AudioPlayer -> ( String, Int )
+soundCloudWidgetPayload : AudioPlayer -> SoundCloudWidgetPayload
 soundCloudWidgetPayload audioPlayer =
     Model.soundCloudWidgetPayload audioPlayer
 

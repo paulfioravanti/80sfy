@@ -9,6 +9,7 @@ module AudioPlayer.Model exposing
 import AudioPlayer.Playlist exposing (TrackIndex)
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Volume as Volume exposing (AudioPlayerVolume)
+import Port exposing (SoundCloudWidgetPayload)
 import SoundCloud exposing (SoundCloudIframeUrl, SoundCloudPlaylistUrl)
 
 
@@ -42,8 +43,8 @@ rawId (AudioPlayerId rawIdString) =
     rawIdString
 
 
-soundCloudWidgetPayload : AudioPlayer -> ( String, Int )
+soundCloudWidgetPayload : AudioPlayer -> SoundCloudWidgetPayload
 soundCloudWidgetPayload { id, volume } =
-    ( rawId id
-    , Volume.rawVolume volume
-    )
+    { id = rawId id
+    , volume = Volume.rawVolume volume
+    }

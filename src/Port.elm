@@ -1,5 +1,6 @@
 port module Port exposing
-    ( exitFullscreen
+    ( SoundCloudWidgetPayload
+    , exitFullscreen
     , haltVideos
     , inbound
     , initSoundCloudWidget
@@ -22,6 +23,12 @@ import Json.Encode as Encode exposing (Value)
 import PortMessage exposing (PortMessage)
 
 
+type alias SoundCloudWidgetPayload =
+    { id : String
+    , volume : Int
+    }
+
+
 port inbound : (Value -> msg) -> Sub msg
 
 
@@ -38,8 +45,8 @@ haltVideos =
     outbound (PortMessage.withTag "HALT_VIDEOS")
 
 
-initSoundCloudWidget : ( String, Int ) -> Cmd msg
-initSoundCloudWidget ( id, volume ) =
+initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
+initSoundCloudWidget { id, volume } =
     let
         payload =
             Encode.object
