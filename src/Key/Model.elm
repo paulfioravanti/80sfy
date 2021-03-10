@@ -22,6 +22,7 @@ type alias Msgs msgs msg =
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
+        , portMsg : Port.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
@@ -57,7 +58,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
                 Tasks.performPause
-                    (AudioPlayer.pauseAudioMsg msgs.audioPlayerMsg)
+                    (Port.pauseAudioMsg msgs.portMsg)
                     (VideoPlayer.pauseVideosMsg msgs.videoPlayerMsg)
 
             else

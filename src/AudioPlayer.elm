@@ -11,7 +11,6 @@ module AudioPlayer exposing
     , isMuted
     , isPlaying
     , nextTrackMsg
-    , pauseAudioMsg
     , performAudioPaused
     , performAudioPlayerReset
     , performAudioPlaying
@@ -99,11 +98,6 @@ isPlaying audioPlayer =
 nextTrackMsg : (Msg -> msg) -> msg
 nextTrackMsg audioPlayerMsg =
     Msg.nextTrack audioPlayerMsg
-
-
-pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg audioPlayerMsg =
-    Msg.pauseAudio audioPlayerMsg
 
 
 performAudioPaused : (Msg -> msg) -> Cmd msg

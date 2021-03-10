@@ -20,6 +20,7 @@ import Html.Styled.Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
+import Port
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles
@@ -32,6 +33,7 @@ type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : ControlPanel.Msg -> msg
+        , portMsg : Port.Msg -> msg
         , saveConfigMsg :
             SoundCloudPlaylistUrl
             -> TagsString
@@ -68,7 +70,7 @@ secretConfigButton secretConfigMsg =
 secretConfigSettings : Msgs msgs msg -> SecretConfig -> Html msg
 secretConfigSettings msgs secretConfig =
     let
-        { audioPlayerMsg, secretConfigMsg, videoPlayerMsg } =
+        { audioPlayerMsg, portMsg, secretConfigMsg, videoPlayerMsg } =
             msgs
     in
     div
@@ -93,7 +95,7 @@ secretConfigSettings msgs secretConfig =
         , pauseGifRotationButton videoPlayerMsg
         , playGifRotationButton videoPlayerMsg
         , playAudioButton audioPlayerMsg
-        , pauseAudioButton audioPlayerMsg
+        , pauseAudioButton portMsg
         ]
 
 
@@ -216,10 +218,10 @@ playAudioButton audioPlayerMsg =
         [ text "Play Audio" ]
 
 
-pauseAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
-pauseAudioButton audioPlayerMsg =
+pauseAudioButton : (Port.Msg -> msg) -> Html msg
+pauseAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (AudioPlayer.pauseAudioMsg audioPlayerMsg)
+        , onClick (Port.pauseAudioMsg portMsg)
         ]
         [ text "Pause Audio" ]

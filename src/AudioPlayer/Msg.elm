@@ -5,7 +5,6 @@ module AudioPlayer.Msg exposing
     , audioPlaying
     , nextTrack
     , nextTrackNumberRequested
-    , pauseAudio
     , playAudio
     , playlistGenerated
     , playlistLengthFetched
@@ -22,7 +21,6 @@ type Msg
     | AudioPlaying
     | NextTrack
     | NextTrackNumberRequested
-    | PauseAudio
     | PlayAudio
     | PlaylistGenerated (List Int)
     | PlaylistLengthFetched Int
@@ -53,11 +51,6 @@ nextTrack audioPlayerMsg =
 nextTrackNumberRequested : (Msg -> msg) -> msg
 nextTrackNumberRequested audioPlayerMsg =
     audioPlayerMsg NextTrackNumberRequested
-
-
-pauseAudio : (Msg -> msg) -> msg
-pauseAudio audioPlayerMsg =
-    audioPlayerMsg PauseAudio
 
 
 playAudio : (Msg -> msg) -> msg

@@ -86,9 +86,6 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
             , cmd
             )
 
-        Msg.PauseAudio ->
-            ( audioPlayer, Port.pauseAudio )
-
         Msg.PlayAudio ->
             ( audioPlayer, Port.playAudio )
 
