@@ -3,13 +3,13 @@ module Msg exposing
     , audioPaused
     , audioPlayer
     , audioPlaying
-    , browserVendor
     , config
     , controlPanel
     , keyPressed
     , noOp
     , pause
     , play
+    , portMsg
     , saveConfig
     , secretConfig
     , showApplicationState
@@ -17,7 +17,6 @@ module Msg exposing
     )
 
 import AudioPlayer
-import BrowserVendor
 import Config
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
@@ -33,14 +32,13 @@ type Msg
     = AudioPaused
     | AudioPlayer AudioPlayer.Msg
     | AudioPlaying
-    | BrowserVendor BrowserVendor.Msg
     | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | KeyPressed Key
     | NoOp
     | Pause
-    | Play
     | Port Port.Msg
+    | Play
     | SaveConfig SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
@@ -60,11 +58,6 @@ audioPlayer audioPlayerMsg =
 audioPlaying : Msg
 audioPlaying =
     AudioPlaying
-
-
-browserVendor : BrowserVendor.Msg -> Msg
-browserVendor browserVendorMsg =
-    BrowserVendor browserVendorMsg
 
 
 controlPanel : ControlPanel.Msg -> Msg
@@ -95,6 +88,11 @@ pause =
 play : Msg
 play =
     Play
+
+
+portMsg : Port.Msg -> Msg
+portMsg msgForPort =
+    Port msgForPort
 
 
 saveConfig :

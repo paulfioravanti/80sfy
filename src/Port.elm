@@ -2,7 +2,7 @@ port module Port exposing
     ( Msg
     , SoundCloudWidgetPayload
     , cmd
-    , exitFullscreen
+    , exitFullscreenMsg
     , haltVideos
     , inbound
     , initSoundCloudWidget
@@ -15,18 +15,18 @@ port module Port exposing
     , playVideos
     , setVolume
     , skipToTrack
-    , toggleFullscreen
+    , toggleFullscreenMsg
     )
 
 import Error
 import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
-import Port.Msg as Msg
 import PortMessage exposing (PortMessage)
 
 
-type alias Msg =
-    Msg.Msg
+type Msg
+    = ExitFullscreen
+    | ToggleFullscreen
 
 
 type alias SoundCloudWidgetPayload =
@@ -44,13 +44,16 @@ port outbound : PortMessage -> Cmd msg
 cmd : Msg -> Cmd msg
 cmd msg =
     case msg of
-        Msg.RequestFullscreen ->
-            outbound (PortMessage.withTag "REQUEST_FULL_SCREEN")
+        ExitFullscreen ->
+            outbound (PortMessage.withTag "EXIT_FULL_SCREEN")
+
+        ToggleFullscreen ->
+            outbound (PortMessage.withTag "TOGGLE_FULL_SCREEN")
 
 
-exitFullscreen : Cmd msg
-exitFullscreen =
-    outbound (PortMessage.withTag "EXIT_FULL_SCREEN")
+exitFullscreenMsg : Msg
+exitFullscreenMsg =
+    ExitFullscreen
 
 
 haltVideos : Cmd msg
@@ -135,6 +138,6 @@ skipToTrack trackNumber =
     outbound portMessage
 
 
-toggleFullscreen : Cmd msg
-toggleFullscreen =
-    outbound (PortMessage.withTag "TOGGLE_FULL_SCREEN")
+toggleFullscreenMsg : (Msg -> msg) -> msg
+toggleFullscreenMsg portMsg =
+    portMsg ToggleFullscreen

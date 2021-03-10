@@ -17,9 +17,6 @@ function handleMessages(ports) {
     case "EXIT_FULL_SCREEN":
       document.webkitExitFullscreen()
       break
-    case "REQUEST_FULL_SCREEN":
-      document.documentElement.webkitRequestFullScreen()
-      break
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.webkitFullscreenElement
       if (isFullScreen) {

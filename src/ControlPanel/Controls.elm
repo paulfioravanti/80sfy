@@ -1,11 +1,11 @@
 module ControlPanel.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor
 import ControlPanel.Styles as Styles
 import Html.Styled exposing (Html, div, i)
 import Html.Styled.Attributes exposing (attribute, class, css)
 import Html.Styled.Events exposing (onClick)
+import Port
 
 
 view : Msgs msgs msg -> Context a -> Html msg
@@ -35,9 +35,9 @@ view msgs { audioPlayer } =
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
+        , portMsg : Port.Msg -> msg
     }
 
 
@@ -100,9 +100,9 @@ nextTrackButton { audioPlayerMsg } =
 
 
 fullscreenButton : Msgs msgs msg -> Html msg
-fullscreenButton { browserVendorMsg } =
+fullscreenButton { portMsg } =
     div
-        [ onClick (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
+        [ onClick (Port.toggleFullscreenMsg portMsg)
         , css [ Styles.button ]
         , attribute "data-name" "fullscreen"
         ]

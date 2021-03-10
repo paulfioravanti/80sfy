@@ -17,9 +17,6 @@ function handleMessages(ports) {
     case "EXIT_FULL_SCREEN":
       document.exitFullscreen()
       break
-    case "REQUEST_FULL_SCREEN":
-      document.documentElement.requestFullscreen()
-      break
     case "TOGGLE_FULL_SCREEN": {
       const isFullScreen = !!document.fullscreenElement
       if (isFullScreen) {

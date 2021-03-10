@@ -2,7 +2,6 @@ module ControlPanel.View exposing (Context, Msgs, view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import BrowserVendor
 import ControlPanel.Controls as Controls
 import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
@@ -21,6 +20,7 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
+import Port
 import SoundCloud
 
 
@@ -35,9 +35,9 @@ type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : Msg -> msg
-        , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
+        , portMsg : Port.Msg -> msg
     }
 
 

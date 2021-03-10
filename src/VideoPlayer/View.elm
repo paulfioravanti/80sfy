@@ -1,7 +1,6 @@
 module VideoPlayer.View exposing (Msgs, view)
 
 import Animation
-import BrowserVendor
 import Gif exposing (GifUrl)
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
 import Html.Styled.Attributes
@@ -14,6 +13,7 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
+import Port
 import RemoteData
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
@@ -23,8 +23,8 @@ import VideoPlayer.Styles as Styles
 
 type alias Msgs msgs msg =
     { msgs
-        | browserVendorMsg : BrowserVendor.Msg -> msg
-        , noOpMsg : msg
+        | noOpMsg : msg
+        , portMsg : Port.Msg -> msg
         , videoPlayerMsg : Msg -> msg
     }
 
@@ -68,7 +68,7 @@ attributes :
     -> List (Html.Attribute msg)
 attributes audioPlaying msgs videoPlayer =
     let
-        { browserVendorMsg, noOpMsg, videoPlayerMsg } =
+        { noOpMsg, portMsg, videoPlayerMsg } =
             msgs
 
         animations =
@@ -88,11 +88,9 @@ attributes audioPlaying msgs videoPlayer =
 
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
-            , onDoubleClick (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
+            , onDoubleClick (Port.toggleFullscreenMsg portMsg)
             , clickOnPlayAttribute
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
-            , onDoubleClick
-                (BrowserVendor.toggleFullscreenMsg browserVendorMsg)
             ]
     in
     List.append animations videoPlayerAttributes

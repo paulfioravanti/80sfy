@@ -16,11 +16,11 @@ view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
-            , browserVendorMsg = Msg.browserVendor
             , controlPanelMsg = Msg.controlPanel
             , noOpMsg = Msg.noOp
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
+            , portMsg = Msg.portMsg
             , saveConfigMsg = Msg.saveConfig
             , secretConfigMsg = Msg.secretConfig
             , showApplicationStateMsg = Msg.showApplicationState

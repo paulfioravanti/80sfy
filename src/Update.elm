@@ -2,7 +2,6 @@ module Update exposing (update)
 
 import ApplicationState
 import AudioPlayer
-import BrowserVendor
 import Config
 import ControlPanel
 import Key
@@ -19,11 +18,11 @@ update msg model =
     let
         msgs =
             { audioPlayerMsg = Msg.audioPlayer
-            , browserVendorMsg = Msg.browserVendor
             , configMsg = Msg.config
             , controlPanelMsg = Msg.controlPanel
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
+            , portMsg = Msg.portMsg
             , secretConfigMsg = Msg.secretConfig
             , videoPlayerMsg = Msg.videoPlayer
             }
@@ -70,13 +69,6 @@ update msg model =
             in
             ( { model | controlPanel = controlPanel }, cmd )
 
-        Msg.BrowserVendor msgForBrowserVendor ->
-            let
-                cmd =
-                    BrowserVendor.cmd msgForBrowserVendor
-            in
-            ( model, cmd )
-
         Msg.KeyPressed code ->
             let
                 cmd =
@@ -107,11 +99,7 @@ update msg model =
             ( model, Cmd.batch [ performPlayVideos, performPlayAudio ] )
 
         Msg.Port msgForPort ->
-            let
-                cmd =
-                    Port.cmd msgForPort
-            in
-            ( model, cmd )
+            ( model, Port.cmd msgForPort )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let

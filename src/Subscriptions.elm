@@ -18,7 +18,6 @@ subscriptions model =
             { audioPausedMsg = Msg.audioPaused
             , audioPlayerMsg = Msg.audioPlayer
             , audioPlayingMsg = Msg.audioPlaying
-            , browserVendorMsg = Msg.browserVendor
             , noOpMsg = Msg.noOp
             , videoPlayerMsg = Msg.videoPlayer
             }

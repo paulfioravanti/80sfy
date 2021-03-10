@@ -1,9 +1,9 @@
 module Key.Model exposing (Key, Msgs, fromString, pressed)
 
 import AudioPlayer
-import BrowserVendor
 import Config
 import Model exposing (Model)
+import Port
 import Tasks
 import VideoPlayer
 
@@ -20,7 +20,6 @@ type Key
 type alias Msgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , browserVendorMsg : BrowserVendor.Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
@@ -53,7 +52,7 @@ pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
 pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Escape ->
-            BrowserVendor.performExitFullscreen msgs.browserVendorMsg
+            Port.cmd Port.exitFullscreenMsg
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
