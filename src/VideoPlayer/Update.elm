@@ -92,9 +92,6 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
             in
             ( videoPlayer1, videoPlayer2, Port.logError message error )
 
-        Msg.HaltVideos ->
-            ( videoPlayer1, videoPlayer2, Port.haltVideos )
-
         Msg.PauseVideos ->
             ( videoPlayer1, videoPlayer2, Port.pauseVideos )
 

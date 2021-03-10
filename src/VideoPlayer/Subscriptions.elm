@@ -22,6 +22,7 @@ type alias Context =
 type alias Msgs msgs msg =
     { msgs
         | noOpMsg : msg
+        , portMsg : Port.Msg -> msg
         , videoPlayerMsg : Msg -> msg
     }
 
@@ -115,7 +116,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
 
 
 handleWindowBlurred : Msgs msgs msg -> String -> Value -> msg
-handleWindowBlurred { videoPlayerMsg, noOpMsg } rawAudioPlayerId payload =
+handleWindowBlurred { noOpMsg, portMsg } rawAudioPlayerId payload =
     let
         activeElementId =
             Value.extractStringWithDefault "" payload
@@ -128,4 +129,4 @@ handleWindowBlurred { videoPlayerMsg, noOpMsg } rawAudioPlayerId payload =
         noOpMsg
 
     else
-        Msg.haltVideos videoPlayerMsg
+        Port.haltVideosMsg portMsg

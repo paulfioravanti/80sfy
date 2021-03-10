@@ -3,7 +3,7 @@ port module Port exposing
     , SoundCloudWidgetPayload
     , cmd
     , exitFullscreenMsg
-    , haltVideos
+    , haltVideosMsg
     , inbound
     , initSoundCloudWidget
     , log
@@ -27,6 +27,7 @@ import PortMessage exposing (PortMessage)
 
 type Msg
     = ExitFullscreen
+    | HaltVideos
     | PauseAudio
     | PlayAudio
     | ToggleFullscreen
@@ -50,6 +51,9 @@ cmd msg =
         ExitFullscreen ->
             outbound (PortMessage.withTag "EXIT_FULL_SCREEN")
 
+        HaltVideos ->
+            outbound (PortMessage.withTag "HALT_VIDEOS")
+
         PauseAudio ->
             outbound (PortMessage.withTag "PAUSE_AUDIO")
 
@@ -65,9 +69,9 @@ exitFullscreenMsg =
     ExitFullscreen
 
 
-haltVideos : Cmd msg
-haltVideos =
-    outbound (PortMessage.withTag "HALT_VIDEOS")
+haltVideosMsg : (Msg -> msg) -> msg
+haltVideosMsg portMsg =
+    portMsg HaltVideos
 
 
 initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
