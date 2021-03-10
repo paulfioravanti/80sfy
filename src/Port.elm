@@ -32,6 +32,7 @@ type Msg
     = ExitFullscreen
     | HaltVideos
     | InitSoundCloudWidget SoundCloudWidgetPayload
+    | Log Value
     | PauseAudio
     | PauseVideos
     | PlayAudio
@@ -73,6 +74,9 @@ cmd msg =
             in
             outbound portMessage
 
+        Log payload ->
+            outbound (PortMessage.withTaggedPayload ( "LOG", payload ))
+
         PauseAudio ->
             outbound (PortMessage.withTag "PAUSE_AUDIO")
 
@@ -106,7 +110,7 @@ initSoundCloudWidgetMsg payload =
 
 log : Value -> Cmd msg
 log payload =
-    outbound (PortMessage.withTaggedPayload ( "LOG", payload ))
+    cmd (Log payload)
 
 
 logError : String -> Error -> Cmd msg
@@ -119,7 +123,7 @@ logError message error =
                   )
                 ]
     in
-    log payload
+    cmd (Log payload)
 
 
 pauseAudioMsg : Msg
