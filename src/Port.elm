@@ -10,7 +10,9 @@ port module Port exposing
     , logError
     , outbound
     , pauseAudioMsg
-    , pauseVideos
+    , pauseAudioPortMsg
+    , pauseVideosMsg
+    , pauseVideosPortMsg
     , playAudioMsg
     , playAudioPortMsg
     , playVideos
@@ -29,6 +31,7 @@ type Msg
     = ExitFullscreen
     | HaltVideos
     | PauseAudio
+    | PauseVideos
     | PlayAudio
     | ToggleFullscreen
 
@@ -56,6 +59,9 @@ cmd msg =
 
         PauseAudio ->
             outbound (PortMessage.withTag "PAUSE_AUDIO")
+
+        PauseVideos ->
+            outbound (PortMessage.withTag "PAUSE_VIDEOS")
 
         PlayAudio ->
             outbound (PortMessage.withTag "PLAY_AUDIO")
@@ -107,9 +113,24 @@ logError message error =
     log payload
 
 
-pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg portMsg =
+pauseAudioMsg : Msg
+pauseAudioMsg =
+    PauseAudio
+
+
+pauseAudioPortMsg : (Msg -> msg) -> msg
+pauseAudioPortMsg portMsg =
     portMsg PauseAudio
+
+
+pauseVideosMsg : Msg
+pauseVideosMsg =
+    PauseVideos
+
+
+pauseVideosPortMsg : (Msg -> msg) -> msg
+pauseVideosPortMsg portMsg =
+    portMsg PauseVideos
 
 
 playAudioMsg : Msg
@@ -120,11 +141,6 @@ playAudioMsg =
 playAudioPortMsg : (Msg -> msg) -> msg
 playAudioPortMsg portMsg =
     portMsg PlayAudio
-
-
-pauseVideos : Cmd msg
-pauseVideos =
-    outbound (PortMessage.withTag "PAUSE_VIDEOS")
 
 
 playVideos : Cmd msg

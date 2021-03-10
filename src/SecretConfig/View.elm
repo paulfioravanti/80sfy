@@ -90,7 +90,7 @@ secretConfigSettings msgs secretConfig =
         , showStateButton msgs.showApplicationStateMsg
         , overrideControlPanelHideButton msgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
-        , pauseGifRotationButton videoPlayerMsg
+        , pauseGifRotationButton portMsg
         , playGifRotationButton videoPlayerMsg
         , playAudioButton portMsg
         , pauseAudioButton portMsg
@@ -189,11 +189,11 @@ overrideInactivityPauseButton secretConfigMsg =
         [ text "Toggle Inactivity Pause" ]
 
 
-pauseGifRotationButton : (VideoPlayer.Msg -> msg) -> Html msg
-pauseGifRotationButton videoPlayerMsg =
+pauseGifRotationButton : (Port.Msg -> msg) -> Html msg
+pauseGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (VideoPlayer.pauseVideosMsg videoPlayerMsg)
+        , onClick (Port.pauseVideosPortMsg portMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
@@ -220,6 +220,6 @@ pauseAudioButton : (Port.Msg -> msg) -> Html msg
 pauseAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseAudioMsg portMsg)
+        , onClick (Port.pauseAudioPortMsg portMsg)
         ]
         [ text "Pause Audio" ]
