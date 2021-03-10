@@ -55,7 +55,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 handlePortMessage : Msgs msgs msg -> Context -> VideoPlayer -> Value -> msg
 handlePortMessage msgs context videoPlayer1 portMessage =
     let
-        { videoPlayerMsg, noOpMsg } =
+        { videoPlayerMsg, noOpMsg, portMsg } =
             msgs
 
         { tag, payload } =
@@ -87,7 +87,7 @@ handlePortMessage msgs context videoPlayer1 portMessage =
 
         "WINDOW_FOCUSED" ->
             if videoPlayer1.status == Status.halted then
-                Msg.playVideos videoPlayerMsg
+                Port.playVideosPortMsg portMsg
 
             else
                 noOpMsg

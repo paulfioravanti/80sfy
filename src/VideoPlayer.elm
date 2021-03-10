@@ -4,8 +4,6 @@ module VideoPlayer exposing
     , VideoPlayerId
     , id
     , init
-    , performPlayVideos
-    , playVideosMsg
     , randomGifUrlFetchedMsg
     , rawId
     , rawZIndex
@@ -23,7 +21,6 @@ import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions
-import VideoPlayer.Task as Task
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
 
@@ -52,16 +49,6 @@ init videoPlayerId videoPlayerZIndex =
 id : String -> VideoPlayerId
 id rawIdString =
     Model.id rawIdString
-
-
-performPlayVideos : (Msg -> msg) -> Cmd msg
-performPlayVideos videoPlayerMsg =
-    Task.performPlayVideos videoPlayerMsg
-
-
-playVideosMsg : (Msg -> msg) -> msg
-playVideosMsg videoPlayerMsg =
-    Msg.playVideos videoPlayerMsg
 
 
 randomGifUrlFetchedMsg :

@@ -19,7 +19,7 @@ type alias Msgs msgs msg =
 
 
 update : Msgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
+update { audioPlayerMsg } msg audioPlayer =
     case msg of
         Msg.AdjustVolume sliderVolume ->
             let
@@ -54,14 +54,14 @@ update { audioPlayerMsg, videoPlayerMsg } msg audioPlayer =
                 performNextTrackNumberRequest =
                     Task.performNextTrackNumberRequest audioPlayerMsg
 
-                performPlayVideos =
-                    VideoPlayer.performPlayVideos videoPlayerMsg
+                playVideos =
+                    Port.cmd Port.playVideosMsg
 
                 status =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ performNextTrackNumberRequest, performPlayVideos ]
+            , Cmd.batch [ performNextTrackNumberRequest, playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->

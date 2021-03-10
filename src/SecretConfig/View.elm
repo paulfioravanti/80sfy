@@ -68,7 +68,7 @@ secretConfigButton secretConfigMsg =
 secretConfigSettings : Msgs msgs msg -> SecretConfig -> Html msg
 secretConfigSettings msgs secretConfig =
     let
-        { portMsg, secretConfigMsg, videoPlayerMsg } =
+        { portMsg, secretConfigMsg } =
             msgs
     in
     div
@@ -91,7 +91,7 @@ secretConfigSettings msgs secretConfig =
         , overrideControlPanelHideButton msgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
         , pauseGifRotationButton portMsg
-        , playGifRotationButton videoPlayerMsg
+        , playGifRotationButton portMsg
         , playAudioButton portMsg
         , pauseAudioButton portMsg
         ]
@@ -198,11 +198,11 @@ pauseGifRotationButton portMsg =
         [ text "Pause Gif Rotation" ]
 
 
-playGifRotationButton : (VideoPlayer.Msg -> msg) -> Html msg
-playGifRotationButton videoPlayerMsg =
+playGifRotationButton : (Port.Msg -> msg) -> Html msg
+playGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (VideoPlayer.playVideosMsg videoPlayerMsg)
+        , onClick (Port.playVideosPortMsg portMsg)
         ]
         [ text "Play Gif Rotation" ]
 

@@ -16,7 +16,6 @@ import Json.Encode as Encode
 import Port
 import RemoteData
 import VideoPlayer.Model as Model exposing (VideoPlayer)
-import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status
 import VideoPlayer.Styles as Styles
 
@@ -25,7 +24,6 @@ type alias Msgs msgs msg =
     { msgs
         | noOpMsg : msg
         , portMsg : Port.Msg -> msg
-        , videoPlayerMsg : Msg -> msg
     }
 
 
@@ -68,7 +66,7 @@ attributes :
     -> List (Html.Attribute msg)
 attributes audioPlaying msgs videoPlayer =
     let
-        { noOpMsg, portMsg, videoPlayerMsg } =
+        { noOpMsg, portMsg } =
             msgs
 
         animations =
@@ -78,7 +76,7 @@ attributes audioPlaying msgs videoPlayer =
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
-                onClick (videoPlayerMsg Msg.PlayVideos)
+                onClick (Port.playVideosPortMsg portMsg)
 
             else
                 onClick noOpMsg
