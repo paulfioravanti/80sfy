@@ -1,5 +1,7 @@
 port module Port exposing
-    ( SoundCloudWidgetPayload
+    ( Msg
+    , SoundCloudWidgetPayload
+    , cmd
     , exitFullscreen
     , haltVideos
     , inbound
@@ -11,7 +13,6 @@ port module Port exposing
     , pauseVideos
     , playAudio
     , playVideos
-    , requestFullscreen
     , setVolume
     , skipToTrack
     , toggleFullscreen
@@ -20,7 +21,12 @@ port module Port exposing
 import Error
 import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
+import Port.Msg as Msg
 import PortMessage exposing (PortMessage)
+
+
+type alias Msg =
+    Msg.Msg
 
 
 type alias SoundCloudWidgetPayload =
@@ -33,6 +39,13 @@ port inbound : (Value -> msg) -> Sub msg
 
 
 port outbound : PortMessage -> Cmd msg
+
+
+cmd : Msg -> Cmd msg
+cmd msg =
+    case msg of
+        Msg.RequestFullscreen ->
+            outbound (PortMessage.withTag "REQUEST_FULL_SCREEN")
 
 
 exitFullscreen : Cmd msg
@@ -96,11 +109,6 @@ playAudio =
 playVideos : Cmd msg
 playVideos =
     outbound (PortMessage.withTag "PLAY_VIDEOS")
-
-
-requestFullscreen : Cmd msg
-requestFullscreen =
-    outbound (PortMessage.withTag "REQUEST_FULL_SCREEN")
 
 
 setVolume : Int -> Cmd msg

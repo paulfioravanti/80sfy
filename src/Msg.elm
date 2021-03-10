@@ -22,6 +22,7 @@ import Config
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Key exposing (Key)
+import Port
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (TagsString)
@@ -39,6 +40,7 @@ type Msg
     | NoOp
     | Pause
     | Play
+    | Port Port.Msg
     | SaveConfig SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState

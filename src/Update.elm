@@ -8,6 +8,7 @@ import ControlPanel
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
+import Port
 import SecretConfig
 import Tasks
 import VideoPlayer
@@ -104,6 +105,13 @@ update msg model =
                     VideoPlayer.performPlayVideos Msg.videoPlayer
             in
             ( model, Cmd.batch [ performPlayVideos, performPlayAudio ] )
+
+        Msg.Port msgForPort ->
+            let
+                cmd =
+                    Port.cmd msgForPort
+            in
+            ( model, cmd )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
