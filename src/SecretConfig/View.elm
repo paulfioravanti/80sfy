@@ -1,6 +1,5 @@
 module SecretConfig.View exposing (Msgs, view)
 
-import AudioPlayer
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled
@@ -31,8 +30,7 @@ import VideoPlayer
 
 type alias Msgs msgs msg =
     { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , controlPanelMsg : ControlPanel.Msg -> msg
+        | controlPanelMsg : ControlPanel.Msg -> msg
         , portMsg : Port.Msg -> msg
         , saveConfigMsg :
             SoundCloudPlaylistUrl
@@ -70,7 +68,7 @@ secretConfigButton secretConfigMsg =
 secretConfigSettings : Msgs msgs msg -> SecretConfig -> Html msg
 secretConfigSettings msgs secretConfig =
     let
-        { audioPlayerMsg, portMsg, secretConfigMsg, videoPlayerMsg } =
+        { portMsg, secretConfigMsg, videoPlayerMsg } =
             msgs
     in
     div
@@ -94,7 +92,7 @@ secretConfigSettings msgs secretConfig =
         , overrideInactivityPauseButton secretConfigMsg
         , pauseGifRotationButton videoPlayerMsg
         , playGifRotationButton videoPlayerMsg
-        , playAudioButton audioPlayerMsg
+        , playAudioButton portMsg
         , pauseAudioButton portMsg
         ]
 
@@ -209,11 +207,11 @@ playGifRotationButton videoPlayerMsg =
         [ text "Play Gif Rotation" ]
 
 
-playAudioButton : (AudioPlayer.Msg -> msg) -> Html msg
-playAudioButton audioPlayerMsg =
+playAudioButton : (Port.Msg -> msg) -> Html msg
+playAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (AudioPlayer.playAudioMsg audioPlayerMsg)
+        , onClick (Port.playAudioPortMsg portMsg)
         ]
         [ text "Play Audio" ]
 

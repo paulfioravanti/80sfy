@@ -90,13 +90,13 @@ update msg model =
 
         Msg.Play ->
             let
-                performPlayAudio =
-                    AudioPlayer.performPlayAudio Msg.audioPlayer
+                playAudio =
+                    Port.cmd Port.playAudioMsg
 
                 performPlayVideos =
                     VideoPlayer.performPlayVideos Msg.videoPlayer
             in
-            ( model, Cmd.batch [ performPlayVideos, performPlayAudio ] )
+            ( model, Cmd.batch [ performPlayVideos, playAudio ] )
 
         Msg.Port msgForPort ->
             ( model, Port.cmd msgForPort )

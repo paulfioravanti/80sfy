@@ -4,7 +4,6 @@ module AudioPlayer.Task exposing
     , performAudioPlaying
     , performNextTrackNumberRequest
     , performNextTrackSelection
-    , performPlayAudio
     , performVolumeAdjustment
     )
 
@@ -44,13 +43,6 @@ performNextTrackNumberRequest audioPlayerMsg =
 performNextTrackSelection : (Msg -> msg) -> Cmd msg
 performNextTrackSelection audioPlayerMsg =
     Msg.nextTrack audioPlayerMsg
-        |> Task.succeed
-        |> Task.perform identity
-
-
-performPlayAudio : (Msg -> msg) -> Cmd msg
-performPlayAudio audioPlayerMsg =
-    Msg.playAudio audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
 

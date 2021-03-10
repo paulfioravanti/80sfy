@@ -15,9 +15,7 @@ module AudioPlayer exposing
     , performAudioPlayerReset
     , performAudioPlaying
     , performNextTrackSelection
-    , performPlayAudio
     , performVolumeAdjustment
-    , playAudioMsg
     , rawId
     , rawTrackIndex
     , rawVolume
@@ -120,19 +118,9 @@ performNextTrackSelection audioPlayerMsg =
     Task.performNextTrackSelection audioPlayerMsg
 
 
-performPlayAudio : (Msg -> msg) -> Cmd msg
-performPlayAudio audioPlayerMsg =
-    Task.performPlayAudio audioPlayerMsg
-
-
 performVolumeAdjustment : (Msg -> msg) -> String -> Cmd msg
 performVolumeAdjustment audioPlayerMsg sliderVolume =
     Task.performVolumeAdjustment audioPlayerMsg sliderVolume
-
-
-playAudioMsg : (Msg -> msg) -> msg
-playAudioMsg audioPlayerMsg =
-    Msg.playAudio audioPlayerMsg
 
 
 rawId : AudioPlayerId -> String

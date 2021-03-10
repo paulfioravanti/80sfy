@@ -11,7 +11,8 @@ port module Port exposing
     , outbound
     , pauseAudioMsg
     , pauseVideos
-    , playAudio
+    , playAudioMsg
+    , playAudioPortMsg
     , playVideos
     , setVolume
     , skipToTrack
@@ -27,6 +28,7 @@ import PortMessage exposing (PortMessage)
 type Msg
     = ExitFullscreen
     | PauseAudio
+    | PlayAudio
     | ToggleFullscreen
 
 
@@ -50,6 +52,9 @@ cmd msg =
 
         PauseAudio ->
             outbound (PortMessage.withTag "PAUSE_AUDIO")
+
+        PlayAudio ->
+            outbound (PortMessage.withTag "PLAY_AUDIO")
 
         ToggleFullscreen ->
             outbound (PortMessage.withTag "TOGGLE_FULL_SCREEN")
@@ -103,14 +108,19 @@ pauseAudioMsg portMsg =
     portMsg PauseAudio
 
 
+playAudioMsg : Msg
+playAudioMsg =
+    PlayAudio
+
+
+playAudioPortMsg : (Msg -> msg) -> msg
+playAudioPortMsg portMsg =
+    portMsg PlayAudio
+
+
 pauseVideos : Cmd msg
 pauseVideos =
     outbound (PortMessage.withTag "PAUSE_VIDEOS")
-
-
-playAudio : Cmd msg
-playAudio =
-    outbound (PortMessage.withTag "PLAY_AUDIO")
 
 
 playVideos : Cmd msg

@@ -5,7 +5,6 @@ module AudioPlayer.Msg exposing
     , audioPlaying
     , nextTrack
     , nextTrackNumberRequested
-    , playAudio
     , playlistGenerated
     , playlistLengthFetched
     , resetAudioPlayer
@@ -21,7 +20,6 @@ type Msg
     | AudioPlaying
     | NextTrack
     | NextTrackNumberRequested
-    | PlayAudio
     | PlaylistGenerated (List Int)
     | PlaylistLengthFetched Int
     | ResetAudioPlayer SoundCloudPlaylistUrl
@@ -51,11 +49,6 @@ nextTrack audioPlayerMsg =
 nextTrackNumberRequested : (Msg -> msg) -> msg
 nextTrackNumberRequested audioPlayerMsg =
     audioPlayerMsg NextTrackNumberRequested
-
-
-playAudio : (Msg -> msg) -> msg
-playAudio audioPlayerMsg =
-    audioPlayerMsg PlayAudio
 
 
 playlistGenerated : (Msg -> msg) -> List Int -> msg
