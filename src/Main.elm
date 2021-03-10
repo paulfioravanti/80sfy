@@ -6,7 +6,7 @@ import Config
 import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
-import SoundCloud
+import Port
 import Subscriptions
 import Tag
 import Update
@@ -32,12 +32,15 @@ init flags =
         ({ audioPlayer } as model) =
             Model.init config
 
-        initialPayloadValues =
+        widgetPayload =
             AudioPlayer.soundCloudWidgetPayload audioPlayer
+
+        initSoundCloudWidget =
+            Port.initSoundCloudWidgetMsg widgetPayload
     in
     ( model
     , Cmd.batch
         [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
-        , SoundCloud.initWidget initialPayloadValues
+        , Port.cmd initSoundCloudWidget
         ]
     )

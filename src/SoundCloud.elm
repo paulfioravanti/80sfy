@@ -3,13 +3,11 @@ module SoundCloud exposing
     , SoundCloudPlaylistUrl
     , defaultPlaylistUrlString
     , iframeUrl
-    , initWidget
     , playlistUrl
     , rawIframeUrl
     , rawPlaylistUrl
     )
 
-import Port exposing (SoundCloudWidgetPayload)
 import SoundCloud.Url as Url
 
 
@@ -29,11 +27,6 @@ defaultPlaylistUrlString =
 iframeUrl : SoundCloudPlaylistUrl -> SoundCloudIframeUrl
 iframeUrl soundCloudPlaylistUrl =
     Url.iframeUrl soundCloudPlaylistUrl
-
-
-initWidget : SoundCloudWidgetPayload -> Cmd msg
-initWidget payload =
-    Port.initSoundCloudWidget payload
 
 
 rawIframeUrl : SoundCloudIframeUrl -> String

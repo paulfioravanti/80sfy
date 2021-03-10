@@ -5,7 +5,7 @@ port module Port exposing
     , exitFullscreenMsg
     , haltVideosMsg
     , inbound
-    , initSoundCloudWidget
+    , initSoundCloudWidgetMsg
     , log
     , logError
     , outbound
@@ -31,6 +31,7 @@ import PortMessage exposing (PortMessage)
 type Msg
     = ExitFullscreen
     | HaltVideos
+    | InitSoundCloudWidget SoundCloudWidgetPayload
     | PauseAudio
     | PauseVideos
     | PlayAudio
@@ -59,6 +60,19 @@ cmd msg =
         HaltVideos ->
             outbound (PortMessage.withTag "HALT_VIDEOS")
 
+        InitSoundCloudWidget { id, volume } ->
+            let
+                payload =
+                    Encode.object
+                        [ ( "id", Encode.string id )
+                        , ( "volume", Encode.int volume )
+                        ]
+
+                portMessage =
+                    PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
+            in
+            outbound portMessage
+
         PauseAudio ->
             outbound (PortMessage.withTag "PAUSE_AUDIO")
 
@@ -85,19 +99,9 @@ haltVideosMsg portMsg =
     portMsg HaltVideos
 
 
-initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
-initSoundCloudWidget { id, volume } =
-    let
-        payload =
-            Encode.object
-                [ ( "id", Encode.string id )
-                , ( "volume", Encode.int volume )
-                ]
-
-        portMessage =
-            PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
-    in
-    outbound portMessage
+initSoundCloudWidgetMsg : SoundCloudWidgetPayload -> Msg
+initSoundCloudWidgetMsg payload =
+    InitSoundCloudWidget payload
 
 
 log : Value -> Cmd msg
