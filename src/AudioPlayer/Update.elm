@@ -75,8 +75,11 @@ update { audioPlayerMsg } msg audioPlayer =
                             let
                                 trackNumber =
                                     Playlist.rawTrackIndex head
+
+                                skipToTrack =
+                                    Port.skipToTrackMsg trackNumber
                             in
-                            ( tail, Port.skipToTrack trackNumber )
+                            ( tail, Port.cmd skipToTrack )
 
                         [] ->
                             ( []

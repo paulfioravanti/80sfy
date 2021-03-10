@@ -18,7 +18,7 @@ port module Port exposing
     , playVideosMsg
     , playVideosPortMsg
     , setVolumeMsg
-    , skipToTrack
+    , skipToTrackMsg
     , toggleFullscreenMsg
     )
 
@@ -38,6 +38,7 @@ type Msg
     | PlayAudio
     | PlayVideos
     | SetVolume Int
+    | SkipToTrack Int
     | ToggleFullscreen
 
 
@@ -97,6 +98,16 @@ cmd msg =
 
                 portMessage =
                     PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
+            in
+            outbound portMessage
+
+        SkipToTrack trackNumber ->
+            let
+                payload =
+                    Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
+
+                portMessage =
+                    PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
             in
             outbound portMessage
 
@@ -182,16 +193,9 @@ setVolumeMsg rawVolume =
     SetVolume rawVolume
 
 
-skipToTrack : Int -> Cmd msg
-skipToTrack trackNumber =
-    let
-        payload =
-            Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
-
-        portMessage =
-            PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
-    in
-    outbound portMessage
+skipToTrackMsg : Int -> Msg
+skipToTrackMsg trackNumber =
+    SkipToTrack trackNumber
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
