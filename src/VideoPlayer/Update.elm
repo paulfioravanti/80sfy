@@ -50,11 +50,9 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                         ]
                         videoPlayer1.style
 
-                generateRandomTagForHiddenVideoPlayer videoPlayerId =
-                    -- Tasks.performRandomTagGeneration
-                    --     (generateRandomTagMsg nowHiddenVideoPlayerId)
+                generateRandomTagForHiddenVideoPlayer =
                     Tag.generateRandomTag
-                        (randomTagGeneratedMsg videoPlayerId)
+                        (randomTagGeneratedMsg nowHiddenVideoPlayerId)
                         tags
             in
             ( { videoPlayer1
@@ -62,7 +60,7 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                 , visible = newVideoPlayer1Visibility
               }
             , videoPlayer2
-            , generateRandomTagForHiddenVideoPlayer nowHiddenVideoPlayerId
+            , generateRandomTagForHiddenVideoPlayer
             )
 
         Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->
