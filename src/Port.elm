@@ -2,7 +2,7 @@ port module Port exposing
     ( Msg
     , SoundCloudWidgetPayload
     , cmd
-    , exitFullscreenMsg
+    , exitFullscreen
     , haltVideosMsg
     , inbound
     , initSoundCloudWidgetMsg
@@ -44,9 +44,9 @@ cmd msg =
     Cmd.cmd msg
 
 
-exitFullscreenMsg : Msg
-exitFullscreenMsg =
-    Msg.exitFullscreenMsg
+exitFullscreen : Cmd msg
+exitFullscreen =
+    Cmd.cmd Msg.ExitFullscreen
 
 
 haltVideosMsg : (Msg -> msg) -> msg
