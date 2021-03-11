@@ -46,7 +46,7 @@ cmd msg =
 
 exitFullscreen : Cmd msg
 exitFullscreen =
-    Cmd.cmd Msg.ExitFullscreen
+    cmd Msg.ExitFullscreen
 
 
 haltVideosMsg : (Msg -> msg) -> msg
@@ -61,7 +61,7 @@ initSoundCloudWidgetMsg payload =
 
 log : Value -> Cmd msg
 log payload =
-    cmd (Msg.logMsg payload)
+    cmd (Msg.Log payload)
 
 
 logError : String -> Error -> Cmd msg
@@ -89,7 +89,7 @@ pauseAudioParentMsg portMsg =
 
 pauseVideos : Cmd msg
 pauseVideos =
-    Cmd.cmd Msg.PauseVideos
+    cmd Msg.PauseVideos
 
 
 pauseVideosMsg : (Msg -> msg) -> msg
@@ -99,7 +99,7 @@ pauseVideosMsg portMsg =
 
 playAudio : Cmd msg
 playAudio =
-    Cmd.cmd Msg.PlayAudio
+    cmd Msg.PlayAudio
 
 
 playAudioMsg : (Msg -> msg) -> msg
@@ -109,7 +109,7 @@ playAudioMsg portMsg =
 
 playVideos : Cmd msg
 playVideos =
-    Cmd.cmd Msg.PlayVideos
+    cmd Msg.PlayVideos
 
 
 playVideosMsg : (Msg -> msg) -> msg

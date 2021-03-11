@@ -4,7 +4,6 @@ module Port.Msg exposing
     , exitFullscreenMsg
     , haltVideosMsg
     , initSoundCloudWidgetMsg
-    , logMsg
     , pauseAudioMsg
     , pauseAudioParentMsg
     , pauseVideosMsg
@@ -53,11 +52,6 @@ haltVideosMsg portMsg =
 initSoundCloudWidgetMsg : SoundCloudWidgetPayload -> Msg
 initSoundCloudWidgetMsg payload =
     InitSoundCloudWidget payload
-
-
-logMsg : Value -> Msg
-logMsg payload =
-    Log payload
 
 
 pauseAudioMsg : Msg
