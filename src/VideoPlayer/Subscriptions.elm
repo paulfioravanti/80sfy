@@ -87,7 +87,7 @@ handlePortMessage msgs context videoPlayer1 portMessage =
 
         "WINDOW_FOCUSED" ->
             if videoPlayer1.status == Status.halted then
-                Port.playVideosParentMsg portMsg
+                Port.playVideosMsg portMsg
 
             else
                 noOpMsg

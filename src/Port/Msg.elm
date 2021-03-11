@@ -12,7 +12,6 @@ module Port.Msg exposing
     , playAudioMsg
     , playAudioParentMsg
     , playVideosMsg
-    , playVideosParentMsg
     , setVolumeMsg
     , skipToTrackMsg
     , toggleFullscreenMsg
@@ -91,13 +90,8 @@ playAudioParentMsg portMsg =
     portMsg PlayAudio
 
 
-playVideosMsg : Msg
-playVideosMsg =
-    PlayVideos
-
-
-playVideosParentMsg : (Msg -> msg) -> msg
-playVideosParentMsg portMsg =
+playVideosMsg : (Msg -> msg) -> msg
+playVideosMsg portMsg =
     portMsg PlayVideos
 
 

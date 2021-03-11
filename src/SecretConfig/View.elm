@@ -202,7 +202,7 @@ playGifRotationButton : (Port.Msg -> msg) -> Html msg
 playGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playVideosParentMsg portMsg)
+        , onClick (Port.playVideosMsg portMsg)
         ]
         [ text "Play Gif Rotation" ]
 

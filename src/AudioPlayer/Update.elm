@@ -57,14 +57,11 @@ update { audioPlayerMsg } msg audioPlayer =
                 performNextTrackNumberRequest =
                     Task.performNextTrackNumberRequest audioPlayerMsg
 
-                playVideos =
-                    Port.cmd Port.playVideosMsg
-
                 status =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ performNextTrackNumberRequest, playVideos ]
+            , Cmd.batch [ performNextTrackNumberRequest, Port.playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
