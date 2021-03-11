@@ -5,7 +5,7 @@ port module Port exposing
     , exitFullscreen
     , haltVideosMsg
     , inbound
-    , initSoundCloudWidgetMsg
+    , initSoundCloudWidget
     , log
     , logError
     , pauseAudioMsg
@@ -54,9 +54,9 @@ haltVideosMsg portMsg =
     Msg.haltVideosMsg portMsg
 
 
-initSoundCloudWidgetMsg : SoundCloudWidgetPayload -> Msg
-initSoundCloudWidgetMsg payload =
-    Msg.initSoundCloudWidgetMsg payload
+initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
+initSoundCloudWidget payload =
+    cmd (Msg.InitSoundCloudWidget payload)
 
 
 log : Value -> Cmd msg

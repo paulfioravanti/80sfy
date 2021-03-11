@@ -105,12 +105,9 @@ update { audioPlayerMsg } msg audioPlayer =
             let
                 widgetPayload =
                     Model.soundCloudWidgetPayload audioPlayer
-
-                initSoundCloudWidget =
-                    Port.initSoundCloudWidgetMsg widgetPayload
             in
             ( Model.init soundCloudPlaylistUrl
-            , Port.cmd initSoundCloudWidget
+            , Port.initSoundCloudWidget widgetPayload
             )
 
         Msg.PlaylistLengthFetched playlistLength ->

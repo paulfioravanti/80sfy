@@ -34,13 +34,10 @@ init flags =
 
         widgetPayload =
             AudioPlayer.soundCloudWidgetPayload audioPlayer
-
-        initSoundCloudWidget =
-            Port.initSoundCloudWidgetMsg widgetPayload
     in
     ( model
     , Cmd.batch
         [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
-        , Port.cmd initSoundCloudWidget
+        , Port.initSoundCloudWidget widgetPayload
         ]
     )
