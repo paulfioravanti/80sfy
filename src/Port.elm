@@ -17,7 +17,7 @@ port module Port exposing
     , playVideos
     , playVideosMsg
     , setVolume
-    , skipToTrackMsg
+    , skipToTrack
     , toggleFullscreenMsg
     )
 
@@ -122,9 +122,9 @@ setVolume rawVolume =
     cmd (Msg.SetVolume rawVolume)
 
 
-skipToTrackMsg : Int -> Msg
-skipToTrackMsg trackNumber =
-    Msg.skipToTrackMsg trackNumber
+skipToTrack : Int -> Cmd msg
+skipToTrack trackNumber =
+    cmd (Msg.SkipToTrack trackNumber)
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
