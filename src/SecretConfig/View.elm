@@ -19,7 +19,7 @@ import Html.Styled.Attributes
         , value
         )
 import Html.Styled.Events exposing (onClick, onInput)
-import Port
+import Ports
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Styles as Styles
@@ -31,7 +31,7 @@ import VideoPlayer
 type alias Msgs msgs msg =
     { msgs
         | controlPanelMsg : ControlPanel.Msg -> msg
-        , portMsg : Port.Msg -> msg
+        , portsMsg : Ports.Msg -> msg
         , saveConfigMsg :
             SoundCloudPlaylistUrl
             -> TagsString
@@ -68,7 +68,7 @@ secretConfigButton secretConfigMsg =
 secretConfigSettings : Msgs msgs msg -> SecretConfig -> Html msg
 secretConfigSettings msgs secretConfig =
     let
-        { portMsg, secretConfigMsg } =
+        { portsMsg, secretConfigMsg } =
             msgs
     in
     div
@@ -90,10 +90,10 @@ secretConfigSettings msgs secretConfig =
         , showStateButton msgs.showApplicationStateMsg
         , overrideControlPanelHideButton msgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
-        , pauseGifRotationButton portMsg
-        , playGifRotationButton portMsg
-        , playAudioButton portMsg
-        , pauseAudioButton portMsg
+        , pauseGifRotationButton portsMsg
+        , playGifRotationButton portsMsg
+        , playAudioButton portsMsg
+        , pauseAudioButton portsMsg
         ]
 
 
@@ -189,37 +189,37 @@ overrideInactivityPauseButton secretConfigMsg =
         [ text "Toggle Inactivity Pause" ]
 
 
-pauseGifRotationButton : (Port.Msg -> msg) -> Html msg
-pauseGifRotationButton portMsg =
+pauseGifRotationButton : (Ports.Msg -> msg) -> Html msg
+pauseGifRotationButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseVideosMsg portMsg)
+        , onClick (Ports.pauseVideosMsg portsMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
 
-playGifRotationButton : (Port.Msg -> msg) -> Html msg
-playGifRotationButton portMsg =
+playGifRotationButton : (Ports.Msg -> msg) -> Html msg
+playGifRotationButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playVideosMsg portMsg)
+        , onClick (Ports.playVideosMsg portsMsg)
         ]
         [ text "Play Gif Rotation" ]
 
 
-playAudioButton : (Port.Msg -> msg) -> Html msg
-playAudioButton portMsg =
+playAudioButton : (Ports.Msg -> msg) -> Html msg
+playAudioButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playAudioMsg portMsg)
+        , onClick (Ports.playAudioMsg portsMsg)
         ]
         [ text "Play Audio" ]
 
 
-pauseAudioButton : (Port.Msg -> msg) -> Html msg
-pauseAudioButton portMsg =
+pauseAudioButton : (Ports.Msg -> msg) -> Html msg
+pauseAudioButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseAudioMsg portMsg)
+        , onClick (Ports.pauseAudioMsg portsMsg)
         ]
         [ text "Pause Audio" ]

@@ -1,4 +1,4 @@
-port module Port.Cmd exposing
+port module Ports.Cmd exposing
     ( cmd
     , exitFullscreen
     , initSoundCloudWidget
@@ -14,8 +14,8 @@ port module Port.Cmd exposing
 import Error
 import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
-import Port.Msg as Msg exposing (Msg, SoundCloudWidgetPayload)
 import PortMessage exposing (PortMessage)
+import Ports.Msg as Msg exposing (Msg, SoundCloudWidgetPayload)
 
 
 port outbound : PortMessage -> Cmd msg

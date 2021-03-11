@@ -9,7 +9,7 @@ module Msg exposing
     , noOp
     , pause
     , play
-    , portMsg
+    , ports
     , saveConfig
     , secretConfig
     , showApplicationState
@@ -21,7 +21,7 @@ import Config
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Key exposing (Key)
-import Port
+import Ports
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (TagsString)
@@ -37,7 +37,7 @@ type Msg
     | KeyPressed Key
     | NoOp
     | Pause
-    | Port Port.Msg
+    | Ports Ports.Msg
     | Play
     | SaveConfig SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
     | SecretConfig SecretConfig.Msg
@@ -90,9 +90,9 @@ play =
     Play
 
 
-portMsg : Port.Msg -> Msg
-portMsg msgForPort =
-    Port msgForPort
+ports : Ports.Msg -> Msg
+ports portsMsg =
+    Ports portsMsg
 
 
 saveConfig :

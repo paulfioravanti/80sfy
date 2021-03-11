@@ -2,7 +2,7 @@ module VideoPlayer.Update exposing (Context, update)
 
 import Animation
 import Gif
-import Port
+import Ports
 import RemoteData
 import Tag exposing (Tag)
 import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
@@ -88,7 +88,7 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                 message =
                     "fetchRandomGifUrl Failed for " ++ videoPlayerRawId
             in
-            ( videoPlayer1, videoPlayer2, Port.logError message error )
+            ( videoPlayer1, videoPlayer2, Ports.logError message error )
 
         Msg.VideosHalted ->
             ( { videoPlayer1 | status = Status.halted }

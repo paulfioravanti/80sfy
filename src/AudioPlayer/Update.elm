@@ -6,7 +6,7 @@ import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Status as Status
 import AudioPlayer.Task as Task
 import AudioPlayer.Volume as Volume
-import Port
+import Ports
 import VideoPlayer
 
 
@@ -34,7 +34,7 @@ update { audioPlayerMsg } msg audioPlayer =
                             rawVolume =
                                 Volume.rawVolume volume
                         in
-                        Port.setVolume rawVolume
+                        Ports.setVolume rawVolume
             in
             ( { audioPlayer | volume = volume }, cmd )
 
@@ -61,7 +61,7 @@ update { audioPlayerMsg } msg audioPlayer =
                     Status.play audioPlayer.status
             in
             ( { audioPlayer | status = status }
-            , Cmd.batch [ performNextTrackNumberRequest, Port.playVideos ]
+            , Cmd.batch [ performNextTrackNumberRequest, Ports.playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
@@ -73,7 +73,7 @@ update { audioPlayerMsg } msg audioPlayer =
                                 trackNumber =
                                     Playlist.rawTrackIndex head
                             in
-                            ( tail, Port.skipToTrack trackNumber )
+                            ( tail, Ports.skipToTrack trackNumber )
 
                         [] ->
                             ( []
@@ -104,7 +104,7 @@ update { audioPlayerMsg } msg audioPlayer =
                     Model.soundCloudWidgetPayload audioPlayer
             in
             ( Model.init soundCloudPlaylistUrl
-            , Port.initSoundCloudWidget widgetPayload
+            , Ports.initSoundCloudWidget widgetPayload
             )
 
         Msg.PlaylistLengthFetched playlistLength ->
@@ -128,12 +128,12 @@ update { audioPlayerMsg } msg audioPlayer =
                                 Volume.rawVolume audioPlayer.volume
                         in
                         ( Status.unMute currentStatus
-                        , Port.setVolume volume
+                        , Ports.setVolume volume
                         )
 
                     else
                         ( Status.mute currentStatus
-                        , Port.setVolume 0
+                        , Ports.setVolume 0
                         )
             in
             ( { audioPlayer | status = newStatus }, cmd )

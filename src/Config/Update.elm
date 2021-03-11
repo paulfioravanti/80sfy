@@ -4,7 +4,7 @@ import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
 import Gif
-import Port
+import Ports
 import SecretConfig
 import Tag
 import VideoPlayer
@@ -82,4 +82,4 @@ update msgs msg config =
             )
 
         Msg.TagsFetched (Err error) ->
-            ( config, Port.logError "Fetching Tags Failed" error )
+            ( config, Ports.logError "Fetching Tags Failed" error )

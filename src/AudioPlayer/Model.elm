@@ -9,7 +9,7 @@ module AudioPlayer.Model exposing
 import AudioPlayer.Playlist exposing (TrackIndex)
 import AudioPlayer.Status as Status exposing (Status)
 import AudioPlayer.Volume as Volume exposing (AudioPlayerVolume)
-import Port exposing (SoundCloudWidgetPayload)
+import Ports exposing (SoundCloudWidgetPayload)
 import SoundCloud exposing (SoundCloudIframeUrl, SoundCloudPlaylistUrl)
 
 

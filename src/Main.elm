@@ -6,7 +6,7 @@ import Config
 import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
-import Port
+import Ports
 import Subscriptions
 import Tag
 import Update
@@ -38,6 +38,6 @@ init flags =
     ( model
     , Cmd.batch
         [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
-        , Port.initSoundCloudWidget widgetPayload
+        , Ports.initSoundCloudWidget widgetPayload
         ]
     )

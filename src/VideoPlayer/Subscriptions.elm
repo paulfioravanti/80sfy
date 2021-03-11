@@ -3,8 +3,8 @@ module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 import Animation
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
-import Port
 import PortMessage
+import Ports
 import Time
 import Value
 import VideoPlayer.Model exposing (VideoPlayer)
@@ -22,7 +22,7 @@ type alias Context =
 type alias Msgs msgs msg =
     { msgs
         | noOpMsg : msg
-        , portMsg : Port.Msg -> msg
+        , portsMsg : Ports.Msg -> msg
         , videoPlayerMsg : Msg -> msg
     }
 
@@ -44,7 +44,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
     Sub.batch
         [ fetchNextGif
         , animateVideoPlayer
-        , Port.inbound (handlePortMessage msgs context videoPlayer1)
+        , Ports.inbound (handlePortMessage msgs context videoPlayer1)
         ]
 
 
@@ -55,7 +55,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 handlePortMessage : Msgs msgs msg -> Context -> VideoPlayer -> Value -> msg
 handlePortMessage msgs context videoPlayer1 portMessage =
     let
-        { videoPlayerMsg, noOpMsg, portMsg } =
+        { videoPlayerMsg, noOpMsg, portsMsg } =
             msgs
 
         { tag, payload } =
@@ -87,7 +87,7 @@ handlePortMessage msgs context videoPlayer1 portMessage =
 
         "WINDOW_FOCUSED" ->
             if videoPlayer1.status == Status.halted then
-                Port.playVideosMsg portMsg
+                Ports.playVideosMsg portsMsg
 
             else
                 noOpMsg
@@ -116,7 +116,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
 
 
 handleWindowBlurred : Msgs msgs msg -> String -> Value -> msg
-handleWindowBlurred { noOpMsg, portMsg } rawAudioPlayerId payload =
+handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId payload =
     let
         activeElementId =
             Value.extractStringWithDefault "" payload
@@ -129,4 +129,4 @@ handleWindowBlurred { noOpMsg, portMsg } rawAudioPlayerId payload =
         noOpMsg
 
     else
-        Port.haltVideosMsg portMsg
+        Ports.haltVideosMsg portsMsg

@@ -7,7 +7,7 @@ import ControlPanel
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
-import Port
+import Ports
 import SecretConfig
 import Tasks
 import VideoPlayer
@@ -22,7 +22,7 @@ update msg model =
             , controlPanelMsg = Msg.controlPanel
             , pauseMsg = Msg.pause
             , playMsg = Msg.play
-            , portMsg = Msg.portMsg
+            , portsMsg = Msg.ports
             , secretConfigMsg = Msg.secretConfig
             , videoPlayerMsg = Msg.videoPlayer
             }
@@ -33,7 +33,7 @@ update msg model =
                 performAudioPaused =
                     AudioPlayer.performAudioPaused Msg.audioPlayer
             in
-            ( model, Cmd.batch [ Port.pauseVideos, performAudioPaused ] )
+            ( model, Cmd.batch [ Ports.pauseVideos, performAudioPaused ] )
 
         Msg.AudioPlayer msgForAudioPlayer ->
             let
@@ -47,7 +47,7 @@ update msg model =
                 performAudioPlaying =
                     AudioPlayer.performAudioPlaying Msg.audioPlayer
             in
-            ( model, Cmd.batch [ Port.playVideos, performAudioPlaying ] )
+            ( model, Cmd.batch [ Ports.playVideos, performAudioPlaying ] )
 
         Msg.Config msgForConfig ->
             let
@@ -76,15 +76,15 @@ update msg model =
         Msg.Pause ->
             let
                 pauseMedia =
-                    Tasks.performPause Msg.portMsg
+                    Tasks.performPause Msg.ports
             in
             ( model, pauseMedia )
 
         Msg.Play ->
-            ( model, Cmd.batch [ Port.playVideos, Port.playAudio ] )
+            ( model, Cmd.batch [ Ports.playVideos, Ports.playAudio ] )
 
-        Msg.Port msgForPort ->
-            ( model, Port.cmd msgForPort )
+        Msg.Ports msgForPort ->
+            ( model, Ports.cmd msgForPort )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let

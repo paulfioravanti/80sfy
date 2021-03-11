@@ -19,7 +19,7 @@ subscriptions model =
             , audioPlayerMsg = Msg.audioPlayer
             , audioPlayingMsg = Msg.audioPlaying
             , noOpMsg = Msg.noOp
-            , portMsg = Msg.portMsg
+            , portsMsg = Msg.ports
             , videoPlayerMsg = Msg.videoPlayer
             }
 

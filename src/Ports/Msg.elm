@@ -1,4 +1,4 @@
-module Port.Msg exposing
+module Ports.Msg exposing
     ( Msg(..)
     , SoundCloudWidgetPayload
     , exitFullscreenMsg
@@ -44,8 +44,8 @@ exitFullscreenMsg =
 
 
 haltVideosMsg : (Msg -> msg) -> msg
-haltVideosMsg portMsg =
-    portMsg HaltVideos
+haltVideosMsg portsMsg =
+    portsMsg HaltVideos
 
 
 initSoundCloudWidgetMsg : SoundCloudWidgetPayload -> Msg
@@ -54,8 +54,8 @@ initSoundCloudWidgetMsg payload =
 
 
 pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg portMsg =
-    portMsg PauseAudio
+pauseAudioMsg portsMsg =
+    portsMsg PauseAudio
 
 
 pauseVideosMsg : Msg
@@ -64,8 +64,8 @@ pauseVideosMsg =
 
 
 pauseVideosParentMsg : (Msg -> msg) -> msg
-pauseVideosParentMsg portMsg =
-    portMsg PauseVideos
+pauseVideosParentMsg portsMsg =
+    portsMsg PauseVideos
 
 
 playAudioMsg : Msg
@@ -74,13 +74,13 @@ playAudioMsg =
 
 
 playAudioParentMsg : (Msg -> msg) -> msg
-playAudioParentMsg portMsg =
-    portMsg PlayAudio
+playAudioParentMsg portsMsg =
+    portsMsg PlayAudio
 
 
 playVideosMsg : (Msg -> msg) -> msg
-playVideosMsg portMsg =
-    portMsg PlayVideos
+playVideosMsg portsMsg =
+    portsMsg PlayVideos
 
 
 setVolumeMsg : Int -> Msg
@@ -94,5 +94,5 @@ skipToTrackMsg trackNumber =
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
-toggleFullscreenMsg portMsg =
-    portMsg ToggleFullscreen
+toggleFullscreenMsg portsMsg =
+    portsMsg ToggleFullscreen

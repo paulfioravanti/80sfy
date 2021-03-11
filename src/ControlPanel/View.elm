@@ -20,7 +20,7 @@ import Html.Styled.Attributes as Attributes
         , value
         )
 import Html.Styled.Events exposing (onInput, onMouseEnter, onMouseLeave)
-import Port
+import Ports
 import SoundCloud
 
 
@@ -37,7 +37,7 @@ type alias Msgs msgs msg =
         , controlPanelMsg : Msg -> msg
         , pauseMsg : msg
         , playMsg : msg
-        , portMsg : Port.Msg -> msg
+        , portsMsg : Ports.Msg -> msg
     }
 
 

@@ -1,4 +1,4 @@
-port module Port exposing
+port module Ports exposing
     ( Msg
     , SoundCloudWidgetPayload
     , cmd
@@ -22,8 +22,8 @@ port module Port exposing
 
 import Http exposing (Error)
 import Json.Encode exposing (Value)
-import Port.Cmd as Cmd
-import Port.Msg as Msg
+import Ports.Cmd as Cmd
+import Ports.Msg as Msg
 
 
 type alias Msg =
@@ -48,8 +48,8 @@ exitFullscreen =
 
 
 haltVideosMsg : (Msg -> msg) -> msg
-haltVideosMsg portMsg =
-    Msg.haltVideosMsg portMsg
+haltVideosMsg portsMsg =
+    Msg.haltVideosMsg portsMsg
 
 
 initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
@@ -68,8 +68,8 @@ logError message error =
 
 
 pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg portMsg =
-    Msg.pauseAudioMsg portMsg
+pauseAudioMsg portsMsg =
+    Msg.pauseAudioMsg portsMsg
 
 
 pauseVideos : Cmd msg
@@ -78,8 +78,8 @@ pauseVideos =
 
 
 pauseVideosMsg : (Msg -> msg) -> msg
-pauseVideosMsg portMsg =
-    Msg.pauseVideosParentMsg portMsg
+pauseVideosMsg portsMsg =
+    Msg.pauseVideosParentMsg portsMsg
 
 
 playAudio : Cmd msg
@@ -88,8 +88,8 @@ playAudio =
 
 
 playAudioMsg : (Msg -> msg) -> msg
-playAudioMsg portMsg =
-    Msg.playAudioParentMsg portMsg
+playAudioMsg portsMsg =
+    Msg.playAudioParentMsg portsMsg
 
 
 playVideos : Cmd msg
@@ -98,8 +98,8 @@ playVideos =
 
 
 playVideosMsg : (Msg -> msg) -> msg
-playVideosMsg portMsg =
-    Msg.playVideosMsg portMsg
+playVideosMsg portsMsg =
+    Msg.playVideosMsg portsMsg
 
 
 setVolume : Int -> Cmd msg
@@ -113,5 +113,5 @@ skipToTrack trackNumber =
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
-toggleFullscreenMsg portMsg =
-    Msg.toggleFullscreenMsg portMsg
+toggleFullscreenMsg portsMsg =
+    Msg.toggleFullscreenMsg portsMsg

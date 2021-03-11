@@ -13,7 +13,7 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onDoubleClick)
 import Json.Encode as Encode
-import Port
+import Ports
 import RemoteData
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Status as Status
@@ -23,7 +23,7 @@ import VideoPlayer.Styles as Styles
 type alias Msgs msgs msg =
     { msgs
         | noOpMsg : msg
-        , portMsg : Port.Msg -> msg
+        , portsMsg : Ports.Msg -> msg
     }
 
 
@@ -66,7 +66,7 @@ attributes :
     -> List (Html.Attribute msg)
 attributes audioPlaying msgs videoPlayer =
     let
-        { noOpMsg, portMsg } =
+        { noOpMsg, portsMsg } =
             msgs
 
         animations =
@@ -76,7 +76,7 @@ attributes audioPlaying msgs videoPlayer =
 
         clickOnPlayAttribute =
             if audioPlaying && not (videoPlayer.status == Status.playing) then
-                onClick (Port.playVideosMsg portMsg)
+                onClick (Ports.playVideosMsg portsMsg)
 
             else
                 onClick noOpMsg
@@ -86,7 +86,7 @@ attributes audioPlaying msgs videoPlayer =
 
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
-            , onDoubleClick (Port.toggleFullscreenMsg portMsg)
+            , onDoubleClick (Ports.toggleFullscreenMsg portsMsg)
             , clickOnPlayAttribute
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             ]
