@@ -32,11 +32,8 @@ update msg model =
             let
                 performAudioPaused =
                     AudioPlayer.performAudioPaused Msg.audioPlayer
-
-                pauseVideos =
-                    Port.cmd Port.pauseVideosMsg
             in
-            ( model, Cmd.batch [ pauseVideos, performAudioPaused ] )
+            ( model, Cmd.batch [ Port.pauseVideos, performAudioPaused ] )
 
         Msg.AudioPlayer msgForAudioPlayer ->
             let
@@ -82,9 +79,7 @@ update msg model =
         Msg.Pause ->
             let
                 pauseMedia =
-                    Tasks.performPause
-                        (Port.pauseAudioParentMsg Msg.portMsg)
-                        (Port.pauseVideosParentMsg Msg.portMsg)
+                    Tasks.performPause Msg.portMsg
             in
             ( model, pauseMedia )
 

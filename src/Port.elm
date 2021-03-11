@@ -10,8 +10,8 @@ port module Port exposing
     , logError
     , pauseAudioMsg
     , pauseAudioParentMsg
+    , pauseVideos
     , pauseVideosMsg
-    , pauseVideosParentMsg
     , playAudioMsg
     , playAudioParentMsg
     , playVideosMsg
@@ -87,13 +87,13 @@ pauseAudioParentMsg portMsg =
     Msg.pauseAudioParentMsg portMsg
 
 
-pauseVideosMsg : Msg
-pauseVideosMsg =
-    Msg.pauseVideosMsg
+pauseVideos : Cmd msg
+pauseVideos =
+    Cmd.cmd Msg.PauseVideos
 
 
-pauseVideosParentMsg : (Msg -> msg) -> msg
-pauseVideosParentMsg portMsg =
+pauseVideosMsg : (Msg -> msg) -> msg
+pauseVideosMsg portMsg =
     Msg.pauseVideosParentMsg portMsg
 
 

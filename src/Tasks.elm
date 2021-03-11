@@ -3,17 +3,18 @@ module Tasks exposing
     , performPlay
     )
 
+import Port
 import Task
 
 
-performPause : msg -> msg -> Cmd msg
-performPause pauseAudioMsg pauseVideosMsg =
+performPause : (Port.Msg -> msg) -> Cmd msg
+performPause portMsg =
     let
         pauseAudio =
-            Task.succeed pauseAudioMsg
+            Task.succeed (Port.pauseAudioParentMsg portMsg)
 
         pauseVideo =
-            Task.succeed pauseVideosMsg
+            Task.succeed (Port.pauseVideosMsg portMsg)
     in
     -- NOTE: These tasks need to be specifically ordered so that
     -- the player paused overlay is not displayed when the

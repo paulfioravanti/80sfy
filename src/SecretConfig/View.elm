@@ -193,7 +193,7 @@ pauseGifRotationButton : (Port.Msg -> msg) -> Html msg
 pauseGifRotationButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseVideosParentMsg portMsg)
+        , onClick (Port.pauseVideosMsg portMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
