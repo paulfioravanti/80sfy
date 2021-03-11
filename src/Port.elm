@@ -20,9 +20,8 @@ port module Port exposing
     , toggleFullscreenMsg
     )
 
-import Error
 import Http exposing (Error)
-import Json.Encode as Encode exposing (Value)
+import Json.Encode exposing (Value)
 import Port.Cmd as Cmd
 import Port.Msg as Msg
 
@@ -45,7 +44,7 @@ cmd msg =
 
 exitFullscreen : Cmd msg
 exitFullscreen =
-    cmd Msg.ExitFullscreen
+    Cmd.exitFullscreen
 
 
 haltVideosMsg : (Msg -> msg) -> msg
@@ -55,25 +54,17 @@ haltVideosMsg portMsg =
 
 initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
 initSoundCloudWidget payload =
-    cmd (Msg.InitSoundCloudWidget payload)
+    Cmd.initSoundCloudWidget payload
 
 
 log : Value -> Cmd msg
 log payload =
-    cmd (Msg.Log payload)
+    Cmd.log payload
 
 
 logError : String -> Error -> Cmd msg
 logError message error =
-    let
-        payload =
-            Encode.object
-                [ ( message
-                  , Encode.string (Error.toString error)
-                  )
-                ]
-    in
-    log payload
+    Cmd.logError message error
 
 
 pauseAudioMsg : (Msg -> msg) -> msg
@@ -83,7 +74,7 @@ pauseAudioMsg portMsg =
 
 pauseVideos : Cmd msg
 pauseVideos =
-    cmd Msg.PauseVideos
+    Cmd.pauseVideos
 
 
 pauseVideosMsg : (Msg -> msg) -> msg
@@ -93,7 +84,7 @@ pauseVideosMsg portMsg =
 
 playAudio : Cmd msg
 playAudio =
-    cmd Msg.PlayAudio
+    Cmd.playAudio
 
 
 playAudioMsg : (Msg -> msg) -> msg
@@ -103,7 +94,7 @@ playAudioMsg portMsg =
 
 playVideos : Cmd msg
 playVideos =
-    cmd Msg.PlayVideos
+    Cmd.playVideos
 
 
 playVideosMsg : (Msg -> msg) -> msg
@@ -113,12 +104,12 @@ playVideosMsg portMsg =
 
 setVolume : Int -> Cmd msg
 setVolume rawVolume =
-    cmd (Msg.SetVolume rawVolume)
+    Cmd.setVolume rawVolume
 
 
 skipToTrack : Int -> Cmd msg
 skipToTrack trackNumber =
-    cmd (Msg.SkipToTrack trackNumber)
+    Cmd.skipToTrack trackNumber
 
 
 toggleFullscreenMsg : (Msg -> msg) -> msg
