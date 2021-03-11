@@ -71,9 +71,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                     Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
 
                 newVolume =
-                    currentVolume
-                        + adjustmentRate
-                        |> String.fromInt
+                    String.fromInt (currentVolume + adjustmentRate)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -89,9 +87,7 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
                     Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
 
                 newVolume =
-                    currentVolume
-                        - adjustmentRate
-                        |> String.fromInt
+                    String.fromInt (currentVolume - adjustmentRate)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
