@@ -5,7 +5,6 @@ module Port.Msg exposing
     , haltVideosMsg
     , initSoundCloudWidgetMsg
     , pauseAudioMsg
-    , pauseAudioParentMsg
     , pauseVideosMsg
     , pauseVideosParentMsg
     , playAudioMsg
@@ -54,13 +53,8 @@ initSoundCloudWidgetMsg payload =
     InitSoundCloudWidget payload
 
 
-pauseAudioMsg : Msg
-pauseAudioMsg =
-    PauseAudio
-
-
-pauseAudioParentMsg : (Msg -> msg) -> msg
-pauseAudioParentMsg portMsg =
+pauseAudioMsg : (Msg -> msg) -> msg
+pauseAudioMsg portMsg =
     portMsg PauseAudio
 
 

@@ -11,7 +11,7 @@ performPause : (Port.Msg -> msg) -> Cmd msg
 performPause portMsg =
     let
         pauseAudio =
-            Task.succeed (Port.pauseAudioParentMsg portMsg)
+            Task.succeed (Port.pauseAudioMsg portMsg)
 
         pauseVideo =
             Task.succeed (Port.pauseVideosMsg portMsg)

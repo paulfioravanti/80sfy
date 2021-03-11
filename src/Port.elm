@@ -9,7 +9,6 @@ port module Port exposing
     , log
     , logError
     , pauseAudioMsg
-    , pauseAudioParentMsg
     , pauseVideos
     , pauseVideosMsg
     , playAudio
@@ -77,14 +76,9 @@ logError message error =
     log payload
 
 
-pauseAudioMsg : Msg
-pauseAudioMsg =
-    Msg.pauseAudioMsg
-
-
-pauseAudioParentMsg : (Msg -> msg) -> msg
-pauseAudioParentMsg portMsg =
-    Msg.pauseAudioParentMsg portMsg
+pauseAudioMsg : (Msg -> msg) -> msg
+pauseAudioMsg portMsg =
+    Msg.pauseAudioMsg portMsg
 
 
 pauseVideos : Cmd msg

@@ -220,6 +220,6 @@ pauseAudioButton : (Port.Msg -> msg) -> Html msg
 pauseAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.pauseAudioParentMsg portMsg)
+        , onClick (Port.pauseAudioMsg portMsg)
         ]
         [ text "Pause Audio" ]
