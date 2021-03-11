@@ -81,11 +81,7 @@ update msg model =
             ( model, pauseMedia )
 
         Msg.Play ->
-            let
-                playAudio =
-                    Port.cmd Port.playAudioMsg
-            in
-            ( model, Cmd.batch [ Port.playVideos, playAudio ] )
+            ( model, Cmd.batch [ Port.playVideos, Port.playAudio ] )
 
         Msg.Port msgForPort ->
             ( model, Port.cmd msgForPort )

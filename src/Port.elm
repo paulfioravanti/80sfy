@@ -12,8 +12,8 @@ port module Port exposing
     , pauseAudioParentMsg
     , pauseVideos
     , pauseVideosMsg
+    , playAudio
     , playAudioMsg
-    , playAudioParentMsg
     , playVideos
     , playVideosMsg
     , setVolumeMsg
@@ -97,13 +97,13 @@ pauseVideosMsg portMsg =
     Msg.pauseVideosParentMsg portMsg
 
 
-playAudioMsg : Msg
-playAudioMsg =
-    Msg.playAudioMsg
+playAudio : Cmd msg
+playAudio =
+    Cmd.cmd Msg.PlayAudio
 
 
-playAudioParentMsg : (Msg -> msg) -> msg
-playAudioParentMsg portMsg =
+playAudioMsg : (Msg -> msg) -> msg
+playAudioMsg portMsg =
     Msg.playAudioParentMsg portMsg
 
 

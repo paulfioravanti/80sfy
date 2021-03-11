@@ -211,7 +211,7 @@ playAudioButton : (Port.Msg -> msg) -> Html msg
 playAudioButton portMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Port.playAudioParentMsg portMsg)
+        , onClick (Port.playAudioMsg portMsg)
         ]
         [ text "Play Audio" ]
 
