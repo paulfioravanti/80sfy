@@ -4,7 +4,6 @@ import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Playlist as Playlist
 import AudioPlayer.Status as Status
-import AudioPlayer.Task as Task
 import AudioPlayer.Volume as Volume
 import Ports
 import VideoPlayer
@@ -54,49 +53,41 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.NextTrack ->
             let
-                performNextTrackNumberRequest =
-                    Task.performNextTrackNumberRequest audioPlayerMsg
+                ( playlist, cmd ) =
+                    Playlist.handleNextTrackNumberRequest
+                        audioPlayerMsg
+                        audioPlayer.playlist
+                        audioPlayer.playlistLength
 
                 status =
                     Status.play audioPlayer.status
             in
-            ( { audioPlayer | status = status }
-            , Cmd.batch [ performNextTrackNumberRequest, Ports.playVideos ]
+            ( { audioPlayer | status = status, playlist = playlist }
+            , Cmd.batch [ cmd, Ports.playVideos ]
             )
 
         Msg.NextTrackNumberRequested ->
             let
                 ( playlist, cmd ) =
-                    case audioPlayer.playlist of
-                        head :: tail ->
-                            let
-                                trackNumber =
-                                    Playlist.rawTrackIndex head
-                            in
-                            ( tail, Ports.skipToTrack trackNumber )
-
-                        [] ->
-                            ( []
-                            , Playlist.generate
-                                audioPlayerMsg
-                                audioPlayer.playlistLength
-                            )
+                    Playlist.handleNextTrackNumberRequest
+                        audioPlayerMsg
+                        audioPlayer.playlist
+                        audioPlayer.playlistLength
             in
-            ( { audioPlayer | playlist = playlist }
-            , cmd
-            )
+            ( { audioPlayer | playlist = playlist }, cmd )
 
         Msg.PlaylistGenerated rawPlaylist ->
             let
-                performNextTrackNumberRequest =
-                    Task.performNextTrackNumberRequest audioPlayerMsg
-
-                playlist =
+                wrappedPlaylist =
                     List.map Playlist.trackIndex rawPlaylist
+
+                ( playlist, cmd ) =
+                    Playlist.handleNextTrackNumberRequest
+                        audioPlayerMsg
+                        wrappedPlaylist
+                        audioPlayer.playlistLength
             in
-            ( { audioPlayer | playlist = playlist }
-            , performNextTrackNumberRequest
-            )
+            ( { audioPlayer | playlist = playlist }, cmd )
 
         Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
             let

@@ -2,7 +2,6 @@ module AudioPlayer.Task exposing
     ( performAudioPaused
     , performAudioPlayerReset
     , performAudioPlaying
-    , performNextTrackNumberRequest
     , performNextTrackSelection
     , performVolumeAdjustment
     )
@@ -29,13 +28,6 @@ performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
 performAudioPlaying : (Msg -> msg) -> Cmd msg
 performAudioPlaying audioPlayerMsg =
     Msg.audioPlaying audioPlayerMsg
-        |> Task.succeed
-        |> Task.perform identity
-
-
-performNextTrackNumberRequest : (Msg -> msg) -> Cmd msg
-performNextTrackNumberRequest audioPlayerMsg =
-    Msg.nextTrackNumberRequested audioPlayerMsg
         |> Task.succeed
         |> Task.perform identity
 
