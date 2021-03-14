@@ -42,7 +42,7 @@ generateRandomTag randomTagGeneratedMsg tags =
             List.length tags - 1
 
         randomTagIndex =
-            Random.int 1 tagsLength
+            Random.int 0 tagsLength
 
         generator =
             Random.map (atIndex tags) randomTagIndex
