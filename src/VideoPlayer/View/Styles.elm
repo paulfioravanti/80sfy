@@ -1,4 +1,4 @@
-module VideoPlayer.Styles exposing
+module VideoPlayer.View.Styles exposing
     ( gifContainer
     , videoPlayer
     , videoPlayerPaused

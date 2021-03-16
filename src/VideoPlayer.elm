@@ -23,6 +23,7 @@ import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Update as Update
 import VideoPlayer.View as View
+import VideoPlayer.View.Msgs exposing (Msgs)
 
 
 type alias VideoPlayer =
@@ -94,7 +95,7 @@ update randomTagGeneratedMsg tags msg context =
     Update.update randomTagGeneratedMsg tags msg context
 
 
-view : Bool -> View.Msgs msgs msg -> VideoPlayer -> Html msg
+view : Bool -> Msgs msgs msg -> VideoPlayer -> Html msg
 view audioPlaying msgs videoPlayer =
     View.view audioPlaying msgs videoPlayer
 
