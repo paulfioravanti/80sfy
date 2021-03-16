@@ -3,6 +3,7 @@ module Tag exposing
     , TagsString
     , fetchTags
     , generateRandomTag
+    , listToTagsString
     , rawTag
     , rawTagsString
     , tag
@@ -48,6 +49,13 @@ generateRandomTag randomTagGeneratedMsg tags =
             Random.map (atIndex tags) randomTagIndex
     in
     Random.generate randomTagGeneratedMsg generator
+
+
+listToTagsString : List String -> TagsString
+listToTagsString tags =
+    tags
+        |> String.join ", "
+        |> tagsString
 
 
 rawTag : Tag -> String

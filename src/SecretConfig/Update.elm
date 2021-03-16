@@ -11,13 +11,7 @@ update : Msg -> SecretConfig -> SecretConfig
 update msg secretConfig =
     case msg of
         Msg.InitTags tagList ->
-            let
-                tags =
-                    tagList
-                        |> String.join ", "
-                        |> Tag.tagsString
-            in
-            { secretConfig | tags = tags }
+            { secretConfig | tags = Tag.listToTagsString tagList }
 
         Msg.ToggleInactivityPauseOverride ->
             let
