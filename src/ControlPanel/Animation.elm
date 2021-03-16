@@ -1,16 +1,25 @@
 module ControlPanel.Animation exposing
     ( AnimationState
+    , subscription
     , toHidden
     , toVisible
     , update
     , visible
     )
 
-import Animation exposing (Msg, Property, State, px)
+import Animation exposing (Property, State, px)
+import ControlPanel.Msg as Msg exposing (Msg)
 
 
 type alias AnimationState =
     State
+
+
+subscription : (Msg -> msg) -> State -> Sub msg
+subscription controlPanelMsg style =
+    Animation.subscription
+        (Msg.animateControlPanel controlPanelMsg)
+        [ style ]
 
 
 toHidden : State -> State
@@ -23,7 +32,7 @@ toVisible style =
     Animation.interrupt [ Animation.to visibleProperties ] style
 
 
-update : Msg -> State -> State
+update : Animation.Msg -> State -> State
 update animateMsg style =
     Animation.update animateMsg style
 

@@ -1,7 +1,7 @@
 module ControlPanel.Subscriptions exposing (subscriptions)
 
-import Animation
 import Browser.Events
+import ControlPanel.Animation as Animation
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State exposing (State)
@@ -13,9 +13,7 @@ subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
 subscriptions controlPanelMsg controlPanel =
     let
         animateControlPanelSubscription =
-            Animation.subscription
-                (Msg.animateControlPanel controlPanelMsg)
-                [ controlPanel.style ]
+            Animation.subscription controlPanelMsg controlPanel.style
     in
     Sub.batch
         [ visibilitySubscription controlPanelMsg controlPanel.state
