@@ -1,22 +1,16 @@
 module VideoPlayer.Model exposing
     ( VideoPlayer
-    , VideoPlayerId
     , VideoPlayerZIndex
-    , id
     , init
-    , rawId
     , rawZIndex
     , zIndex
     )
 
-import Animation exposing (State)
 import Gif exposing (GifUrl)
 import RemoteData exposing (WebData)
+import VideoPlayer.Animation as Animation exposing (AnimationState)
 import VideoPlayer.Status as Status exposing (Status)
-
-
-type VideoPlayerId
-    = VideoPlayerId String
+import VideoPlayer.VideoPlayerId exposing (VideoPlayerId)
 
 
 type VideoPlayerZIndex
@@ -28,7 +22,7 @@ type alias VideoPlayer =
     , gifUrl : WebData GifUrl
     , id : VideoPlayerId
     , status : Status
-    , style : State
+    , style : AnimationState
     , visible : Bool
     , zIndex : VideoPlayerZIndex
     }
@@ -40,20 +34,10 @@ init videoPlayerId videoPlayerZIndex =
     , gifUrl = RemoteData.NotAsked
     , id = videoPlayerId
     , status = Status.paused
-    , style = Animation.style [ Animation.opacity 1 ]
+    , style = Animation.visible
     , visible = True
     , zIndex = videoPlayerZIndex
     }
-
-
-id : String -> VideoPlayerId
-id rawIdString =
-    VideoPlayerId rawIdString
-
-
-rawId : VideoPlayerId -> String
-rawId (VideoPlayerId rawIdString) =
-    rawIdString
 
 
 rawZIndex : VideoPlayerZIndex -> Int

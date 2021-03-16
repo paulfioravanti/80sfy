@@ -11,7 +11,7 @@ module VideoPlayer.Msg exposing
 import Animation
 import Http exposing (Error)
 import Time exposing (Posix)
-import VideoPlayer.Model exposing (VideoPlayerId)
+import VideoPlayer.VideoPlayerId exposing (VideoPlayerId)
 
 
 type Msg

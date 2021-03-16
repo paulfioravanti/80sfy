@@ -1,12 +1,12 @@
 module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
 
-import Animation
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
 import PortMessage
 import Ports
 import Time
 import Value
+import VideoPlayer.Animation as Animation
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status exposing (Status)
@@ -37,9 +37,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
                 context.gifDisplayIntervalSeconds
 
         animateVideoPlayer =
-            Animation.subscription
-                (Msg.animateVideoPlayer videoPlayerMsg)
-                [ videoPlayer1.style ]
+            Animation.subscription videoPlayerMsg videoPlayer1.style
     in
     Sub.batch
         [ fetchNextGif

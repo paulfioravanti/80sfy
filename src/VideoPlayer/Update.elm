@@ -1,13 +1,14 @@
 module VideoPlayer.Update exposing (Context, update)
 
-import Animation
 import Gif
 import Ports
 import RemoteData
 import Tag exposing (Tag)
-import VideoPlayer.Model as Model exposing (VideoPlayer, VideoPlayerId)
+import VideoPlayer.Animation as Animation
+import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status
+import VideoPlayer.VideoPlayerId as VideoPlayerId exposing (VideoPlayerId)
 
 
 type alias Context a =
@@ -44,11 +45,7 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                         ( True, videoPlayer2.id, 1 )
 
                 animateToNewOpacity =
-                    Animation.interrupt
-                        [ Animation.to
-                            [ Animation.opacity opacity ]
-                        ]
-                        videoPlayer1.style
+                    Animation.toOpacity opacity videoPlayer1.style
 
                 generateRandomTagForHiddenVideoPlayer =
                     Tag.generateRandomTag
@@ -83,7 +80,7 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
         Msg.RandomGifUrlFetched videoPlayerId (Err error) ->
             let
                 videoPlayerRawId =
-                    Model.rawId videoPlayerId
+                    VideoPlayerId.rawId videoPlayerId
 
                 message =
                     "fetchRandomGifUrl Failed for " ++ videoPlayerRawId

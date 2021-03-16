@@ -22,6 +22,7 @@ import VideoPlayer.Msg as Msg
 import VideoPlayer.Status as Status exposing (Status)
 import VideoPlayer.Subscriptions as Subscriptions
 import VideoPlayer.Update as Update
+import VideoPlayer.VideoPlayerId as VideoPlayerId
 import VideoPlayer.View as View
 import VideoPlayer.View.Msgs exposing (Msgs)
 
@@ -31,7 +32,7 @@ type alias VideoPlayer =
 
 
 type alias VideoPlayerId =
-    Model.VideoPlayerId
+    VideoPlayerId.VideoPlayerId
 
 
 type alias VideoPlayerZIndex =
@@ -49,7 +50,7 @@ init videoPlayerId videoPlayerZIndex =
 
 id : String -> VideoPlayerId
 id rawIdString =
-    Model.id rawIdString
+    VideoPlayerId.id rawIdString
 
 
 randomGifUrlFetchedMsg :
@@ -63,7 +64,7 @@ randomGifUrlFetchedMsg videoPlayerMsg videoPlayerId gifUrl =
 
 rawId : VideoPlayerId -> String
 rawId videoPlayerId =
-    Model.rawId videoPlayerId
+    VideoPlayerId.rawId videoPlayerId
 
 
 rawZIndex : VideoPlayerZIndex -> Int

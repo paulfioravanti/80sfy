@@ -16,6 +16,7 @@ import Json.Encode as Encode
 import Ports
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Status as Status
+import VideoPlayer.VideoPlayerId as VideoPlayerId
 import VideoPlayer.View.Msgs exposing (Msgs)
 import VideoPlayer.View.Styles as Styles
 
@@ -93,7 +94,7 @@ gifVideoPlayer gifUrl { id, status } =
                 []
 
         rawVideoPlayerId =
-            Model.rawId id
+            VideoPlayerId.rawId id
 
         rawGifUrl =
             Gif.rawUrl gifUrl
