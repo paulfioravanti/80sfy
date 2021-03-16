@@ -33,18 +33,12 @@ update msg secretConfig =
 
         Msg.UpdateGifDisplaySeconds seconds ->
             let
-                gifDisplayIntervalSeconds =
-                    let
-                        defaultGifDisplayIntervalSeconds =
-                            Gif.rawDisplayIntervalSeconds
-                                secretConfig.gifDisplaySeconds
-                    in
-                    seconds
-                        |> String.toFloat
-                        |> Maybe.withDefault defaultGifDisplayIntervalSeconds
-                        |> Gif.displayIntervalSeconds
+                gifDisplaySeconds =
+                    Gif.updateDisplayIntervalSeconds
+                        seconds
+                        secretConfig.gifDisplaySeconds
             in
-            { secretConfig | gifDisplaySeconds = gifDisplayIntervalSeconds }
+            { secretConfig | gifDisplaySeconds = gifDisplaySeconds }
 
         Msg.UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl ->
             let
