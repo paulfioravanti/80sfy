@@ -33,8 +33,8 @@ toVisible style =
 
 
 update : Animation.Msg -> State -> State
-update animateMsg style =
-    Animation.update animateMsg style
+update animationMsg style =
+    Animation.update animationMsg style
 
 
 visible : State
