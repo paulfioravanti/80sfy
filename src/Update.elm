@@ -58,10 +58,10 @@ update msg model =
 
         Msg.ControlPanel msgForControlPanel ->
             let
-                ( controlPanel, cmd ) =
-                    ControlPanel.update msgs msgForControlPanel model.controlPanel
+                controlPanel =
+                    ControlPanel.update msgForControlPanel model.controlPanel
             in
-            ( { model | controlPanel = controlPanel }, cmd )
+            ( { model | controlPanel = controlPanel }, Cmd.none )
 
         Msg.KeyPressed code ->
             let

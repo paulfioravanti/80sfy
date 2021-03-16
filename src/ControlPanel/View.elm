@@ -2,12 +2,12 @@ module ControlPanel.View exposing (Context, Msgs, view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
-import ControlPanel.Controls as Controls
-import ControlPanel.Credits as Credits
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
-import ControlPanel.Styles as Styles
+import ControlPanel.View.Controls as Controls
+import ControlPanel.View.Credits as Credits
+import ControlPanel.View.Styles as Styles
 import Html.Styled exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
     exposing

@@ -1,4 +1,4 @@
-module ControlPanel.Styles exposing
+module ControlPanel.View.Styles exposing
     ( button
     , controlPanel
     , controlPanelContent
@@ -25,7 +25,7 @@ module ControlPanel.Styles exposing
     , volumeControl
     )
 
-import ControlPanel.Colors as Colors
+import ControlPanel.View.Colors as Colors
 import Css
     exposing
         ( Style

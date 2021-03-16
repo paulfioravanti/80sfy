@@ -1,11 +1,11 @@
 module ControlPanel.State exposing
     ( State
+    , idle
     , idleSeconds
     , inUse
     , invisible
     , isIdle
     , keepVisible
-    , setIdle
     , toString
     , toggleHideWhenInactive
     )
@@ -16,6 +16,11 @@ type State
     | InUse
     | Invisible
     | KeepVisible
+
+
+idle : Int -> State
+idle seconds =
+    Idle seconds
 
 
 idleSeconds : State -> Int
@@ -51,11 +56,6 @@ isIdle state =
 keepVisible : State
 keepVisible =
     KeepVisible
-
-
-setIdle : Int -> State
-setIdle seconds =
-    Idle seconds
 
 
 toggleHideWhenInactive : State -> State

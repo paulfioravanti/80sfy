@@ -11,11 +11,15 @@ import Time
 
 subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
 subscriptions controlPanelMsg controlPanel =
+    let
+        animateControlPanelSubscription =
+            Animation.subscription
+                (Msg.animateControlPanel controlPanelMsg)
+                [ controlPanel.style ]
+    in
     Sub.batch
         [ visibilitySubscription controlPanelMsg controlPanel.state
-        , Animation.subscription
-            (Msg.animateControlPanel controlPanelMsg)
-            [ controlPanel.style ]
+        , animateControlPanelSubscription
         ]
 
 

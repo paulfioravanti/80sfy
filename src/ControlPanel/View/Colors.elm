@@ -1,4 +1,4 @@
-module ControlPanel.Colors exposing
+module ControlPanel.View.Colors exposing
     ( background
     , black
     , blue
