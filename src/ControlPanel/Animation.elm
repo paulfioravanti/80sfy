@@ -7,7 +7,7 @@ module ControlPanel.Animation exposing
     , visible
     )
 
-import Animation exposing (Property, State, px)
+import Animation exposing (Property, State)
 import ControlPanel.Msg as Msg exposing (Msg)
 
 
@@ -48,9 +48,9 @@ visible =
 
 hiddenProperties : List Property
 hiddenProperties =
-    [ Animation.left (px -220.0) ]
+    [ Animation.left (Animation.px -220.0) ]
 
 
 visibleProperties : List Property
 visibleProperties =
-    [ Animation.left (px 0.0) ]
+    [ Animation.left (Animation.px 0.0) ]

@@ -8,6 +8,19 @@ import Html.Styled.Events exposing (onClick)
 import Ports
 
 
+type alias Msgs msgs msg =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , pauseMsg : msg
+        , playMsg : msg
+        , portsMsg : Ports.Msg -> msg
+    }
+
+
+type alias Context a =
+    { a | audioPlayer : AudioPlayer }
+
+
 view : Msgs msgs msg -> Context a -> Html msg
 view msgs { audioPlayer } =
     let
@@ -30,21 +43,6 @@ view msgs { audioPlayer } =
 
 
 -- PRIVATE
-
-
-type alias Msgs msgs msg =
-    { msgs
-        | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , pauseMsg : msg
-        , playMsg : msg
-        , portsMsg : Ports.Msg -> msg
-    }
-
-
-type alias Context a =
-    { a
-        | audioPlayer : AudioPlayer
-    }
 
 
 muteUnmuteButton : Msgs msgs msg -> Bool -> Html msg
