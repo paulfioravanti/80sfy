@@ -52,6 +52,9 @@ view msgs ({ audioPlayer, controlPanel } as context) =
             , css [ Styles.controlPanel ]
             ]
 
+        -- NOTE: This cannot go in ControlPanel.Animation due to
+        -- Animation.Model.Animation msg type not being exposed
+        -- https://github.com/mdgriffith/elm-style-animation/issues/67
         animations =
             controlPanel.style
                 |> Animation.render

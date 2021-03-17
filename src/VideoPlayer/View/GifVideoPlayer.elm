@@ -50,6 +50,9 @@ gifVideoPlayerAttributes :
     -> List (Html.Attribute msg)
 gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } =
     let
+        -- NOTE: This cannot go in VideoPlayer.Animation due to
+        -- Animation.Model.Animation msg type not being exposed
+        -- https://github.com/mdgriffith/elm-style-animation/issues/67
         animations =
             style
                 |> Animation.render
