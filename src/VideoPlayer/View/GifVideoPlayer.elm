@@ -58,12 +58,12 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
                 |> Animation.render
                 |> List.map fromUnstyled
 
-        clickOnPlayAttribute =
+        onClickMsg =
             if overlayVisible then
-                onClick (Ports.playVideosMsg portsMsg)
+                Ports.playVideosMsg portsMsg
 
             else
-                onClick noOpMsg
+                noOpMsg
 
         rawVideoPlayerZIndex =
             Model.rawZIndex zIndex
@@ -71,7 +71,7 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
             , onDoubleClick (Ports.toggleFullscreenMsg portsMsg)
-            , clickOnPlayAttribute
+            , onClick onClickMsg
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             ]
     in
