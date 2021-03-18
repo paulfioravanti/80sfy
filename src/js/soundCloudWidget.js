@@ -25,12 +25,6 @@ function initWidget(ports, { id, volume }) {
 
 function initAudioPlayer(scPlayer, volume, ports) {
   scPlayer.setVolume(volume)
-  scPlayer.getSounds(sounds => {
-    ports.inbound.send({
-      tag: "PLAYLIST_LENGTH_FETCHED",
-      payload: sounds.length
-    })
-  })
   // NOTE: This call is to make sure that when the site is first loaded,
   // the videos play (without sound), but the control panel button shows
   // the play button to start the SoundCloud player (and technically the
@@ -44,6 +38,18 @@ function initAudioPlayer(scPlayer, volume, ports) {
   ports.inbound.send({
     tag: "VIDEOS_PLAYING"
   })
+  // NOTE: The SoundCloud Iframe seems to require a little bit of time to
+  // initialise before it can get its sounds, so in order to avoid
+  // "Uncaught Error: mediaPayload required." errors displaying in the console,
+  // introduce this one-time 2 second delay.
+  window.setTimeout(() => {
+    scPlayer.getSounds(sounds => {
+      ports.inbound.send({
+        tag: "PLAYLIST_LENGTH_FETCHED",
+        payload: sounds.length
+      })
+    })
+  }, 2000)
 }
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
