@@ -49,7 +49,7 @@ function initAudioPlayer(scPlayer, volume, ports) {
         payload: sounds.length
       })
     })
-  }, 2000)
+  }, 2500)
 }
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
