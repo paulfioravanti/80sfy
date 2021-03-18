@@ -115,6 +115,7 @@ trackInfo { id, soundCloudIframeUrl } =
         ]
         [ iframe
             [ css [ Styles.trackPlayer ]
+            , attribute "allow" "autoplay"
             , attribute "data-name" audioPlayerId
             , Attributes.id audioPlayerId
             , src rawSoundCloudIframeUrl
