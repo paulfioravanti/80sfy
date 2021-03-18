@@ -109,6 +109,10 @@ trackInfo { id, soundCloudIframeUrl } =
         rawSoundCloudIframeUrl =
             SoundCloud.rawIframeUrl soundCloudIframeUrl
     in
+    -- NOTE: the "allow: autoplay" is needed here even though we are not
+    -- automatically starting the player without user input. It is needed so
+    -- that a user can also start the SoundCloud audio widget using the the Play
+    -- button in the web controls, and not just on the iframe itself.
     div
         [ attribute "data-name" "track-info"
         , css [ Styles.trackInfo ]
