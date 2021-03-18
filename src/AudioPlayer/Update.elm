@@ -89,15 +89,6 @@ update { audioPlayerMsg } msg audioPlayer =
             in
             ( { audioPlayer | playlist = playlist }, cmd )
 
-        Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
-            let
-                widgetPayload =
-                    Model.soundCloudWidgetPayload audioPlayer
-            in
-            ( Model.init soundCloudPlaylistUrl
-            , Ports.initSoundCloudWidget widgetPayload
-            )
-
         Msg.PlaylistLengthFetched playlistLength ->
             let
                 generatePlaylist =
@@ -105,6 +96,15 @@ update { audioPlayerMsg } msg audioPlayer =
             in
             ( { audioPlayer | playlistLength = playlistLength }
             , generatePlaylist
+            )
+
+        Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
+            let
+                widgetPayload =
+                    Model.soundCloudWidgetPayload audioPlayer
+            in
+            ( Model.init soundCloudPlaylistUrl
+            , Ports.initSoundCloudWidget widgetPayload
             )
 
         Msg.ToggleMute ->
