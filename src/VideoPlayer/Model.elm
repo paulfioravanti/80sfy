@@ -30,7 +30,7 @@ type alias VideoPlayer =
 
 init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
 init videoPlayerId videoPlayerZIndex =
-    { fallbackGifUrl = Gif.url "/assets/tv-static.mp4"
+    { fallbackGifUrl = Gif.url "assets/tv-static.mp4"
     , gifUrl = RemoteData.NotAsked
     , id = videoPlayerId
     , status = Status.paused
