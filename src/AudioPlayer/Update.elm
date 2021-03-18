@@ -58,11 +58,8 @@ update { audioPlayerMsg } msg audioPlayer =
                         audioPlayerMsg
                         audioPlayer.playlist
                         audioPlayer.playlistLength
-
-                status =
-                    Status.play audioPlayer.status
             in
-            ( { audioPlayer | status = status, playlist = playlist }
+            ( { audioPlayer | playlist = playlist }
             , Cmd.batch [ cmd, Ports.playVideos ]
             )
 

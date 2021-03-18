@@ -24,32 +24,32 @@ function initWidget(ports, { id, volume }) {
 }
 
 function initAudioPlayer(scPlayer, volume, ports) {
+  scPlayer.setVolume(volume)
+  // NOTE: This call is to make sure that when the site is first loaded,
+  // the videos play (without sound), but the control panel button shows
+  // the play button to start the SoundCloud player (and technically the
+  // videos as well), rather than the pause button.
+  //
+  // This is a bit of a hack for ａｅｓｔｈｅｔｉｃ reasons: I didn't want the
+  // site to start with videos playing for a bit, and then automatically paused
+  // suddenly for what looks like no reason. This is also the only time when
+  // the controls on the control panel and the video playback itself should
+  // be "out of sync".
+  ports.inbound.send({
+    tag: "VIDEOS_PLAYING"
+  })
   // NOTE: The SoundCloud Iframe seems to require a little bit of time to
   // initialise before it can get its sounds, so in order to avoid
   // "Uncaught Error: mediaPayload required." errors displaying in the console,
   // introduce this one-time delay.
   window.setTimeout(() => {
-    scPlayer.setVolume(volume)
-    // NOTE: This call is to make sure that when the site is first loaded,
-    // the videos play (without sound), but the control panel button shows
-    // the play button to start the SoundCloud player (and technically the
-    // videos as well), rather than the pause button.
-    //
-    // This is a bit of a hack for ａｅｓｔｈｅｔｉｃ reasons: I didn't want the
-    // site to start with videos playing for a bit, and then automatically paused
-    // suddenly for what looks like no reason. This is also the only time when
-    // the controls on the control panel and the video playback itself should
-    // be "out of sync".
-    ports.inbound.send({
-      tag: "VIDEOS_PLAYING"
-    })
     scPlayer.getSounds(sounds => {
       ports.inbound.send({
         tag: "PLAYLIST_LENGTH_FETCHED",
         payload: sounds.length
       })
     })
-  }, 1500)
+  }, 3000)
 }
 
 function bindSoundCloudWidgetEvents(scPlayer, ports) {
@@ -85,7 +85,15 @@ function initPortSubscriptions(scPlayer, ports) {
       scPlayer.setVolume(payload.volume)
       break
     case "SKIP_TO_TRACK":
-      scPlayer.skip(payload.trackNumber)
+      // NOTE: The call to `scPlayer.skip` forcably *unpauses* the player, so if
+      // the player was originally paused before the `skip` command, we want to
+      // keep the SoundCloud widget player paused by *re-pausing* it.
+      scPlayer.isPaused((paused) => {
+        scPlayer.skip(payload.trackNumber)
+        if (paused) {
+          scPlayer.pause()
+        }
+      })
       break
     }
   })
