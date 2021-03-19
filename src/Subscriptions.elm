@@ -14,7 +14,7 @@ subscriptions model =
         { audioPlayer, config, controlPanel, secretConfig, videoPlayer1 } =
             model
 
-        msgs =
+        parentMsgs =
             { audioPausedMsg = Msg.audioPaused
             , audioPlayerMsg = Msg.audioPlayer
             , audioPlayingMsg = Msg.audioPlaying
@@ -30,8 +30,8 @@ subscriptions model =
             }
     in
     Sub.batch
-        [ AudioPlayer.subscriptions msgs audioPlayer
+        [ AudioPlayer.subscriptions parentMsgs audioPlayer
         , ControlPanel.subscriptions Msg.controlPanel controlPanel
         , Key.subscriptions Msg.keyPressed
-        , VideoPlayer.subscriptions msgs videoPlayerContext videoPlayer1
+        , VideoPlayer.subscriptions parentMsgs videoPlayerContext videoPlayer1
         ]

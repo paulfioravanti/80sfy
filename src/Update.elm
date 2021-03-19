@@ -16,7 +16,7 @@ import VideoPlayer
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
-        msgs =
+        parentMsgs =
             { audioPlayerMsg = Msg.audioPlayer
             , configMsg = Msg.config
             , controlPanelMsg = Msg.controlPanel
@@ -38,7 +38,10 @@ update msg model =
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
-                    AudioPlayer.update msgs msgForAudioPlayer model.audioPlayer
+                    AudioPlayer.update
+                        parentMsgs
+                        msgForAudioPlayer
+                        model.audioPlayer
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
@@ -52,7 +55,7 @@ update msg model =
         Msg.Config msgForConfig ->
             let
                 ( config, cmd ) =
-                    Config.update msgs msgForConfig model.config
+                    Config.update parentMsgs msgForConfig model.config
             in
             ( { model | config = config }, cmd )
 
@@ -66,7 +69,7 @@ update msg model =
         Msg.KeyPressed code ->
             let
                 cmd =
-                    Key.pressed msgs model code
+                    Key.pressed parentMsgs model code
             in
             ( model, cmd )
 

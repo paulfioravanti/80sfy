@@ -14,7 +14,7 @@ import VideoPlayer
 view : Model -> Document Msg
 view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
-        msgs =
+        parentMsgs =
             { audioPlayerMsg = Msg.audioPlayer
             , controlPanelMsg = Msg.controlPanel
             , noOpMsg = Msg.noOp
@@ -37,10 +37,10 @@ view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
-                [ ControlPanel.view msgs model
-                , VideoPlayer.view msgs audioPlaying videoPlayer1
-                , VideoPlayer.view msgs audioPlaying videoPlayer2
-                , SecretConfig.view msgs secretConfig
+                [ ControlPanel.view parentMsgs model
+                , VideoPlayer.view parentMsgs audioPlaying videoPlayer1
+                , VideoPlayer.view parentMsgs audioPlaying videoPlayer2
+                , SecretConfig.view parentMsgs secretConfig
                 ]
             ]
     }
