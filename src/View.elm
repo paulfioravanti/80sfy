@@ -38,8 +38,8 @@ view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view msgs model
-                , VideoPlayer.view audioPlaying msgs videoPlayer1
-                , VideoPlayer.view audioPlaying msgs videoPlayer2
+                , VideoPlayer.view msgs audioPlaying videoPlayer1
+                , VideoPlayer.view msgs audioPlaying videoPlayer2
                 , SecretConfig.view msgs secretConfig
                 ]
             ]

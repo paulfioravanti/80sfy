@@ -96,9 +96,9 @@ update randomTagGeneratedMsg tags msg context =
     Update.update randomTagGeneratedMsg tags msg context
 
 
-view : Bool -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
-view audioPlaying msgs videoPlayer =
-    View.view audioPlaying msgs videoPlayer
+view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg
+view msgs audioPlaying videoPlayer =
+    View.view msgs audioPlaying videoPlayer
 
 
 zIndex : Int -> VideoPlayerZIndex

@@ -7,8 +7,8 @@ import VideoPlayer.View.GifVideoPlayer as GifVideoPlayer
 import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 
 
-view : Bool -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
-view audioPlaying msgs videoPlayer =
+view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg
+view msgs audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
