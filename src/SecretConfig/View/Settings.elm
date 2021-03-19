@@ -22,13 +22,13 @@ import Html.Styled.Events exposing (onClick, onInput)
 import Ports
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.View.Msgs exposing (Msgs)
+import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SecretConfig.View.Styles as Styles
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (TagsString)
 
 
-view : Msgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> SecretConfig -> Html msg
 view msgs secretConfig =
     let
         { portsMsg, secretConfigMsg } =

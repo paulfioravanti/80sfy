@@ -1,4 +1,4 @@
-module Key.Model exposing (Key, Msgs, fromString, pressed)
+module Key.Model exposing (Key, ParentMsgs, fromString, pressed)
 
 import AudioPlayer
 import Config
@@ -17,7 +17,7 @@ type Key
     | UpArrow
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , pauseMsg : msg
@@ -49,7 +49,7 @@ fromString string =
             Other
 
 
-pressed : Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed : ParentMsgs msgs msg -> Model -> Key -> Cmd msg
 pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
     case key of
         Escape ->

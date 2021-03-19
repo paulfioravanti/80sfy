@@ -14,7 +14,7 @@ import SecretConfig.Msg as Msg
 import SecretConfig.Task as Task
 import SecretConfig.Update as Update
 import SecretConfig.View as View
-import SecretConfig.View.Msgs exposing (Msgs)
+import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 
 
@@ -41,6 +41,6 @@ update msg secretConfig =
     Update.update msg secretConfig
 
 
-view : Msgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> SecretConfig -> Html msg
 view msgs secretConfig =
     View.view msgs secretConfig

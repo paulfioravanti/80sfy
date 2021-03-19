@@ -16,7 +16,7 @@ decoder =
     Decoder.decoder
 
 
-pressed : Key.Msgs msgs msg -> Model -> Key -> Cmd msg
+pressed : Key.ParentMsgs msgs msg -> Model -> Key -> Cmd msg
 pressed msgs model key =
     Key.pressed msgs model key
 

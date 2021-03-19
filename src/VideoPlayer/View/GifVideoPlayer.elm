@@ -17,11 +17,11 @@ import Ports
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Status as Status
 import VideoPlayer.VideoPlayerId as VideoPlayerId
-import VideoPlayer.View.Msgs exposing (Msgs)
+import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 import VideoPlayer.View.Styles as Styles
 
 
-view : Bool -> GifUrl -> Msgs msgs msg -> VideoPlayer -> Html msg
+view : Bool -> GifUrl -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
 view audioPlaying gifUrl msgs ({ status } as videoPlayer) =
     let
         overlayVisible =
@@ -45,7 +45,7 @@ view audioPlaying gifUrl msgs ({ status } as videoPlayer) =
 
 gifVideoPlayerAttributes :
     Bool
-    -> Msgs msgs msg
+    -> ParentMsgs msgs msg
     -> VideoPlayer
     -> List (Html.Attribute msg)
 gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } =

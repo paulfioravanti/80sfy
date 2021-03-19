@@ -1,4 +1,4 @@
-module AudioPlayer.Subscriptions exposing (Msgs, subscriptions)
+module AudioPlayer.Subscriptions exposing (ParentMsgs, subscriptions)
 
 import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -9,7 +9,7 @@ import Ports
 import Value
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | audioPausedMsg : msg
         , audioPlayerMsg : Msg -> msg
@@ -18,7 +18,7 @@ type alias Msgs msgs msg =
     }
 
 
-subscriptions : Msgs msgs msg -> AudioPlayer -> Sub msg
+subscriptions : ParentMsgs msgs msg -> AudioPlayer -> Sub msg
 subscriptions msgs audioPlayer =
     Ports.inbound (handlePortMessage msgs audioPlayer)
 
@@ -27,7 +27,7 @@ subscriptions msgs audioPlayer =
 -- PRIVATE
 
 
-handlePortMessage : Msgs msgs msg -> AudioPlayer -> Value -> msg
+handlePortMessage : ParentMsgs msgs msg -> AudioPlayer -> Value -> msg
 handlePortMessage ({ audioPlayerMsg, noOpMsg } as msgs) audioPlayer portMessage =
     let
         { tag, payload } =
@@ -72,7 +72,7 @@ handlePlaylistLengthFetched audioPlayerMsg payload =
     Msg.playlistLengthFetched audioPlayerMsg playlistLength
 
 
-handleAudioPaused : Msgs msgs msg -> Value -> msg
+handleAudioPaused : ParentMsgs msgs msg -> Value -> msg
 handleAudioPaused { audioPausedMsg, noOpMsg } payload =
     let
         currentPosition =
@@ -87,7 +87,7 @@ handleAudioPaused { audioPausedMsg, noOpMsg } payload =
         noOpMsg
 
 
-handleAudioPlaying : Msgs msgs msg -> Value -> msg
+handleAudioPlaying : ParentMsgs msgs msg -> Value -> msg
 handleAudioPlaying { audioPlayingMsg, noOpMsg } payload =
     let
         loadedProgress =

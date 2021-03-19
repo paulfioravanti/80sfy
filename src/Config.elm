@@ -68,6 +68,6 @@ tagsFetchedMsg configMsg tags =
     Msg.tagsFetched configMsg tags
 
 
-update : Update.Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
+update : Update.ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgs msg config =
     Update.update msgs msg config

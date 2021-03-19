@@ -1,4 +1,4 @@
-module SecretConfig.View.Msgs exposing (Msgs)
+module SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
@@ -8,7 +8,7 @@ import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (TagsString)
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | controlPanelMsg : ControlPanel.Msg -> msg
         , portsMsg : Ports.Msg -> msg

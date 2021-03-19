@@ -1,9 +1,9 @@
-module VideoPlayer.View.Msgs exposing (Msgs)
+module VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 
 import Ports
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | noOpMsg : msg
         , portsMsg : Ports.Msg -> msg

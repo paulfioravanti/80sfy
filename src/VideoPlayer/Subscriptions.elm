@@ -1,4 +1,4 @@
-module VideoPlayer.Subscriptions exposing (Context, Msgs, subscriptions)
+module VideoPlayer.Subscriptions exposing (Context, ParentMsgs, subscriptions)
 
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
@@ -19,7 +19,7 @@ type alias Context =
     }
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | noOpMsg : msg
         , portsMsg : Ports.Msg -> msg
@@ -27,7 +27,7 @@ type alias Msgs msgs msg =
     }
 
 
-subscriptions : Msgs msgs msg -> Context -> VideoPlayer -> Sub msg
+subscriptions : ParentMsgs msgs msg -> Context -> VideoPlayer -> Sub msg
 subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
     let
         fetchNextGif =
@@ -50,7 +50,12 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
 -- PRIVATE
 
 
-handlePortMessage : Msgs msgs msg -> Context -> VideoPlayer -> Value -> msg
+handlePortMessage :
+    ParentMsgs msgs msg
+    -> Context
+    -> VideoPlayer
+    -> Value
+    -> msg
 handlePortMessage msgs context videoPlayer1 portMessage =
     let
         { videoPlayerMsg, noOpMsg, portsMsg } =
@@ -113,7 +118,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
         Sub.none
 
 
-handleWindowBlurred : Msgs msgs msg -> String -> Value -> msg
+handleWindowBlurred : ParentMsgs msgs msg -> String -> Value -> msg
 handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId payload =
     let
         activeElementId =

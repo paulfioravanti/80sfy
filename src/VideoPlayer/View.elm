@@ -4,10 +4,10 @@ import Html.Styled exposing (Html)
 import RemoteData
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.View.GifVideoPlayer as GifVideoPlayer
-import VideoPlayer.View.Msgs exposing (Msgs)
+import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 
 
-view : Bool -> Msgs msgs msg -> VideoPlayer -> Html msg
+view : Bool -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
 view audioPlaying msgs videoPlayer =
     let
         gifUrl =

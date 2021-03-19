@@ -1,4 +1,4 @@
-module Config.Update exposing (Msgs, update)
+module Config.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
 import Config.Model as Model exposing (Config)
@@ -10,7 +10,7 @@ import Tag
 import VideoPlayer
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , configMsg : Msg -> msg
@@ -19,7 +19,7 @@ type alias Msgs msgs msg =
     }
 
 
-update : Msgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
+update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update msgs msg config =
     case msg of
         Msg.RandomTagGenerated videoPlayerId tag ->

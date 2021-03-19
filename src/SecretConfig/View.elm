@@ -5,12 +5,12 @@ import Html.Styled.Attributes exposing (attribute, css)
 import Html.Styled.Events exposing (onClick)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.View.Msgs exposing (Msgs)
+import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SecretConfig.View.Settings as Settings
 import SecretConfig.View.Styles as Styles
 
 
-view : Msgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> SecretConfig -> Html msg
 view ({ secretConfigMsg } as msgs) secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton secretConfigMsg
