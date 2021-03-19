@@ -79,7 +79,7 @@ pauseVideos =
 
 pauseVideosMsg : (Msg -> msg) -> msg
 pauseVideosMsg portsMsg =
-    Msg.pauseVideosParentMsg portsMsg
+    Msg.pauseVideosMsg portsMsg
 
 
 playAudio : Cmd msg
@@ -89,7 +89,7 @@ playAudio =
 
 playAudioMsg : (Msg -> msg) -> msg
 playAudioMsg portsMsg =
-    Msg.playAudioParentMsg portsMsg
+    Msg.playAudioMsg portsMsg
 
 
 playVideos : Cmd msg

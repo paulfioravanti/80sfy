@@ -6,9 +6,7 @@ module Ports.Msg exposing
     , initSoundCloudWidgetMsg
     , pauseAudioMsg
     , pauseVideosMsg
-    , pauseVideosParentMsg
     , playAudioMsg
-    , playAudioParentMsg
     , playVideosMsg
     , setVolumeMsg
     , skipToTrackMsg
@@ -58,23 +56,13 @@ pauseAudioMsg portsMsg =
     portsMsg PauseAudio
 
 
-pauseVideosMsg : Msg
-pauseVideosMsg =
-    PauseVideos
-
-
-pauseVideosParentMsg : (Msg -> msg) -> msg
-pauseVideosParentMsg portsMsg =
+pauseVideosMsg : (Msg -> msg) -> msg
+pauseVideosMsg portsMsg =
     portsMsg PauseVideos
 
 
-playAudioMsg : Msg
-playAudioMsg =
-    PlayAudio
-
-
-playAudioParentMsg : (Msg -> msg) -> msg
-playAudioParentMsg portsMsg =
+playAudioMsg : (Msg -> msg) -> msg
+playAudioMsg portsMsg =
     portsMsg PlayAudio
 
 
