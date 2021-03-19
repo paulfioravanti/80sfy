@@ -102,7 +102,7 @@ configJson config =
 controlPanelJson : ControlPanel -> Value
 controlPanelJson controlPanel =
     -- Don't bother with printing the animation style state as it's too
-    -- hard to encode and doens't provide any real useful debug information.
+    -- hard to encode and doesn't provide any real useful debug information.
     let
         controlPanelState =
             ControlPanel.stateToString controlPanel.state
