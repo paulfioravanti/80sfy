@@ -25,6 +25,9 @@ defaultPlaylistUrlString =
 iframeUrl : SoundCloudPlaylistUrl -> SoundCloudIframeUrl
 iframeUrl soundCloudPlaylistUrl =
     let
+        -- NOTE: auto_play here is false due to not wanting to have the first
+        -- track in the non-shuffled playlist start playing automatically as
+        -- soon as the iframe loads.
         rawIframeUrlString =
             "https://w.soundcloud.com/player/"
                 ++ "?url="
