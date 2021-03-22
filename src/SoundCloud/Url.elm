@@ -29,21 +29,24 @@ iframeUrl soundCloudPlaylistUrl =
         -- track in the non-shuffled playlist start playing automatically as
         -- soon as the iframe loads.
         rawIframeUrlString =
-            "https://w.soundcloud.com/player/"
-                ++ "?url="
-                ++ rawPlaylistUrl soundCloudPlaylistUrl
-                ++ "&auto_play=false"
-                ++ "&buying=false"
-                ++ "&liking=false"
-                ++ "&download=false"
-                ++ "&sharing=false"
-                ++ "&show_artwork=true"
-                ++ "&show_comments=false"
-                ++ "&show_playcount=false"
-                ++ "&show_user=false"
-                ++ "&hide_related=false"
-                ++ "&visual=false"
-                ++ "&callback=true"
+            String.join
+                ""
+                [ "https://w.soundcloud.com/player/"
+                , "?url="
+                , rawPlaylistUrl soundCloudPlaylistUrl
+                , "&auto_play=false"
+                , "&buying=false"
+                , "&liking=false"
+                , "&download=false"
+                , "&sharing=false"
+                , "&show_artwork=true"
+                , "&show_comments=false"
+                , "&show_playcount=false"
+                , "&show_user=false"
+                , "&hide_related=false"
+                , "&visual=false"
+                , "&callback=true"
+                ]
     in
     SoundCloudIframeUrl rawIframeUrlString
 

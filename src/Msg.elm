@@ -1,19 +1,8 @@
 module Msg exposing
     ( Msg(..)
-    , audioPaused
-    , audioPlayer
-    , audioPlaying
     , config
     , controlPanel
     , keyPressed
-    , noOp
-    , pause
-    , play
-    , ports
-    , saveConfig
-    , secretConfig
-    , showApplicationState
-    , videoPlayer
     )
 
 import AudioPlayer
@@ -45,21 +34,6 @@ type Msg
     | VideoPlayer VideoPlayer.Msg
 
 
-audioPaused : Msg
-audioPaused =
-    AudioPaused
-
-
-audioPlayer : AudioPlayer.Msg -> Msg
-audioPlayer audioPlayerMsg =
-    AudioPlayer audioPlayerMsg
-
-
-audioPlaying : Msg
-audioPlaying =
-    AudioPlaying
-
-
 controlPanel : ControlPanel.Msg -> Msg
 controlPanel controlPanelMsg =
     ControlPanel controlPanelMsg
@@ -73,47 +47,3 @@ config configMsg =
 keyPressed : Key -> Msg
 keyPressed key =
     KeyPressed key
-
-
-noOp : Msg
-noOp =
-    NoOp
-
-
-pause : Msg
-pause =
-    Pause
-
-
-play : Msg
-play =
-    Play
-
-
-ports : Ports.Msg -> Msg
-ports portsMsg =
-    Ports portsMsg
-
-
-saveConfig :
-    SoundCloudPlaylistUrl
-    -> TagsString
-    -> GifDisplayIntervalSeconds
-    -> Msg
-saveConfig soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
-    SaveConfig soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
-
-
-secretConfig : SecretConfig.Msg -> Msg
-secretConfig secretConfigMsg =
-    SecretConfig secretConfigMsg
-
-
-showApplicationState : Msg
-showApplicationState =
-    ShowApplicationState
-
-
-videoPlayer : VideoPlayer.Msg -> Msg
-videoPlayer videoPlayerMsg =
-    VideoPlayer videoPlayerMsg

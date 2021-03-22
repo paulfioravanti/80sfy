@@ -1,7 +1,5 @@
-module Key exposing (Key, decoder, pressed, subscriptions)
+module Key exposing (Key, pressed, subscriptions)
 
-import Json.Decode as Decode
-import Key.Decoder as Decoder
 import Key.Model as Key exposing (Key)
 import Key.Subscriptions as Subscriptions
 import Model exposing (Model)
@@ -9,11 +7,6 @@ import Model exposing (Model)
 
 type alias Key =
     Key.Key
-
-
-decoder : Decode.Decoder Key
-decoder =
-    Decoder.decoder
 
 
 pressed : Key.ParentMsgs msgs msg -> Model -> Key -> Cmd msg

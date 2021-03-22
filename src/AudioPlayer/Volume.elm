@@ -1,7 +1,5 @@
 module AudioPlayer.Volume exposing
     ( AudioPlayerVolume
-    , adjustDown
-    , adjustUp
     , rawVolume
     , setWithDefault
     , volume
@@ -12,14 +10,9 @@ type AudioPlayerVolume
     = AudioPlayerVolume Int
 
 
-adjustDown : AudioPlayerVolume -> Int -> AudioPlayerVolume
-adjustDown (AudioPlayerVolume rawAudioPlayerVolumeInt) volumeAdjustmentRate =
-    AudioPlayerVolume (rawAudioPlayerVolumeInt - volumeAdjustmentRate)
-
-
-adjustUp : AudioPlayerVolume -> Int -> AudioPlayerVolume
-adjustUp (AudioPlayerVolume rawAudioPlayerVolumeInt) volumeAdjustmentRate =
-    AudioPlayerVolume (rawAudioPlayerVolumeInt + volumeAdjustmentRate)
+rawVolume : AudioPlayerVolume -> Int
+rawVolume (AudioPlayerVolume rawVolumeInt) =
+    rawVolumeInt
 
 
 setWithDefault : AudioPlayerVolume -> String -> AudioPlayerVolume
@@ -30,11 +23,6 @@ setWithDefault currentVolume sliderVolume =
 
         Nothing ->
             currentVolume
-
-
-rawVolume : AudioPlayerVolume -> Int
-rawVolume (AudioPlayerVolume rawVolumeInt) =
-    rawVolumeInt
 
 
 volume : Int -> AudioPlayerVolume

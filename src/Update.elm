@@ -19,7 +19,6 @@ update msg model =
         parentMsgs =
             { audioPlayerMsg = Msg.AudioPlayer
             , configMsg = Msg.Config
-            , controlPanelMsg = Msg.ControlPanel
             , pauseMsg = Msg.Pause
             , playMsg = Msg.Play
             , portsMsg = Msg.Ports
@@ -89,21 +88,21 @@ update msg model =
         Msg.Pause ->
             let
                 pauseMedia =
-                    Tasks.performPause Msg.ports
+                    Tasks.performPause Msg.Ports
             in
             ( model, pauseMedia )
 
         Msg.Play ->
             ( model, Cmd.batch [ Ports.playVideos, Ports.playAudio ] )
 
-        Msg.Ports msgForPort ->
-            ( model, Ports.cmd msgForPort )
+        Msg.Ports msgForPorts ->
+            ( model, Ports.cmd msgForPorts )
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
                 performSaveConfig =
                     Config.performSave
-                        Msg.config
+                        Msg.Config
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
@@ -122,8 +121,12 @@ update msg model =
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let
+                -- NOTE: VideoPlayer.Update cannot import the Config module
+                -- due to forming an import cycle, so this message has to be
+                -- generated here, even though it's only used in one branch
+                -- of the `update` function.
                 randomTagGeneratedMsg =
-                    Config.randomTagGeneratedMsg Msg.config
+                    Config.randomTagGeneratedMsg Msg.Config
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
