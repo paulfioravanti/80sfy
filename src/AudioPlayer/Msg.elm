@@ -1,7 +1,6 @@
 module AudioPlayer.Msg exposing
     ( Msg(..)
     , adjustVolume
-    , audioPlaying
     , nextTrack
     , nextTrackNumberRequested
     , playlistGenerated
@@ -28,11 +27,6 @@ type Msg
 adjustVolume : (Msg -> msg) -> String -> msg
 adjustVolume audioPlayerMsg sliderVolume =
     audioPlayerMsg (AdjustVolume sliderVolume)
-
-
-audioPlaying : (Msg -> msg) -> msg
-audioPlaying audioPlayerMsg =
-    audioPlayerMsg AudioPlaying
 
 
 nextTrack : (Msg -> msg) -> msg

@@ -3,12 +3,9 @@ module AudioPlayer exposing
     , AudioPlayerId
     , AudioPlayerVolume
     , Msg
-    , adjustVolumeDown
     , adjustVolumeMsg
-    , adjustVolumeUp
     , audioPausedMsg
     , audioPlayingMsg
-    , generatePlaylist
     , init
     , isMuted
     , isPlaying
@@ -63,19 +60,9 @@ init soundCloudPlaylistUrl =
     Model.init soundCloudPlaylistUrl
 
 
-adjustVolumeDown : AudioPlayerVolume -> Int -> AudioPlayerVolume
-adjustVolumeDown audioPlayerVolume volumeAdjustmentRate =
-    Volume.adjustDown audioPlayerVolume volumeAdjustmentRate
-
-
 adjustVolumeMsg : (Msg -> msg) -> String -> msg
 adjustVolumeMsg audioPlayerMsg sliderVolume =
     Msg.adjustVolume audioPlayerMsg sliderVolume
-
-
-adjustVolumeUp : AudioPlayerVolume -> Int -> AudioPlayerVolume
-adjustVolumeUp audioPlayerVolume volumeAdjustmentRate =
-    Volume.adjustUp audioPlayerVolume volumeAdjustmentRate
 
 
 audioPausedMsg : Msg
@@ -86,11 +73,6 @@ audioPausedMsg =
 audioPlayingMsg : Msg
 audioPlayingMsg =
     Msg.AudioPlaying
-
-
-generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
-generatePlaylist audioPlayerMsg playlistLength =
-    Playlist.generate audioPlayerMsg playlistLength
 
 
 isMuted : AudioPlayer -> Bool

@@ -15,6 +15,7 @@
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9"
   },
   "devDependencies": {
+    "elm-review": "^2.4.6",
     "eslint": "^7.20.0"
   }
 }

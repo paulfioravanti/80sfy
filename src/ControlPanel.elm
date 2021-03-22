@@ -51,6 +51,6 @@ update msg controlPanel =
     Update.update msg controlPanel
 
 
-view : View.Msgs msgs msg -> View.Context a -> Html msg
+view : View.ParentMsgs msgs msg -> View.Context a -> Html msg
 view msgs context =
     View.view msgs context

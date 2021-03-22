@@ -1,16 +1,10 @@
 module Value exposing
-    ( extractBoolWithDefault
-    , extractFloatWithDefault
+    ( extractFloatWithDefault
     , extractIntWithDefault
     , extractStringWithDefault
     )
 
-import Json.Decode as Decode exposing (Decoder, Value, bool, float, int, string)
-
-
-extractBoolWithDefault : Bool -> Value -> Bool
-extractBoolWithDefault defaultBool value =
-    extractTypeFromValueWithDefault bool defaultBool value
+import Json.Decode as Decode exposing (Decoder, Value, float, int, string)
 
 
 extractFloatWithDefault : Float -> Value -> Float

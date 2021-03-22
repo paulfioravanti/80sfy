@@ -8,7 +8,7 @@ import Html.Styled.Events exposing (onClick)
 import Ports
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , pauseMsg : msg
@@ -21,7 +21,7 @@ type alias Context a =
     { a | audioPlayer : AudioPlayer }
 
 
-view : Msgs msgs msg -> Context a -> Html msg
+view : ParentMsgs msgs msg -> Context a -> Html msg
 view msgs { audioPlayer } =
     let
         muted =
@@ -45,7 +45,7 @@ view msgs { audioPlayer } =
 -- PRIVATE
 
 
-muteUnmuteButton : Msgs msgs msg -> Bool -> Html msg
+muteUnmuteButton : ParentMsgs msgs msg -> Bool -> Html msg
 muteUnmuteButton { audioPlayerMsg } muted =
     let
         iconClass =
@@ -65,7 +65,7 @@ muteUnmuteButton { audioPlayerMsg } muted =
         ]
 
 
-playPauseButton : Msgs msgs msg -> Bool -> Html msg
+playPauseButton : ParentMsgs msgs msg -> Bool -> Html msg
 playPauseButton { pauseMsg, playMsg } playing =
     let
         ( iconClass, playPauseMsg ) =
@@ -85,7 +85,7 @@ playPauseButton { pauseMsg, playMsg } playing =
         ]
 
 
-nextTrackButton : Msgs msgs msg -> Html msg
+nextTrackButton : ParentMsgs msgs msg -> Html msg
 nextTrackButton { audioPlayerMsg } =
     div
         [ css [ Styles.button ]
@@ -97,7 +97,7 @@ nextTrackButton { audioPlayerMsg } =
         ]
 
 
-fullscreenButton : Msgs msgs msg -> Html msg
+fullscreenButton : ParentMsgs msgs msg -> Html msg
 fullscreenButton { portsMsg } =
     div
         [ onClick (Ports.toggleFullscreenMsg portsMsg)

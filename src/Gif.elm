@@ -6,7 +6,6 @@ module Gif exposing
     , fetchRandomGifUrl
     , giphyApiKey
     , rawDisplayIntervalSeconds
-    , rawGiphyApiKey
     , rawUrl
     , rawUrlFromWebData
     , updateDisplayIntervalSeconds
@@ -42,7 +41,7 @@ fetchRandomGifUrl :
     -> GiphyAPIKey
     -> Tag
     -> Cmd msg
-fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
+fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
     let
         host =
             "https://api.giphy.com"
@@ -54,14 +53,17 @@ fetchRandomGifUrl randomGifUrlFetchedMsg apiKey tag =
             Tag.rawTag tag
 
         giphyUrl =
-            host
-                ++ path
-                ++ "?api_key="
-                ++ rawGiphyApiKey apiKey
-                ++ "&tag="
-                ++ rawTag
-                ++ "&rating="
-                ++ "pg-13"
+            String.join
+                ""
+                [ host
+                , path
+                , "?api_key="
+                , apiKey
+                , "&tag="
+                , rawTag
+                , "&rating="
+                , "pg-13"
+                ]
 
         decodeGifUrl =
             Decode.at [ "data", "image_mp4_url" ] Decode.string
@@ -80,11 +82,6 @@ giphyApiKey rawGiphyApiKeyString =
 rawDisplayIntervalSeconds : GifDisplayIntervalSeconds -> Float
 rawDisplayIntervalSeconds (GifDisplayIntervalSeconds rawDisplayIntervalSecondsFloat) =
     rawDisplayIntervalSecondsFloat
-
-
-rawGiphyApiKey : GiphyAPIKey -> String
-rawGiphyApiKey (GiphyAPIKey rawGiphyApiKeyString) =
-    rawGiphyApiKeyString
 
 
 rawUrl : GifUrl -> String

@@ -1,4 +1,4 @@
-module ControlPanel.View exposing (Context, Msgs, view)
+module ControlPanel.View exposing (Context, ParentMsgs, view)
 
 import Animation
 import AudioPlayer exposing (AudioPlayer)
@@ -31,7 +31,7 @@ type alias Context a =
     }
 
 
-type alias Msgs msgs msg =
+type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : Msg -> msg
@@ -41,7 +41,7 @@ type alias Msgs msgs msg =
     }
 
 
-view : Msgs msgs msg -> Context a -> Html msg
+view : ParentMsgs msgs msg -> Context a -> Html msg
 view msgs ({ audioPlayer, controlPanel } as context) =
     let
         { audioPlayerMsg, controlPanelMsg } =
