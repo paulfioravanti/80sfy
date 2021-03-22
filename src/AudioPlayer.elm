@@ -6,14 +6,14 @@ module AudioPlayer exposing
     , adjustVolumeDown
     , adjustVolumeMsg
     , adjustVolumeUp
+    , audioPausedMsg
+    , audioPlayingMsg
     , generatePlaylist
     , init
     , isMuted
     , isPlaying
     , nextTrackMsg
-    , performAudioPaused
     , performAudioPlayerReset
-    , performAudioPlaying
     , performNextTrackSelection
     , performVolumeAdjustment
     , rawId
@@ -78,6 +78,16 @@ adjustVolumeUp audioPlayerVolume volumeAdjustmentRate =
     Volume.adjustUp audioPlayerVolume volumeAdjustmentRate
 
 
+audioPausedMsg : Msg
+audioPausedMsg =
+    Msg.AudioPaused
+
+
+audioPlayingMsg : Msg
+audioPlayingMsg =
+    Msg.AudioPlaying
+
+
 generatePlaylist : (Msg -> msg) -> Int -> Cmd msg
 generatePlaylist audioPlayerMsg playlistLength =
     Playlist.generate audioPlayerMsg playlistLength
@@ -98,19 +108,9 @@ nextTrackMsg audioPlayerMsg =
     Msg.nextTrack audioPlayerMsg
 
 
-performAudioPaused : (Msg -> msg) -> Cmd msg
-performAudioPaused audioPlayerMsg =
-    Task.performAudioPaused audioPlayerMsg
-
-
 performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
 performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
     Task.performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl
-
-
-performAudioPlaying : (Msg -> msg) -> Cmd msg
-performAudioPlaying audioPlayerMsg =
-    Task.performAudioPlaying audioPlayerMsg
 
 
 performNextTrackSelection : (Msg -> msg) -> Cmd msg
@@ -158,10 +158,6 @@ toggleMuteMsg audioPlayerMsg =
     Msg.toggleMute audioPlayerMsg
 
 
-update :
-    Update.ParentMsgs msgs msg
-    -> Msg
-    -> AudioPlayer
-    -> ( AudioPlayer, Cmd msg )
-update msgs msg audioPlayer =
-    Update.update msgs msg audioPlayer
+update : (Msg -> msg) -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update audioPlayerMsg msg audioPlayer =
+    Update.update audioPlayerMsg msg audioPlayer

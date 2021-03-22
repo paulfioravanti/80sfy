@@ -17,29 +17,34 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         parentMsgs =
-            { audioPlayerMsg = Msg.audioPlayer
-            , configMsg = Msg.config
-            , controlPanelMsg = Msg.controlPanel
-            , pauseMsg = Msg.pause
-            , playMsg = Msg.play
-            , portsMsg = Msg.ports
-            , secretConfigMsg = Msg.secretConfig
-            , videoPlayerMsg = Msg.videoPlayer
+            { audioPlayerMsg = Msg.AudioPlayer
+            , configMsg = Msg.Config
+            , controlPanelMsg = Msg.ControlPanel
+            , pauseMsg = Msg.Pause
+            , playMsg = Msg.Play
+            , portsMsg = Msg.Ports
+            , secretConfigMsg = Msg.SecretConfig
+            , videoPlayerMsg = Msg.VideoPlayer
             }
     in
     case msg of
         Msg.AudioPaused ->
             let
-                performAudioPaused =
-                    AudioPlayer.performAudioPaused Msg.audioPlayer
+                ( audioPlayer, cmd ) =
+                    AudioPlayer.update
+                        Msg.AudioPlayer
+                        AudioPlayer.audioPausedMsg
+                        model.audioPlayer
             in
-            ( model, Cmd.batch [ Ports.pauseVideos, performAudioPaused ] )
+            ( { model | audioPlayer = audioPlayer }
+            , Cmd.batch [ cmd, Ports.pauseVideos ]
+            )
 
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =
                     AudioPlayer.update
-                        parentMsgs
+                        Msg.AudioPlayer
                         msgForAudioPlayer
                         model.audioPlayer
             in
@@ -47,10 +52,15 @@ update msg model =
 
         Msg.AudioPlaying ->
             let
-                performAudioPlaying =
-                    AudioPlayer.performAudioPlaying Msg.audioPlayer
+                ( audioPlayer, cmd ) =
+                    AudioPlayer.update
+                        Msg.AudioPlayer
+                        AudioPlayer.audioPlayingMsg
+                        model.audioPlayer
             in
-            ( model, Cmd.batch [ Ports.playVideos, performAudioPlaying ] )
+            ( { model | audioPlayer = audioPlayer }
+            , Cmd.batch [ cmd, Ports.playVideos ]
+            )
 
         Msg.Config msgForConfig ->
             let

@@ -15,12 +15,12 @@ subscriptions model =
             model
 
         parentMsgs =
-            { audioPausedMsg = Msg.audioPaused
-            , audioPlayerMsg = Msg.audioPlayer
-            , audioPlayingMsg = Msg.audioPlaying
-            , noOpMsg = Msg.noOp
-            , portsMsg = Msg.ports
-            , videoPlayerMsg = Msg.videoPlayer
+            { audioPausedMsg = Msg.AudioPaused
+            , audioPlayerMsg = Msg.AudioPlayer
+            , audioPlayingMsg = Msg.AudioPlaying
+            , noOpMsg = Msg.NoOp
+            , portsMsg = Msg.Ports
+            , videoPlayerMsg = Msg.VideoPlayer
             }
 
         videoPlayerContext =
