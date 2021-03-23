@@ -35,6 +35,7 @@ subscriptions model =
             , videoPlayerMsg = Msg.VideoPlayer
             }
 
+        videoPlayerContext : VideoPlayer.SubscriptionsContext
         videoPlayerContext =
             { rawAudioPlayerId = AudioPlayer.rawId audioPlayer.id
             , gifDisplayIntervalSeconds = config.gifDisplayIntervalSeconds

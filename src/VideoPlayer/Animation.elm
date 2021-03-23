@@ -1,6 +1,7 @@
 module VideoPlayer.Animation exposing
     ( AnimationMsg
     , AnimationState
+    , animations
     , subscription
     , toOpacity
     , update
@@ -8,6 +9,8 @@ module VideoPlayer.Animation exposing
     )
 
 import Animation exposing (Property, State)
+import Html.Styled as Html
+import Html.Styled.Attributes as Attributes
 import VideoPlayer.Msg as Msg exposing (Msg)
 
 
@@ -17,6 +20,13 @@ type alias AnimationState =
 
 type alias AnimationMsg =
     Animation.Msg
+
+
+animations : State -> List (Html.Attribute msg)
+animations style =
+    style
+        |> Animation.render
+        |> List.map Attributes.fromUnstyled
 
 
 subscription : (Msg -> msg) -> State -> Sub msg

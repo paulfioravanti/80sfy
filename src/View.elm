@@ -53,6 +53,7 @@ view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
         -- NOTE: There is a circular dependency issue if AudioPlayer is imported
         -- into VideoPlayer, so that's why this value is determined here, rather
         -- than in VideoPlayer.view
+        audioPlaying : Bool
         audioPlaying =
             AudioPlayer.isPlaying model.audioPlayer
     in

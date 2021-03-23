@@ -1,19 +1,12 @@
 module VideoPlayer.View.GifVideoPlayer exposing (view)
 
-import Animation
 import Gif exposing (GifUrl)
 import Html.Styled as Html exposing (Html, br, div, span, text, video)
-import Html.Styled.Attributes
-    exposing
-        ( attribute
-        , css
-        , fromUnstyled
-        , property
-        , src
-        )
+import Html.Styled.Attributes exposing (attribute, css, property, src)
 import Html.Styled.Events exposing (onClick, onDoubleClick)
-import Json.Encode as Encode
+import Json.Encode as Encode exposing (Value)
 import Ports
+import VideoPlayer.Animation as Animation
 import VideoPlayer.Model as Model exposing (VideoPlayer)
 import VideoPlayer.Status as Status
 import VideoPlayer.VideoPlayerId as VideoPlayerId
@@ -24,9 +17,11 @@ import VideoPlayer.View.Styles as Styles
 view : Bool -> GifUrl -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
 view audioPlaying gifUrl parentMsgs ({ status } as videoPlayer) =
     let
+        overlayVisible : Bool
         overlayVisible =
             audioPlaying && not (status == Status.playing)
 
+        maybeOverlay : List (Html msg)
         maybeOverlay =
             if overlayVisible then
                 [ playerPausedOverlay ]
@@ -50,14 +45,11 @@ gifVideoPlayerAttributes :
     -> List (Html.Attribute msg)
 gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } =
     let
-        -- NOTE: This cannot go in VideoPlayer.Animation due to
-        -- Animation.Model.Animation msg type not being exposed
-        -- https://github.com/mdgriffith/elm-style-animation/issues/67
+        animations : List (Html.Attribute msg)
         animations =
-            style
-                |> Animation.render
-                |> List.map fromUnstyled
+            Animation.animations style
 
+        onClickMsg : msg
         onClickMsg =
             if overlayVisible then
                 Ports.playVideosMsg portsMsg
@@ -65,9 +57,11 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
             else
                 noOpMsg
 
+        rawVideoPlayerZIndex : Int
         rawVideoPlayerZIndex =
             Model.rawZIndex zIndex
 
+        videoPlayerAttributes : List (Html.Attribute msg)
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
             , onDoubleClick (Ports.toggleFullscreenMsg portsMsg)
@@ -81,12 +75,15 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
 gifVideoPlayer : GifUrl -> VideoPlayer -> Html msg
 gifVideoPlayer gifUrl { id, status } =
     let
+        true : Value
         true =
             Encode.string "1"
 
+        false : Value
         false =
             Encode.string "0"
 
+        playingAttributes : List (Html.Attribute msg)
         playingAttributes =
             if status == Status.playing then
                 [ property "autoplay" true
@@ -96,12 +93,15 @@ gifVideoPlayer gifUrl { id, status } =
             else
                 []
 
+        rawVideoPlayerId : String
         rawVideoPlayerId =
             VideoPlayerId.rawId id
 
+        rawGifUrl : String
         rawGifUrl =
             Gif.rawUrl gifUrl
 
+        playerAttributes : List (Html.Attribute msg)
         playerAttributes =
             [ attribute "data-name" ("player-" ++ rawVideoPlayerId)
             , src rawGifUrl
@@ -116,6 +116,7 @@ gifVideoPlayer gifUrl { id, status } =
 playerPausedOverlay : Html msg
 playerPausedOverlay =
     let
+        overlayText : String
         overlayText =
             "Click here to make this the active window and continue GIFs"
     in

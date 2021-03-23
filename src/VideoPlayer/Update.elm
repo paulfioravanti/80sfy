@@ -1,10 +1,10 @@
 module VideoPlayer.Update exposing (Context, update)
 
-import Gif
+import Gif exposing (GifUrl)
 import Ports
 import RemoteData
 import Tag exposing (Tag)
-import VideoPlayer.Animation as Animation
+import VideoPlayer.Animation as Animation exposing (AnimationState)
 import VideoPlayer.Model exposing (VideoPlayer)
 import VideoPlayer.Msg as Msg exposing (Msg)
 import VideoPlayer.Status as Status
@@ -44,9 +44,11 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
                     else
                         ( True, videoPlayer2.id, 1 )
 
+                animateToNewOpacity : AnimationState
                 animateToNewOpacity =
                     Animation.toOpacity opacity videoPlayer1.style
 
+                generateRandomTagForHiddenVideoPlayer : Cmd msg
                 generateRandomTagForHiddenVideoPlayer =
                     Tag.generateRandomTag
                         (randomTagGeneratedMsg nowHiddenVideoPlayerId)
@@ -62,6 +64,7 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
 
         Msg.RandomGifUrlFetched videoPlayerId (Ok url) ->
             let
+                gifUrl : RemoteData.WebData GifUrl
                 gifUrl =
                     RemoteData.Success (Gif.url url)
             in
@@ -79,11 +82,13 @@ update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
 
         Msg.RandomGifUrlFetched videoPlayerId (Err error) ->
             let
-                videoPlayerRawId =
+                rawVideoPlayerId : String
+                rawVideoPlayerId =
                     VideoPlayerId.rawId videoPlayerId
 
+                message : String
                 message =
-                    "fetchRandomGifUrl Failed for " ++ videoPlayerRawId
+                    "fetchRandomGifUrl Failed for " ++ rawVideoPlayerId
             in
             ( videoPlayer1, videoPlayer2, Ports.logError message error )
 

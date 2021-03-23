@@ -1,5 +1,6 @@
 module VideoPlayer exposing
     ( Msg
+    , SubscriptionsContext
     , VideoPlayer
     , VideoPlayerId
     , id
@@ -27,6 +28,14 @@ import VideoPlayer.View as View
 import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 
 
+type alias Msg =
+    Msg.Msg
+
+
+type alias SubscriptionsContext =
+    Subscriptions.Context
+
+
 type alias VideoPlayer =
     Model.VideoPlayer
 
@@ -37,10 +46,6 @@ type alias VideoPlayerId =
 
 type alias VideoPlayerZIndex =
     Model.VideoPlayerZIndex
-
-
-type alias Msg =
-    Msg.Msg
 
 
 init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
