@@ -28,7 +28,7 @@ type alias ParentMsgs msgs msg =
 
 
 subscriptions : ParentMsgs msgs msg -> Context -> VideoPlayer -> Sub msg
-subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
+subscriptions ({ videoPlayerMsg } as parentMsgs) context videoPlayer1 =
     let
         fetchNextGif =
             fetchNextGifSubscription
@@ -42,7 +42,7 @@ subscriptions ({ videoPlayerMsg } as msgs) context videoPlayer1 =
     Sub.batch
         [ fetchNextGif
         , animateVideoPlayer
-        , Ports.inbound (handlePortMessage msgs context videoPlayer1)
+        , Ports.inbound (handlePortMessage parentMsgs context videoPlayer1)
         ]
 
 
@@ -56,10 +56,10 @@ handlePortMessage :
     -> VideoPlayer
     -> Value
     -> msg
-handlePortMessage msgs context videoPlayer1 portMessage =
+handlePortMessage parentMsgs context videoPlayer1 portMessage =
     let
         { videoPlayerMsg, noOpMsg, portsMsg } =
-            msgs
+            parentMsgs
 
         { tag, payload } =
             PortMessage.decode portMessage
@@ -83,7 +83,7 @@ handlePortMessage msgs context videoPlayer1 portMessage =
 
         "WINDOW_BLURRED" ->
             if videoPlayer1.status == Status.playing then
-                handleWindowBlurred msgs context.rawAudioPlayerId payload
+                handleWindowBlurred parentMsgs context.rawAudioPlayerId payload
 
             else
                 noOpMsg

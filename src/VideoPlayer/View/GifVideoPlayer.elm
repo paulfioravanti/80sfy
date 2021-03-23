@@ -22,7 +22,7 @@ import VideoPlayer.View.Styles as Styles
 
 
 view : Bool -> GifUrl -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
-view audioPlaying gifUrl msgs ({ status } as videoPlayer) =
+view audioPlaying gifUrl parentMsgs ({ status } as videoPlayer) =
     let
         overlayVisible =
             audioPlaying && not (status == Status.playing)
@@ -35,7 +35,7 @@ view audioPlaying gifUrl msgs ({ status } as videoPlayer) =
                 []
     in
     div
-        (gifVideoPlayerAttributes overlayVisible msgs videoPlayer)
+        (gifVideoPlayerAttributes overlayVisible parentMsgs videoPlayer)
         (gifVideoPlayer gifUrl videoPlayer :: maybeOverlay)
 
 

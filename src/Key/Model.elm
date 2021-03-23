@@ -50,17 +50,17 @@ fromString string =
 
 
 pressed : ParentMsgs msgs msg -> Model -> Key -> Cmd msg
-pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
+pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
     case key of
         Escape ->
             Ports.exitFullscreen
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
-                Tasks.performPause msgs.portsMsg
+                Tasks.performPause parentMsgs.portsMsg
 
             else
-                Tasks.performPlay msgs.playMsg
+                Tasks.performPlay parentMsgs.playMsg
 
         UpArrow ->
             let

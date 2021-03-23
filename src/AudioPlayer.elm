@@ -131,8 +131,8 @@ statusToString status =
 
 
 subscriptions : Subscriptions.ParentMsgs msgs msg -> AudioPlayer -> Sub msg
-subscriptions msgs audioPlayer =
-    Subscriptions.subscriptions msgs audioPlayer
+subscriptions parentMsgs audioPlayer =
+    Subscriptions.subscriptions parentMsgs audioPlayer
 
 
 toggleMuteMsg : (Msg -> msg) -> msg
@@ -140,6 +140,10 @@ toggleMuteMsg audioPlayerMsg =
     Msg.toggleMute audioPlayerMsg
 
 
-update : (Msg -> msg) -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update audioPlayerMsg msg audioPlayer =
-    Update.update audioPlayerMsg msg audioPlayer
+update :
+    Update.ParentMsgs msgs msg
+    -> Msg
+    -> AudioPlayer
+    -> ( AudioPlayer, Cmd msg )
+update parentMsgs msg audioPlayer =
+    Update.update parentMsgs msg audioPlayer

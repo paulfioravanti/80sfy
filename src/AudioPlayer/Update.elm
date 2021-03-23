@@ -1,4 +1,4 @@
-module AudioPlayer.Update exposing (update)
+module AudioPlayer.Update exposing (ParentMsgs, update)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
@@ -8,8 +8,14 @@ import AudioPlayer.Volume as Volume
 import Ports
 
 
-update : (Msg -> msg) -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
-update audioPlayerMsg msg audioPlayer =
+type alias ParentMsgs msgs msg =
+    { msgs
+        | audioPlayerMsg : Msg -> msg
+    }
+
+
+update : ParentMsgs msgs msg -> Msg -> AudioPlayer -> ( AudioPlayer, Cmd msg )
+update { audioPlayerMsg } msg audioPlayer =
     case msg of
         Msg.AdjustVolume sliderVolume ->
             let

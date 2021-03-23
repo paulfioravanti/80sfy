@@ -42,10 +42,10 @@ type alias ParentMsgs msgs msg =
 
 
 view : ParentMsgs msgs msg -> Context a -> Html msg
-view msgs ({ audioPlayer, controlPanel } as context) =
+view parentMsgs ({ audioPlayer, controlPanel } as context) =
     let
         { audioPlayerMsg, controlPanelMsg } =
-            msgs
+            parentMsgs
 
         attributes =
             [ attribute "data-name" "control-panel"
@@ -53,8 +53,8 @@ view msgs ({ audioPlayer, controlPanel } as context) =
             ]
 
         -- NOTE: This cannot go in ControlPanel.Animation due to
-        -- Animation.Model.Animation msg type not being exposed
-        -- https://github.com/mdgriffith/elm-style-animation/issues/67
+        -- Animation.Model.Animation msg type not being exposed.
+        -- See: https://github.com/mdgriffith/elm-style-animation/issues/67
         animations =
             controlPanel.style
                 |> Animation.render
@@ -76,7 +76,7 @@ view msgs ({ audioPlayer, controlPanel } as context) =
             ]
             [ logo
             , trackInfo audioPlayer
-            , Controls.view msgs context
+            , Controls.view parentMsgs context
             , volumeControl audioPlayerMsg audioPlayer
             , Credits.view
             ]

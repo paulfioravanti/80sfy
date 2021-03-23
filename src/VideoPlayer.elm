@@ -82,8 +82,8 @@ subscriptions :
     -> Subscriptions.Context
     -> VideoPlayer
     -> Sub msg
-subscriptions msgs context videoPlayer1 =
-    Subscriptions.subscriptions msgs context videoPlayer1
+subscriptions parentMsgs context videoPlayer1 =
+    Subscriptions.subscriptions parentMsgs context videoPlayer1
 
 
 update :
@@ -97,8 +97,8 @@ update randomTagGeneratedMsg tags msg context =
 
 
 view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg
-view msgs audioPlaying videoPlayer =
-    View.view msgs audioPlaying videoPlayer
+view parentMsgs audioPlaying videoPlayer =
+    View.view parentMsgs audioPlaying videoPlayer
 
 
 zIndex : Int -> VideoPlayerZIndex

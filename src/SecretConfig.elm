@@ -42,5 +42,5 @@ update msg secretConfig =
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
-view msgs secretConfig =
-    View.view msgs secretConfig
+view parentMsgs secretConfig =
+    View.view parentMsgs secretConfig

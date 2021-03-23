@@ -22,7 +22,7 @@ type alias Context a =
 
 
 view : ParentMsgs msgs msg -> Context a -> Html msg
-view msgs { audioPlayer } =
+view parentMsgs { audioPlayer } =
     let
         muted =
             AudioPlayer.isMuted audioPlayer
@@ -34,10 +34,10 @@ view msgs { audioPlayer } =
         [ css [ Styles.controls ]
         , attribute "data-name" "controls"
         ]
-        [ muteUnmuteButton msgs muted
-        , playPauseButton msgs playing
-        , nextTrackButton msgs
-        , fullscreenButton msgs
+        [ muteUnmuteButton parentMsgs muted
+        , playPauseButton parentMsgs playing
+        , nextTrackButton parentMsgs
+        , fullscreenButton parentMsgs
         ]
 
 

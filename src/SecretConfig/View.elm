@@ -11,10 +11,10 @@ import SecretConfig.View.Styles as Styles
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
-view ({ secretConfigMsg } as msgs) secretConfig =
+view ({ secretConfigMsg } as parentMsgs) secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton secretConfigMsg
-        , Settings.view msgs secretConfig
+        , Settings.view parentMsgs secretConfig
         ]
 
 

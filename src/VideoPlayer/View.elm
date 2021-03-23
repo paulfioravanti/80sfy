@@ -8,7 +8,7 @@ import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 
 
 view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg
-view msgs audioPlaying videoPlayer =
+view parentMsgs audioPlaying videoPlayer =
     let
         gifUrl =
             case videoPlayer.gifUrl of
@@ -18,4 +18,4 @@ view msgs audioPlaying videoPlayer =
                 _ ->
                     videoPlayer.fallbackGifUrl
     in
-    GifVideoPlayer.view audioPlaying gifUrl msgs videoPlayer
+    GifVideoPlayer.view audioPlaying gifUrl parentMsgs videoPlayer

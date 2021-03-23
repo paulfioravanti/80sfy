@@ -31,7 +31,7 @@ update msg model =
             let
                 ( audioPlayer, cmd ) =
                     AudioPlayer.update
-                        Msg.AudioPlayer
+                        parentMsgs
                         AudioPlayer.audioPausedMsg
                         model.audioPlayer
             in
@@ -43,7 +43,7 @@ update msg model =
             let
                 ( audioPlayer, cmd ) =
                     AudioPlayer.update
-                        Msg.AudioPlayer
+                        parentMsgs
                         msgForAudioPlayer
                         model.audioPlayer
             in
@@ -53,7 +53,7 @@ update msg model =
             let
                 ( audioPlayer, cmd ) =
                     AudioPlayer.update
-                        Msg.AudioPlayer
+                        parentMsgs
                         AudioPlayer.audioPlayingMsg
                         model.audioPlayer
             in

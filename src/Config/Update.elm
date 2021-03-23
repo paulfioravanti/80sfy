@@ -20,13 +20,13 @@ type alias ParentMsgs msgs msg =
 
 
 update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
-update msgs msg config =
+update parentMsgs msg config =
     case msg of
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 randomGifUrlFetchedMsg =
                     VideoPlayer.randomGifUrlFetchedMsg
-                        msgs.videoPlayerMsg
+                        parentMsgs.videoPlayerMsg
                         videoPlayerId
 
                 fetchRandomGifUrl =
@@ -55,7 +55,7 @@ update msgs msg config =
 
                     else
                         AudioPlayer.performAudioPlayerReset
-                            msgs.audioPlayerMsg
+                            parentMsgs.audioPlayerMsg
                             soundCloudPlaylistUrl
             in
             ( updatedConfig, cmd )
@@ -66,12 +66,18 @@ update msgs msg config =
                     List.map Tag.tag rawTags
 
                 generateRandomTagForVideoPlayer videoPlayerId =
-                    Tag.generateRandomTag
-                        (Msg.randomTagGenerated msgs.configMsg videoPlayerId)
-                        tags
+                    let
+                        randomTagGeneratedMsg =
+                            Msg.randomTagGenerated
+                                parentMsgs.configMsg
+                                videoPlayerId
+                    in
+                    Tag.generateRandomTag randomTagGeneratedMsg tags
 
                 performInitSecretConfigTags =
-                    SecretConfig.performInitTags msgs.secretConfigMsg rawTags
+                    SecretConfig.performInitTags
+                        parentMsgs.secretConfigMsg
+                        rawTags
             in
             ( { config | tags = tags }
             , Cmd.batch

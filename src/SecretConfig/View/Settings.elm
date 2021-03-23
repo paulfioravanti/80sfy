@@ -29,10 +29,10 @@ import Tag exposing (TagsString)
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
-view msgs secretConfig =
+view parentMsgs secretConfig =
     let
         { portsMsg, secretConfigMsg } =
-            msgs
+            parentMsgs
     in
     div
         [ attribute "data-name" "secret-config-settings"
@@ -49,9 +49,9 @@ view msgs secretConfig =
         , span []
             [ text "Gif Display Seconds:" ]
         , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplaySeconds
-        , saveSettingsButton msgs.saveConfigMsg secretConfig
-        , showStateButton msgs.showApplicationStateMsg
-        , overrideControlPanelHideButton msgs.controlPanelMsg
+        , saveSettingsButton parentMsgs.saveConfigMsg secretConfig
+        , showStateButton parentMsgs.showApplicationStateMsg
+        , overrideControlPanelHideButton parentMsgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
         , pauseGifRotationButton portsMsg
         , playGifRotationButton portsMsg

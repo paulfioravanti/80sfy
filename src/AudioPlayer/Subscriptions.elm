@@ -19,8 +19,8 @@ type alias ParentMsgs msgs msg =
 
 
 subscriptions : ParentMsgs msgs msg -> AudioPlayer -> Sub msg
-subscriptions msgs audioPlayer =
-    Ports.inbound (handlePortMessage msgs audioPlayer)
+subscriptions parentMsgs audioPlayer =
+    Ports.inbound (handlePortMessage parentMsgs audioPlayer)
 
 
 
@@ -28,22 +28,25 @@ subscriptions msgs audioPlayer =
 
 
 handlePortMessage : ParentMsgs msgs msg -> AudioPlayer -> Value -> msg
-handlePortMessage ({ audioPlayerMsg, noOpMsg } as msgs) audioPlayer portMessage =
+handlePortMessage parentMsgs audioPlayer portMessage =
     let
         { tag, payload } =
             PortMessage.decode portMessage
+
+        { audioPlayerMsg, noOpMsg } =
+            parentMsgs
     in
     case tag of
         "AUDIO_PAUSED" ->
             if Status.isPlaying audioPlayer.status then
-                handleAudioPaused msgs payload
+                handleAudioPaused parentMsgs payload
 
             else
                 noOpMsg
 
         "AUDIO_PLAYING" ->
             if not (Status.isPlaying audioPlayer.status) then
-                handleAudioPlaying msgs payload
+                handleAudioPlaying parentMsgs payload
 
             else
                 noOpMsg

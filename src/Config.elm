@@ -69,5 +69,5 @@ tagsFetchedMsg configMsg tags =
 
 
 update : Update.ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
-update msgs msg config =
-    Update.update msgs msg config
+update parentMsgs msg config =
+    Update.update parentMsgs msg config

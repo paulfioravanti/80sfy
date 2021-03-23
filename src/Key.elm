@@ -10,8 +10,8 @@ type alias Key =
 
 
 pressed : Key.ParentMsgs msgs msg -> Model -> Key -> Cmd msg
-pressed msgs model key =
-    Key.pressed msgs model key
+pressed parentMsgs model key =
+    Key.pressed parentMsgs model key
 
 
 subscriptions : (Key -> msg) -> Sub msg
