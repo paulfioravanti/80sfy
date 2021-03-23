@@ -1,6 +1,8 @@
 module AudioPlayer.Msg exposing
     ( Msg(..)
     , adjustVolume
+    , audioPaused
+    , audioPlaying
     , nextTrack
     , nextTrackNumberRequested
     , playlistGenerated
@@ -22,6 +24,16 @@ type Msg
     | PlaylistLengthFetched Int
     | ResetAudioPlayer SoundCloudPlaylistUrl
     | ToggleMute
+
+
+audioPaused : Msg
+audioPaused =
+    AudioPaused
+
+
+audioPlaying : Msg
+audioPlaying =
+    AudioPlaying
 
 
 adjustVolume : (Msg -> msg) -> String -> msg

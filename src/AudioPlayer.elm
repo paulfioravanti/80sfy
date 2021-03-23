@@ -67,12 +67,12 @@ adjustVolumeMsg audioPlayerMsg sliderVolume =
 
 audioPausedMsg : Msg
 audioPausedMsg =
-    Msg.AudioPaused
+    Msg.audioPaused
 
 
 audioPlayingMsg : Msg
 audioPlayingMsg =
-    Msg.AudioPlaying
+    Msg.audioPlaying
 
 
 isMuted : AudioPlayer -> Bool
