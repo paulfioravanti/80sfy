@@ -121,10 +121,10 @@ update msg model =
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let
-                -- NOTE: VideoPlayer.Update cannot import the Config module
-                -- due to forming an import cycle, so this message has to be
-                -- generated here, even though it's only used in one branch
-                -- of the `update` function.
+                -- NOTE: Neither VideoPlayer.Update nor Tag can import the
+                -- Config module due to forming an import cycle, so this
+                -- message has to be generated here, even though it's only used
+                -- in one branch of the `update` function.
                 randomTagGeneratedMsg =
                     Config.randomTagGeneratedMsg Msg.Config
 
