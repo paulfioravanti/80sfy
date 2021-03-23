@@ -4,10 +4,11 @@ import AudioPlayer
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
 import Gif
+import Http exposing (Error)
 import Ports
 import SecretConfig
-import Tag
-import VideoPlayer
+import Tag exposing (Tag)
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias ParentMsgs msgs msg =
@@ -24,11 +25,13 @@ update parentMsgs msg config =
     case msg of
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
+                randomGifUrlFetchedMsg : Result Error String -> msg
                 randomGifUrlFetchedMsg =
                     VideoPlayer.randomGifUrlFetchedMsg
                         parentMsgs.videoPlayerMsg
                         videoPlayerId
 
+                fetchRandomGifUrl : Cmd msg
                 fetchRandomGifUrl =
                     Gif.fetchRandomGifUrl
                         randomGifUrlFetchedMsg
@@ -39,6 +42,7 @@ update parentMsgs msg config =
 
         Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
             let
+                updatedConfig : Config
                 updatedConfig =
                     Model.update
                         soundCloudPlaylistUrl
@@ -46,6 +50,7 @@ update parentMsgs msg config =
                         gifDisplayIntervalSeconds
                         config
 
+                cmd : Cmd msg
                 cmd =
                     if
                         soundCloudPlaylistUrl
@@ -62,11 +67,14 @@ update parentMsgs msg config =
 
         Msg.TagsFetched (Ok rawTags) ->
             let
+                tags : List Tag
                 tags =
                     List.map Tag.tag rawTags
 
+                generateRandomTagForVideoPlayer : VideoPlayerId -> Cmd msg
                 generateRandomTagForVideoPlayer videoPlayerId =
                     let
+                        randomTagGeneratedMsg : Tag -> msg
                         randomTagGeneratedMsg =
                             Msg.randomTagGenerated
                                 parentMsgs.configMsg
@@ -74,6 +82,7 @@ update parentMsgs msg config =
                     in
                     Tag.generateRandomTag randomTagGeneratedMsg tags
 
+                performInitSecretConfigTags : Cmd msg
                 performInitSecretConfigTags =
                     SecretConfig.performInitTags
                         parentMsgs.secretConfigMsg

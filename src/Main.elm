@@ -2,11 +2,11 @@ module Main exposing (main)
 
 import AudioPlayer
 import Browser
-import Config
+import Config exposing (Config)
 import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
-import Ports
+import Ports exposing (SoundCloudWidgetPayload)
 import Subscriptions
 import Tag
 import Update
@@ -30,12 +30,14 @@ main =
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
+        config : Config
         config =
             Config.init flags
 
         ({ audioPlayer } as model) =
             Model.init config
 
+        widgetPayload : SoundCloudWidgetPayload
         widgetPayload =
             AudioPlayer.soundCloudWidgetPayload audioPlayer
     in

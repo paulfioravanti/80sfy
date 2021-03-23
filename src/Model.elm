@@ -4,7 +4,7 @@ import AudioPlayer exposing (AudioPlayer)
 import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import SecretConfig exposing (SecretConfig)
-import VideoPlayer exposing (VideoPlayer)
+import VideoPlayer exposing (VideoPlayer, VideoPlayerZIndex)
 
 
 type alias Model =
@@ -20,12 +20,15 @@ type alias Model =
 init : Config -> Model
 init ({ gifDisplayIntervalSeconds, soundCloudPlaylistUrl } as config) =
     let
+        secretConfig : SecretConfig
         secretConfig =
             SecretConfig.init soundCloudPlaylistUrl gifDisplayIntervalSeconds
 
+        videoPlayer1zIndex : VideoPlayerZIndex
         videoPlayer1zIndex =
             VideoPlayer.zIndex -4
 
+        videoPlayer2zIndex : VideoPlayerZIndex
         videoPlayer2zIndex =
             VideoPlayer.zIndex -5
     in

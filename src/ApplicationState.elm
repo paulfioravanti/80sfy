@@ -16,6 +16,7 @@ import VideoPlayer exposing (VideoPlayer)
 show : Model -> Cmd msg
 show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
     let
+        applicationState : Value
         applicationState =
             Encode.object
                 [ ( "Audio Player", audioPlayerJson audioPlayer )
@@ -36,15 +37,19 @@ show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlaye
 audioPlayerJson : AudioPlayer -> Value
 audioPlayerJson audioPlayer =
     let
+        rawAudioPlayerId : String
         rawAudioPlayerId =
             AudioPlayer.rawId audioPlayer.id
 
+        audioPlayerStatus : String
         audioPlayerStatus =
             AudioPlayer.statusToString audioPlayer.status
 
+        rawSoundCloudIframeUrl : String
         rawSoundCloudIframeUrl =
             SoundCloud.rawIframeUrl audioPlayer.soundCloudIframeUrl
 
+        rawPlaylist : List Int
         rawPlaylist =
             List.map AudioPlayer.rawTrackIndex audioPlayer.playlist
     in
@@ -70,15 +75,19 @@ audioPlayerJson audioPlayer =
 configJson : Config -> Value
 configJson config =
     let
+        rawTags : List String
         rawTags =
             List.map Tag.rawTag config.tags
 
+        rawSoundCloudPlaylistUrl : String
         rawSoundCloudPlaylistUrl =
             SoundCloud.rawPlaylistUrl config.soundCloudPlaylistUrl
 
+        gifDisplayIntervalSeconds : Float
         gifDisplayIntervalSeconds =
             Gif.rawDisplayIntervalSeconds config.gifDisplayIntervalSeconds
 
+        volumeAdjustmentRate : Int
         volumeAdjustmentRate =
             Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
     in
@@ -104,6 +113,7 @@ controlPanelJson controlPanel =
     -- Don't bother with printing the animation style state as it's too
     -- hard to encode and doesn't provide any real useful debug information.
     let
+        controlPanelState : String
         controlPanelState =
             ControlPanel.stateToString controlPanel.state
     in
@@ -114,12 +124,15 @@ controlPanelJson controlPanel =
 secretConfigJson : SecretConfig -> Value
 secretConfigJson secretConfig =
     let
+        rawSoundCloudPlaylistUrl : String
         rawSoundCloudPlaylistUrl =
             SoundCloud.rawPlaylistUrl secretConfig.soundCloudPlaylistUrl
 
+        rawGifDisplayIntervalSeconds : Float
         rawGifDisplayIntervalSeconds =
             Gif.rawDisplayIntervalSeconds secretConfig.gifDisplaySeconds
 
+        rawTags : String
         rawTags =
             Tag.rawTagsString secretConfig.tags
     in
@@ -147,18 +160,23 @@ videoPlayerJson videoPlayer =
     -- Don't bother with printing the animation style state as it's too
     -- hard to encode and doesn't provide any real useful debug information.
     let
+        videoPlayerGifUrl : String
         videoPlayerGifUrl =
             Gif.rawUrlFromWebData videoPlayer.gifUrl
 
+        videoPlayerStatus : String
         videoPlayerStatus =
             VideoPlayer.statusToString videoPlayer.status
 
+        videoPlayerRawId : String
         videoPlayerRawId =
             VideoPlayer.rawId videoPlayer.id
 
+        rawVideoPlayerZIndex : Int
         rawVideoPlayerZIndex =
             VideoPlayer.rawZIndex videoPlayer.zIndex
 
+        rawFallbackGifUrl : String
         rawFallbackGifUrl =
             Gif.rawUrl videoPlayer.fallbackGifUrl
     in

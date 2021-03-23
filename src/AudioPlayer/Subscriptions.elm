@@ -69,6 +69,7 @@ handleNextTrackNumberRequested audioPlayerMsg =
 handlePlaylistLengthFetched : (Msg -> msg) -> Value -> msg
 handlePlaylistLengthFetched audioPlayerMsg payload =
     let
+        playlistLength : Int
         playlistLength =
             Value.extractIntWithDefault 1 payload
     in
@@ -78,6 +79,7 @@ handlePlaylistLengthFetched audioPlayerMsg payload =
 handleAudioPaused : ParentMsgs msgs msg -> Value -> msg
 handleAudioPaused { audioPausedMsg, noOpMsg } payload =
     let
+        currentPosition : Float
         currentPosition =
             Value.extractFloatWithDefault 0.0 payload
     in
@@ -93,6 +95,7 @@ handleAudioPaused { audioPausedMsg, noOpMsg } payload =
 handleAudioPlaying : ParentMsgs msgs msg -> Value -> msg
 handleAudioPlaying { audioPlayingMsg, noOpMsg } payload =
     let
+        loadedProgress : Float
         loadedProgress =
             Value.extractFloatWithDefault 0.0 payload
     in

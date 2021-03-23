@@ -8,7 +8,7 @@ module AudioPlayer.Playlist exposing
 
 import AudioPlayer.Msg as Msg exposing (Msg)
 import Ports
-import Random
+import Random exposing (Generator)
 import Random.List
 
 
@@ -19,12 +19,15 @@ type TrackIndex
 generate : (Msg -> msg) -> Int -> Cmd msg
 generate audioPlayerMsg playlistLength =
     let
+        trackList : List Int
         trackList =
             List.range 0 (playlistLength - 1)
 
+        generator : Generator (List Int)
         generator =
             Random.List.shuffle trackList
 
+        playlistGeneratedMsg : List Int -> msg
         playlistGeneratedMsg =
             Msg.playlistGenerated audioPlayerMsg
     in
@@ -40,6 +43,7 @@ handleNextTrackNumberRequest audioPlayerMsg playlist playlistLength =
     case playlist of
         head :: tail ->
             let
+                trackNumber : Int
                 trackNumber =
                     rawTrackIndex head
             in

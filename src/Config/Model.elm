@@ -29,9 +29,11 @@ type alias Config =
 init : Flags -> Config
 init flags =
     let
+        rawGiphyApiKeyString : String
         rawGiphyApiKeyString =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
+        rawSoundCloudPlaylistUrlString : String
         rawSoundCloudPlaylistUrlString =
             Value.extractStringWithDefault
                 SoundCloud.defaultPlaylistUrlString
@@ -59,6 +61,7 @@ update :
     -> Config
 update soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds config =
     let
+        ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then
                 config.gifDisplayIntervalSeconds
@@ -66,6 +69,7 @@ update soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds config =
             else
                 Gif.displayIntervalSeconds seconds
 
+        displayIntervalSeconds : GifDisplayIntervalSeconds
         displayIntervalSeconds =
             gifDisplayIntervalSeconds
                 |> Gif.rawDisplayIntervalSeconds

@@ -2,10 +2,10 @@ module AudioPlayer.Update exposing (ParentMsgs, update)
 
 import AudioPlayer.Model as Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
-import AudioPlayer.Playlist as Playlist
-import AudioPlayer.Status as Status
-import AudioPlayer.Volume as Volume
-import Ports
+import AudioPlayer.Playlist as Playlist exposing (TrackIndex)
+import AudioPlayer.Status as Status exposing (Status)
+import AudioPlayer.Volume as Volume exposing (AudioPlayerVolume)
+import Ports exposing (SoundCloudWidgetPayload)
 
 
 type alias ParentMsgs msgs msg =
@@ -19,15 +19,18 @@ update { audioPlayerMsg } msg audioPlayer =
     case msg of
         Msg.AdjustVolume sliderVolume ->
             let
+                volume : AudioPlayerVolume
                 volume =
                     Volume.setWithDefault audioPlayer.volume sliderVolume
 
+                cmd : Cmd msg
                 cmd =
                     if Status.isMuted audioPlayer.status then
                         Cmd.none
 
                     else
                         let
+                            rawVolume : Int
                             rawVolume =
                                 Volume.rawVolume volume
                         in
@@ -37,6 +40,7 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.AudioPaused ->
             let
+                status : Status
                 status =
                     Status.pause audioPlayer.status
             in
@@ -44,6 +48,7 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.AudioPlaying ->
             let
+                status : Status
                 status =
                     Status.play audioPlayer.status
             in
@@ -73,6 +78,7 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.PlaylistGenerated rawPlaylist ->
             let
+                wrappedPlaylist : List TrackIndex
                 wrappedPlaylist =
                     List.map Playlist.trackIndex rawPlaylist
 
@@ -86,6 +92,7 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.PlaylistLengthFetched playlistLength ->
             let
+                generatePlaylist : Cmd msg
                 generatePlaylist =
                     Playlist.generate audioPlayerMsg playlistLength
             in
@@ -95,6 +102,7 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.ResetAudioPlayer soundCloudPlaylistUrl ->
             let
+                widgetPayload : SoundCloudWidgetPayload
                 widgetPayload =
                     Model.soundCloudWidgetPayload audioPlayer
             in
@@ -104,12 +112,14 @@ update { audioPlayerMsg } msg audioPlayer =
 
         Msg.ToggleMute ->
             let
+                currentStatus : Status
                 currentStatus =
                     audioPlayer.status
 
                 ( newStatus, cmd ) =
                     if Status.isMuted currentStatus then
                         let
+                            volume : Int
                             volume =
                                 Volume.rawVolume audioPlayer.volume
                         in

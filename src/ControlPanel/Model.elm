@@ -20,9 +20,11 @@ init =
 determineVisibility : Int -> ControlPanel -> ControlPanel
 determineVisibility secondsVisible ({ style } as controlPanel) =
     let
+        timeoutSeconds : Int
         timeoutSeconds =
             2
 
+        shouldStillBeVisible : Bool
         shouldStillBeVisible =
             secondsVisible < timeoutSeconds
     in

@@ -24,9 +24,11 @@ type alias Context a =
 view : ParentMsgs msgs msg -> Context a -> Html msg
 view parentMsgs { audioPlayer } =
     let
+        muted : Bool
         muted =
             AudioPlayer.isMuted audioPlayer
 
+        playing : Bool
         playing =
             AudioPlayer.isPlaying audioPlayer
     in
@@ -48,6 +50,7 @@ view parentMsgs { audioPlayer } =
 muteUnmuteButton : ParentMsgs msgs msg -> Bool -> Html msg
 muteUnmuteButton { audioPlayerMsg } muted =
     let
+        iconClass : String
         iconClass =
             if muted then
                 "fas fa-volume-off"

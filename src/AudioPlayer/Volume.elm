@@ -37,9 +37,11 @@ volume rawVolumeInt =
 contain : Int -> Int
 contain rawVolumeInt =
     let
+        maxVolume : Int
         maxVolume =
             100
 
+        minVolume : Int
         minVolume =
             0
     in

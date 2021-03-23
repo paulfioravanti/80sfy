@@ -12,6 +12,7 @@ import Time
 subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
 subscriptions controlPanelMsg controlPanel =
     let
+        animateControlPanelSubscription : Sub msg
         animateControlPanelSubscription =
             Animation.subscription controlPanelMsg controlPanel.style
     in
@@ -29,6 +30,7 @@ visibilitySubscription : (Msg -> msg) -> State -> Sub msg
 visibilitySubscription controlPanelMsg state =
     if State.isIdle state then
         let
+            secondsVisible : Int
             secondsVisible =
                 State.idleSeconds state
         in

@@ -3,6 +3,7 @@ module VideoPlayer exposing
     , VideoPlayer
     , VideoPlayerId
     , VideoPlayerSubscriptionsContext
+    , VideoPlayerZIndex
     , id
     , init
     , randomGifUrlFetchedMsg

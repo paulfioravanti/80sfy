@@ -14,7 +14,7 @@ module Gif exposing
 
 import Error
 import Http exposing (Error)
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (Decoder)
 import RemoteData exposing (WebData)
 import Tag exposing (Tag)
 
@@ -43,15 +43,19 @@ fetchRandomGifUrl :
     -> Cmd msg
 fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
     let
+        host : String
         host =
             "https://api.giphy.com"
 
+        path : String
         path =
             "/v1/gifs/random"
 
+        rawTag : String
         rawTag =
             Tag.rawTag tag
 
+        giphyUrl : String
         giphyUrl =
             String.join
                 ""
@@ -65,6 +69,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
                 , "pg-13"
                 ]
 
+        decodeGifUrl : Decoder String
         decodeGifUrl =
             Decode.at [ "data", "image_mp4_url" ] Decode.string
     in
@@ -111,6 +116,7 @@ updateDisplayIntervalSeconds :
     -> GifDisplayIntervalSeconds
 updateDisplayIntervalSeconds seconds defaultDisplayIntervalSeconds =
     let
+        defaultGifDisplayIntervalSeconds : Float
         defaultGifDisplayIntervalSeconds =
             rawDisplayIntervalSeconds defaultDisplayIntervalSeconds
     in

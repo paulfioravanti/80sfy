@@ -32,12 +32,14 @@ cmd msg =
 
         Msg.InitSoundCloudWidget { id, volume } ->
             let
+                payload : Value
                 payload =
                     Encode.object
                         [ ( "id", Encode.string id )
                         , ( "volume", Encode.int volume )
                         ]
 
+                portMessage : PortMessage
                 portMessage =
                     PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
             in
@@ -60,9 +62,11 @@ cmd msg =
 
         Msg.SetVolume volume ->
             let
+                payload : Value
                 payload =
                     Encode.object [ ( "volume", Encode.int volume ) ]
 
+                portMessage : PortMessage
                 portMessage =
                     PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
             in
@@ -70,9 +74,11 @@ cmd msg =
 
         Msg.SkipToTrack trackNumber ->
             let
+                payload : Value
                 payload =
                     Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
 
+                portMessage : PortMessage
                 portMessage =
                     PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
             in
@@ -100,6 +106,7 @@ log payload =
 logError : String -> Error -> Cmd msg
 logError message error =
     let
+        payload : Value
         payload =
             Encode.object
                 [ ( message

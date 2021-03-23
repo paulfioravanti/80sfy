@@ -1,19 +1,18 @@
 module ControlPanel.View exposing (Context, ParentMsgs, view)
 
-import Animation
 import AudioPlayer exposing (AudioPlayer)
+import ControlPanel.Animation as Animation
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
 import ControlPanel.View.Controls as Controls
 import ControlPanel.View.Credits as Credits
 import ControlPanel.View.Styles as Styles
-import Html.Styled exposing (Html, div, iframe, img, input)
+import Html.Styled as Html exposing (Html, div, iframe, img, input)
 import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
         , css
-        , fromUnstyled
         , src
         , step
         , type_
@@ -47,19 +46,17 @@ view parentMsgs ({ audioPlayer, controlPanel } as context) =
         { audioPlayerMsg, controlPanelMsg } =
             parentMsgs
 
+        attributes : List (Html.Attribute msg)
         attributes =
             [ attribute "data-name" "control-panel"
             , css [ Styles.controlPanel ]
             ]
 
-        -- NOTE: This cannot go in ControlPanel.Animation due to
-        -- Animation.Model.Animation msg type not being exposed.
-        -- See: https://github.com/mdgriffith/elm-style-animation/issues/67
+        animations : List (Html.Attribute msg)
         animations =
-            controlPanel.style
-                |> Animation.render
-                |> List.map fromUnstyled
+            Animation.animations controlPanel.style
 
+        visibilityToggles : List (Html.Attribute msg)
         visibilityToggles =
             if controlPanel.state == State.keepVisible then
                 []
@@ -103,9 +100,11 @@ logo =
 trackInfo : AudioPlayer -> Html msg
 trackInfo { id, soundCloudIframeUrl } =
     let
+        audioPlayerId : String
         audioPlayerId =
             AudioPlayer.rawId id
 
+        rawSoundCloudIframeUrl : String
         rawSoundCloudIframeUrl =
             SoundCloud.rawIframeUrl soundCloudIframeUrl
     in
@@ -131,11 +130,13 @@ trackInfo { id, soundCloudIframeUrl } =
 volumeControl : (AudioPlayer.Msg -> msg) -> AudioPlayer -> Html msg
 volumeControl audioPlayerMsg { volume } =
     let
+        volumeString : String
         volumeString =
             volume
                 |> AudioPlayer.rawVolume
                 |> String.fromInt
 
+        adjustVolumeMsg : String -> msg
         adjustVolumeMsg =
             AudioPlayer.adjustVolumeMsg audioPlayerMsg
     in

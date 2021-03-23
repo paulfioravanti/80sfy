@@ -1,5 +1,6 @@
 module ControlPanel.Animation exposing
     ( AnimationState
+    , animations
     , subscription
     , toHidden
     , toVisible
@@ -9,10 +10,19 @@ module ControlPanel.Animation exposing
 
 import Animation exposing (Property, State)
 import ControlPanel.Msg as Msg exposing (Msg)
+import Html.Styled as Html
+import Html.Styled.Attributes as Attributes
 
 
 type alias AnimationState =
     State
+
+
+animations : State -> List (Html.Attribute msg)
+animations style =
+    style
+        |> Animation.render
+        |> List.map Attributes.fromUnstyled
 
 
 subscription : (Msg -> msg) -> State -> Sub msg

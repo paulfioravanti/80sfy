@@ -64,6 +64,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
 
         UpArrow ->
             let
+                newVolume : String
                 newVolume =
                     adjustVolume audioPlayer config (+)
             in
@@ -74,6 +75,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
 
         DownArrow ->
             let
+                newVolume : String
                 newVolume =
                     adjustVolume audioPlayer config (-)
             in
@@ -90,12 +92,15 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
 adjustVolume : AudioPlayer -> Config -> (Int -> Int -> Int) -> String
 adjustVolume { volume } { volumeAdjustmentRate } operator =
     let
+        currentVolume : Int
         currentVolume =
             AudioPlayer.rawVolume volume
 
+        adjustmentRate : Int
         adjustmentRate =
             Config.rawVolumeAdjustmentRate volumeAdjustmentRate
 
+        newVolume : Int
         newVolume =
             operator currentVolume adjustmentRate
     in
