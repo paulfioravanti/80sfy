@@ -3,14 +3,15 @@ module Update exposing (update)
 import ApplicationState
 import AudioPlayer
 import Config
-import ControlPanel
+import ControlPanel exposing (ControlPanel)
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
-import SecretConfig
+import SecretConfig exposing (SecretConfig)
+import Tag exposing (Tag)
 import Tasks
-import VideoPlayer
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias ParentMsgs =
@@ -82,6 +83,7 @@ update msg model =
 
         Msg.ControlPanel msgForControlPanel ->
             let
+                controlPanel : ControlPanel
                 controlPanel =
                     ControlPanel.update msgForControlPanel model.controlPanel
             in
@@ -89,6 +91,7 @@ update msg model =
 
         Msg.KeyPressed code ->
             let
+                cmd : Cmd Msg
                 cmd =
                     Key.pressed parentMsgs model code
             in
@@ -99,6 +102,7 @@ update msg model =
 
         Msg.Pause ->
             let
+                pauseMedia : Cmd Msg
                 pauseMedia =
                     Tasks.performPause Msg.Ports
             in
@@ -112,6 +116,7 @@ update msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
+                performSaveConfig : Cmd Msg
                 performSaveConfig =
                     Config.performSave
                         Msg.Config
@@ -123,6 +128,7 @@ update msg model =
 
         Msg.SecretConfig msgForSecretConfig ->
             let
+                secretConfig : SecretConfig
                 secretConfig =
                     SecretConfig.update msgForSecretConfig model.secretConfig
             in
@@ -137,6 +143,7 @@ update msg model =
                 -- Config module due to forming an import cycle, so this
                 -- message has to be generated here, even though it's only used
                 -- in one branch of the `update` function.
+                randomTagGeneratedMsg : VideoPlayerId -> Tag -> Msg
                 randomTagGeneratedMsg =
                     Config.randomTagGeneratedMsg Msg.Config
 

@@ -6,7 +6,7 @@ import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
-import VideoPlayer
+import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 
 
 type alias ParentMsgs =
@@ -35,7 +35,7 @@ subscriptions model =
             , videoPlayerMsg = Msg.VideoPlayer
             }
 
-        videoPlayerContext : VideoPlayer.SubscriptionsContext
+        videoPlayerContext : VideoPlayerSubscriptionsContext
         videoPlayerContext =
             { rawAudioPlayerId = AudioPlayer.rawId audioPlayer.id
             , gifDisplayIntervalSeconds = config.gifDisplayIntervalSeconds

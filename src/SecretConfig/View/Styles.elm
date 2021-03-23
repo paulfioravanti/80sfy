@@ -73,6 +73,7 @@ gifTags =
 secretConfig : Bool -> Style
 secretConfig visible =
     let
+        visibility : Style
         visibility =
             if visible then
                 display block

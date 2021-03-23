@@ -28,6 +28,7 @@ iframeUrl soundCloudPlaylistUrl =
         -- NOTE: auto_play here is false due to not wanting to have the first
         -- track in the non-shuffled playlist start playing automatically as
         -- soon as the iframe loads.
+        rawIframeUrlString : String
         rawIframeUrlString =
             String.join
                 ""

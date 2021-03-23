@@ -4,15 +4,17 @@ module Tasks exposing
     )
 
 import Ports
-import Task
+import Task exposing (Task)
 
 
 performPause : (Ports.Msg -> msg) -> Cmd msg
 performPause portsMsg =
     let
+        pauseAudio : Task x msg
         pauseAudio =
             Task.succeed (Ports.pauseAudioMsg portsMsg)
 
+        pauseVideo : Task x msg
         pauseVideo =
             Task.succeed (Ports.pauseVideosMsg portsMsg)
     in

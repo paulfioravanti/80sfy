@@ -63,6 +63,7 @@ view parentMsgs secretConfig =
 gifTagsInput : (Msg -> msg) -> TagsString -> Html msg
 gifTagsInput secretConfigMsg tags =
     let
+        rawTags : String
         rawTags =
             Tag.rawTagsString tags
     in
@@ -77,6 +78,7 @@ gifTagsInput secretConfigMsg tags =
 soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
 soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
     let
+        playlistUrl : String
         playlistUrl =
             SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
     in
@@ -92,6 +94,7 @@ soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
 gifDisplaySecondsInput : (Msg -> msg) -> GifDisplayIntervalSeconds -> Html msg
 gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
     let
+        gifDisplaySeconds : String
         gifDisplaySeconds =
             gifDisplayIntervalSeconds
                 |> Gif.rawDisplayIntervalSeconds
@@ -112,6 +115,7 @@ saveSettingsButton :
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =
     let
+        saveConfig : msg
         saveConfig =
             saveConfigMsg
                 secretConfig.soundCloudPlaylistUrl

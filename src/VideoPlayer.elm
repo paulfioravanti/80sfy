@@ -1,8 +1,8 @@
 module VideoPlayer exposing
     ( Msg
-    , SubscriptionsContext
     , VideoPlayer
     , VideoPlayerId
+    , VideoPlayerSubscriptionsContext
     , id
     , init
     , randomGifUrlFetchedMsg
@@ -32,16 +32,16 @@ type alias Msg =
     Msg.Msg
 
 
-type alias SubscriptionsContext =
-    Subscriptions.Context
-
-
 type alias VideoPlayer =
     Model.VideoPlayer
 
 
 type alias VideoPlayerId =
     VideoPlayerId.VideoPlayerId
+
+
+type alias VideoPlayerSubscriptionsContext =
+    Subscriptions.Context
 
 
 type alias VideoPlayerZIndex =

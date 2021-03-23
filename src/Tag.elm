@@ -12,8 +12,8 @@ module Tag exposing
     )
 
 import Http exposing (Error)
-import Json.Decode as Decode
-import Random
+import Json.Decode as Decode exposing (Decoder)
+import Random exposing (Generator)
 
 
 type Tag
@@ -27,6 +27,7 @@ type TagsString
 fetchTags : (Result Error (List String) -> msg) -> Cmd msg
 fetchTags tagsFetchedMsg =
     let
+        tagsDecoder : Decoder (List String)
         tagsDecoder =
             Decode.at [ "tags" ] (Decode.list Decode.string)
     in
@@ -39,12 +40,15 @@ fetchTags tagsFetchedMsg =
 generateRandomTag : (Tag -> msg) -> List Tag -> Cmd msg
 generateRandomTag randomTagGeneratedMsg tags =
     let
+        tagsLength : Int
         tagsLength =
             List.length tags - 1
 
+        randomTagIndex : Generator Int
         randomTagIndex =
             Random.int 0 tagsLength
 
+        generator : Generator Tag
         generator =
             Random.map (atIndex tags) randomTagIndex
     in
@@ -93,6 +97,7 @@ tagsString rawTagsStringString =
 atIndex : List Tag -> Int -> Tag
 atIndex tags index =
     let
+        defaultTag : Tag
         defaultTag =
             Tag "80s"
     in

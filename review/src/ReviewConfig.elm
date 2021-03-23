@@ -47,7 +47,6 @@ config =
     -- take a Posix argument yet are not themselves used in the application.
     -- , NoUnused.CustomTypeConstructorArgs.rule
     -- , NoMissingSubscriptionsCall.rule
-    -- , NoMissingTypeAnnotationInLetIn.rule
     -- , NoMissingTypeExpose.rule
     -- , NoModuleOnExposedNames.rule
     [ NoAlways.rule
@@ -65,6 +64,7 @@ config =
         |> NoInconsistentAliases.rule
     , NoIndirectInternal.rule
     , NoMissingTypeAnnotation.rule
+    , NoMissingTypeAnnotationInLetIn.rule
     , NoRecursiveUpdate.rule
     , NoRedundantConcat.rule
     , NoUnsafePorts.rule NoUnsafePorts.onlyIncomingPorts

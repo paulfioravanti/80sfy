@@ -1,9 +1,9 @@
 module SecretConfig.Update exposing (update)
 
-import Gif
+import Gif exposing (GifDisplayIntervalSeconds)
 import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
-import SoundCloud
+import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag
 
 
@@ -15,6 +15,7 @@ update msg secretConfig =
 
         Msg.ToggleInactivityPauseOverride ->
             let
+                toggledOverrideInactivityPause : Bool
                 toggledOverrideInactivityPause =
                     not secretConfig.overrideInactivityPause
             in
@@ -27,6 +28,7 @@ update msg secretConfig =
 
         Msg.UpdateGifDisplaySeconds seconds ->
             let
+                gifDisplaySeconds : GifDisplayIntervalSeconds
                 gifDisplaySeconds =
                     Gif.updateDisplayIntervalSeconds
                         seconds
@@ -36,6 +38,7 @@ update msg secretConfig =
 
         Msg.UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl ->
             let
+                soundCloudPlaylistUrl : SoundCloudPlaylistUrl
                 soundCloudPlaylistUrl =
                     SoundCloud.playlistUrl rawSoundCloudPlaylistUrl
             in

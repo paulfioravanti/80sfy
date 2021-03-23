@@ -30,12 +30,14 @@ type alias ParentMsgs msgs msg =
 subscriptions : ParentMsgs msgs msg -> Context -> VideoPlayer -> Sub msg
 subscriptions ({ videoPlayerMsg } as parentMsgs) context videoPlayer1 =
     let
+        fetchNextGif : Sub msg
         fetchNextGif =
             fetchNextGifSubscription
                 videoPlayerMsg
                 videoPlayer1.status
                 context.gifDisplayIntervalSeconds
 
+        animateVideoPlayer : Sub msg
         animateVideoPlayer =
             Animation.subscription videoPlayerMsg videoPlayer1.style
     in
@@ -107,6 +109,7 @@ fetchNextGifSubscription :
 fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
     if status == Status.playing then
         let
+            rawGifDisplayMilliSeconds : Float
             rawGifDisplayMilliSeconds =
                 Gif.rawDisplayIntervalSeconds gifDisplayIntervalSeconds * 1000
         in
@@ -121,6 +124,7 @@ fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
 handleWindowBlurred : ParentMsgs msgs msg -> String -> Value -> msg
 handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId payload =
     let
+        activeElementId : String
         activeElementId =
             Value.extractStringWithDefault "" payload
     in
