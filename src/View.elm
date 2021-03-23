@@ -3,17 +3,40 @@ module View exposing (view)
 import AudioPlayer
 import Browser exposing (Document)
 import ControlPanel
+import Gif
 import Html.Styled exposing (div)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
+import Ports
 import SecretConfig
+import SoundCloud
+import Tag
 import VideoPlayer
+
+
+type alias ParentMsgs =
+    { audioPlayerMsg : AudioPlayer.Msg -> Msg
+    , controlPanelMsg : ControlPanel.Msg -> Msg
+    , noOpMsg : Msg
+    , pauseMsg : Msg
+    , playMsg : Msg
+    , portsMsg : Ports.Msg -> Msg
+    , saveConfigMsg :
+        SoundCloud.SoundCloudPlaylistUrl
+        -> Tag.TagsString
+        -> Gif.GifDisplayIntervalSeconds
+        -> Msg
+    , secretConfigMsg : SecretConfig.Msg -> Msg
+    , showApplicationStateMsg : Msg
+    , videoPlayerMsg : VideoPlayer.Msg -> Msg
+    }
 
 
 view : Model -> Document Msg
 view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
+        parentMsgs : ParentMsgs
         parentMsgs =
             { audioPlayerMsg = Msg.AudioPlayer
             , controlPanelMsg = Msg.ControlPanel

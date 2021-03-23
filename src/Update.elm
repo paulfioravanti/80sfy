@@ -13,9 +13,21 @@ import Tasks
 import VideoPlayer
 
 
+type alias ParentMsgs =
+    { audioPlayerMsg : AudioPlayer.Msg -> Msg
+    , configMsg : Config.Msg -> Msg
+    , pauseMsg : Msg
+    , playMsg : Msg
+    , portsMsg : Ports.Msg -> Msg
+    , secretConfigMsg : SecretConfig.Msg -> Msg
+    , videoPlayerMsg : VideoPlayer.Msg -> Msg
+    }
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
+        parentMsgs : ParentMsgs
         parentMsgs =
             { audioPlayerMsg = Msg.AudioPlayer
             , configMsg = Msg.Config
