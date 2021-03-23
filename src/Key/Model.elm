@@ -1,7 +1,7 @@
 module Key.Model exposing (Key, ParentMsgs, fromString, pressed)
 
-import AudioPlayer
-import Config
+import AudioPlayer exposing (AudioPlayer)
+import Config exposing (Config)
 import Model exposing (Model)
 import Ports
 import Tasks
@@ -64,14 +64,8 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         UpArrow ->
             let
-                currentVolume =
-                    AudioPlayer.rawVolume audioPlayer.volume
-
-                adjustmentRate =
-                    Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
-
                 newVolume =
-                    String.fromInt (currentVolume + adjustmentRate)
+                    adjustVolume audioPlayer config (+)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -80,16 +74,29 @@ pressed ({ audioPlayerMsg } as msgs) { audioPlayer, config } key =
 
         DownArrow ->
             let
-                currentVolume =
-                    AudioPlayer.rawVolume audioPlayer.volume
-
-                adjustmentRate =
-                    Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
-
                 newVolume =
-                    String.fromInt (currentVolume - adjustmentRate)
+                    adjustVolume audioPlayer config (-)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
-        _ ->
+        Other ->
             Cmd.none
+
+
+
+-- PRIVATE
+
+
+adjustVolume : AudioPlayer -> Config -> (Int -> Int -> Int) -> String
+adjustVolume { volume } { volumeAdjustmentRate } operator =
+    let
+        currentVolume =
+            AudioPlayer.rawVolume volume
+
+        adjustmentRate =
+            Config.rawVolumeAdjustmentRate volumeAdjustmentRate
+
+        newVolume =
+            operator currentVolume adjustmentRate
+    in
+    String.fromInt newVolume
