@@ -4,7 +4,7 @@ import Json.Decode as Decode exposing (Decoder, string)
 import Key.Model as Key exposing (Key)
 
 
-decoder : Decode.Decoder Key
+decoder : Decoder Key
 decoder =
     let
         keyString : Decoder String
