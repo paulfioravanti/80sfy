@@ -93,13 +93,13 @@ subscriptions parentMsgs context videoPlayer1 =
 
 
 update :
-    (VideoPlayerId -> Tag -> msg)
+    Msg
+    -> (VideoPlayerId -> Tag -> msg)
     -> List Tag
-    -> Msg
     -> Update.Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update randomTagGeneratedMsg tags msg context =
-    Update.update randomTagGeneratedMsg tags msg context
+update msg randomTagGeneratedMsg tags context =
+    Update.update msg randomTagGeneratedMsg tags context
 
 
 view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg

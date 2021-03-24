@@ -140,9 +140,9 @@ update parentMsgs msg model =
 
                 ( videoPlayer1, videoPlayer2, cmd ) =
                     VideoPlayer.update
+                        msgForVideoPlayer
                         randomTagGeneratedMsg
                         model.config.tags
-                        msgForVideoPlayer
                         model
             in
             ( { model

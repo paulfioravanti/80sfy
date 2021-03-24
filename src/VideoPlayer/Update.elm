@@ -19,12 +19,12 @@ type alias Context a =
 
 
 update :
-    (VideoPlayerId -> Tag -> msg)
+    Msg
+    -> (VideoPlayerId -> Tag -> msg)
     -> List Tag
-    -> Msg
     -> Context a
     -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update randomTagGeneratedMsg tags msg { videoPlayer1, videoPlayer2 } =
+update msg randomTagGeneratedMsg tags { videoPlayer1, videoPlayer2 } =
     case msg of
         Msg.AnimateVideoPlayer animationMsg ->
             ( { videoPlayer1
