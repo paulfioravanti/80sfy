@@ -4,7 +4,7 @@ import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
 import PortMessage
 import Ports
-import Time
+import Time exposing (Posix)
 import Value
 import VideoPlayer.Animation as Animation
 import VideoPlayer.Model exposing (VideoPlayer)
@@ -21,25 +21,26 @@ type alias Context =
 
 type alias ParentMsgs msgs msg =
     { msgs
-        | noOpMsg : msg
+        | crossFadePlayersMsg : Posix -> msg
+        , noOpMsg : msg
         , portsMsg : Ports.Msg -> msg
         , videoPlayerMsg : Msg -> msg
     }
 
 
 subscriptions : ParentMsgs msgs msg -> Context -> VideoPlayer -> Sub msg
-subscriptions ({ videoPlayerMsg } as parentMsgs) context videoPlayer1 =
+subscriptions parentMsgs context videoPlayer1 =
     let
         fetchNextGif : Sub msg
         fetchNextGif =
             fetchNextGifSubscription
-                videoPlayerMsg
+                parentMsgs.crossFadePlayersMsg
                 videoPlayer1.status
                 context.gifDisplayIntervalSeconds
 
         animateVideoPlayer : Sub msg
         animateVideoPlayer =
-            Animation.subscription videoPlayerMsg videoPlayer1.style
+            Animation.subscription parentMsgs.videoPlayerMsg videoPlayer1.style
     in
     Sub.batch
         [ fetchNextGif
@@ -102,20 +103,18 @@ handlePortMessage parentMsgs context videoPlayer1 portMessage =
 
 
 fetchNextGifSubscription :
-    (Msg -> msg)
+    (Posix -> msg)
     -> Status
     -> GifDisplayIntervalSeconds
     -> Sub msg
-fetchNextGifSubscription videoPlayerMsg status gifDisplayIntervalSeconds =
+fetchNextGifSubscription crossFadePlayersMsg status gifDisplayIntervalSeconds =
     if status == Status.playing then
         let
             rawGifDisplayMilliSeconds : Float
             rawGifDisplayMilliSeconds =
                 Gif.rawDisplayIntervalSeconds gifDisplayIntervalSeconds * 1000
         in
-        Time.every
-            rawGifDisplayMilliSeconds
-            (Msg.crossFadePlayers videoPlayerMsg)
+        Time.every rawGifDisplayMilliSeconds crossFadePlayersMsg
 
     else
         Sub.none

@@ -4,6 +4,7 @@ module VideoPlayer exposing
     , VideoPlayerId
     , VideoPlayerSubscriptionsContext
     , VideoPlayerZIndex
+    , crossFade
     , id
     , init
     , randomGifUrlFetchedMsg
@@ -18,7 +19,6 @@ module VideoPlayer exposing
 
 import Html.Styled exposing (Html)
 import Http exposing (Error)
-import Tag exposing (Tag)
 import VideoPlayer.Model as Model
 import VideoPlayer.Msg as Msg
 import VideoPlayer.Status as Status exposing (Status)
@@ -52,6 +52,14 @@ type alias VideoPlayerZIndex =
 init : VideoPlayerId -> VideoPlayerZIndex -> VideoPlayer
 init videoPlayerId videoPlayerZIndex =
     Model.init videoPlayerId videoPlayerZIndex
+
+
+crossFade :
+    VideoPlayer
+    -> VideoPlayer
+    -> ( VideoPlayer, VideoPlayer, VideoPlayerId )
+crossFade videoPlayer1 videoPlayer2 =
+    Model.crossFade videoPlayer1 videoPlayer2
 
 
 id : String -> VideoPlayerId
@@ -92,14 +100,9 @@ subscriptions parentMsgs context videoPlayer1 =
     Subscriptions.subscriptions parentMsgs context videoPlayer1
 
 
-update :
-    Msg
-    -> (VideoPlayerId -> Tag -> msg)
-    -> List Tag
-    -> Update.Context a
-    -> ( VideoPlayer, VideoPlayer, Cmd msg )
-update msg randomTagGeneratedMsg tags context =
-    Update.update msg randomTagGeneratedMsg tags context
+update : Msg -> Update.Context a -> ( VideoPlayer, VideoPlayer, Cmd msg )
+update msg context =
+    Update.update msg context
 
 
 view : ParentMsgs msgs msg -> Bool -> VideoPlayer -> Html msg

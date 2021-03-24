@@ -6,6 +6,7 @@ import Key exposing (Key)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
+import Time exposing (Posix)
 import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 
 
@@ -15,6 +16,7 @@ type alias Msgs msgs =
         , audioPlayerMsg : AudioPlayer.Msg -> Msg
         , audioPlayingMsg : Msg
         , controlPanelMsg : ControlPanel.Msg -> Msg
+        , crossFadePlayersMsg : Posix -> Msg
         , keyPressedMsg : Key -> Msg
         , noOpMsg : Msg
         , portsMsg : Ports.Msg -> Msg

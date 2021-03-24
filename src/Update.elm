@@ -11,7 +11,7 @@ import Ports
 import SecretConfig exposing (SecretConfig)
 import Tag exposing (Tag)
 import Tasks
-import VideoPlayer exposing (VideoPlayerId)
+import VideoPlayer
 
 
 type alias Msgs msgs =
@@ -78,6 +78,28 @@ update parentMsgs msg model =
             in
             ( { model | controlPanel = controlPanel }, Cmd.none )
 
+        Msg.CrossFadePlayers _ ->
+            let
+                ( crossFadedVideoPlayer1, crossFadedVideoPlayer2, nowHiddenVideoPlayerId ) =
+                    VideoPlayer.crossFade model.videoPlayer1 model.videoPlayer2
+
+                randomTagGeneratedMsg : Tag -> Msg
+                randomTagGeneratedMsg =
+                    Config.randomTagGeneratedMsg
+                        Msg.Config
+                        nowHiddenVideoPlayerId
+
+                generateRandomTagForHiddenVideoPlayer : Cmd Msg
+                generateRandomTagForHiddenVideoPlayer =
+                    Tag.generateRandomTag randomTagGeneratedMsg model.config.tags
+            in
+            ( { model
+                | videoPlayer1 = crossFadedVideoPlayer1
+                , videoPlayer2 = crossFadedVideoPlayer2
+              }
+            , generateRandomTagForHiddenVideoPlayer
+            )
+
         Msg.KeyPressed code ->
             let
                 cmd : Cmd Msg
@@ -130,20 +152,8 @@ update parentMsgs msg model =
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let
-                -- NOTE: Neither VideoPlayer.Update nor Tag can import the
-                -- Config module due to forming an import cycle, so this
-                -- message has to be generated here, even though it's only used
-                -- in one branch of the `update` function.
-                randomTagGeneratedMsg : VideoPlayerId -> Tag -> Msg
-                randomTagGeneratedMsg =
-                    Config.randomTagGeneratedMsg Msg.Config
-
                 ( videoPlayer1, videoPlayer2, cmd ) =
-                    VideoPlayer.update
-                        msgForVideoPlayer
-                        randomTagGeneratedMsg
-                        model.config.tags
-                        model
+                    VideoPlayer.update msgForVideoPlayer model
             in
             ( { model
                 | videoPlayer1 = videoPlayer1
