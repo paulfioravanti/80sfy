@@ -4,22 +4,22 @@ module Value exposing
     , extractStringWithDefault
     )
 
-import Json.Decode as Decode exposing (Decoder, Value, float, int, string)
+import Json.Decode as Decode exposing (Decoder, Value)
 
 
 extractFloatWithDefault : Float -> Value -> Float
 extractFloatWithDefault defaultFloat value =
-    extractTypeFromValueWithDefault float defaultFloat value
+    extractTypeFromValueWithDefault Decode.float defaultFloat value
 
 
 extractIntWithDefault : Int -> Value -> Int
 extractIntWithDefault defaultInt value =
-    extractTypeFromValueWithDefault int defaultInt value
+    extractTypeFromValueWithDefault Decode.int defaultInt value
 
 
 extractStringWithDefault : String -> Value -> String
 extractStringWithDefault defaultString value =
-    extractTypeFromValueWithDefault string defaultString value
+    extractTypeFromValueWithDefault Decode.string defaultString value
 
 
 
