@@ -60,7 +60,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
                 Tasks.performPause parentMsgs.portsMsg
 
             else
-                Tasks.performPlay parentMsgs.playMsg
+                Cmd.batch [ Ports.playVideos, Ports.playAudio ]
 
         UpArrow ->
             let

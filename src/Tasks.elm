@@ -1,7 +1,4 @@
-module Tasks exposing
-    ( performPause
-    , performPlay
-    )
+module Tasks exposing (performPause)
 
 import Ports
 import Task exposing (Task)
@@ -23,11 +20,4 @@ performPause portsMsg =
     -- pause button is pressed on the app player.
     pauseVideo
         |> Task.andThen (\_ -> pauseAudio)
-        |> Task.perform identity
-
-
-performPlay : msg -> Cmd msg
-performPlay playMsg =
-    playMsg
-        |> Task.succeed
         |> Task.perform identity
