@@ -9,31 +9,22 @@ import Ports
 import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 
 
-type alias ParentMsgs =
-    { audioPausedMsg : Msg
-    , audioPlayerMsg : AudioPlayer.Msg -> Msg
-    , audioPlayingMsg : Msg
-    , noOpMsg : Msg
-    , portsMsg : Ports.Msg -> Msg
-    , videoPlayerMsg : VideoPlayer.Msg -> Msg
+type alias ParentMsgs msgs =
+    { msgs
+        | audioPausedMsg : Msg
+        , audioPlayerMsg : AudioPlayer.Msg -> Msg
+        , audioPlayingMsg : Msg
+        , noOpMsg : Msg
+        , portsMsg : Ports.Msg -> Msg
+        , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions : ParentMsgs msgs -> Model -> Sub Msg
+subscriptions parentMsgs model =
     let
         { audioPlayer, config, controlPanel, secretConfig, videoPlayer1 } =
             model
-
-        parentMsgs : ParentMsgs
-        parentMsgs =
-            { audioPausedMsg = Msg.AudioPaused
-            , audioPlayerMsg = Msg.AudioPlayer
-            , audioPlayingMsg = Msg.AudioPlaying
-            , noOpMsg = Msg.NoOp
-            , portsMsg = Msg.Ports
-            , videoPlayerMsg = Msg.VideoPlayer
-            }
 
         videoPlayerContext : VideoPlayerSubscriptionsContext
         videoPlayerContext =

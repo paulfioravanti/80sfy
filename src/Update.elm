@@ -14,31 +14,20 @@ import Tasks
 import VideoPlayer exposing (VideoPlayerId)
 
 
-type alias ParentMsgs =
-    { audioPlayerMsg : AudioPlayer.Msg -> Msg
-    , configMsg : Config.Msg -> Msg
-    , pauseMsg : Msg
-    , playMsg : Msg
-    , portsMsg : Ports.Msg -> Msg
-    , secretConfigMsg : SecretConfig.Msg -> Msg
-    , videoPlayerMsg : VideoPlayer.Msg -> Msg
+type alias ParentMsgs msgs =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> Msg
+        , configMsg : Config.Msg -> Msg
+        , pauseMsg : Msg
+        , playMsg : Msg
+        , portsMsg : Ports.Msg -> Msg
+        , secretConfigMsg : SecretConfig.Msg -> Msg
+        , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    let
-        parentMsgs : ParentMsgs
-        parentMsgs =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , configMsg = Msg.Config
-            , pauseMsg = Msg.Pause
-            , playMsg = Msg.Play
-            , portsMsg = Msg.Ports
-            , secretConfigMsg = Msg.SecretConfig
-            , videoPlayerMsg = Msg.VideoPlayer
-            }
-    in
+update : ParentMsgs msgs -> Msg -> Model -> ( Model, Cmd Msg )
+update parentMsgs msg model =
     case msg of
         Msg.AudioPaused ->
             let

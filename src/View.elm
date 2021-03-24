@@ -15,41 +15,28 @@ import Tag
 import VideoPlayer
 
 
-type alias ParentMsgs =
-    { audioPlayerMsg : AudioPlayer.Msg -> Msg
-    , controlPanelMsg : ControlPanel.Msg -> Msg
-    , noOpMsg : Msg
-    , pauseMsg : Msg
-    , playMsg : Msg
-    , portsMsg : Ports.Msg -> Msg
-    , saveConfigMsg :
-        SoundCloud.SoundCloudPlaylistUrl
-        -> Tag.TagsString
-        -> Gif.GifDisplayIntervalSeconds
-        -> Msg
-    , secretConfigMsg : SecretConfig.Msg -> Msg
-    , showApplicationStateMsg : Msg
-    , videoPlayerMsg : VideoPlayer.Msg -> Msg
+type alias ParentMsgs msgs =
+    { msgs
+        | audioPlayerMsg : AudioPlayer.Msg -> Msg
+        , controlPanelMsg : ControlPanel.Msg -> Msg
+        , noOpMsg : Msg
+        , pauseMsg : Msg
+        , playMsg : Msg
+        , portsMsg : Ports.Msg -> Msg
+        , saveConfigMsg :
+            SoundCloud.SoundCloudPlaylistUrl
+            -> Tag.TagsString
+            -> Gif.GifDisplayIntervalSeconds
+            -> Msg
+        , secretConfigMsg : SecretConfig.Msg -> Msg
+        , showApplicationStateMsg : Msg
+        , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
 
-view : Model -> Document Msg
-view ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
+view : ParentMsgs msgs -> Model -> Document Msg
+view parentMsgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
-        parentMsgs : ParentMsgs
-        parentMsgs =
-            { audioPlayerMsg = Msg.AudioPlayer
-            , controlPanelMsg = Msg.ControlPanel
-            , noOpMsg = Msg.NoOp
-            , pauseMsg = Msg.Pause
-            , playMsg = Msg.Play
-            , portsMsg = Msg.Ports
-            , saveConfigMsg = Msg.SaveConfig
-            , secretConfigMsg = Msg.SecretConfig
-            , showApplicationStateMsg = Msg.ShowApplicationState
-            , videoPlayerMsg = Msg.VideoPlayer
-            }
-
         -- NOTE: There is a circular dependency issue if AudioPlayer is imported
         -- into VideoPlayer, so that's why this value is determined here, rather
         -- than in VideoPlayer.view

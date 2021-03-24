@@ -6,6 +6,7 @@ import Config exposing (Config)
 import Flags exposing (Flags)
 import Model exposing (Model)
 import Msg exposing (Msg)
+import ParentMsgs exposing (ParentMsgs)
 import Ports exposing (SoundCloudWidgetPayload)
 import Subscriptions
 import Tag
@@ -15,11 +16,16 @@ import View
 
 main : Program Flags Model Msg
 main =
+    let
+        parentMsgs : ParentMsgs
+        parentMsgs =
+            ParentMsgs.init
+    in
     Browser.document
         { init = init
-        , update = Update.update
-        , view = View.view
-        , subscriptions = Subscriptions.subscriptions
+        , update = Update.update parentMsgs
+        , view = View.view parentMsgs
+        , subscriptions = Subscriptions.subscriptions parentMsgs
         }
 
 
