@@ -1,4 +1,4 @@
-module ControlPanel.Subscriptions exposing (subscriptions)
+module ControlPanel.Subscriptions exposing (ParentMsgs, subscriptions)
 
 import Browser.Events
 import ControlPanel.Animation as Animation
@@ -9,8 +9,14 @@ import Json.Decode as Decode
 import Time
 
 
-subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
-subscriptions controlPanelMsg controlPanel =
+type alias ParentMsgs msgs msg =
+    { msgs
+        | controlPanelMsg : Msg -> msg
+    }
+
+
+subscriptions : ParentMsgs msgs msg -> ControlPanel -> Sub msg
+subscriptions { controlPanelMsg } controlPanel =
     let
         animateControlPanelSubscription : Sub msg
         animateControlPanelSubscription =

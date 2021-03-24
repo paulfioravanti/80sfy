@@ -36,9 +36,9 @@ stateToString state =
     State.toString state
 
 
-subscriptions : (Msg -> msg) -> ControlPanel -> Sub msg
-subscriptions controlPanelMsg controlPanel =
-    Subscriptions.subscriptions controlPanelMsg controlPanel
+subscriptions : Subscriptions.ParentMsgs msgs msg -> ControlPanel -> Sub msg
+subscriptions parentMsgs controlPanel =
+    Subscriptions.subscriptions parentMsgs controlPanel
 
 
 toggleHideWhenInactiveMsg : (Msg -> msg) -> msg

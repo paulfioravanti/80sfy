@@ -14,7 +14,7 @@ import Tasks
 import VideoPlayer exposing (VideoPlayerId)
 
 
-type alias ParentMsgs msgs =
+type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
         , configMsg : Config.Msg -> Msg
@@ -26,7 +26,7 @@ type alias ParentMsgs msgs =
     }
 
 
-update : ParentMsgs msgs -> Msg -> Model -> ( Model, Cmd Msg )
+update : Msgs msgs -> Msg -> Model -> ( Model, Cmd Msg )
 update parentMsgs msg model =
     case msg of
         Msg.AudioPaused ->

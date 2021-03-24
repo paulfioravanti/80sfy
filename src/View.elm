@@ -15,7 +15,7 @@ import Tag
 import VideoPlayer
 
 
-type alias ParentMsgs msgs =
+type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
         , controlPanelMsg : ControlPanel.Msg -> Msg
@@ -34,8 +34,8 @@ type alias ParentMsgs msgs =
     }
 
 
-view : ParentMsgs msgs -> Model -> Document Msg
-view parentMsgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
+view : Msgs msgs -> Model -> Document Msg
+view msgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     let
         -- NOTE: There is a circular dependency issue if AudioPlayer is imported
         -- into VideoPlayer, so that's why this value is determined here, rather
@@ -48,10 +48,10 @@ view parentMsgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     , body =
         List.map Html.Styled.toUnstyled
             [ div [ attribute "data-name" "container" ]
-                [ ControlPanel.view parentMsgs model
-                , VideoPlayer.view parentMsgs audioPlaying videoPlayer1
-                , VideoPlayer.view parentMsgs audioPlaying videoPlayer2
-                , SecretConfig.view parentMsgs secretConfig
+                [ ControlPanel.view msgs model
+                , VideoPlayer.view msgs audioPlaying videoPlayer1
+                , VideoPlayer.view msgs audioPlaying videoPlayer2
+                , SecretConfig.view msgs secretConfig
                 ]
             ]
     }

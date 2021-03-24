@@ -2,26 +2,28 @@ module Subscriptions exposing (subscriptions)
 
 import AudioPlayer
 import ControlPanel
-import Key
+import Key exposing (Key)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
 import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 
 
-type alias ParentMsgs msgs =
+type alias Msgs msgs =
     { msgs
         | audioPausedMsg : Msg
         , audioPlayerMsg : AudioPlayer.Msg -> Msg
         , audioPlayingMsg : Msg
+        , controlPanelMsg : ControlPanel.Msg -> Msg
+        , keyPressedMsg : Key -> Msg
         , noOpMsg : Msg
         , portsMsg : Ports.Msg -> Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
 
-subscriptions : ParentMsgs msgs -> Model -> Sub Msg
-subscriptions parentMsgs model =
+subscriptions : Msgs msgs -> Model -> Sub Msg
+subscriptions msgs model =
     let
         { audioPlayer, config, controlPanel, secretConfig, videoPlayer1 } =
             model
@@ -34,8 +36,8 @@ subscriptions parentMsgs model =
             }
     in
     Sub.batch
-        [ AudioPlayer.subscriptions parentMsgs audioPlayer
-        , ControlPanel.subscriptions Msg.controlPanel controlPanel
-        , Key.subscriptions Msg.keyPressed
-        , VideoPlayer.subscriptions parentMsgs videoPlayerContext videoPlayer1
+        [ AudioPlayer.subscriptions msgs audioPlayer
+        , ControlPanel.subscriptions msgs controlPanel
+        , Key.subscriptions msgs
+        , VideoPlayer.subscriptions msgs videoPlayerContext videoPlayer1
         ]

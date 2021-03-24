@@ -14,6 +14,6 @@ pressed parentMsgs model key =
     Key.pressed parentMsgs model key
 
 
-subscriptions : (Key -> msg) -> Sub msg
-subscriptions keyMsg =
-    Subscriptions.subscriptions keyMsg
+subscriptions : Subscriptions.ParentMsgs msgs msg -> Sub msg
+subscriptions parentMsgs =
+    Subscriptions.subscriptions parentMsgs
