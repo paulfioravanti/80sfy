@@ -18,14 +18,9 @@ randomTagGenerated configMsg videoPlayerId tag =
     configMsg (RandomTagGenerated videoPlayerId tag)
 
 
-save :
-    (Msg -> msg)
-    -> SoundCloudPlaylistUrl
-    -> TagsString
-    -> GifDisplayIntervalSeconds
-    -> msg
-save configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
-    configMsg (Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds)
+save : SoundCloudPlaylistUrl -> TagsString -> GifDisplayIntervalSeconds -> Msg
+save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
+    Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
 
 
 tagsFetched : (Msg -> msg) -> Result Error (List String) -> msg

@@ -105,15 +105,17 @@ update parentMsgs msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                performSaveConfig : Cmd Msg
-                performSaveConfig =
-                    Config.performSave
-                        Msg.Config
+                saveConfigMsg : Config.Msg
+                saveConfigMsg =
+                    Config.saveMsg
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
+
+                ( config, cmd ) =
+                    Config.update parentMsgs saveConfigMsg model.config
             in
-            ( model, performSaveConfig )
+            ( { model | config = config }, cmd )
 
         Msg.SecretConfig msgForSecretConfig ->
             let

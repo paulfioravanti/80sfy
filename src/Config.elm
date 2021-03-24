@@ -3,16 +3,15 @@ module Config exposing
     , Msg
     , VolumeAdjustmentRate
     , init
-    , performSave
     , randomTagGeneratedMsg
     , rawVolumeAdjustmentRate
+    , saveMsg
     , tagsFetchedMsg
     , update
     )
 
 import Config.Model as Model exposing (Config)
 import Config.Msg as Msg
-import Config.Task as Task
 import Config.Update as Update
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds)
@@ -39,20 +38,6 @@ init flags =
     Model.init flags
 
 
-performSave :
-    (Msg -> msg)
-    -> SoundCloudPlaylistUrl
-    -> TagsString
-    -> GifDisplayIntervalSeconds
-    -> Cmd msg
-performSave configMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
-    Task.performSave
-        configMsg
-        soundCloudPlaylistUrl
-        tagsString
-        gifDisplayIntervalSeconds
-
-
 randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
 randomTagGeneratedMsg configMsg videoPlayerId tag =
     Msg.randomTagGenerated configMsg videoPlayerId tag
@@ -66,6 +51,15 @@ rawVolumeAdjustmentRate volumeAdjustmentRate =
 tagsFetchedMsg : (Msg -> msg) -> Result Error (List String) -> msg
 tagsFetchedMsg configMsg tags =
     Msg.tagsFetched configMsg tags
+
+
+saveMsg :
+    SoundCloudPlaylistUrl
+    -> TagsString
+    -> GifDisplayIntervalSeconds
+    -> Msg
+saveMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
+    Msg.save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
 
 
 update : Update.ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )

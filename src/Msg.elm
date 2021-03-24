@@ -2,9 +2,7 @@ module Msg exposing
     ( Msg(..)
     , Msgs
     , config
-    , controlPanel
     , dictionary
-    , keyPressed
     )
 
 import AudioPlayer
@@ -58,11 +56,6 @@ type alias Msgs =
     }
 
 
-controlPanel : ControlPanel.Msg -> Msg
-controlPanel controlPanelMsg =
-    ControlPanel controlPanelMsg
-
-
 config : Config.Msg -> Msg
 config configMsg =
     Config configMsg
@@ -85,8 +78,3 @@ dictionary =
     , showApplicationStateMsg = ShowApplicationState
     , videoPlayerMsg = VideoPlayer
     }
-
-
-keyPressed : Key -> Msg
-keyPressed key =
-    KeyPressed key
