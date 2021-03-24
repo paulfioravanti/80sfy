@@ -15,21 +15,20 @@ decode : Value -> PortMessage
 decode value =
     value
         |> Decode.decodeValue decoder
-        |> Result.withDefault (withTag "")
+        |> Result.withDefault (PortMessage "" Encode.null)
 
 
-withTag : String -> PortMessage
+withTag : String -> Value
 withTag tag =
-    { tag = tag
-    , payload = Encode.null
-    }
+    withTaggedPayload ( tag, Encode.null )
 
 
-withTaggedPayload : ( String, Value ) -> PortMessage
+withTaggedPayload : ( String, Value ) -> Value
 withTaggedPayload ( tag, payload ) =
-    { tag = tag
-    , payload = payload
-    }
+    Encode.object
+        [ ( "tag", Encode.string tag )
+        , ( "payload", payload )
+        ]
 
 
 

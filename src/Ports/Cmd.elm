@@ -14,11 +14,11 @@ port module Ports.Cmd exposing
 import Error
 import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
-import PortMessage exposing (PortMessage)
+import PortMessage
 import Ports.Msg as Msg exposing (Msg, SoundCloudWidgetPayload)
 
 
-port outbound : PortMessage -> Cmd msg
+port outbound : Value -> Cmd msg
 
 
 cmd : Msg -> Cmd msg
@@ -39,7 +39,7 @@ cmd msg =
                         , ( "volume", Encode.int volume )
                         ]
 
-                portMessage : PortMessage
+                portMessage : Value
                 portMessage =
                     PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
             in
@@ -66,7 +66,7 @@ cmd msg =
                 payload =
                     Encode.object [ ( "volume", Encode.int volume ) ]
 
-                portMessage : PortMessage
+                portMessage : Value
                 portMessage =
                     PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
             in
@@ -78,7 +78,7 @@ cmd msg =
                 payload =
                     Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
 
-                portMessage : PortMessage
+                portMessage : Value
                 portMessage =
                     PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
             in

@@ -67,7 +67,7 @@ config =
     , NoMissingTypeAnnotationInLetIn.rule
     , NoRecursiveUpdate.rule
     , NoRedundantConcat.rule
-    , NoUnsafePorts.rule NoUnsafePorts.onlyIncomingPorts
+    , NoUnsafePorts.rule NoUnsafePorts.any
     , NoUnused.CustomTypeConstructors.rule []
     , NoUnused.Dependencies.rule
     , NoUnused.Exports.rule

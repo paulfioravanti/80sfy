@@ -4,6 +4,7 @@ import AudioPlayer
 import Browser
 import Config exposing (Config)
 import Flags exposing (Flags)
+import Http exposing (Error)
 import Model exposing (Model)
 import Msg exposing (Msg, Msgs)
 import Ports exposing (SoundCloudWidgetPayload)
@@ -45,10 +46,14 @@ init flags =
         widgetPayload : SoundCloudWidgetPayload
         widgetPayload =
             AudioPlayer.soundCloudWidgetPayload audioPlayer
+
+        tagsFetchedMsg : Result Error (List String) -> Msg
+        tagsFetchedMsg =
+            Config.tagsFetchedMsg Msg.Config
     in
     ( model
     , Cmd.batch
-        [ Tag.fetchTags (Config.tagsFetchedMsg Msg.config)
+        [ Tag.fetchTags tagsFetchedMsg
         , Ports.initSoundCloudWidget widgetPayload
         ]
     )

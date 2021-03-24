@@ -1,9 +1,4 @@
-module Msg exposing
-    ( Msg(..)
-    , Msgs
-    , config
-    , dictionary
-    )
+module Msg exposing (Msg(..), Msgs, dictionary)
 
 import AudioPlayer
 import Config
@@ -57,11 +52,6 @@ type alias Msgs =
     , showApplicationStateMsg : Msg
     , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
-
-
-config : Config.Msg -> Msg
-config configMsg =
-    Config configMsg
 
 
 dictionary : Msgs
