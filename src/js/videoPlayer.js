@@ -39,7 +39,7 @@ function initWindowEventListeners(ports) {
       const activeElementId = event.target.document.activeElement.id
       ports.inbound.send({
         tag: "WINDOW_BLURRED",
-        payload: activeElementId
+        data: activeElementId
       })
     }, 0)
   })

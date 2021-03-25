@@ -2,7 +2,6 @@ module VideoPlayer.Subscriptions exposing (Context, ParentMsgs, subscriptions)
 
 import Gif exposing (GifDisplayIntervalSeconds)
 import Json.Decode exposing (Value)
-import PortMessage
 import Ports
 import Time exposing (Posix)
 import Value
@@ -45,7 +44,7 @@ subscriptions parentMsgs context videoPlayer1 =
     Sub.batch
         [ fetchNextGif
         , animateVideoPlayer
-        , Ports.inbound (handlePortMessage parentMsgs context videoPlayer1)
+        , Ports.inbound (handlePayload parentMsgs context videoPlayer1)
         ]
 
 
@@ -53,19 +52,19 @@ subscriptions parentMsgs context videoPlayer1 =
 -- PRIVATE
 
 
-handlePortMessage :
+handlePayload :
     ParentMsgs msgs msg
     -> Context
     -> VideoPlayer
     -> Value
     -> msg
-handlePortMessage parentMsgs context videoPlayer1 portMessage =
+handlePayload parentMsgs context videoPlayer1 payload =
     let
         { videoPlayerMsg, noOpMsg, portsMsg } =
             parentMsgs
 
-        { tag, payload } =
-            PortMessage.decode portMessage
+        { tag, data } =
+            Ports.decodePayload payload
     in
     case tag of
         "VIDEOS_HALTED" ->
@@ -86,7 +85,7 @@ handlePortMessage parentMsgs context videoPlayer1 portMessage =
 
         "WINDOW_BLURRED" ->
             if videoPlayer1.status == Status.playing then
-                handleWindowBlurred parentMsgs context.rawAudioPlayerId payload
+                handleWindowBlurred parentMsgs context.rawAudioPlayerId data
 
             else
                 noOpMsg
@@ -121,11 +120,11 @@ fetchNextGifSubscription crossFadePlayersMsg status gifDisplayIntervalSeconds =
 
 
 handleWindowBlurred : ParentMsgs msgs msg -> String -> Value -> msg
-handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId payload =
+handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId data =
     let
         activeElementId : String
         activeElementId =
-            Value.extractStringWithDefault "" payload
+            Value.extractStringWithDefault "" data
     in
     -- NOTE: If the document target has "blurred" from the video player
     -- to the SoundCloud iframe, then the Elm app does not need to

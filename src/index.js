@@ -27,10 +27,10 @@ const app =
 
 const ports = app.ports
 
-ports.outbound.subscribe(({ tag, payload }) => {
+ports.outbound.subscribe(({ tag, data }) => {
   switch (tag) {
   case "LOG":
-    console.log(payload)
+    console.log(data)
     break
   }
 })

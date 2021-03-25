@@ -1,7 +1,9 @@
 port module Ports exposing
     ( Msg
+    , Payload
     , SoundCloudWidgetPayload
     , cmd
+    , decodePayload
     , exitFullscreen
     , haltVideosMsg
     , inbound
@@ -24,10 +26,15 @@ import Http exposing (Error)
 import Json.Encode exposing (Value)
 import Ports.Cmd as Cmd
 import Ports.Msg as Msg
+import Ports.Payload as Payload
 
 
 type alias Msg =
     Msg.Msg
+
+
+type alias Payload =
+    Payload.Payload
 
 
 type alias SoundCloudWidgetPayload =
@@ -42,6 +49,11 @@ cmd msg =
     Cmd.cmd msg
 
 
+decodePayload : Value -> Payload
+decodePayload payload =
+    Payload.decode payload
+
+
 exitFullscreen : Cmd msg
 exitFullscreen =
     Cmd.exitFullscreen
@@ -53,13 +65,13 @@ haltVideosMsg portsMsg =
 
 
 initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
-initSoundCloudWidget payload =
-    Cmd.initSoundCloudWidget payload
+initSoundCloudWidget data =
+    Cmd.initSoundCloudWidget data
 
 
 log : Value -> Cmd msg
-log payload =
-    Cmd.log payload
+log data =
+    Cmd.log data
 
 
 logError : String -> Error -> Cmd msg

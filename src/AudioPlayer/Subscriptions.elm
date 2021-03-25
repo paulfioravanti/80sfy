@@ -4,7 +4,6 @@ import AudioPlayer.Model exposing (AudioPlayer)
 import AudioPlayer.Msg as Msg exposing (Msg)
 import AudioPlayer.Status as Status
 import Json.Decode exposing (Value)
-import PortMessage
 import Ports
 import Value
 
@@ -28,10 +27,10 @@ subscriptions parentMsgs audioPlayer =
 
 
 handlePortMessage : ParentMsgs msgs msg -> AudioPlayer -> Value -> msg
-handlePortMessage parentMsgs audioPlayer portMessage =
+handlePortMessage parentMsgs audioPlayer payload =
     let
-        { tag, payload } =
-            PortMessage.decode portMessage
+        { tag, data } =
+            Ports.decodePayload payload
 
         { audioPlayerMsg, noOpMsg } =
             parentMsgs
@@ -39,14 +38,14 @@ handlePortMessage parentMsgs audioPlayer portMessage =
     case tag of
         "AUDIO_PAUSED" ->
             if Status.isPlaying audioPlayer.status then
-                handleAudioPaused parentMsgs payload
+                handleAudioPaused parentMsgs data
 
             else
                 noOpMsg
 
         "AUDIO_PLAYING" ->
             if not (Status.isPlaying audioPlayer.status) then
-                handleAudioPlaying parentMsgs payload
+                handleAudioPlaying parentMsgs data
 
             else
                 noOpMsg
@@ -55,7 +54,7 @@ handlePortMessage parentMsgs audioPlayer portMessage =
             handleNextTrackNumberRequested audioPlayerMsg
 
         "PLAYLIST_LENGTH_FETCHED" ->
-            handlePlaylistLengthFetched audioPlayerMsg payload
+            handlePlaylistLengthFetched audioPlayerMsg data
 
         _ ->
             noOpMsg
@@ -67,21 +66,21 @@ handleNextTrackNumberRequested audioPlayerMsg =
 
 
 handlePlaylistLengthFetched : (Msg -> msg) -> Value -> msg
-handlePlaylistLengthFetched audioPlayerMsg payload =
+handlePlaylistLengthFetched audioPlayerMsg data =
     let
         playlistLength : Int
         playlistLength =
-            Value.extractIntWithDefault 1 payload
+            Value.extractIntWithDefault 1 data
     in
     Msg.playlistLengthFetched audioPlayerMsg playlistLength
 
 
 handleAudioPaused : ParentMsgs msgs msg -> Value -> msg
-handleAudioPaused { audioPausedMsg, noOpMsg } payload =
+handleAudioPaused { audioPausedMsg, noOpMsg } data =
     let
         currentPosition : Float
         currentPosition =
-            Value.extractFloatWithDefault 0.0 payload
+            Value.extractFloatWithDefault 0.0 data
     in
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
@@ -93,11 +92,11 @@ handleAudioPaused { audioPausedMsg, noOpMsg } payload =
 
 
 handleAudioPlaying : ParentMsgs msgs msg -> Value -> msg
-handleAudioPlaying { audioPlayingMsg, noOpMsg } payload =
+handleAudioPlaying { audioPlayingMsg, noOpMsg } data =
     let
         loadedProgress : Float
         loadedProgress =
-            Value.extractFloatWithDefault 0.0 payload
+            Value.extractFloatWithDefault 0.0 data
     in
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been loaded and can therefore

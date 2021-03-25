@@ -14,8 +14,8 @@ port module Ports.Cmd exposing
 import Error
 import Http exposing (Error)
 import Json.Encode as Encode exposing (Value)
-import PortMessage
 import Ports.Msg as Msg exposing (Msg, SoundCloudWidgetPayload)
+import Ports.Payload as Payload
 
 
 port outbound : Value -> Cmd msg
@@ -25,67 +25,67 @@ cmd : Msg -> Cmd msg
 cmd msg =
     case msg of
         Msg.ExitFullscreen ->
-            outbound (PortMessage.withTag "EXIT_FULL_SCREEN")
+            outbound (Payload.withTag "EXIT_FULL_SCREEN")
 
         Msg.HaltVideos ->
-            outbound (PortMessage.withTag "HALT_VIDEOS")
+            outbound (Payload.withTag "HALT_VIDEOS")
 
         Msg.InitSoundCloudWidget { id, volume } ->
             let
-                payload : Value
-                payload =
+                data : Value
+                data =
                     Encode.object
                         [ ( "id", Encode.string id )
                         , ( "volume", Encode.int volume )
                         ]
 
-                portMessage : Value
-                portMessage =
-                    PortMessage.withTaggedPayload ( "INIT_WIDGET", payload )
+                payload : Value
+                payload =
+                    Payload.withTaggedData ( "INIT_WIDGET", data )
             in
-            outbound portMessage
+            outbound payload
 
-        Msg.Log payload ->
-            outbound (PortMessage.withTaggedPayload ( "LOG", payload ))
+        Msg.Log data ->
+            outbound (Payload.withTaggedData ( "LOG", data ))
 
         Msg.PauseAudio ->
-            outbound (PortMessage.withTag "PAUSE_AUDIO")
+            outbound (Payload.withTag "PAUSE_AUDIO")
 
         Msg.PauseVideos ->
-            outbound (PortMessage.withTag "PAUSE_VIDEOS")
+            outbound (Payload.withTag "PAUSE_VIDEOS")
 
         Msg.PlayAudio ->
-            outbound (PortMessage.withTag "PLAY_AUDIO")
+            outbound (Payload.withTag "PLAY_AUDIO")
 
         Msg.PlayVideos ->
-            outbound (PortMessage.withTag "PLAY_VIDEOS")
+            outbound (Payload.withTag "PLAY_VIDEOS")
 
         Msg.SetVolume volume ->
             let
-                payload : Value
-                payload =
+                data : Value
+                data =
                     Encode.object [ ( "volume", Encode.int volume ) ]
 
-                portMessage : Value
-                portMessage =
-                    PortMessage.withTaggedPayload ( "SET_VOLUME", payload )
+                payload : Value
+                payload =
+                    Payload.withTaggedData ( "SET_VOLUME", data )
             in
-            outbound portMessage
+            outbound payload
 
         Msg.SkipToTrack trackNumber ->
             let
-                payload : Value
-                payload =
+                data : Value
+                data =
                     Encode.object [ ( "trackNumber", Encode.int trackNumber ) ]
 
-                portMessage : Value
-                portMessage =
-                    PortMessage.withTaggedPayload ( "SKIP_TO_TRACK", payload )
+                payload : Value
+                payload =
+                    Payload.withTaggedData ( "SKIP_TO_TRACK", data )
             in
-            outbound portMessage
+            outbound payload
 
         Msg.ToggleFullscreen ->
-            outbound (PortMessage.withTag "TOGGLE_FULL_SCREEN")
+            outbound (Payload.withTag "TOGGLE_FULL_SCREEN")
 
 
 exitFullscreen : Cmd msg

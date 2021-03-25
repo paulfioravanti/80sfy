@@ -3,10 +3,10 @@ export const SoundCloudWidget = {
 }
 
 function init(ports) {
-  ports.outbound.subscribe(({ tag, payload }) => {
+  ports.outbound.subscribe(({ tag, data }) => {
     switch (tag) {
     case "INIT_WIDGET":
-      initWidget(ports, payload)
+      initWidget(ports, data)
       break
     }
   })
@@ -46,7 +46,7 @@ function initAudioPlayer(scPlayer, volume, ports) {
     scPlayer.getSounds(sounds => {
       ports.inbound.send({
         tag: "PLAYLIST_LENGTH_FETCHED",
-        payload: sounds.length
+        data: sounds.length
       })
     })
   }, 3000)
@@ -56,13 +56,13 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
   scPlayer.bind(SC.Widget.Events.PLAY, sound => {
     ports.inbound.send({
       tag: "AUDIO_PLAYING",
-      payload: sound.loadedProgress
+      data: sound.loadedProgress
     })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
     ports.inbound.send({
       tag: "AUDIO_PAUSED",
-      payload: sound.currentPosition
+      data: sound.currentPosition
     })
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
@@ -73,7 +73,7 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
 }
 
 function initPortSubscriptions(scPlayer, ports) {
-  ports.outbound.subscribe(({ tag, payload }) => {
+  ports.outbound.subscribe(({ tag, data }) => {
     switch (tag) {
     case "PLAY_AUDIO":
       scPlayer.play()
@@ -82,14 +82,14 @@ function initPortSubscriptions(scPlayer, ports) {
       scPlayer.pause()
       break
     case "SET_VOLUME":
-      scPlayer.setVolume(payload.volume)
+      scPlayer.setVolume(data.volume)
       break
     case "SKIP_TO_TRACK":
       // NOTE: The call to `scPlayer.skip` forcably *unpauses* the player, so if
       // the player was originally paused before the `skip` command, we want to
       // keep the SoundCloud widget player paused by *re-pausing* it.
       scPlayer.isPaused((paused) => {
-        scPlayer.skip(payload.trackNumber)
+        scPlayer.skip(data.trackNumber)
         if (paused) {
           scPlayer.pause()
         }
