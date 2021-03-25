@@ -67,12 +67,12 @@ adjustVolumeMsg audioPlayerMsg sliderVolume =
 
 audioPausedMsg : Msg
 audioPausedMsg =
-    Msg.audioPaused
+    Msg.AudioPaused
 
 
 audioPlayingMsg : Msg
 audioPlayingMsg =
-    Msg.audioPlaying
+    Msg.AudioPlaying
 
 
 isMuted : AudioPlayer -> Bool
@@ -87,7 +87,7 @@ isPlaying audioPlayer =
 
 nextTrackMsg : (Msg -> msg) -> msg
 nextTrackMsg audioPlayerMsg =
-    Msg.nextTrack audioPlayerMsg
+    audioPlayerMsg Msg.NextTrack
 
 
 performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
@@ -137,7 +137,7 @@ subscriptions parentMsgs audioPlayer =
 
 toggleMuteMsg : (Msg -> msg) -> msg
 toggleMuteMsg audioPlayerMsg =
-    Msg.toggleMute audioPlayerMsg
+    audioPlayerMsg Msg.ToggleMute
 
 
 update :

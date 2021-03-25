@@ -51,18 +51,13 @@ handlePortMessage parentMsgs audioPlayer payload =
                 noOpMsg
 
         "NEXT_TRACK_NUMBER_REQUESTED" ->
-            handleNextTrackNumberRequested audioPlayerMsg
+            audioPlayerMsg Msg.NextTrackNumberRequested
 
         "PLAYLIST_LENGTH_FETCHED" ->
             handlePlaylistLengthFetched audioPlayerMsg data
 
         _ ->
             noOpMsg
-
-
-handleNextTrackNumberRequested : (Msg -> msg) -> msg
-handleNextTrackNumberRequested audioPlayerMsg =
-    Msg.nextTrackNumberRequested audioPlayerMsg
 
 
 handlePlaylistLengthFetched : (Msg -> msg) -> Value -> msg

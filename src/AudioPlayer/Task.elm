@@ -18,7 +18,7 @@ performAudioPlayerReset audioPlayerMsg soundCloudPlaylistUrl =
 
 performNextTrackSelection : (Msg -> msg) -> Cmd msg
 performNextTrackSelection audioPlayerMsg =
-    Msg.nextTrack audioPlayerMsg
+    audioPlayerMsg Msg.NextTrack
         |> Task.succeed
         |> Task.perform identity
 
