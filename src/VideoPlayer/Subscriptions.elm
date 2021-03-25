@@ -72,16 +72,16 @@ handlePayload parentMsgs context videoPlayer1 payload =
                 (videoPlayer1.status == Status.playing)
                     && not context.overrideInactivityPause
             then
-                Msg.videosHalted videoPlayerMsg
+                videoPlayerMsg Msg.VideosHalted
 
             else
                 noOpMsg
 
         "VIDEOS_PAUSED" ->
-            Msg.videosPaused videoPlayerMsg
+            videoPlayerMsg Msg.VideosPaused
 
         "VIDEOS_PLAYING" ->
-            Msg.videosPlaying videoPlayerMsg
+            videoPlayerMsg Msg.VideosPlaying
 
         "WINDOW_BLURRED" ->
             if videoPlayer1.status == Status.playing then

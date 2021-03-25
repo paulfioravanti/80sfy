@@ -2,9 +2,6 @@ module VideoPlayer.Msg exposing
     ( Msg(..)
     , animateVideoPlayer
     , randomGifUrlFetched
-    , videosHalted
-    , videosPaused
-    , videosPlaying
     )
 
 import Animation
@@ -32,18 +29,3 @@ randomGifUrlFetched :
     -> msg
 randomGifUrlFetched videoPlayerMsg videoPlayerId gifUrl =
     videoPlayerMsg (RandomGifUrlFetched videoPlayerId gifUrl)
-
-
-videosHalted : (Msg -> msg) -> msg
-videosHalted videoPlayerMsg =
-    videoPlayerMsg VideosHalted
-
-
-videosPaused : (Msg -> msg) -> msg
-videosPaused videoPlayerMsg =
-    videoPlayerMsg VideosPaused
-
-
-videosPlaying : (Msg -> msg) -> msg
-videosPlaying videoPlayerMsg =
-    videoPlayerMsg VideosPlaying
