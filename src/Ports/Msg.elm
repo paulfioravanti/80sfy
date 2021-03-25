@@ -1,13 +1,4 @@
-module Ports.Msg exposing
-    ( Msg(..)
-    , SoundCloudWidgetPayload
-    , haltVideosMsg
-    , pauseAudioMsg
-    , pauseVideosMsg
-    , playAudioMsg
-    , playVideosMsg
-    , toggleFullscreenMsg
-    )
+module Ports.Msg exposing (Msg(..), SoundCloudWidgetPayload)
 
 import Json.Encode exposing (Value)
 
@@ -30,33 +21,3 @@ type Msg
     | SetVolume Int
     | SkipToTrack Int
     | ToggleFullscreen
-
-
-haltVideosMsg : (Msg -> msg) -> msg
-haltVideosMsg portsMsg =
-    portsMsg HaltVideos
-
-
-pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg portsMsg =
-    portsMsg PauseAudio
-
-
-pauseVideosMsg : (Msg -> msg) -> msg
-pauseVideosMsg portsMsg =
-    portsMsg PauseVideos
-
-
-playAudioMsg : (Msg -> msg) -> msg
-playAudioMsg portsMsg =
-    portsMsg PlayAudio
-
-
-playVideosMsg : (Msg -> msg) -> msg
-playVideosMsg portsMsg =
-    portsMsg PlayVideos
-
-
-toggleFullscreenMsg : (Msg -> msg) -> msg
-toggleFullscreenMsg portsMsg =
-    portsMsg ToggleFullscreen
