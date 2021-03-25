@@ -43,7 +43,7 @@ subscriptions parentMsgs controlPanel =
 
 toggleHideWhenInactiveMsg : (Msg -> msg) -> msg
 toggleHideWhenInactiveMsg controlPanelMsg =
-    Msg.toggleHideWhenInactive controlPanelMsg
+    controlPanelMsg Msg.ToggleHideWhenInactive
 
 
 update : Msg -> ControlPanel -> ControlPanel
