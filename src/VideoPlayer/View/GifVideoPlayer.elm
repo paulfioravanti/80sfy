@@ -14,8 +14,8 @@ import VideoPlayer.View.ParentMsgs exposing (ParentMsgs)
 import VideoPlayer.View.Styles as Styles
 
 
-view : Bool -> GifUrl -> ParentMsgs msgs msg -> VideoPlayer -> Html msg
-view audioPlaying gifUrl parentMsgs ({ status } as videoPlayer) =
+view : ParentMsgs msgs msg -> Bool -> GifUrl -> VideoPlayer -> Html msg
+view parentMsgs audioPlaying gifUrl ({ status } as videoPlayer) =
     let
         overlayVisible : Bool
         overlayVisible =

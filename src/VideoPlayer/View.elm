@@ -20,4 +20,4 @@ view parentMsgs audioPlaying videoPlayer =
                 _ ->
                     videoPlayer.fallbackGifUrl
     in
-    GifVideoPlayer.view audioPlaying gifUrl parentMsgs videoPlayer
+    GifVideoPlayer.view parentMsgs audioPlaying gifUrl videoPlayer
