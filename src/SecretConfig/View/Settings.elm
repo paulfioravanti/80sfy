@@ -151,7 +151,7 @@ overrideInactivityPauseButton : (Msg -> msg) -> Html msg
 overrideInactivityPauseButton secretConfigMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Msg.toggleInactivityPauseOverride secretConfigMsg)
+        , onClick (secretConfigMsg Msg.ToggleInactivityPauseOverride)
         ]
         [ text "Toggle Inactivity Pause" ]
 

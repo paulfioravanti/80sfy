@@ -27,6 +27,6 @@ secretConfigButton secretConfigMsg =
     div
         [ attribute "data-name" "secret-config-button"
         , css [ Styles.secretConfigButton ]
-        , onClick (Msg.toggleVisibility secretConfigMsg)
+        , onClick (secretConfigMsg Msg.ToggleVisibility)
         ]
         []
