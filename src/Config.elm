@@ -59,7 +59,7 @@ saveMsg :
     -> GifDisplayIntervalSeconds
     -> Msg
 saveMsg soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds =
-    Msg.save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
+    Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds
 
 
 update : Update.ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
