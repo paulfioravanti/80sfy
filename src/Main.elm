@@ -7,7 +7,7 @@ import Http exposing (Error)
 import Model exposing (Model)
 import Msg exposing (Msg, Msgs)
 import Ports exposing (SoundCloudWidgetPayload)
-import SecretConfig exposing (SecretConfig)
+import SecretConfig
 import Subscriptions
 import Tag
 import Update

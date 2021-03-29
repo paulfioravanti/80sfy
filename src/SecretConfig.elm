@@ -2,7 +2,6 @@ module SecretConfig exposing
     ( Msg
     , SecretConfig
     , init
-    , performInitTags
     , randomTagGeneratedMsg
     , rawVolumeAdjustmentRate
     , saveMsg
@@ -17,7 +16,6 @@ import Html.Styled exposing (Html)
 import Http exposing (Error)
 import SecretConfig.Model as Model
 import SecretConfig.Msg as Msg
-import SecretConfig.Task as Task
 import SecretConfig.Update as Update
 import SecretConfig.View as View
 import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
@@ -41,11 +39,6 @@ type alias VolumeAdjustmentRate =
 init : Flags -> SecretConfig
 init flags =
     Model.init flags
-
-
-performInitTags : (Msg -> msg) -> List String -> Cmd msg
-performInitTags secretConfigMsg tags =
-    Task.performInitTags secretConfigMsg tags
 
 
 randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
