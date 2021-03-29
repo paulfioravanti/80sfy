@@ -1,9 +1,9 @@
 module Model exposing (Model, init)
 
 import AudioPlayer exposing (AudioPlayer)
+import Config exposing (SecretConfig)
 import ControlPanel exposing (ControlPanel)
 import Flags exposing (Flags)
-import SecretConfig exposing (SecretConfig)
 import VideoPlayer exposing (VideoPlayer, VideoPlayerZIndex)
 
 
@@ -21,7 +21,7 @@ init flags =
     let
         config : SecretConfig
         config =
-            SecretConfig.init flags
+            Config.init flags
 
         videoPlayer1zIndex : VideoPlayerZIndex
         videoPlayer1zIndex =

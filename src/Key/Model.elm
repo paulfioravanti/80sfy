@@ -1,9 +1,9 @@
 module Key.Model exposing (Key, ParentMsgs, fromString, pressed)
 
 import AudioPlayer exposing (AudioPlayer)
+import Config exposing (SecretConfig)
 import Model exposing (Model)
 import Ports
-import SecretConfig exposing (SecretConfig)
 import Tasks
 import VideoPlayer
 
@@ -98,7 +98,7 @@ adjustVolume { volume } { volumeAdjustmentRate } operator =
 
         adjustmentRate : Int
         adjustmentRate =
-            SecretConfig.rawVolumeAdjustmentRate volumeAdjustmentRate
+            Config.rawVolumeAdjustmentRate volumeAdjustmentRate
 
         newVolume : Int
         newVolume =

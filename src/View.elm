@@ -2,6 +2,7 @@ module View exposing (view)
 
 import AudioPlayer
 import Browser exposing (Document)
+import Config
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled exposing (div)
@@ -9,7 +10,6 @@ import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
-import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer
@@ -28,7 +28,7 @@ type alias Msgs msgs =
             -> List Tag
             -> GifDisplayIntervalSeconds
             -> Msg
-        , secretConfigMsg : SecretConfig.Msg -> Msg
+        , secretConfigMsg : Config.Msg -> Msg
         , showApplicationStateMsg : Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
@@ -51,7 +51,7 @@ view msgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
                 [ ControlPanel.view msgs model
                 , VideoPlayer.view msgs audioPlaying videoPlayer1
                 , VideoPlayer.view msgs audioPlaying videoPlayer2
-                , SecretConfig.view msgs secretConfig
+                , Config.view msgs secretConfig
                 ]
             ]
     }

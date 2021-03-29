@@ -2,12 +2,12 @@ module Update exposing (update)
 
 import ApplicationState
 import AudioPlayer
+import Config
 import ControlPanel exposing (ControlPanel)
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
-import SecretConfig
 import Tag exposing (Tag)
 import Tasks
 import VideoPlayer
@@ -19,7 +19,7 @@ type alias Msgs msgs =
         , pauseMsg : Msg
         , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
-        , secretConfigMsg : SecretConfig.Msg -> Msg
+        , secretConfigMsg : Config.Msg -> Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
@@ -76,7 +76,7 @@ update parentMsgs msg model =
 
                 randomTagGeneratedMsg : Tag -> Msg
                 randomTagGeneratedMsg =
-                    SecretConfig.randomTagGeneratedMsg
+                    Config.randomTagGeneratedMsg
                         Msg.SecretConfig
                         nowHiddenVideoPlayerId
 
@@ -118,22 +118,22 @@ update parentMsgs msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                saveConfigMsg : SecretConfig.Msg
+                saveConfigMsg : Config.Msg
                 saveConfigMsg =
-                    SecretConfig.saveMsg
+                    Config.saveMsg
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
 
                 ( secretConfig, cmd ) =
-                    SecretConfig.update parentMsgs saveConfigMsg model.secretConfig
+                    Config.update parentMsgs saveConfigMsg model.secretConfig
             in
             ( { model | secretConfig = secretConfig }, cmd )
 
         Msg.SecretConfig msgForSecretConfig ->
             let
                 ( secretConfig, cmd ) =
-                    SecretConfig.update
+                    Config.update
                         parentMsgs
                         msgForSecretConfig
                         model.secretConfig

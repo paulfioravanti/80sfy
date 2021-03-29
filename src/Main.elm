@@ -2,12 +2,12 @@ module Main exposing (main)
 
 import AudioPlayer
 import Browser
+import Config
 import Flags exposing (Flags)
 import Http exposing (Error)
 import Model exposing (Model)
 import Msg exposing (Msg, Msgs)
 import Ports exposing (SoundCloudWidgetPayload)
-import SecretConfig
 import Subscriptions
 import Tag
 import Update
@@ -45,7 +45,7 @@ init flags =
 
         tagsFetchedMsg : Result Error (List String) -> Msg
         tagsFetchedMsg =
-            SecretConfig.tagsFetchedMsg Msg.SecretConfig
+            Config.tagsFetchedMsg Msg.SecretConfig
     in
     ( model
     , Cmd.batch

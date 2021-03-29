@@ -1,4 +1,4 @@
-module SecretConfig exposing
+module Config exposing
     ( Msg
     , SecretConfig
     , init

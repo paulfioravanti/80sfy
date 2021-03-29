@@ -1,12 +1,12 @@
 module ApplicationState exposing (show)
 
 import AudioPlayer exposing (AudioPlayer)
+import Config exposing (SecretConfig)
 import ControlPanel exposing (ControlPanel)
 import Gif
 import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
 import Ports
-import SecretConfig exposing (SecretConfig)
 import SoundCloud
 import Tag
 import VideoPlayer exposing (VideoPlayer)
@@ -100,7 +100,7 @@ secretConfigJson secretConfig =
 
         volumeAdjustmentRate : Int
         volumeAdjustmentRate =
-            SecretConfig.rawVolumeAdjustmentRate secretConfig.volumeAdjustmentRate
+            Config.rawVolumeAdjustmentRate secretConfig.volumeAdjustmentRate
     in
     -- Do not output Giphy API key
     Encode.object
