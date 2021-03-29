@@ -18,6 +18,7 @@ import VideoPlayer
 type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
+        , configMsg : Config.Msg -> Msg
         , controlPanelMsg : ControlPanel.Msg -> Msg
         , noOpMsg : Msg
         , pauseMsg : Msg
@@ -28,7 +29,6 @@ type alias Msgs msgs =
             -> List Tag
             -> GifDisplayIntervalSeconds
             -> Msg
-        , secretConfigMsg : Config.Msg -> Msg
         , showApplicationStateMsg : Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }

@@ -10,13 +10,13 @@ import Tag exposing (Tag)
 
 type alias ParentMsgs msgs msg =
     { msgs
-        | controlPanelMsg : ControlPanel.Msg -> msg
+        | configMsg : Msg -> msg
+        , controlPanelMsg : ControlPanel.Msg -> msg
         , portsMsg : Ports.Msg -> msg
         , saveConfigMsg :
             SoundCloudPlaylistUrl
             -> List Tag
             -> GifDisplayIntervalSeconds
             -> msg
-        , secretConfigMsg : Msg -> msg
         , showApplicationStateMsg : msg
     }

@@ -31,7 +31,7 @@ import Tag exposing (Tag)
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
 view parentMsgs secretConfig =
     let
-        { portsMsg, secretConfigMsg } =
+        { portsMsg, configMsg } =
             parentMsgs
     in
     div
@@ -40,19 +40,19 @@ view parentMsgs secretConfig =
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput secretConfigMsg secretConfig.tags
+        , gifTagsInput configMsg secretConfig.tags
         , span []
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput
-            secretConfigMsg
+            configMsg
             secretConfig.soundCloudPlaylistUrl
         , span []
             [ text "Gif Display Seconds:" ]
-        , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplayIntervalSeconds
+        , gifDisplaySecondsInput configMsg secretConfig.gifDisplayIntervalSeconds
         , saveSettingsButton parentMsgs.saveConfigMsg secretConfig
         , showStateButton parentMsgs.showApplicationStateMsg
         , overrideControlPanelHideButton parentMsgs.controlPanelMsg
-        , overrideInactivityPauseButton secretConfigMsg
+        , overrideInactivityPauseButton configMsg
         , pauseGifRotationButton portsMsg
         , playGifRotationButton portsMsg
         , playAudioButton portsMsg
@@ -61,7 +61,7 @@ view parentMsgs secretConfig =
 
 
 gifTagsInput : (Msg -> msg) -> List Tag -> Html msg
-gifTagsInput secretConfigMsg tags =
+gifTagsInput configMsg tags =
     let
         rawTags : String
         rawTags =
@@ -70,13 +70,13 @@ gifTagsInput secretConfigMsg tags =
     textarea
         [ attribute "data-name" "search-tags"
         , css [ Styles.gifTags ]
-        , onInput (Msg.updateTags secretConfigMsg)
+        , onInput (Msg.updateTags configMsg)
         ]
         [ text rawTags ]
 
 
 soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
-soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
+soundCloudPlaylistUrlInput configMsg soundCloudPlaylistUrl =
     let
         playlistUrl : String
         playlistUrl =
@@ -86,13 +86,13 @@ soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
         [ attribute "data-name" "playlist-input"
         , css [ Styles.configInput ]
         , value playlistUrl
-        , onInput (Msg.updateSoundCloudPlaylistUrl secretConfigMsg)
+        , onInput (Msg.updateSoundCloudPlaylistUrl configMsg)
         ]
         []
 
 
 gifDisplaySecondsInput : (Msg -> msg) -> GifDisplayIntervalSeconds -> Html msg
-gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
+gifDisplaySecondsInput configMsg gifDisplayIntervalSeconds =
     let
         gifDisplaySeconds : String
         gifDisplaySeconds =
@@ -104,7 +104,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
         [ attribute "data-name" "gif-display-seconds-input"
         , css [ Styles.configInput ]
         , value gifDisplaySeconds
-        , onInput (Msg.updateGifDisplaySeconds secretConfigMsg)
+        , onInput (Msg.updateGifDisplaySeconds configMsg)
         ]
         []
 
@@ -148,10 +148,10 @@ overrideControlPanelHideButton controlPanelMsg =
 
 
 overrideInactivityPauseButton : (Msg -> msg) -> Html msg
-overrideInactivityPauseButton secretConfigMsg =
+overrideInactivityPauseButton configMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (secretConfigMsg Msg.ToggleInactivityPauseOverride)
+        , onClick (configMsg Msg.ToggleInactivityPauseOverride)
         ]
         [ text "Toggle Inactivity Pause" ]
 

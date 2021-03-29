@@ -24,7 +24,7 @@ type Msg
     | Ports Ports.Msg
     | Play
     | SaveConfig SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
-    | SecretConfig Config.Msg
+    | Config Config.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
 
@@ -33,6 +33,7 @@ type alias Msgs =
     { audioPausedMsg : Msg
     , audioPlayerMsg : AudioPlayer.Msg -> Msg
     , audioPlayingMsg : Msg
+    , configMsg : Config.Msg -> Msg
     , controlPanelMsg : ControlPanel.Msg -> Msg
     , crossFadePlayersMsg : Posix -> Msg
     , keyPressedMsg : Key -> Msg
@@ -45,7 +46,6 @@ type alias Msgs =
         -> List Tag
         -> GifDisplayIntervalSeconds
         -> Msg
-    , secretConfigMsg : Config.Msg -> Msg
     , showApplicationStateMsg : Msg
     , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
@@ -56,6 +56,7 @@ dictionary =
     { audioPausedMsg = AudioPaused
     , audioPlayerMsg = AudioPlayer
     , audioPlayingMsg = AudioPlaying
+    , configMsg = Config
     , controlPanelMsg = ControlPanel
     , crossFadePlayersMsg = CrossFadePlayers
     , keyPressedMsg = KeyPressed
@@ -64,7 +65,6 @@ dictionary =
     , playMsg = Play
     , portsMsg = Ports
     , saveConfigMsg = SaveConfig
-    , secretConfigMsg = SecretConfig
     , showApplicationStateMsg = ShowApplicationState
     , videoPlayerMsg = VideoPlayer
     }

@@ -16,10 +16,10 @@ import VideoPlayer
 type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
+        , configMsg : Config.Msg -> Msg
         , pauseMsg : Msg
         , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
-        , secretConfigMsg : Config.Msg -> Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
 
@@ -61,6 +61,16 @@ update parentMsgs msg model =
             , Cmd.batch [ cmd, Ports.playVideos ]
             )
 
+        Msg.Config msgForSecretConfig ->
+            let
+                ( secretConfig, cmd ) =
+                    Config.update
+                        parentMsgs
+                        msgForSecretConfig
+                        model.secretConfig
+            in
+            ( { model | secretConfig = secretConfig }, cmd )
+
         Msg.ControlPanel msgForControlPanel ->
             let
                 controlPanel : ControlPanel
@@ -77,7 +87,7 @@ update parentMsgs msg model =
                 randomTagGeneratedMsg : Tag -> Msg
                 randomTagGeneratedMsg =
                     Config.randomTagGeneratedMsg
-                        Msg.SecretConfig
+                        Msg.Config
                         nowHiddenVideoPlayerId
 
                 generateRandomTagForHiddenVideoPlayer : Cmd Msg
@@ -127,16 +137,6 @@ update parentMsgs msg model =
 
                 ( secretConfig, cmd ) =
                     Config.update parentMsgs saveConfigMsg model.secretConfig
-            in
-            ( { model | secretConfig = secretConfig }, cmd )
-
-        Msg.SecretConfig msgForSecretConfig ->
-            let
-                ( secretConfig, cmd ) =
-                    Config.update
-                        parentMsgs
-                        msgForSecretConfig
-                        model.secretConfig
             in
             ( { model | secretConfig = secretConfig }, cmd )
 

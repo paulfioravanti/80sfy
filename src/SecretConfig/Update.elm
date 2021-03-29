@@ -15,7 +15,7 @@ import VideoPlayer exposing (VideoPlayerId)
 type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
-        , secretConfigMsg : Msg -> msg
+        , configMsg : Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
@@ -80,7 +80,7 @@ update parentMsgs msg secretConfig =
                         randomTagGeneratedMsg : Tag -> msg
                         randomTagGeneratedMsg =
                             Msg.randomTagGenerated
-                                parentMsgs.secretConfigMsg
+                                parentMsgs.configMsg
                                 videoPlayerId
                     in
                     Tag.generateRandomTag randomTagGeneratedMsg tags
@@ -88,7 +88,7 @@ update parentMsgs msg secretConfig =
                 performInitSecretConfigTags : Cmd msg
                 performInitSecretConfigTags =
                     Task.performInitTags
-                        parentMsgs.secretConfigMsg
+                        parentMsgs.configMsg
                         rawTags
             in
             ( { secretConfig | tags = tags }

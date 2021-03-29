@@ -45,7 +45,7 @@ init flags =
 
         tagsFetchedMsg : Result Error (List String) -> Msg
         tagsFetchedMsg =
-            Config.tagsFetchedMsg Msg.SecretConfig
+            Config.tagsFetchedMsg Msg.Config
     in
     ( model
     , Cmd.batch
