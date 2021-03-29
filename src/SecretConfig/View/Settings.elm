@@ -25,7 +25,7 @@ import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SecretConfig.View.Styles as Styles
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (TagsString)
+import Tag exposing (Tag)
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
@@ -48,7 +48,7 @@ view parentMsgs secretConfig =
             secretConfig.soundCloudPlaylistUrl
         , span []
             [ text "Gif Display Seconds:" ]
-        , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplaySeconds
+        , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplayIntervalSeconds
         , saveSettingsButton parentMsgs.saveConfigMsg secretConfig
         , showStateButton parentMsgs.showApplicationStateMsg
         , overrideControlPanelHideButton parentMsgs.controlPanelMsg
@@ -60,7 +60,7 @@ view parentMsgs secretConfig =
         ]
 
 
-gifTagsInput : (Msg -> msg) -> TagsString -> Html msg
+gifTagsInput : (Msg -> msg) -> List Tag -> Html msg
 gifTagsInput secretConfigMsg tags =
     let
         rawTags : String
@@ -110,7 +110,7 @@ gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
 
 
 saveSettingsButton :
-    (SoundCloudPlaylistUrl -> TagsString -> GifDisplayIntervalSeconds -> msg)
+    (SoundCloudPlaylistUrl -> List Tag -> GifDisplayIntervalSeconds -> msg)
     -> SecretConfig
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =
@@ -120,7 +120,7 @@ saveSettingsButton saveConfigMsg secretConfig =
             saveConfigMsg
                 secretConfig.soundCloudPlaylistUrl
                 secretConfig.tags
-                secretConfig.gifDisplaySeconds
+                secretConfig.gifDisplayIntervalSeconds
     in
     button
         [ css [ Styles.configButton ]

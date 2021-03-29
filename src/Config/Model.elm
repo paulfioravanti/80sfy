@@ -3,13 +3,12 @@ module Config.Model exposing
     , VolumeAdjustmentRate
     , init
     , rawVolumeAdjustmentRate
-    , update
     )
 
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag, TagsString)
+import Tag exposing (Tag)
 import Value
 
 
@@ -51,32 +50,3 @@ init flags =
 rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int
 rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
     rawVolumeAdjustmentRateInt
-
-
-update :
-    SoundCloudPlaylistUrl
-    -> TagsString
-    -> GifDisplayIntervalSeconds
-    -> Config
-    -> Config
-update soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds config =
-    let
-        ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds
-        ignoreNonPositiveSeconds seconds =
-            if seconds < 1 then
-                config.gifDisplayIntervalSeconds
-
-            else
-                Gif.displayIntervalSeconds seconds
-
-        displayIntervalSeconds : GifDisplayIntervalSeconds
-        displayIntervalSeconds =
-            gifDisplayIntervalSeconds
-                |> Gif.rawDisplayIntervalSeconds
-                |> ignoreNonPositiveSeconds
-    in
-    { config
-        | gifDisplayIntervalSeconds = displayIntervalSeconds
-        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-        , tags = Tag.tagList tagsString
-    }

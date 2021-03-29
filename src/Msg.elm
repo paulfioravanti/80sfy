@@ -8,7 +8,7 @@ import Key exposing (Key)
 import Ports
 import SecretConfig
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (TagsString)
+import Tag exposing (Tag)
 import Time exposing (Posix)
 import VideoPlayer
 
@@ -25,7 +25,7 @@ type Msg
     | Pause
     | Ports Ports.Msg
     | Play
-    | SaveConfig SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
+    | SaveConfig SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
@@ -45,7 +45,7 @@ type alias Msgs =
     , portsMsg : Ports.Msg -> Msg
     , saveConfigMsg :
         SoundCloudPlaylistUrl
-        -> TagsString
+        -> List Tag
         -> GifDisplayIntervalSeconds
         -> Msg
     , secretConfigMsg : SecretConfig.Msg -> Msg

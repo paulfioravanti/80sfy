@@ -1,14 +1,11 @@
 module Tag exposing
     ( Tag
-    , TagsString
     , fetchTags
     , generateRandomTag
-    , listToTagsString
     , rawTag
     , rawTagsString
     , tag
     , tagList
-    , tagsString
     )
 
 import Http exposing (Error)
@@ -18,10 +15,6 @@ import Random exposing (Generator)
 
 type Tag
     = Tag String
-
-
-type TagsString
-    = TagsString String
 
 
 fetchTags : (Result Error (List String) -> msg) -> Cmd msg
@@ -55,21 +48,16 @@ generateRandomTag randomTagGeneratedMsg tags =
     Random.generate randomTagGeneratedMsg generator
 
 
-listToTagsString : List String -> TagsString
-listToTagsString tags =
-    tags
-        |> String.join ", "
-        |> tagsString
-
-
 rawTag : Tag -> String
 rawTag (Tag tagString) =
     tagString
 
 
-rawTagsString : TagsString -> String
-rawTagsString (TagsString tagsStringString) =
-    tagsStringString
+rawTagsString : List Tag -> String
+rawTagsString tagsList =
+    tagsList
+        |> List.map rawTag
+        |> String.join ", "
 
 
 tag : String -> Tag
@@ -77,17 +65,12 @@ tag rawTagString =
     Tag rawTagString
 
 
-tagList : TagsString -> List Tag
-tagList (TagsString rawTagsStringString) =
-    rawTagsStringString
+tagList : String -> List Tag
+tagList tagsString =
+    tagsString
         |> String.split ", "
         |> List.map String.trim
         |> List.map tag
-
-
-tagsString : String -> TagsString
-tagsString rawTagsStringString =
-    TagsString rawTagsStringString
 
 
 

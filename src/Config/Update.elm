@@ -1,7 +1,7 @@
 module Config.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
-import Config.Model as Model exposing (Config)
+import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
 import Gif
 import Http exposing (Error)
@@ -39,31 +39,6 @@ update parentMsgs msg config =
                         tag
             in
             ( config, fetchRandomGifUrl )
-
-        Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
-            let
-                updatedConfig : Config
-                updatedConfig =
-                    Model.update
-                        soundCloudPlaylistUrl
-                        tagsString
-                        gifDisplayIntervalSeconds
-                        config
-
-                cmd : Cmd msg
-                cmd =
-                    if
-                        soundCloudPlaylistUrl
-                            == config.soundCloudPlaylistUrl
-                    then
-                        Cmd.none
-
-                    else
-                        AudioPlayer.performAudioPlayerReset
-                            parentMsgs.audioPlayerMsg
-                            soundCloudPlaylistUrl
-            in
-            ( updatedConfig, cmd )
 
         Msg.TagsFetched (Ok rawTags) ->
             let

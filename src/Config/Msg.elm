@@ -1,16 +1,13 @@
 module Config.Msg exposing (Msg(..), randomTagGenerated, tagsFetched)
 
-import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
-import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag, TagsString)
+import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
     = TagsFetched (Result Error (List String))
     | RandomTagGenerated VideoPlayerId Tag
-    | Save SoundCloudPlaylistUrl TagsString GifDisplayIntervalSeconds
 
 
 randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg

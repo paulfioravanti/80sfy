@@ -8,7 +8,7 @@ import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
-import SecretConfig exposing (SecretConfig)
+import SecretConfig
 import Tag exposing (Tag)
 import Tasks
 import VideoPlayer
@@ -127,25 +127,27 @@ update parentMsgs msg model =
 
         Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
             let
-                saveConfigMsg : Config.Msg
+                saveConfigMsg : SecretConfig.Msg
                 saveConfigMsg =
-                    Config.saveMsg
+                    SecretConfig.saveMsg
                         soundCloudPlaylistUrl
                         tagsString
                         gifDisplaySecondsString
 
-                ( config, cmd ) =
-                    Config.update parentMsgs saveConfigMsg model.config
+                ( secretConfig, cmd ) =
+                    SecretConfig.update parentMsgs saveConfigMsg model.secretConfig
             in
-            ( { model | config = config }, cmd )
+            ( { model | secretConfig = secretConfig }, cmd )
 
         Msg.SecretConfig msgForSecretConfig ->
             let
-                secretConfig : SecretConfig
-                secretConfig =
-                    SecretConfig.update msgForSecretConfig model.secretConfig
+                ( secretConfig, cmd ) =
+                    SecretConfig.update
+                        parentMsgs
+                        msgForSecretConfig
+                        model.secretConfig
             in
-            ( { model | secretConfig = secretConfig }, Cmd.none )
+            ( { model | secretConfig = secretConfig }, cmd )
 
         Msg.ShowApplicationState ->
             ( model, ApplicationState.show model )

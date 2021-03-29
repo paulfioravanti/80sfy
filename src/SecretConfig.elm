@@ -3,6 +3,7 @@ module SecretConfig exposing
     , SecretConfig
     , init
     , performInitTags
+    , saveMsg
     , update
     , view
     )
@@ -16,6 +17,7 @@ import SecretConfig.Update as Update
 import SecretConfig.View as View
 import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (Tag)
 
 
 type alias SecretConfig =
@@ -36,9 +38,22 @@ performInitTags secretConfigMsg tags =
     Task.performInitTags secretConfigMsg tags
 
 
-update : Msg -> SecretConfig -> SecretConfig
-update msg secretConfig =
-    Update.update msg secretConfig
+saveMsg :
+    SoundCloudPlaylistUrl
+    -> List Tag
+    -> GifDisplayIntervalSeconds
+    -> Msg
+saveMsg soundCloudPlaylistUrl tagList gifDisplayIntervalSeconds =
+    Msg.Save soundCloudPlaylistUrl tagList gifDisplayIntervalSeconds
+
+
+update :
+    Update.ParentMsgs msgs msg
+    -> Msg
+    -> SecretConfig
+    -> ( SecretConfig, Cmd msg )
+update parentMsgs msg secretConfig =
+    Update.update parentMsgs msg secretConfig
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg

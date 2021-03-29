@@ -6,9 +6,14 @@ module SecretConfig.Msg exposing
     , updateTags
     )
 
+import Gif exposing (GifDisplayIntervalSeconds)
+import SoundCloud exposing (SoundCloudPlaylistUrl)
+import Tag exposing (Tag)
+
 
 type Msg
     = InitTags (List String)
+    | Save SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
     | ToggleInactivityPauseOverride
     | ToggleVisibility
     | UpdateGifDisplaySeconds String

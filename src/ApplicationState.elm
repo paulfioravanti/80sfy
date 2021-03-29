@@ -130,7 +130,7 @@ secretConfigJson secretConfig =
 
         rawGifDisplayIntervalSeconds : Float
         rawGifDisplayIntervalSeconds =
-            Gif.rawDisplayIntervalSeconds secretConfig.gifDisplaySeconds
+            Gif.rawDisplayIntervalSeconds secretConfig.gifDisplayIntervalSeconds
 
         rawTags : String
         rawTags =
