@@ -1,7 +1,7 @@
 module ApplicationState exposing (show)
 
 import AudioPlayer exposing (AudioPlayer)
-import Config exposing (SecretConfig)
+import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import Gif
 import Json.Encode as Encode exposing (Value)
@@ -13,14 +13,14 @@ import VideoPlayer exposing (VideoPlayer)
 
 
 show : Model -> Cmd msg
-show { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
+show { audioPlayer, config, controlPanel, videoPlayer1, videoPlayer2 } =
     let
         applicationState : Value
         applicationState =
             Encode.object
                 [ ( "Audio Player", audioPlayerJson audioPlayer )
+                , ( "Config", configJson config )
                 , ( "Control Panel", controlPanelJson controlPanel )
-                , ( "Secret Config", secretConfigJson secretConfig )
                 , ( "Video Player 1", videoPlayerJson videoPlayer1 )
                 , ( "Video Player 2", videoPlayerJson videoPlayer2 )
                 ]
@@ -70,21 +70,8 @@ audioPlayerJson audioPlayer =
         ]
 
 
-controlPanelJson : ControlPanel -> Value
-controlPanelJson controlPanel =
-    -- Don't bother with printing the animation style state as it's too
-    -- hard to encode and doesn't provide any real useful debug information.
-    let
-        controlPanelState : String
-        controlPanelState =
-            ControlPanel.stateToString controlPanel.state
-    in
-    Encode.object
-        [ ( "state", Encode.string controlPanelState ) ]
-
-
-secretConfigJson : SecretConfig -> Value
-secretConfigJson secretConfig =
+configJson : Config -> Value
+configJson secretConfig =
     let
         rawSoundCloudPlaylistUrl : String
         rawSoundCloudPlaylistUrl =
@@ -123,6 +110,19 @@ secretConfigJson secretConfig =
           , Encode.int volumeAdjustmentRate
           )
         ]
+
+
+controlPanelJson : ControlPanel -> Value
+controlPanelJson controlPanel =
+    -- Don't bother with printing the animation style state as it's too
+    -- hard to encode and doesn't provide any real useful debug information.
+    let
+        controlPanelState : String
+        controlPanelState =
+            ControlPanel.stateToString controlPanel.state
+    in
+    Encode.object
+        [ ( "state", Encode.string controlPanelState ) ]
 
 
 videoPlayerJson : VideoPlayer -> Value

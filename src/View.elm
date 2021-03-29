@@ -35,7 +35,7 @@ type alias Msgs msgs =
 
 
 view : Msgs msgs -> Model -> Document Msg
-view msgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
+view msgs ({ config, videoPlayer1, videoPlayer2 } as model) =
     let
         -- NOTE: There is a circular dependency issue if AudioPlayer is imported
         -- into VideoPlayer, so that's why this value is determined here, rather
@@ -51,7 +51,7 @@ view msgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
                 [ ControlPanel.view msgs model
                 , VideoPlayer.view msgs audioPlaying videoPlayer1
                 , VideoPlayer.view msgs audioPlaying videoPlayer2
-                , Config.view msgs secretConfig
+                , Config.view msgs config
                 ]
             ]
     }

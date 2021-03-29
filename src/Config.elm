@@ -1,6 +1,6 @@
 module Config exposing
-    ( Msg
-    , SecretConfig
+    ( Config
+    , Msg
     , init
     , randomTagGeneratedMsg
     , rawVolumeAdjustmentRate
@@ -24,7 +24,7 @@ import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
 
-type alias SecretConfig =
+type alias Config =
     Model.SecretConfig
 
 
@@ -36,7 +36,7 @@ type alias VolumeAdjustmentRate =
     Model.VolumeAdjustmentRate
 
 
-init : Flags -> SecretConfig
+init : Flags -> Config
 init flags =
     Model.init flags
 
@@ -68,12 +68,12 @@ tagsFetchedMsg configMsg tags =
 update :
     Update.ParentMsgs msgs msg
     -> Msg
-    -> SecretConfig
-    -> ( SecretConfig, Cmd msg )
+    -> Config
+    -> ( Config, Cmd msg )
 update parentMsgs msg secretConfig =
     Update.update parentMsgs msg secretConfig
 
 
-view : ParentMsgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> Config -> Html msg
 view parentMsgs secretConfig =
     View.view parentMsgs secretConfig

@@ -63,13 +63,13 @@ update parentMsgs msg model =
 
         Msg.Config msgForSecretConfig ->
             let
-                ( secretConfig, cmd ) =
+                ( config, cmd ) =
                     Config.update
                         parentMsgs
                         msgForSecretConfig
-                        model.secretConfig
+                        model.config
             in
-            ( { model | secretConfig = secretConfig }, cmd )
+            ( { model | config = config }, cmd )
 
         Msg.ControlPanel msgForControlPanel ->
             let
@@ -92,7 +92,7 @@ update parentMsgs msg model =
 
                 generateRandomTagForHiddenVideoPlayer : Cmd Msg
                 generateRandomTagForHiddenVideoPlayer =
-                    Tag.generateRandomTag randomTagGeneratedMsg model.secretConfig.tags
+                    Tag.generateRandomTag randomTagGeneratedMsg model.config.tags
             in
             ( { model
                 | videoPlayer1 = crossFadedVideoPlayer1
@@ -135,10 +135,10 @@ update parentMsgs msg model =
                         tagsString
                         gifDisplaySecondsString
 
-                ( secretConfig, cmd ) =
-                    Config.update parentMsgs saveConfigMsg model.secretConfig
+                ( config, cmd ) =
+                    Config.update parentMsgs saveConfigMsg model.config
             in
-            ( { model | secretConfig = secretConfig }, cmd )
+            ( { model | config = config }, cmd )
 
         Msg.ShowApplicationState ->
             ( model, ApplicationState.show model )

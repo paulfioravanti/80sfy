@@ -1,7 +1,7 @@
 module Key.Model exposing (Key, ParentMsgs, fromString, pressed)
 
 import AudioPlayer exposing (AudioPlayer)
-import Config exposing (SecretConfig)
+import Config exposing (Config)
 import Model exposing (Model)
 import Ports
 import Tasks
@@ -50,7 +50,7 @@ fromString string =
 
 
 pressed : ParentMsgs msgs msg -> Model -> Key -> Cmd msg
-pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
+pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
     case key of
         Escape ->
             Ports.exitFullscreen
@@ -66,7 +66,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
             let
                 newVolume : String
                 newVolume =
-                    adjustVolume audioPlayer secretConfig (+)
+                    adjustVolume audioPlayer config (+)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -77,7 +77,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
             let
                 newVolume : String
                 newVolume =
-                    adjustVolume audioPlayer secretConfig (-)
+                    adjustVolume audioPlayer config (-)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -89,7 +89,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
 -- PRIVATE
 
 
-adjustVolume : AudioPlayer -> SecretConfig -> (Int -> Int -> Int) -> String
+adjustVolume : AudioPlayer -> Config -> (Int -> Int -> Int) -> String
 adjustVolume { volume } { volumeAdjustmentRate } operator =
     let
         currentVolume : Int
