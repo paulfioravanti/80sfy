@@ -1,12 +1,15 @@
 module SecretConfig.Model exposing (SecretConfig, init, update)
 
-import Gif exposing (GifDisplayIntervalSeconds)
+import Flags exposing (Flags)
+import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
+import Value
 
 
 type alias SecretConfig =
     { gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+    , giphyApiKey : GiphyAPIKey
     , overrideInactivityPause : Bool
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
@@ -14,9 +17,15 @@ type alias SecretConfig =
     }
 
 
-init : SoundCloudPlaylistUrl -> GifDisplayIntervalSeconds -> SecretConfig
-init soundCloudPlaylistUrl gifDisplayIntervalSeconds =
+init : Flags -> SoundCloudPlaylistUrl -> GifDisplayIntervalSeconds -> SecretConfig
+init flags soundCloudPlaylistUrl gifDisplayIntervalSeconds =
+    let
+        rawGiphyApiKeyString : String
+        rawGiphyApiKeyString =
+            Value.extractStringWithDefault "" flags.giphyApiKey
+    in
     { gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+    , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , overrideInactivityPause = False
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
     , tags = []

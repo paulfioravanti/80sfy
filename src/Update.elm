@@ -85,8 +85,8 @@ update parentMsgs msg model =
 
                 randomTagGeneratedMsg : Tag -> Msg
                 randomTagGeneratedMsg =
-                    Config.randomTagGeneratedMsg
-                        Msg.Config
+                    SecretConfig.randomTagGeneratedMsg
+                        Msg.SecretConfig
                         nowHiddenVideoPlayerId
 
                 generateRandomTagForHiddenVideoPlayer : Cmd Msg

@@ -2,15 +2,18 @@ module SecretConfig.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
 import Gif exposing (GifDisplayIntervalSeconds)
+import Http exposing (Error)
 import SecretConfig.Model as Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
 
@@ -19,6 +22,23 @@ update parentMsgs msg secretConfig =
     case msg of
         Msg.InitTags tagList ->
             ( { secretConfig | tags = List.map Tag.tag tagList }, Cmd.none )
+
+        Msg.RandomTagGenerated videoPlayerId tag ->
+            let
+                randomGifUrlFetchedMsg : Result Error String -> msg
+                randomGifUrlFetchedMsg =
+                    VideoPlayer.randomGifUrlFetchedMsg
+                        parentMsgs.videoPlayerMsg
+                        videoPlayerId
+
+                fetchRandomGifUrl : Cmd msg
+                fetchRandomGifUrl =
+                    Gif.fetchRandomGifUrl
+                        randomGifUrlFetchedMsg
+                        secretConfig.giphyApiKey
+                        tag
+            in
+            ( secretConfig, fetchRandomGifUrl )
 
         Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
             let

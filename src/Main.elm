@@ -41,7 +41,7 @@ init flags =
             Config.init flags
 
         ({ audioPlayer } as model) =
-            Model.init config
+            Model.init flags config
 
         widgetPayload : SoundCloudWidgetPayload
         widgetPayload =

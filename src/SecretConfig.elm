@@ -3,11 +3,13 @@ module SecretConfig exposing
     , SecretConfig
     , init
     , performInitTags
+    , randomTagGeneratedMsg
     , saveMsg
     , update
     , view
     )
 
+import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled exposing (Html)
 import SecretConfig.Model as Model
@@ -18,6 +20,7 @@ import SecretConfig.View as View
 import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias SecretConfig =
@@ -28,14 +31,19 @@ type alias Msg =
     Msg.Msg
 
 
-init : SoundCloudPlaylistUrl -> GifDisplayIntervalSeconds -> SecretConfig
-init soundCloudPlaylistUrl gifDisplayIntervalSeconds =
-    Model.init soundCloudPlaylistUrl gifDisplayIntervalSeconds
+init : Flags -> SoundCloudPlaylistUrl -> GifDisplayIntervalSeconds -> SecretConfig
+init flags soundCloudPlaylistUrl gifDisplayIntervalSeconds =
+    Model.init flags soundCloudPlaylistUrl gifDisplayIntervalSeconds
 
 
 performInitTags : (Msg -> msg) -> List String -> Cmd msg
 performInitTags secretConfigMsg tags =
     Task.performInitTags secretConfigMsg tags
+
+
+randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
+randomTagGeneratedMsg configMsg videoPlayerId tag =
+    Msg.randomTagGenerated configMsg videoPlayerId tag
 
 
 saveMsg :

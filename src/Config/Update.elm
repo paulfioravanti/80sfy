@@ -23,23 +23,6 @@ type alias ParentMsgs msgs msg =
 update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update parentMsgs msg config =
     case msg of
-        Msg.RandomTagGenerated videoPlayerId tag ->
-            let
-                randomGifUrlFetchedMsg : Result Error String -> msg
-                randomGifUrlFetchedMsg =
-                    VideoPlayer.randomGifUrlFetchedMsg
-                        parentMsgs.videoPlayerMsg
-                        videoPlayerId
-
-                fetchRandomGifUrl : Cmd msg
-                fetchRandomGifUrl =
-                    Gif.fetchRandomGifUrl
-                        randomGifUrlFetchedMsg
-                        config.giphyApiKey
-                        tag
-            in
-            ( config, fetchRandomGifUrl )
-
         Msg.TagsFetched (Ok rawTags) ->
             let
                 tags : List Tag
@@ -51,8 +34,8 @@ update parentMsgs msg config =
                     let
                         randomTagGeneratedMsg : Tag -> msg
                         randomTagGeneratedMsg =
-                            Msg.randomTagGenerated
-                                parentMsgs.configMsg
+                            SecretConfig.randomTagGeneratedMsg
+                                parentMsgs.secretConfigMsg
                                 videoPlayerId
                     in
                     Tag.generateRandomTag randomTagGeneratedMsg tags

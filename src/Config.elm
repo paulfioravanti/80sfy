@@ -3,7 +3,6 @@ module Config exposing
     , Msg
     , VolumeAdjustmentRate
     , init
-    , randomTagGeneratedMsg
     , rawVolumeAdjustmentRate
     , tagsFetchedMsg
     , update
@@ -33,11 +32,6 @@ type alias VolumeAdjustmentRate =
 init : Flags -> Config
 init flags =
     Model.init flags
-
-
-randomTagGeneratedMsg : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
-randomTagGeneratedMsg configMsg videoPlayerId tag =
-    Msg.randomTagGenerated configMsg videoPlayerId tag
 
 
 rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int

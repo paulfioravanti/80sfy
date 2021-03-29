@@ -1,6 +1,7 @@
 module SecretConfig.Msg exposing
     ( Msg(..)
     , initTags
+    , randomTagGenerated
     , updateGifDisplaySeconds
     , updateSoundCloudPlaylistUrl
     , updateTags
@@ -9,10 +10,12 @@ module SecretConfig.Msg exposing
 import Gif exposing (GifDisplayIntervalSeconds)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
     = InitTags (List String)
+    | RandomTagGenerated VideoPlayerId Tag
     | Save SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
     | ToggleInactivityPauseOverride
     | ToggleVisibility
@@ -24,6 +27,11 @@ type Msg
 initTags : (Msg -> msg) -> List String -> msg
 initTags secretConfigMsg tags =
     secretConfigMsg (InitTags tags)
+
+
+randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg
+randomTagGenerated configMsg videoPlayerId tag =
+    configMsg (RandomTagGenerated videoPlayerId tag)
 
 
 updateGifDisplaySeconds : (Msg -> msg) -> String -> msg
