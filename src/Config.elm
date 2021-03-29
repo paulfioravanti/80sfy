@@ -13,8 +13,6 @@ import Config.Msg as Msg
 import Config.Update as Update
 import Flags exposing (Flags)
 import Http exposing (Error)
-import Tag exposing (Tag)
-import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias Config =

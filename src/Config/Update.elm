@@ -3,8 +3,6 @@ module Config.Update exposing (ParentMsgs, update)
 import AudioPlayer
 import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
-import Gif
-import Http exposing (Error)
 import Ports
 import SecretConfig
 import Tag exposing (Tag)

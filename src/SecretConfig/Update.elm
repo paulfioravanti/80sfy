@@ -7,7 +7,7 @@ import SecretConfig.Model as Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag
-import VideoPlayer exposing (VideoPlayerId)
+import VideoPlayer
 
 
 type alias ParentMsgs msgs msg =
