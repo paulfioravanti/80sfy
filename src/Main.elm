@@ -39,13 +39,13 @@ init flags =
         ({ audioPlayer } as model) =
             Model.init flags
 
-        widgetPayload : SoundCloudWidgetPayload
-        widgetPayload =
-            AudioPlayer.soundCloudWidgetPayload audioPlayer
-
         tagsFetchedMsg : Result Error (List String) -> Msg
         tagsFetchedMsg =
             Config.tagsFetchedMsg Msg.Config
+
+        widgetPayload : SoundCloudWidgetPayload
+        widgetPayload =
+            AudioPlayer.soundCloudWidgetPayload audioPlayer
     in
     ( model
     , Cmd.batch
