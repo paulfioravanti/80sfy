@@ -1,7 +1,6 @@
 module Model exposing (Model, init)
 
 import AudioPlayer exposing (AudioPlayer)
-import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import Flags exposing (Flags)
 import SecretConfig exposing (SecretConfig)
@@ -10,7 +9,6 @@ import VideoPlayer exposing (VideoPlayer, VideoPlayerZIndex)
 
 type alias Model =
     { audioPlayer : AudioPlayer
-    , config : Config
     , controlPanel : ControlPanel
     , secretConfig : SecretConfig
     , videoPlayer1 : VideoPlayer
@@ -18,12 +16,12 @@ type alias Model =
     }
 
 
-init : Flags -> Config -> Model
-init flags ({ gifDisplayIntervalSeconds, soundCloudPlaylistUrl } as config) =
+init : Flags -> Model
+init flags =
     let
-        secretConfig : SecretConfig
-        secretConfig =
-            SecretConfig.init flags soundCloudPlaylistUrl gifDisplayIntervalSeconds
+        config : SecretConfig
+        config =
+            SecretConfig.init flags
 
         videoPlayer1zIndex : VideoPlayerZIndex
         videoPlayer1zIndex =
@@ -33,10 +31,9 @@ init flags ({ gifDisplayIntervalSeconds, soundCloudPlaylistUrl } as config) =
         videoPlayer2zIndex =
             VideoPlayer.zIndex -5
     in
-    { audioPlayer = AudioPlayer.init soundCloudPlaylistUrl
-    , config = config
+    { audioPlayer = AudioPlayer.init config.soundCloudPlaylistUrl
+    , secretConfig = config
     , controlPanel = ControlPanel.init
-    , secretConfig = secretConfig
     , videoPlayer1 = VideoPlayer.init (VideoPlayer.id "1") videoPlayer1zIndex
     , videoPlayer2 = VideoPlayer.init (VideoPlayer.id "2") videoPlayer2zIndex
     }

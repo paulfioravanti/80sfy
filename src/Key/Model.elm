@@ -1,9 +1,9 @@
 module Key.Model exposing (Key, ParentMsgs, fromString, pressed)
 
 import AudioPlayer exposing (AudioPlayer)
-import Config exposing (Config)
 import Model exposing (Model)
 import Ports
+import SecretConfig exposing (SecretConfig)
 import Tasks
 import VideoPlayer
 
@@ -50,7 +50,7 @@ fromString string =
 
 
 pressed : ParentMsgs msgs msg -> Model -> Key -> Cmd msg
-pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
+pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
     case key of
         Escape ->
             Ports.exitFullscreen
@@ -66,7 +66,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
             let
                 newVolume : String
                 newVolume =
-                    adjustVolume audioPlayer config (+)
+                    adjustVolume audioPlayer secretConfig (+)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -77,7 +77,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
             let
                 newVolume : String
                 newVolume =
-                    adjustVolume audioPlayer config (-)
+                    adjustVolume audioPlayer secretConfig (-)
             in
             AudioPlayer.performVolumeAdjustment audioPlayerMsg newVolume
 
@@ -89,7 +89,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, config } key =
 -- PRIVATE
 
 
-adjustVolume : AudioPlayer -> Config -> (Int -> Int -> Int) -> String
+adjustVolume : AudioPlayer -> SecretConfig -> (Int -> Int -> Int) -> String
 adjustVolume { volume } { volumeAdjustmentRate } operator =
     let
         currentVolume : Int
@@ -98,7 +98,7 @@ adjustVolume { volume } { volumeAdjustmentRate } operator =
 
         adjustmentRate : Int
         adjustmentRate =
-            Config.rawVolumeAdjustmentRate volumeAdjustmentRate
+            SecretConfig.rawVolumeAdjustmentRate volumeAdjustmentRate
 
         newVolume : Int
         newVolume =

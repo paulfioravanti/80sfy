@@ -1,7 +1,6 @@
 module ApplicationState exposing (show)
 
 import AudioPlayer exposing (AudioPlayer)
-import Config exposing (Config)
 import ControlPanel exposing (ControlPanel)
 import Gif
 import Json.Encode as Encode exposing (Value)
@@ -14,13 +13,12 @@ import VideoPlayer exposing (VideoPlayer)
 
 
 show : Model -> Cmd msg
-show { audioPlayer, config, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
+show { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
     let
         applicationState : Value
         applicationState =
             Encode.object
                 [ ( "Audio Player", audioPlayerJson audioPlayer )
-                , ( "Config", configJson config )
                 , ( "Control Panel", controlPanelJson controlPanel )
                 , ( "Secret Config", secretConfigJson secretConfig )
                 , ( "Video Player 1", videoPlayerJson videoPlayer1 )
@@ -72,42 +70,6 @@ audioPlayerJson audioPlayer =
         ]
 
 
-configJson : Config -> Value
-configJson config =
-    let
-        rawTags : List String
-        rawTags =
-            List.map Tag.rawTag config.tags
-
-        rawSoundCloudPlaylistUrl : String
-        rawSoundCloudPlaylistUrl =
-            SoundCloud.rawPlaylistUrl config.soundCloudPlaylistUrl
-
-        gifDisplayIntervalSeconds : Float
-        gifDisplayIntervalSeconds =
-            Gif.rawDisplayIntervalSeconds config.gifDisplayIntervalSeconds
-
-        volumeAdjustmentRate : Int
-        volumeAdjustmentRate =
-            Config.rawVolumeAdjustmentRate config.volumeAdjustmentRate
-    in
-    -- Do not output Giphy API key
-    Encode.object
-        [ ( "gifDisplayIntervalSeconds"
-          , Encode.float gifDisplayIntervalSeconds
-          )
-        , ( "soundCloudPlaylistUrl"
-          , Encode.string rawSoundCloudPlaylistUrl
-          )
-        , ( "tags"
-          , Encode.list Encode.string rawTags
-          )
-        , ( "volumeAdjustmentRate"
-          , Encode.int volumeAdjustmentRate
-          )
-        ]
-
-
 controlPanelJson : ControlPanel -> Value
 controlPanelJson controlPanel =
     -- Don't bother with printing the animation style state as it's too
@@ -132,10 +94,15 @@ secretConfigJson secretConfig =
         rawGifDisplayIntervalSeconds =
             Gif.rawDisplayIntervalSeconds secretConfig.gifDisplayIntervalSeconds
 
-        rawTags : String
+        rawTags : List String
         rawTags =
-            Tag.rawTagsString secretConfig.tags
+            List.map Tag.rawTag secretConfig.tags
+
+        volumeAdjustmentRate : Int
+        volumeAdjustmentRate =
+            SecretConfig.rawVolumeAdjustmentRate secretConfig.volumeAdjustmentRate
     in
+    -- Do not output Giphy API key
     Encode.object
         [ ( "gifDisplayIntervalSeconds"
           , Encode.float rawGifDisplayIntervalSeconds
@@ -147,10 +114,13 @@ secretConfigJson secretConfig =
           , Encode.string rawSoundCloudPlaylistUrl
           )
         , ( "tags"
-          , Encode.string rawTags
+          , Encode.list Encode.string rawTags
           )
         , ( "visible"
           , Encode.bool secretConfig.visible
+          )
+        , ( "volumeAdjustmentRate"
+          , Encode.int volumeAdjustmentRate
           )
         ]
 

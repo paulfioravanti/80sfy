@@ -2,7 +2,6 @@ module Update exposing (update)
 
 import ApplicationState
 import AudioPlayer
-import Config
 import ControlPanel exposing (ControlPanel)
 import Key
 import Model exposing (Model)
@@ -17,7 +16,6 @@ import VideoPlayer
 type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
-        , configMsg : Config.Msg -> Msg
         , pauseMsg : Msg
         , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
@@ -63,13 +61,6 @@ update parentMsgs msg model =
             , Cmd.batch [ cmd, Ports.playVideos ]
             )
 
-        Msg.Config msgForConfig ->
-            let
-                ( config, cmd ) =
-                    Config.update parentMsgs msgForConfig model.config
-            in
-            ( { model | config = config }, cmd )
-
         Msg.ControlPanel msgForControlPanel ->
             let
                 controlPanel : ControlPanel
@@ -91,7 +82,7 @@ update parentMsgs msg model =
 
                 generateRandomTagForHiddenVideoPlayer : Cmd Msg
                 generateRandomTagForHiddenVideoPlayer =
-                    Tag.generateRandomTag randomTagGeneratedMsg model.config.tags
+                    Tag.generateRandomTag randomTagGeneratedMsg model.secretConfig.tags
             in
             ( { model
                 | videoPlayer1 = crossFadedVideoPlayer1

@@ -1,7 +1,6 @@
 module Msg exposing (Msg(..), Msgs, dictionary)
 
 import AudioPlayer
-import Config
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Key exposing (Key)
@@ -17,7 +16,6 @@ type Msg
     = AudioPaused
     | AudioPlayer AudioPlayer.Msg
     | AudioPlaying
-    | Config Config.Msg
     | ControlPanel ControlPanel.Msg
     | CrossFadePlayers Posix
     | KeyPressed Key
@@ -35,7 +33,6 @@ type alias Msgs =
     { audioPausedMsg : Msg
     , audioPlayerMsg : AudioPlayer.Msg -> Msg
     , audioPlayingMsg : Msg
-    , configMsg : Config.Msg -> Msg
     , controlPanelMsg : ControlPanel.Msg -> Msg
     , crossFadePlayersMsg : Posix -> Msg
     , keyPressedMsg : Key -> Msg
@@ -59,7 +56,6 @@ dictionary =
     { audioPausedMsg = AudioPaused
     , audioPlayerMsg = AudioPlayer
     , audioPlayingMsg = AudioPlaying
-    , configMsg = Config
     , controlPanelMsg = ControlPanel
     , crossFadePlayersMsg = CrossFadePlayers
     , keyPressedMsg = KeyPressed

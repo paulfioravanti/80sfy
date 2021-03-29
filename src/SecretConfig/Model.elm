@@ -1,10 +1,14 @@
-module SecretConfig.Model exposing (SecretConfig, init, update)
+module SecretConfig.Model exposing (SecretConfig, VolumeAdjustmentRate, init, rawVolumeAdjustmentRate, update)
 
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import Value
+
+
+type VolumeAdjustmentRate
+    = VolumeAdjustmentRate Int
 
 
 type alias SecretConfig =
@@ -14,23 +18,37 @@ type alias SecretConfig =
     , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
     , tags : List Tag
     , visible : Bool
+    , volumeAdjustmentRate : VolumeAdjustmentRate
     }
 
 
-init : Flags -> SoundCloudPlaylistUrl -> GifDisplayIntervalSeconds -> SecretConfig
-init flags soundCloudPlaylistUrl gifDisplayIntervalSeconds =
+init : Flags -> SecretConfig
+init flags =
     let
         rawGiphyApiKeyString : String
         rawGiphyApiKeyString =
             Value.extractStringWithDefault "" flags.giphyApiKey
+
+        rawSoundCloudPlaylistUrlString : String
+        rawSoundCloudPlaylistUrlString =
+            Value.extractStringWithDefault
+                SoundCloud.defaultPlaylistUrlString
+                flags.soundCloudPlaylistUrl
     in
-    { gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+    { gifDisplayIntervalSeconds = Gif.displayIntervalSeconds 4
     , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , overrideInactivityPause = False
-    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+    , soundCloudPlaylistUrl =
+        SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
     , tags = []
     , visible = False
+    , volumeAdjustmentRate = VolumeAdjustmentRate 20
     }
+
+
+rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int
+rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
+    rawVolumeAdjustmentRateInt
 
 
 update :

@@ -3,16 +3,19 @@ module SecretConfig.Update exposing (ParentMsgs, update)
 import AudioPlayer
 import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
+import Ports
 import SecretConfig.Model as Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
+import SecretConfig.Task as Task
 import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag
-import VideoPlayer
+import Tag exposing (Tag)
+import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
+        , secretConfigMsg : Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
 
@@ -64,6 +67,40 @@ update parentMsgs msg secretConfig =
                             soundCloudPlaylistUrl
             in
             ( updatedConfig, cmd )
+
+        Msg.TagsFetched (Ok rawTags) ->
+            let
+                tags : List Tag
+                tags =
+                    List.map Tag.tag rawTags
+
+                generateRandomTagForVideoPlayer : VideoPlayerId -> Cmd msg
+                generateRandomTagForVideoPlayer videoPlayerId =
+                    let
+                        randomTagGeneratedMsg : Tag -> msg
+                        randomTagGeneratedMsg =
+                            Msg.randomTagGenerated
+                                parentMsgs.secretConfigMsg
+                                videoPlayerId
+                    in
+                    Tag.generateRandomTag randomTagGeneratedMsg tags
+
+                performInitSecretConfigTags : Cmd msg
+                performInitSecretConfigTags =
+                    Task.performInitTags
+                        parentMsgs.secretConfigMsg
+                        rawTags
+            in
+            ( { secretConfig | tags = tags }
+            , Cmd.batch
+                [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
+                , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
+                , performInitSecretConfigTags
+                ]
+            )
+
+        Msg.TagsFetched (Err error) ->
+            ( secretConfig, Ports.logError "Fetching Tags Failed" error )
 
         Msg.ToggleInactivityPauseOverride ->
             let

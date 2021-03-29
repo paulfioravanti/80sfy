@@ -27,13 +27,13 @@ type alias Msgs msgs =
 subscriptions : Msgs msgs -> Model -> Sub Msg
 subscriptions msgs model =
     let
-        { audioPlayer, config, controlPanel, secretConfig, videoPlayer1 } =
+        { audioPlayer, controlPanel, secretConfig, videoPlayer1 } =
             model
 
         videoPlayerContext : VideoPlayerSubscriptionsContext
         videoPlayerContext =
             { rawAudioPlayerId = AudioPlayer.rawId audioPlayer.id
-            , gifDisplayIntervalSeconds = config.gifDisplayIntervalSeconds
+            , gifDisplayIntervalSeconds = secretConfig.gifDisplayIntervalSeconds
             , overrideInactivityPause = secretConfig.overrideInactivityPause
             }
     in

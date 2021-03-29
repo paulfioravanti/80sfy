@@ -2,12 +2,12 @@ module Main exposing (main)
 
 import AudioPlayer
 import Browser
-import Config exposing (Config)
 import Flags exposing (Flags)
 import Http exposing (Error)
 import Model exposing (Model)
 import Msg exposing (Msg, Msgs)
 import Ports exposing (SoundCloudWidgetPayload)
+import SecretConfig exposing (SecretConfig)
 import Subscriptions
 import Tag
 import Update
@@ -36,12 +36,8 @@ main =
 init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
-        config : Config
-        config =
-            Config.init flags
-
         ({ audioPlayer } as model) =
-            Model.init flags config
+            Model.init flags
 
         widgetPayload : SoundCloudWidgetPayload
         widgetPayload =
@@ -49,7 +45,7 @@ init flags =
 
         tagsFetchedMsg : Result Error (List String) -> Msg
         tagsFetchedMsg =
-            Config.tagsFetchedMsg Msg.Config
+            SecretConfig.tagsFetchedMsg Msg.SecretConfig
     in
     ( model
     , Cmd.batch
