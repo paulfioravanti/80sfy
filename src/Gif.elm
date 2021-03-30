@@ -5,6 +5,7 @@ module Gif exposing
     , displayIntervalSeconds
     , fetchRandomGifUrl
     , giphyApiKey
+    , parseGifDisplayIntervalSeconds
     , rawDisplayIntervalSeconds
     , rawUrl
     , rawUrlFromWebData
@@ -82,6 +83,25 @@ fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
 giphyApiKey : String -> GiphyAPIKey
 giphyApiKey rawGiphyApiKeyString =
     GiphyAPIKey rawGiphyApiKeyString
+
+
+parseGifDisplayIntervalSeconds :
+    GifDisplayIntervalSeconds
+    -> GifDisplayIntervalSeconds
+    -> GifDisplayIntervalSeconds
+parseGifDisplayIntervalSeconds defaultGifDisplayIntervalSeconds gifDisplayIntervalSeconds =
+    let
+        ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds
+        ignoreNonPositiveSeconds seconds =
+            if seconds < 1 then
+                defaultGifDisplayIntervalSeconds
+
+            else
+                displayIntervalSeconds seconds
+    in
+    gifDisplayIntervalSeconds
+        |> rawDisplayIntervalSeconds
+        |> ignoreNonPositiveSeconds
 
 
 rawDisplayIntervalSeconds : GifDisplayIntervalSeconds -> Float

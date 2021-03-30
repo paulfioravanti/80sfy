@@ -2,7 +2,6 @@ module Config.Model exposing
     ( Config
     , VolumeAdjustmentRate
     , init
-    , parseGifDisplayIntervalSeconds
     , rawVolumeAdjustmentRate
     )
 
@@ -50,25 +49,6 @@ init flags =
     , visible = False
     , volumeAdjustmentRate = VolumeAdjustmentRate 20
     }
-
-
-parseGifDisplayIntervalSeconds :
-    GifDisplayIntervalSeconds
-    -> GifDisplayIntervalSeconds
-    -> GifDisplayIntervalSeconds
-parseGifDisplayIntervalSeconds defaultGifDisplayIntervalSeconds gifDisplayIntervalSeconds =
-    let
-        ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds
-        ignoreNonPositiveSeconds seconds =
-            if seconds < 1 then
-                defaultGifDisplayIntervalSeconds
-
-            else
-                Gif.displayIntervalSeconds seconds
-    in
-    gifDisplayIntervalSeconds
-        |> Gif.rawDisplayIntervalSeconds
-        |> ignoreNonPositiveSeconds
 
 
 rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int

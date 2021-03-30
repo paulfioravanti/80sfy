@@ -1,7 +1,7 @@
 module Config.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
-import Config.Model as Model exposing (Config)
+import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
 import Config.Task as Task
 import Gif exposing (GifDisplayIntervalSeconds)
@@ -47,7 +47,7 @@ update parentMsgs msg config =
             let
                 gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
                 gifDisplayIntervalSeconds =
-                    Model.parseGifDisplayIntervalSeconds
+                    Gif.parseGifDisplayIntervalSeconds
                         config.gifDisplayIntervalSeconds
                         displayIntervalSeconds
 
