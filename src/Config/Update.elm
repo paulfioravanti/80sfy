@@ -3,7 +3,6 @@ module Config.Update exposing (ParentMsgs, update)
 import AudioPlayer
 import Config.Model exposing (Config)
 import Config.Msg as Msg exposing (Msg)
-import Config.Task as Task
 import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
 import Ports
@@ -23,9 +22,6 @@ type alias ParentMsgs msgs msg =
 update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update parentMsgs msg config =
     case msg of
-        Msg.InitTags tagList ->
-            ( { config | tags = List.map Tag.tag tagList }, Cmd.none )
-
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 randomGifUrlFetchedMsg : Result Error String -> msg
@@ -88,18 +84,11 @@ update parentMsgs msg config =
                                 videoPlayerId
                     in
                     Tag.generateRandomTag randomTagGeneratedMsg tags
-
-                performInitSecretConfigTags : Cmd msg
-                performInitSecretConfigTags =
-                    Task.performInitTags
-                        parentMsgs.configMsg
-                        rawTags
             in
             ( { config | tags = tags }
             , Cmd.batch
                 [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
                 , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
-                , performInitSecretConfigTags
                 ]
             )
 
