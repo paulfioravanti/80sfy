@@ -1,9 +1,9 @@
-module SecretConfig.View.ParentMsgs exposing (ParentMsgs)
+module Config.View.ParentMsgs exposing (ParentMsgs)
 
+import Config.Msg exposing (Msg)
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Ports
-import SecretConfig.Msg exposing (Msg)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 

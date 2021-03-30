@@ -1,4 +1,4 @@
-module SecretConfig.Msg exposing
+module Config.Msg exposing
     ( Msg(..)
     , initTags
     , randomTagGenerated

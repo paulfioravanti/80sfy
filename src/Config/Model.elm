@@ -1,4 +1,4 @@
-module SecretConfig.Model exposing (SecretConfig, VolumeAdjustmentRate, init, rawVolumeAdjustmentRate, update)
+module Config.Model exposing (Config, VolumeAdjustmentRate, init, rawVolumeAdjustmentRate, update)
 
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
@@ -11,7 +11,7 @@ type VolumeAdjustmentRate
     = VolumeAdjustmentRate Int
 
 
-type alias SecretConfig =
+type alias Config =
     { gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
     , giphyApiKey : GiphyAPIKey
     , overrideInactivityPause : Bool
@@ -22,7 +22,7 @@ type alias SecretConfig =
     }
 
 
-init : Flags -> SecretConfig
+init : Flags -> Config
 init flags =
     let
         rawGiphyApiKeyString : String
@@ -55,8 +55,8 @@ update :
     SoundCloudPlaylistUrl
     -> List Tag
     -> GifDisplayIntervalSeconds
-    -> SecretConfig
-    -> SecretConfig
+    -> Config
+    -> Config
 update soundCloudPlaylistUrl tags gifDisplayIntervalSeconds config =
     let
         ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds

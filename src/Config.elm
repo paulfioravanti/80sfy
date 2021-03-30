@@ -10,22 +10,22 @@ module Config exposing
     , view
     )
 
+import Config.Model as Model
+import Config.Msg as Msg
+import Config.Update as Update
+import Config.View as View
+import Config.View.ParentMsgs exposing (ParentMsgs)
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled exposing (Html)
 import Http exposing (Error)
-import SecretConfig.Model as Model
-import SecretConfig.Msg as Msg
-import SecretConfig.Update as Update
-import SecretConfig.View as View
-import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
 
 type alias Config =
-    Model.SecretConfig
+    Model.Config
 
 
 type alias Msg =

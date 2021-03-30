@@ -1,6 +1,6 @@
-module SecretConfig.Task exposing (performInitTags)
+module Config.Task exposing (performInitTags)
 
-import SecretConfig.Msg as Msg exposing (Msg)
+import Config.Msg as Msg exposing (Msg)
 import Task
 
 

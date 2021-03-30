@@ -1,16 +1,16 @@
-module SecretConfig.View exposing (view)
+module Config.View exposing (view)
 
+import Config.Model exposing (Config)
+import Config.Msg as Msg exposing (Msg)
+import Config.View.ParentMsgs exposing (ParentMsgs)
+import Config.View.Settings as Settings
+import Config.View.Styles as Styles
 import Html.Styled exposing (Html, div)
 import Html.Styled.Attributes exposing (attribute, css)
 import Html.Styled.Events exposing (onClick)
-import SecretConfig.Model exposing (SecretConfig)
-import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
-import SecretConfig.View.Settings as Settings
-import SecretConfig.View.Styles as Styles
 
 
-view : ParentMsgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> Config -> Html msg
 view ({ configMsg } as parentMsgs) secretConfig =
     div [ attribute "data-name" "secret-config" ]
         [ secretConfigButton configMsg

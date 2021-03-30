@@ -1,4 +1,4 @@
-module SecretConfig.View.Styles exposing
+module Config.View.Styles exposing
     ( configButton
     , configInput
     , gifTags

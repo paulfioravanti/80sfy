@@ -1,5 +1,9 @@
-module SecretConfig.View.Settings exposing (view)
+module Config.View.Settings exposing (view)
 
+import Config.Model exposing (Config)
+import Config.Msg as Msg exposing (Msg)
+import Config.View.ParentMsgs exposing (ParentMsgs)
+import Config.View.Styles as Styles
 import ControlPanel
 import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled
@@ -20,15 +24,11 @@ import Html.Styled.Attributes
         )
 import Html.Styled.Events exposing (onClick, onInput)
 import Ports
-import SecretConfig.Model exposing (SecretConfig)
-import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
-import SecretConfig.View.Styles as Styles
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 
 
-view : ParentMsgs msgs msg -> SecretConfig -> Html msg
+view : ParentMsgs msgs msg -> Config -> Html msg
 view parentMsgs secretConfig =
     let
         { portsMsg, configMsg } =
@@ -111,7 +111,7 @@ gifDisplaySecondsInput configMsg gifDisplayIntervalSeconds =
 
 saveSettingsButton :
     (SoundCloudPlaylistUrl -> List Tag -> GifDisplayIntervalSeconds -> msg)
-    -> SecretConfig
+    -> Config
     -> Html msg
 saveSettingsButton saveConfigMsg secretConfig =
     let

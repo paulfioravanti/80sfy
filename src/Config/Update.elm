@@ -1,12 +1,12 @@
-module SecretConfig.Update exposing (ParentMsgs, update)
+module Config.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
+import Config.Model as Model exposing (Config)
+import Config.Msg as Msg exposing (Msg)
+import Config.Task as Task
 import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
 import Ports
-import SecretConfig.Model as Model exposing (SecretConfig)
-import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.Task as Task
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
@@ -20,7 +20,7 @@ type alias ParentMsgs msgs msg =
     }
 
 
-update : ParentMsgs msgs msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
+update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
 update parentMsgs msg secretConfig =
     case msg of
         Msg.InitTags tagList ->
@@ -45,7 +45,7 @@ update parentMsgs msg secretConfig =
 
         Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
             let
-                updatedConfig : SecretConfig
+                updatedConfig : Config
                 updatedConfig =
                     Model.update
                         soundCloudPlaylistUrl
