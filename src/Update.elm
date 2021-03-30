@@ -126,20 +126,6 @@ update parentMsgs msg model =
         Msg.Ports msgForPorts ->
             ( model, Ports.cmd msgForPorts )
 
-        Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
-            let
-                saveConfigMsg : Config.Msg
-                saveConfigMsg =
-                    Config.saveMsg
-                        soundCloudPlaylistUrl
-                        tagsString
-                        gifDisplaySecondsString
-
-                ( config, cmd ) =
-                    Config.update parentMsgs saveConfigMsg model.config
-            in
-            ( { model | config = config }, cmd )
-
         Msg.ShowApplicationState ->
             ( model, ApplicationState.show model )
 

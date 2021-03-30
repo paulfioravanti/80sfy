@@ -49,7 +49,7 @@ view parentMsgs secretConfig =
         , span []
             [ text "Gif Display Seconds:" ]
         , gifDisplaySecondsInput configMsg secretConfig.gifDisplayIntervalSeconds
-        , saveSettingsButton parentMsgs.saveConfigMsg secretConfig
+        , saveSettingsButton parentMsgs.configMsg secretConfig
         , showStateButton parentMsgs.showApplicationStateMsg
         , overrideControlPanelHideButton parentMsgs.controlPanelMsg
         , overrideInactivityPauseButton configMsg
@@ -109,22 +109,19 @@ gifDisplaySecondsInput configMsg gifDisplayIntervalSeconds =
         []
 
 
-saveSettingsButton :
-    (SoundCloudPlaylistUrl -> List Tag -> GifDisplayIntervalSeconds -> msg)
-    -> Config
-    -> Html msg
-saveSettingsButton saveConfigMsg secretConfig =
+saveSettingsButton : (Msg -> msg) -> Config -> Html msg
+saveSettingsButton configMsg secretConfig =
     let
-        saveConfig : msg
+        saveConfig : Msg
         saveConfig =
-            saveConfigMsg
+            Msg.Save
                 secretConfig.soundCloudPlaylistUrl
                 secretConfig.tags
                 secretConfig.gifDisplayIntervalSeconds
     in
     button
         [ css [ Styles.configButton ]
-        , onClick saveConfig
+        , onClick (configMsg saveConfig)
         ]
         [ text "Save Settings" ]
 

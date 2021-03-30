@@ -3,11 +3,8 @@ module Msg exposing (Msg(..), Msgs, dictionary)
 import AudioPlayer
 import Config
 import ControlPanel
-import Gif exposing (GifDisplayIntervalSeconds)
 import Key exposing (Key)
 import Ports
-import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
 import Time exposing (Posix)
 import VideoPlayer
 
@@ -23,7 +20,6 @@ type Msg
     | Pause
     | Ports Ports.Msg
     | Play
-    | SaveConfig SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
     | Config Config.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
@@ -41,11 +37,6 @@ type alias Msgs =
     , pauseMsg : Msg
     , playMsg : Msg
     , portsMsg : Ports.Msg -> Msg
-    , saveConfigMsg :
-        SoundCloudPlaylistUrl
-        -> List Tag
-        -> GifDisplayIntervalSeconds
-        -> Msg
     , showApplicationStateMsg : Msg
     , videoPlayerMsg : VideoPlayer.Msg -> Msg
     }
@@ -64,7 +55,6 @@ dictionary =
     , pauseMsg = Pause
     , playMsg = Play
     , portsMsg = Ports
-    , saveConfigMsg = SaveConfig
     , showApplicationStateMsg = ShowApplicationState
     , videoPlayerMsg = VideoPlayer
     }
