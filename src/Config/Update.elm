@@ -21,10 +21,10 @@ type alias ParentMsgs msgs msg =
 
 
 update : ParentMsgs msgs msg -> Msg -> Config -> ( Config, Cmd msg )
-update parentMsgs msg secretConfig =
+update parentMsgs msg config =
     case msg of
         Msg.InitTags tagList ->
-            ( { secretConfig | tags = List.map Tag.tag tagList }, Cmd.none )
+            ( { config | tags = List.map Tag.tag tagList }, Cmd.none )
 
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
@@ -38,26 +38,24 @@ update parentMsgs msg secretConfig =
                 fetchRandomGifUrl =
                     Gif.fetchRandomGifUrl
                         randomGifUrlFetchedMsg
-                        secretConfig.giphyApiKey
+                        config.giphyApiKey
                         tag
             in
-            ( secretConfig, fetchRandomGifUrl )
+            ( config, fetchRandomGifUrl )
 
-        Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
+        Msg.Save soundCloudPlaylistUrl tags displayIntervalSeconds ->
             let
-                updatedConfig : Config
-                updatedConfig =
-                    Model.update
-                        soundCloudPlaylistUrl
-                        tagsString
-                        gifDisplayIntervalSeconds
-                        secretConfig
+                gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+                gifDisplayIntervalSeconds =
+                    Model.parseGifDisplayIntervalSeconds
+                        config.gifDisplayIntervalSeconds
+                        displayIntervalSeconds
 
                 cmd : Cmd msg
                 cmd =
                     if
                         soundCloudPlaylistUrl
-                            == secretConfig.soundCloudPlaylistUrl
+                            == config.soundCloudPlaylistUrl
                     then
                         Cmd.none
 
@@ -66,7 +64,13 @@ update parentMsgs msg secretConfig =
                             parentMsgs.audioPlayerMsg
                             soundCloudPlaylistUrl
             in
-            ( updatedConfig, cmd )
+            ( { config
+                | gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+                , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+                , tags = tags
+              }
+            , cmd
+            )
 
         Msg.TagsFetched (Ok rawTags) ->
             let
@@ -91,7 +95,7 @@ update parentMsgs msg secretConfig =
                         parentMsgs.configMsg
                         rawTags
             in
-            ( { secretConfig | tags = tags }
+            ( { config | tags = tags }
             , Cmd.batch
                 [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
                 , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
@@ -100,22 +104,22 @@ update parentMsgs msg secretConfig =
             )
 
         Msg.TagsFetched (Err error) ->
-            ( secretConfig, Ports.logError "Fetching Tags Failed" error )
+            ( config, Ports.logError "Fetching Tags Failed" error )
 
         Msg.ToggleInactivityPauseOverride ->
             let
                 toggledOverrideInactivityPause : Bool
                 toggledOverrideInactivityPause =
-                    not secretConfig.overrideInactivityPause
+                    not config.overrideInactivityPause
             in
-            ( { secretConfig
+            ( { config
                 | overrideInactivityPause = toggledOverrideInactivityPause
               }
             , Cmd.none
             )
 
         Msg.ToggleVisibility ->
-            ( { secretConfig | visible = not secretConfig.visible }
+            ( { config | visible = not config.visible }
             , Cmd.none
             )
 
@@ -125,9 +129,9 @@ update parentMsgs msg secretConfig =
                 gifDisplayIntervalSeconds =
                     Gif.updateDisplayIntervalSeconds
                         seconds
-                        secretConfig.gifDisplayIntervalSeconds
+                        config.gifDisplayIntervalSeconds
             in
-            ( { secretConfig
+            ( { config
                 | gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
               }
             , Cmd.none
@@ -139,11 +143,11 @@ update parentMsgs msg secretConfig =
                 soundCloudPlaylistUrl =
                     SoundCloud.playlistUrl rawSoundCloudPlaylistUrl
             in
-            ( { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
+            ( { config | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
             , Cmd.none
             )
 
         Msg.UpdateTags tags ->
-            ( { secretConfig | tags = Tag.tagList tags }
+            ( { config | tags = Tag.tagList tags }
             , Cmd.none
             )

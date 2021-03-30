@@ -1,4 +1,10 @@
-module Config.Model exposing (Config, VolumeAdjustmentRate, init, rawVolumeAdjustmentRate, update)
+module Config.Model exposing
+    ( Config
+    , VolumeAdjustmentRate
+    , init
+    , parseGifDisplayIntervalSeconds
+    , rawVolumeAdjustmentRate
+    )
 
 import Flags exposing (Flags)
 import Gif exposing (GifDisplayIntervalSeconds, GiphyAPIKey)
@@ -46,35 +52,25 @@ init flags =
     }
 
 
-rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int
-rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
-    rawVolumeAdjustmentRateInt
-
-
-update :
-    SoundCloudPlaylistUrl
-    -> List Tag
+parseGifDisplayIntervalSeconds :
+    GifDisplayIntervalSeconds
     -> GifDisplayIntervalSeconds
-    -> Config
-    -> Config
-update soundCloudPlaylistUrl tags gifDisplayIntervalSeconds config =
+    -> GifDisplayIntervalSeconds
+parseGifDisplayIntervalSeconds defaultGifDisplayIntervalSeconds gifDisplayIntervalSeconds =
     let
         ignoreNonPositiveSeconds : Float -> GifDisplayIntervalSeconds
         ignoreNonPositiveSeconds seconds =
             if seconds < 1 then
-                config.gifDisplayIntervalSeconds
+                defaultGifDisplayIntervalSeconds
 
             else
                 Gif.displayIntervalSeconds seconds
-
-        displayIntervalSeconds : GifDisplayIntervalSeconds
-        displayIntervalSeconds =
-            gifDisplayIntervalSeconds
-                |> Gif.rawDisplayIntervalSeconds
-                |> ignoreNonPositiveSeconds
     in
-    { config
-        | gifDisplayIntervalSeconds = displayIntervalSeconds
-        , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-        , tags = tags
-    }
+    gifDisplayIntervalSeconds
+        |> Gif.rawDisplayIntervalSeconds
+        |> ignoreNonPositiveSeconds
+
+
+rawVolumeAdjustmentRate : VolumeAdjustmentRate -> Int
+rawVolumeAdjustmentRate (VolumeAdjustmentRate rawVolumeAdjustmentRateInt) =
+    rawVolumeAdjustmentRateInt
