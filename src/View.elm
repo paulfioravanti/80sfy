@@ -3,15 +3,12 @@ module View exposing (view)
 import AudioPlayer
 import Browser exposing (Document)
 import ControlPanel
-import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled exposing (div)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
 import Ports
 import SecretConfig
-import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
 import VideoPlayer
 
 
@@ -23,11 +20,6 @@ type alias Msgs msgs =
         , pauseMsg : Msg
         , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
-        , saveConfigMsg :
-            SoundCloudPlaylistUrl
-            -> List Tag
-            -> GifDisplayIntervalSeconds
-            -> Msg
         , secretConfigMsg : SecretConfig.Msg -> Msg
         , showApplicationStateMsg : Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg

@@ -1,13 +1,12 @@
 module SecretConfig.Update exposing (ParentMsgs, update)
 
 import AudioPlayer
-import Gif exposing (GifDisplayIntervalSeconds)
+import Gif
 import Http exposing (Error)
 import Ports
 import SecretConfig.Model as Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.Task as Task
-import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -24,7 +23,12 @@ update : ParentMsgs msgs msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
 update parentMsgs msg secretConfig =
     case msg of
         Msg.InitTags tagList ->
-            ( { secretConfig | tags = List.map Tag.tag tagList }, Cmd.none )
+            ( { secretConfig
+                | tags = List.map Tag.tag tagList
+                , tagsField = String.join ", " tagList
+              }
+            , Cmd.none
+            )
 
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
@@ -43,15 +47,20 @@ update parentMsgs msg secretConfig =
             in
             ( secretConfig, fetchRandomGifUrl )
 
-        Msg.Save soundCloudPlaylistUrl tagsString gifDisplayIntervalSeconds ->
+        Msg.Save ->
             let
-                updatedConfig : SecretConfig
-                updatedConfig =
-                    Model.update
-                        soundCloudPlaylistUrl
-                        tagsString
-                        gifDisplayIntervalSeconds
-                        secretConfig
+                ( gifDisplayIntervalSeconds, gifDisplayIntervalSecondsField ) =
+                    Model.validateGifDisplayIntervalSeconds
+                        secretConfig.gifDisplayIntervalSeconds
+                        secretConfig.gifDisplayIntervalSecondsField
+
+                ( soundCloudPlaylistUrl, soundCloudPlaylistUrlField ) =
+                    Model.validateSoundCloudPlaylistUrl
+                        secretConfig.soundCloudPlaylistUrl
+                        secretConfig.soundCloudPlaylistUrlField
+
+                ( tags, tagsField ) =
+                    Model.validateTags secretConfig.tags secretConfig.tagsField
 
                 cmd : Cmd msg
                 cmd =
@@ -66,7 +75,16 @@ update parentMsgs msg secretConfig =
                             parentMsgs.audioPlayerMsg
                             soundCloudPlaylistUrl
             in
-            ( updatedConfig, cmd )
+            ( { secretConfig
+                | gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+                , gifDisplayIntervalSecondsField = gifDisplayIntervalSecondsField
+                , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+                , soundCloudPlaylistUrlField = soundCloudPlaylistUrlField
+                , tags = tags
+                , tagsField = tagsField
+              }
+            , cmd
+            )
 
         Msg.TagsFetched (Ok rawTags) ->
             let
@@ -119,31 +137,28 @@ update parentMsgs msg secretConfig =
             , Cmd.none
             )
 
-        Msg.UpdateGifDisplaySeconds seconds ->
-            let
-                gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
-                gifDisplayIntervalSeconds =
-                    Gif.updateDisplayIntervalSeconds
-                        seconds
-                        secretConfig.gifDisplayIntervalSeconds
-            in
+        Msg.UpdateGifDisplaySecondsField rawGifDisplayIntervalSeconds ->
+            -- let
+            --     gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+            --     gifDisplayIntervalSeconds =
+            --         Gif.updateDisplayIntervalSeconds
+            --             seconds
+            --             secretConfig.gifDisplayIntervalSeconds
+            -- in
             ( { secretConfig
-                | gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+                | gifDisplayIntervalSecondsField = rawGifDisplayIntervalSeconds
               }
             , Cmd.none
             )
 
-        Msg.UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl ->
-            let
-                soundCloudPlaylistUrl : SoundCloudPlaylistUrl
-                soundCloudPlaylistUrl =
-                    SoundCloud.playlistUrl rawSoundCloudPlaylistUrl
-            in
-            ( { secretConfig | soundCloudPlaylistUrl = soundCloudPlaylistUrl }
+        Msg.UpdateSoundCloudPlaylistUrlField rawSoundCloudPlaylistUrl ->
+            ( { secretConfig
+                | soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrl
+              }
             , Cmd.none
             )
 
-        Msg.UpdateTags tags ->
-            ( { secretConfig | tags = Tag.tagList tags }
+        Msg.UpdateTagsField rawTags ->
+            ( { secretConfig | tagsField = rawTags }
             , Cmd.none
             )

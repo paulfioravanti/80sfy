@@ -1,7 +1,6 @@
 module SecretConfig.View.Settings exposing (view)
 
 import ControlPanel
-import Gif exposing (GifDisplayIntervalSeconds)
 import Html.Styled
     exposing
         ( Html
@@ -24,8 +23,6 @@ import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
 import SecretConfig.View.ParentMsgs exposing (ParentMsgs)
 import SecretConfig.View.Styles as Styles
-import SoundCloud exposing (SoundCloudPlaylistUrl)
-import Tag exposing (Tag)
 
 
 view : ParentMsgs msgs msg -> SecretConfig -> Html msg
@@ -40,16 +37,18 @@ view parentMsgs secretConfig =
         ]
         [ span []
             [ text "Tags:" ]
-        , gifTagsInput secretConfigMsg secretConfig.tags
+        , gifTagsInput secretConfigMsg secretConfig.tagsField
         , span []
             [ text "Playlist:" ]
         , soundCloudPlaylistUrlInput
             secretConfigMsg
-            secretConfig.soundCloudPlaylistUrl
+            secretConfig.soundCloudPlaylistUrlField
         , span []
             [ text "Gif Display Seconds:" ]
-        , gifDisplaySecondsInput secretConfigMsg secretConfig.gifDisplayIntervalSeconds
-        , saveSettingsButton parentMsgs.saveConfigMsg secretConfig
+        , gifDisplaySecondsInput
+            secretConfigMsg
+            secretConfig.gifDisplayIntervalSecondsField
+        , saveSettingsButton parentMsgs.secretConfigMsg
         , showStateButton parentMsgs.showApplicationStateMsg
         , overrideControlPanelHideButton parentMsgs.controlPanelMsg
         , overrideInactivityPauseButton secretConfigMsg
@@ -60,71 +59,43 @@ view parentMsgs secretConfig =
         ]
 
 
-gifTagsInput : (Msg -> msg) -> List Tag -> Html msg
-gifTagsInput secretConfigMsg tags =
-    let
-        rawTags : String
-        rawTags =
-            Tag.rawTagsString tags
-    in
+gifTagsInput : (Msg -> msg) -> String -> Html msg
+gifTagsInput secretConfigMsg rawTags =
     textarea
         [ attribute "data-name" "search-tags"
         , css [ Styles.gifTags ]
-        , onInput (Msg.updateTags secretConfigMsg)
+        , onInput (Msg.updateTagsField secretConfigMsg)
         ]
         [ text rawTags ]
 
 
-soundCloudPlaylistUrlInput : (Msg -> msg) -> SoundCloudPlaylistUrl -> Html msg
-soundCloudPlaylistUrlInput secretConfigMsg soundCloudPlaylistUrl =
-    let
-        playlistUrl : String
-        playlistUrl =
-            SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
-    in
+soundCloudPlaylistUrlInput : (Msg -> msg) -> String -> Html msg
+soundCloudPlaylistUrlInput secretConfigMsg rawSoundCloudPlaylistUrl =
     input
         [ attribute "data-name" "playlist-input"
         , css [ Styles.configInput ]
-        , value playlistUrl
-        , onInput (Msg.updateSoundCloudPlaylistUrl secretConfigMsg)
+        , value rawSoundCloudPlaylistUrl
+        , onInput (Msg.updateSoundCloudPlaylistUrlField secretConfigMsg)
         ]
         []
 
 
-gifDisplaySecondsInput : (Msg -> msg) -> GifDisplayIntervalSeconds -> Html msg
-gifDisplaySecondsInput secretConfigMsg gifDisplayIntervalSeconds =
-    let
-        gifDisplaySeconds : String
-        gifDisplaySeconds =
-            gifDisplayIntervalSeconds
-                |> Gif.rawDisplayIntervalSeconds
-                |> String.fromFloat
-    in
+gifDisplaySecondsInput : (Msg -> msg) -> String -> Html msg
+gifDisplaySecondsInput secretConfigMsg rawGifDisplayIntervalSeconds =
     input
         [ attribute "data-name" "gif-display-seconds-input"
         , css [ Styles.configInput ]
-        , value gifDisplaySeconds
-        , onInput (Msg.updateGifDisplaySeconds secretConfigMsg)
+        , value rawGifDisplayIntervalSeconds
+        , onInput (Msg.updateGifDisplaySecondsField secretConfigMsg)
         ]
         []
 
 
-saveSettingsButton :
-    (SoundCloudPlaylistUrl -> List Tag -> GifDisplayIntervalSeconds -> msg)
-    -> SecretConfig
-    -> Html msg
-saveSettingsButton saveConfigMsg secretConfig =
-    let
-        saveConfig : msg
-        saveConfig =
-            saveConfigMsg
-                secretConfig.soundCloudPlaylistUrl
-                secretConfig.tags
-                secretConfig.gifDisplayIntervalSeconds
-    in
+saveSettingsButton : (Msg -> msg) -> Html msg
+saveSettingsButton secretConfigMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick saveConfig
+        , onClick (secretConfigMsg Msg.Save)
         ]
         [ text "Save Settings" ]
 

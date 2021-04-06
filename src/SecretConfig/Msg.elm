@@ -3,14 +3,12 @@ module SecretConfig.Msg exposing
     , initTags
     , randomTagGenerated
     , tagsFetched
-    , updateGifDisplaySeconds
-    , updateSoundCloudPlaylistUrl
-    , updateTags
+    , updateGifDisplaySecondsField
+    , updateSoundCloudPlaylistUrlField
+    , updateTagsField
     )
 
-import Gif exposing (GifDisplayIntervalSeconds)
 import Http exposing (Error)
-import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -18,13 +16,13 @@ import VideoPlayer exposing (VideoPlayerId)
 type Msg
     = InitTags (List String)
     | RandomTagGenerated VideoPlayerId Tag
-    | Save SoundCloudPlaylistUrl (List Tag) GifDisplayIntervalSeconds
+    | Save
     | TagsFetched (Result Error (List String))
     | ToggleInactivityPauseOverride
     | ToggleVisibility
-    | UpdateGifDisplaySeconds String
-    | UpdateSoundCloudPlaylistUrl String
-    | UpdateTags String
+    | UpdateGifDisplaySecondsField String
+    | UpdateSoundCloudPlaylistUrlField String
+    | UpdateTagsField String
 
 
 initTags : (Msg -> msg) -> List String -> msg
@@ -42,16 +40,16 @@ tagsFetched configMsg tags =
     configMsg (TagsFetched tags)
 
 
-updateGifDisplaySeconds : (Msg -> msg) -> String -> msg
-updateGifDisplaySeconds secretConfigMsg displaySeconds =
-    secretConfigMsg (UpdateGifDisplaySeconds displaySeconds)
+updateGifDisplaySecondsField : (Msg -> msg) -> String -> msg
+updateGifDisplaySecondsField secretConfigMsg rawGifDisplayIntervalSeconds =
+    secretConfigMsg (UpdateGifDisplaySecondsField rawGifDisplayIntervalSeconds)
 
 
-updateSoundCloudPlaylistUrl : (Msg -> msg) -> String -> msg
-updateSoundCloudPlaylistUrl secretConfigMsg rawSoundCloudPlaylistUrl =
-    secretConfigMsg (UpdateSoundCloudPlaylistUrl rawSoundCloudPlaylistUrl)
+updateSoundCloudPlaylistUrlField : (Msg -> msg) -> String -> msg
+updateSoundCloudPlaylistUrlField secretConfigMsg rawSoundCloudPlaylistUrl =
+    secretConfigMsg (UpdateSoundCloudPlaylistUrlField rawSoundCloudPlaylistUrl)
 
 
-updateTags : (Msg -> msg) -> String -> msg
-updateTags secretConfigMsg tagsString =
-    secretConfigMsg (UpdateTags tagsString)
+updateTagsField : (Msg -> msg) -> String -> msg
+updateTagsField secretConfigMsg rawTags =
+    secretConfigMsg (UpdateTagsField rawTags)

@@ -116,20 +116,6 @@ update parentMsgs msg model =
         Msg.Ports msgForPorts ->
             ( model, Ports.cmd msgForPorts )
 
-        Msg.SaveConfig soundCloudPlaylistUrl tagsString gifDisplaySecondsString ->
-            let
-                saveConfigMsg : SecretConfig.Msg
-                saveConfigMsg =
-                    SecretConfig.saveMsg
-                        soundCloudPlaylistUrl
-                        tagsString
-                        gifDisplaySecondsString
-
-                ( secretConfig, cmd ) =
-                    SecretConfig.update parentMsgs saveConfigMsg model.secretConfig
-            in
-            ( { model | secretConfig = secretConfig }, cmd )
-
         Msg.SecretConfig msgForSecretConfig ->
             let
                 ( secretConfig, cmd ) =

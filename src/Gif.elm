@@ -8,7 +8,6 @@ module Gif exposing
     , rawDisplayIntervalSeconds
     , rawUrl
     , rawUrlFromWebData
-    , updateDisplayIntervalSeconds
     , url
     )
 
@@ -108,22 +107,6 @@ rawUrlFromWebData webData =
 
         RemoteData.Success gifUrl ->
             rawUrl gifUrl
-
-
-updateDisplayIntervalSeconds :
-    String
-    -> GifDisplayIntervalSeconds
-    -> GifDisplayIntervalSeconds
-updateDisplayIntervalSeconds seconds defaultDisplayIntervalSeconds =
-    let
-        defaultGifDisplayIntervalSeconds : Float
-        defaultGifDisplayIntervalSeconds =
-            rawDisplayIntervalSeconds defaultDisplayIntervalSeconds
-    in
-    seconds
-        |> String.toFloat
-        |> Maybe.withDefault defaultGifDisplayIntervalSeconds
-        |> displayIntervalSeconds
 
 
 url : String -> GifUrl
