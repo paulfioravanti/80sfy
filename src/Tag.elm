@@ -4,6 +4,8 @@ module Tag exposing
     , generateRandomTag
     , rawTag
     , rawTagsString
+    , stringTagsToString
+    , stringTagsToTagList
     , tag
     , tagList
     )
@@ -57,7 +59,17 @@ rawTagsString : List Tag -> String
 rawTagsString tagsList =
     tagsList
         |> List.map rawTag
-        |> String.join ", "
+        |> stringTagsToString
+
+
+stringTagsToString : List String -> String
+stringTagsToString tagsList =
+    String.join ", " tagsList
+
+
+stringTagsToTagList : List String -> List Tag
+stringTagsToTagList tagsList =
+    List.map tag tagsList
 
 
 tag : String -> Tag
@@ -70,7 +82,7 @@ tagList tagsString =
     tagsString
         |> String.split ", "
         |> List.map String.trim
-        |> List.map tag
+        |> stringTagsToTagList
 
 
 

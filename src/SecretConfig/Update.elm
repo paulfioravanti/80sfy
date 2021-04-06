@@ -81,11 +81,11 @@ update parentMsgs msg secretConfig =
             let
                 tags : List Tag
                 tags =
-                    List.map Tag.tag rawTags
+                    Tag.stringTagsToTagList rawTags
 
                 tagsField : String
                 tagsField =
-                    String.join ", " rawTags
+                    Tag.stringTagsToString rawTags
 
                 generateRandomTagForVideoPlayer : VideoPlayerId -> Cmd msg
                 generateRandomTagForVideoPlayer videoPlayerId =
