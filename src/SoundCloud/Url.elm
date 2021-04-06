@@ -4,6 +4,7 @@ module SoundCloud.Url exposing
     , defaultPlaylistUrlString
     , iframeUrl
     , playlistUrl
+    , playlistUrlPrefix
     , rawIframeUrl
     , rawPlaylistUrl
     )
@@ -19,7 +20,7 @@ type SoundCloudPlaylistUrl
 
 defaultPlaylistUrlString : String
 defaultPlaylistUrlString =
-    "https://api.soundcloud.com/playlists/193785575"
+    playlistUrlPrefix ++ "playlists/193785575"
 
 
 iframeUrl : SoundCloudPlaylistUrl -> SoundCloudIframeUrl
@@ -52,6 +53,16 @@ iframeUrl soundCloudPlaylistUrl =
     SoundCloudIframeUrl rawIframeUrlString
 
 
+playlistUrl : String -> SoundCloudPlaylistUrl
+playlistUrl rawSoundCloudPlaylistUrlString =
+    SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString
+
+
+playlistUrlPrefix : String
+playlistUrlPrefix =
+    "https://api.soundcloud.com/"
+
+
 rawIframeUrl : SoundCloudIframeUrl -> String
 rawIframeUrl (SoundCloudIframeUrl rawIframeUrlString) =
     rawIframeUrlString
@@ -60,8 +71,3 @@ rawIframeUrl (SoundCloudIframeUrl rawIframeUrlString) =
 rawPlaylistUrl : SoundCloudPlaylistUrl -> String
 rawPlaylistUrl (SoundCloudPlaylistUrl rawplaylistUrlString) =
     rawplaylistUrlString
-
-
-playlistUrl : String -> SoundCloudPlaylistUrl
-playlistUrl rawSoundCloudPlaylistUrlString =
-    SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString

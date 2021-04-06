@@ -115,7 +115,7 @@ validateSoundCloudPlaylistUrl currentSoundCloudPlaylistUrl soundCloudPlaylistUrl
         isValidUrl : Bool
         isValidUrl =
             String.startsWith
-                "https://api.soundcloud.com/"
+                SoundCloud.playlistUrlPrefix
                 soundCloudPlaylistUrlField
     in
     if isValidUrl then

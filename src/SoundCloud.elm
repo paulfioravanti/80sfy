@@ -4,6 +4,7 @@ module SoundCloud exposing
     , defaultPlaylistUrlString
     , iframeUrl
     , playlistUrl
+    , playlistUrlPrefix
     , rawIframeUrl
     , rawPlaylistUrl
     )
@@ -42,3 +43,8 @@ rawPlaylistUrl soundCloudPlaylistUrl =
 playlistUrl : String -> SoundCloudPlaylistUrl
 playlistUrl rawSoundCloudPlaylistUrlString =
     Url.playlistUrl rawSoundCloudPlaylistUrlString
+
+
+playlistUrlPrefix : String
+playlistUrlPrefix =
+    Url.playlistUrlPrefix
