@@ -1,6 +1,5 @@
 module SecretConfig.Msg exposing
     ( Msg(..)
-    , initTags
     , randomTagGenerated
     , tagsFetched
     , updateGifDisplaySecondsField
@@ -14,8 +13,7 @@ import VideoPlayer exposing (VideoPlayerId)
 
 
 type Msg
-    = InitTags (List String)
-    | RandomTagGenerated VideoPlayerId Tag
+    = RandomTagGenerated VideoPlayerId Tag
     | Save
     | TagsFetched (Result Error (List String))
     | ToggleInactivityPauseOverride
@@ -23,11 +21,6 @@ type Msg
     | UpdateGifDisplaySecondsField String
     | UpdateSoundCloudPlaylistUrlField String
     | UpdateTagsField String
-
-
-initTags : (Msg -> msg) -> List String -> msg
-initTags secretConfigMsg tags =
-    secretConfigMsg (InitTags tags)
 
 
 randomTagGenerated : (Msg -> msg) -> VideoPlayerId -> Tag -> msg

@@ -6,7 +6,6 @@ import Http exposing (Error)
 import Ports
 import SecretConfig.Model as Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
-import SecretConfig.Task as Task
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -22,14 +21,6 @@ type alias ParentMsgs msgs msg =
 update : ParentMsgs msgs msg -> Msg -> SecretConfig -> ( SecretConfig, Cmd msg )
 update parentMsgs msg secretConfig =
     case msg of
-        Msg.InitTags tagList ->
-            ( { secretConfig
-                | tags = List.map Tag.tag tagList
-                , tagsField = String.join ", " tagList
-              }
-            , Cmd.none
-            )
-
         Msg.RandomTagGenerated videoPlayerId tag ->
             let
                 randomGifUrlFetchedMsg : Result Error String -> msg
@@ -92,6 +83,10 @@ update parentMsgs msg secretConfig =
                 tags =
                     List.map Tag.tag rawTags
 
+                tagsField : String
+                tagsField =
+                    String.join ", " rawTags
+
                 generateRandomTagForVideoPlayer : VideoPlayerId -> Cmd msg
                 generateRandomTagForVideoPlayer videoPlayerId =
                     let
@@ -102,18 +97,11 @@ update parentMsgs msg secretConfig =
                                 videoPlayerId
                     in
                     Tag.generateRandomTag randomTagGeneratedMsg tags
-
-                performInitSecretConfigTags : Cmd msg
-                performInitSecretConfigTags =
-                    Task.performInitTags
-                        parentMsgs.secretConfigMsg
-                        rawTags
             in
-            ( { secretConfig | tags = tags }
+            ( { secretConfig | tags = tags, tagsField = tagsField }
             , Cmd.batch
                 [ generateRandomTagForVideoPlayer (VideoPlayer.id "1")
                 , generateRandomTagForVideoPlayer (VideoPlayer.id "2")
-                , performInitSecretConfigTags
                 ]
             )
 
@@ -138,13 +126,6 @@ update parentMsgs msg secretConfig =
             )
 
         Msg.UpdateGifDisplaySecondsField rawGifDisplayIntervalSeconds ->
-            -- let
-            --     gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
-            --     gifDisplayIntervalSeconds =
-            --         Gif.updateDisplayIntervalSeconds
-            --             seconds
-            --             secretConfig.gifDisplayIntervalSeconds
-            -- in
             ( { secretConfig
                 | gifDisplayIntervalSecondsField = rawGifDisplayIntervalSeconds
               }
