@@ -9,9 +9,6 @@ You can see the results at: <https://www.paulfioravanti.com/80sfy>
 Note that it's currently only optimised for the Google Chrome and Firefox
 desktop browsers, so it's probably best to view it with either of those.
 
-The only real difference between them should be that Chrome does not allow
-audio auto play by default.
-
 ## Development
 
 ### Dependencies
@@ -84,6 +81,9 @@ deploy out to [Github Pages][].
   ```
 
 ### Chrome Autoplay Policy
+
+> You may find that this issue _may_ still be present, but I have found that
+  it does not seem to exist any more...
 
 Chrome's autoplay policies [changed in April of 2018][Chrome Autoplay Policy
 Changes], which seems to affect this app when it is first loaded, and you
