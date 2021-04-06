@@ -3,10 +3,10 @@ module Tag exposing
     , fetchTags
     , generateRandomTag
     , rawTag
-    , rawTagsString
     , stringTagsToString
     , stringTagsToTagList
-    , tagList
+    , stringToTagList
+    , tagListToString
     )
 
 import Http exposing (Error)
@@ -54,13 +54,6 @@ rawTag (Tag tagString) =
     tagString
 
 
-rawTagsString : List Tag -> String
-rawTagsString tagsList =
-    tagsList
-        |> List.map rawTag
-        |> stringTagsToString
-
-
 stringTagsToString : List String -> String
 stringTagsToString tagsList =
     String.join separator tagsList
@@ -71,12 +64,19 @@ stringTagsToTagList tagsList =
     List.map tag tagsList
 
 
-tagList : String -> List Tag
-tagList tagsString =
+stringToTagList : String -> List Tag
+stringToTagList tagsString =
     tagsString
         |> String.split separator
         |> List.map String.trim
         |> stringTagsToTagList
+
+
+tagListToString : List Tag -> String
+tagListToString tagsList =
+    tagsList
+        |> List.map rawTag
+        |> stringTagsToString
 
 
 

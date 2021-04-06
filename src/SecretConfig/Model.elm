@@ -139,7 +139,7 @@ validateTags currentTags tagsField =
                 |> String.isEmpty
     in
     if tagsFieldIsEmpty then
-        ( currentTags, Tag.rawTagsString currentTags )
+        ( currentTags, Tag.tagListToString currentTags )
 
     else
-        ( Tag.tagList tagsField, tagsField )
+        ( Tag.stringToTagList tagsField, tagsField )
