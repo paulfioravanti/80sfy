@@ -6,7 +6,6 @@ module Tag exposing
     , rawTagsString
     , stringTagsToString
     , stringTagsToTagList
-    , tag
     , tagList
     )
 
@@ -64,7 +63,7 @@ rawTagsString tagsList =
 
 stringTagsToString : List String -> String
 stringTagsToString tagsList =
-    String.join ", " tagsList
+    String.join separator tagsList
 
 
 stringTagsToTagList : List String -> List Tag
@@ -72,15 +71,10 @@ stringTagsToTagList tagsList =
     List.map tag tagsList
 
 
-tag : String -> Tag
-tag rawTagString =
-    Tag rawTagString
-
-
 tagList : String -> List Tag
 tagList tagsString =
     tagsString
-        |> String.split ", "
+        |> String.split separator
         |> List.map String.trim
         |> stringTagsToTagList
 
@@ -100,3 +94,13 @@ atIndex tags index =
         |> List.drop index
         |> List.head
         |> Maybe.withDefault defaultTag
+
+
+separator : String
+separator =
+    ", "
+
+
+tag : String -> Tag
+tag rawTagString =
+    Tag rawTagString
