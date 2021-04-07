@@ -1,23 +1,23 @@
-module Tasks exposing (performPause)
+module Ports.Task exposing (performPause)
 
-import Ports
+import Ports.Msg as Msg exposing (Msg)
 import Task exposing (Task)
 
 
-performPause : (Ports.Msg -> msg) -> Cmd msg
+performPause : (Msg -> msg) -> Cmd msg
 performPause portsMsg =
     let
         pauseAudio : Task x msg
         pauseAudio =
-            Task.succeed (portsMsg Ports.pauseAudioMsg)
+            Task.succeed (portsMsg Msg.PauseAudio)
 
-        pauseVideo : Task x msg
-        pauseVideo =
-            Task.succeed (portsMsg Ports.pauseVideosMsg)
+        pauseVideos : Task x msg
+        pauseVideos =
+            Task.succeed (portsMsg Msg.PauseVideos)
     in
     -- NOTE: These tasks need to be specifically ordered so that
     -- the player paused overlay is not displayed when the
     -- pause button is pressed on the app player.
-    pauseVideo
+    pauseVideos
         |> Task.andThen (\_ -> pauseAudio)
         |> Task.perform identity

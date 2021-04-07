@@ -4,7 +4,6 @@ import AudioPlayer exposing (AudioPlayer)
 import Model exposing (Model)
 import Ports
 import SecretConfig exposing (SecretConfig)
-import Tasks
 import VideoPlayer
 
 
@@ -57,7 +56,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
 
         Space ->
             if AudioPlayer.isPlaying audioPlayer then
-                Tasks.performPause parentMsgs.portsMsg
+                Ports.performPause parentMsgs.portsMsg
 
             else
                 Cmd.batch [ Ports.playVideos, Ports.playAudio ]

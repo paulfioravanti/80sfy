@@ -13,6 +13,7 @@ port module Ports exposing
     , pauseAudioMsg
     , pauseVideos
     , pauseVideosMsg
+    , performPause
     , playAudio
     , playAudioMsg
     , playVideos
@@ -27,6 +28,7 @@ import Json.Encode exposing (Value)
 import Ports.Cmd as Cmd
 import Ports.Msg as Msg
 import Ports.Payload as Payload
+import Ports.Task as Task
 
 
 type alias Msg =
@@ -92,6 +94,11 @@ pauseVideos =
 pauseVideosMsg : Msg
 pauseVideosMsg =
     Msg.PauseVideos
+
+
+performPause : (Msg -> msg) -> Cmd msg
+performPause portsMsg =
+    Task.performPause portsMsg
 
 
 playAudio : Cmd msg

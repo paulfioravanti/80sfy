@@ -9,7 +9,6 @@ import Msg exposing (Msg)
 import Ports
 import SecretConfig
 import Tag exposing (Tag)
-import Tasks
 import VideoPlayer
 
 
@@ -82,7 +81,7 @@ update parentMsgs msg model =
             let
                 pauseMedia : Cmd Msg
                 pauseMedia =
-                    Tasks.performPause Msg.Ports
+                    Ports.performPause Msg.Ports
             in
             ( model, pauseMedia )
 
