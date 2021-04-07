@@ -13,7 +13,6 @@ import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
-        , audioPlayingMsg : Msg
         , controlPanelMsg : ControlPanel.Msg -> Msg
         , crossFadePlayersMsg : Posix -> Msg
         , keyPressedMsg : Key -> Msg

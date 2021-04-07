@@ -37,18 +37,6 @@ update parentMsgs msg model =
             in
             ( { model | audioPlayer = audioPlayer }, cmd )
 
-        Msg.AudioPlaying ->
-            let
-                ( audioPlayer, cmd ) =
-                    AudioPlayer.update
-                        parentMsgs
-                        AudioPlayer.audioPlayingMsg
-                        model.audioPlayer
-            in
-            ( { model | audioPlayer = audioPlayer }
-            , Cmd.batch [ cmd, Ports.playVideos ]
-            )
-
         Msg.ControlPanel msgForControlPanel ->
             let
                 controlPanel : ControlPanel

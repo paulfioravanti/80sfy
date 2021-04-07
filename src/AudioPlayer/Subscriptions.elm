@@ -11,7 +11,6 @@ import Value
 type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : Msg -> msg
-        , audioPlayingMsg : msg
         , noOpMsg : msg
     }
 
@@ -86,7 +85,7 @@ handleAudioPaused { audioPlayerMsg, noOpMsg } data =
 
 
 handleAudioPlaying : ParentMsgs msgs msg -> Value -> msg
-handleAudioPlaying { audioPlayingMsg, noOpMsg } data =
+handleAudioPlaying { audioPlayerMsg, noOpMsg } data =
     let
         loadedProgress : Float
         loadedProgress =
@@ -96,7 +95,7 @@ handleAudioPlaying { audioPlayingMsg, noOpMsg } data =
     -- SoundCloud player has been loaded and can therefore
     -- actually play.
     if loadedProgress > 0 then
-        audioPlayingMsg
+        audioPlayerMsg Msg.AudioPlaying
 
     else
         noOpMsg

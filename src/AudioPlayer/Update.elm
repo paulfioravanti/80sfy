@@ -52,7 +52,7 @@ update { audioPlayerMsg } msg audioPlayer =
                 status =
                     Status.play audioPlayer.status
             in
-            ( { audioPlayer | status = status }, Cmd.none )
+            ( { audioPlayer | status = status }, Ports.playVideos )
 
         Msg.NextTrack ->
             let

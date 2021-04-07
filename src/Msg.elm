@@ -11,7 +11,6 @@ import VideoPlayer
 
 type Msg
     = AudioPlayer AudioPlayer.Msg
-    | AudioPlaying
     | ControlPanel ControlPanel.Msg
     | CrossFadePlayers Posix
     | KeyPressed Key
@@ -26,7 +25,6 @@ type Msg
 
 type alias Msgs =
     { audioPlayerMsg : AudioPlayer.Msg -> Msg
-    , audioPlayingMsg : Msg
     , controlPanelMsg : ControlPanel.Msg -> Msg
     , crossFadePlayersMsg : Posix -> Msg
     , keyPressedMsg : Key -> Msg
@@ -43,7 +41,6 @@ type alias Msgs =
 dictionary : Msgs
 dictionary =
     { audioPlayerMsg = AudioPlayer
-    , audioPlayingMsg = AudioPlaying
     , controlPanelMsg = ControlPanel
     , crossFadePlayersMsg = CrossFadePlayers
     , keyPressedMsg = KeyPressed
