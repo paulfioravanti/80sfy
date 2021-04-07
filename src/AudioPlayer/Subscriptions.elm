@@ -10,8 +10,7 @@ import Value
 
 type alias ParentMsgs msgs msg =
     { msgs
-        | audioPausedMsg : msg
-        , audioPlayerMsg : Msg -> msg
+        | audioPlayerMsg : Msg -> msg
         , audioPlayingMsg : msg
         , noOpMsg : msg
     }
@@ -71,7 +70,7 @@ handlePlaylistLengthFetched audioPlayerMsg data =
 
 
 handleAudioPaused : ParentMsgs msgs msg -> Value -> msg
-handleAudioPaused { audioPausedMsg, noOpMsg } data =
+handleAudioPaused { audioPlayerMsg, noOpMsg } data =
     let
         currentPosition : Float
         currentPosition =
@@ -80,7 +79,7 @@ handleAudioPaused { audioPausedMsg, noOpMsg } data =
     -- Only perform actions if at least some of the sound from the
     -- SoundCloud player has been actually played.
     if currentPosition > 0 then
-        audioPausedMsg
+        audioPlayerMsg Msg.AudioPaused
 
     else
         noOpMsg

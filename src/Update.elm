@@ -27,18 +27,6 @@ type alias Msgs msgs =
 update : Msgs msgs -> Msg -> Model -> ( Model, Cmd Msg )
 update parentMsgs msg model =
     case msg of
-        Msg.AudioPaused ->
-            let
-                ( audioPlayer, cmd ) =
-                    AudioPlayer.update
-                        parentMsgs
-                        AudioPlayer.audioPausedMsg
-                        model.audioPlayer
-            in
-            ( { model | audioPlayer = audioPlayer }
-            , Cmd.batch [ cmd, Ports.pauseVideos ]
-            )
-
         Msg.AudioPlayer msgForAudioPlayer ->
             let
                 ( audioPlayer, cmd ) =

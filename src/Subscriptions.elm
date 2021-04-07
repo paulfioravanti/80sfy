@@ -12,8 +12,7 @@ import VideoPlayer exposing (VideoPlayerSubscriptionsContext)
 
 type alias Msgs msgs =
     { msgs
-        | audioPausedMsg : Msg
-        , audioPlayerMsg : AudioPlayer.Msg -> Msg
+        | audioPlayerMsg : AudioPlayer.Msg -> Msg
         , audioPlayingMsg : Msg
         , controlPanelMsg : ControlPanel.Msg -> Msg
         , crossFadePlayersMsg : Posix -> Msg

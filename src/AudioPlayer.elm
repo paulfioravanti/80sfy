@@ -4,7 +4,6 @@ module AudioPlayer exposing
     , AudioPlayerVolume
     , Msg
     , adjustVolumeMsg
-    , audioPausedMsg
     , audioPlayingMsg
     , init
     , isMuted
@@ -63,11 +62,6 @@ init soundCloudPlaylistUrl =
 adjustVolumeMsg : (Msg -> msg) -> String -> msg
 adjustVolumeMsg audioPlayerMsg sliderVolume =
     Msg.adjustVolume audioPlayerMsg sliderVolume
-
-
-audioPausedMsg : Msg
-audioPausedMsg =
-    Msg.AudioPaused
 
 
 audioPlayingMsg : Msg

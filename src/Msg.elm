@@ -10,8 +10,7 @@ import VideoPlayer
 
 
 type Msg
-    = AudioPaused
-    | AudioPlayer AudioPlayer.Msg
+    = AudioPlayer AudioPlayer.Msg
     | AudioPlaying
     | ControlPanel ControlPanel.Msg
     | CrossFadePlayers Posix
@@ -26,8 +25,7 @@ type Msg
 
 
 type alias Msgs =
-    { audioPausedMsg : Msg
-    , audioPlayerMsg : AudioPlayer.Msg -> Msg
+    { audioPlayerMsg : AudioPlayer.Msg -> Msg
     , audioPlayingMsg : Msg
     , controlPanelMsg : ControlPanel.Msg -> Msg
     , crossFadePlayersMsg : Posix -> Msg
@@ -44,8 +42,7 @@ type alias Msgs =
 
 dictionary : Msgs
 dictionary =
-    { audioPausedMsg = AudioPaused
-    , audioPlayerMsg = AudioPlayer
+    { audioPlayerMsg = AudioPlayer
     , audioPlayingMsg = AudioPlaying
     , controlPanelMsg = ControlPanel
     , crossFadePlayersMsg = CrossFadePlayers

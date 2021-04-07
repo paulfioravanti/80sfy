@@ -44,7 +44,7 @@ update { audioPlayerMsg } msg audioPlayer =
                 status =
                     Status.pause audioPlayer.status
             in
-            ( { audioPlayer | status = status }, Cmd.none )
+            ( { audioPlayer | status = status }, Ports.pauseVideos )
 
         Msg.AudioPlaying ->
             let
