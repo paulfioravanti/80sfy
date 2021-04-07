@@ -61,7 +61,7 @@ muteUnmuteButton { audioPlayerMsg } muted =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "mute-unmute"
-        , onClick (AudioPlayer.toggleMuteMsg audioPlayerMsg)
+        , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class iconClass ] []
@@ -93,7 +93,7 @@ nextTrackButton { audioPlayerMsg } =
     div
         [ css [ Styles.button ]
         , attribute "data-name" "next-track"
-        , onClick (AudioPlayer.nextTrackMsg audioPlayerMsg)
+        , onClick (audioPlayerMsg AudioPlayer.nextTrackMsg)
         ]
         [ div [ css [ Styles.iconBackground ] ] []
         , i [ css [ Styles.icon ], class "fas fa-fast-forward" ] []
@@ -103,7 +103,7 @@ nextTrackButton { audioPlayerMsg } =
 fullscreenButton : ParentMsgs msgs msg -> Html msg
 fullscreenButton { portsMsg } =
     div
-        [ onClick (Ports.toggleFullscreenMsg portsMsg)
+        [ onClick (portsMsg Ports.toggleFullscreenMsg)
         , css [ Styles.button ]
         , attribute "data-name" "fullscreen"
         ]

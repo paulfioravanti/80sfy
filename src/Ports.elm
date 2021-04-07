@@ -59,9 +59,9 @@ exitFullscreen =
     Cmd.exitFullscreen
 
 
-haltVideosMsg : (Msg -> msg) -> msg
-haltVideosMsg portsMsg =
-    portsMsg Msg.HaltVideos
+haltVideosMsg : Msg
+haltVideosMsg =
+    Msg.HaltVideos
 
 
 initSoundCloudWidget : SoundCloudWidgetPayload -> Cmd msg
@@ -79,9 +79,9 @@ logError message error =
     Cmd.logError message error
 
 
-pauseAudioMsg : (Msg -> msg) -> msg
-pauseAudioMsg portsMsg =
-    portsMsg Msg.PauseAudio
+pauseAudioMsg : Msg
+pauseAudioMsg =
+    Msg.PauseAudio
 
 
 pauseVideos : Cmd msg
@@ -89,9 +89,9 @@ pauseVideos =
     Cmd.pauseVideos
 
 
-pauseVideosMsg : (Msg -> msg) -> msg
-pauseVideosMsg portsMsg =
-    portsMsg Msg.PauseVideos
+pauseVideosMsg : Msg
+pauseVideosMsg =
+    Msg.PauseVideos
 
 
 playAudio : Cmd msg
@@ -99,9 +99,9 @@ playAudio =
     Cmd.playAudio
 
 
-playAudioMsg : (Msg -> msg) -> msg
-playAudioMsg portsMsg =
-    portsMsg Msg.PlayAudio
+playAudioMsg : Msg
+playAudioMsg =
+    Msg.PlayAudio
 
 
 playVideos : Cmd msg
@@ -109,9 +109,9 @@ playVideos =
     Cmd.playVideos
 
 
-playVideosMsg : (Msg -> msg) -> msg
-playVideosMsg portsMsg =
-    portsMsg Msg.PlayVideos
+playVideosMsg : Msg
+playVideosMsg =
+    Msg.PlayVideos
 
 
 setVolume : Int -> Cmd msg
@@ -124,6 +124,6 @@ skipToTrack trackNumber =
     Cmd.skipToTrack trackNumber
 
 
-toggleFullscreenMsg : (Msg -> msg) -> msg
-toggleFullscreenMsg portsMsg =
-    portsMsg Msg.ToggleFullscreen
+toggleFullscreenMsg : Msg
+toggleFullscreenMsg =
+    Msg.ToggleFullscreen

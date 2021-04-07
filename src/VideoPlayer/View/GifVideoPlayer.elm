@@ -52,7 +52,7 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
         onClickMsg : msg
         onClickMsg =
             if overlayVisible then
-                Ports.playVideosMsg portsMsg
+                portsMsg Ports.playVideosMsg
 
             else
                 noOpMsg
@@ -64,7 +64,7 @@ gifVideoPlayerAttributes overlayVisible { noOpMsg, portsMsg } { style, zIndex } 
         videoPlayerAttributes : List (Html.Attribute msg)
         videoPlayerAttributes =
             [ attribute "data-name" "player-gif-container"
-            , onDoubleClick (Ports.toggleFullscreenMsg portsMsg)
+            , onDoubleClick (portsMsg Ports.toggleFullscreenMsg)
             , onClick onClickMsg
             , css [ Styles.gifContainer rawVideoPlayerZIndex ]
             ]

@@ -9,11 +9,11 @@ performPause portsMsg =
     let
         pauseAudio : Task x msg
         pauseAudio =
-            Task.succeed (Ports.pauseAudioMsg portsMsg)
+            Task.succeed (portsMsg Ports.pauseAudioMsg)
 
         pauseVideo : Task x msg
         pauseVideo =
-            Task.succeed (Ports.pauseVideosMsg portsMsg)
+            Task.succeed (portsMsg Ports.pauseVideosMsg)
     in
     -- NOTE: These tasks need to be specifically ordered so that
     -- the player paused overlay is not displayed when the

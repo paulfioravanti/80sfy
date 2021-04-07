@@ -113,7 +113,7 @@ overrideControlPanelHideButton : (ControlPanel.Msg -> msg) -> Html msg
 overrideControlPanelHideButton controlPanelMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (ControlPanel.toggleHideWhenInactiveMsg controlPanelMsg)
+        , onClick (controlPanelMsg ControlPanel.toggleHideWhenInactiveMsg)
         ]
         [ text "Override Control Panel Hide" ]
 
@@ -131,7 +131,7 @@ pauseGifRotationButton : (Ports.Msg -> msg) -> Html msg
 pauseGifRotationButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Ports.pauseVideosMsg portsMsg)
+        , onClick (portsMsg Ports.pauseVideosMsg)
         ]
         [ text "Pause Gif Rotation" ]
 
@@ -140,7 +140,7 @@ playGifRotationButton : (Ports.Msg -> msg) -> Html msg
 playGifRotationButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Ports.playVideosMsg portsMsg)
+        , onClick (portsMsg Ports.playVideosMsg)
         ]
         [ text "Play Gif Rotation" ]
 
@@ -149,7 +149,7 @@ playAudioButton : (Ports.Msg -> msg) -> Html msg
 playAudioButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Ports.playAudioMsg portsMsg)
+        , onClick (portsMsg Ports.playAudioMsg)
         ]
         [ text "Play Audio" ]
 
@@ -158,6 +158,6 @@ pauseAudioButton : (Ports.Msg -> msg) -> Html msg
 pauseAudioButton portsMsg =
     button
         [ css [ Styles.configButton ]
-        , onClick (Ports.pauseAudioMsg portsMsg)
+        , onClick (portsMsg Ports.pauseAudioMsg)
         ]
         [ text "Pause Audio" ]

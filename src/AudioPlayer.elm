@@ -73,9 +73,9 @@ isPlaying audioPlayer =
     Status.isPlaying audioPlayer.status
 
 
-nextTrackMsg : (Msg -> msg) -> msg
-nextTrackMsg audioPlayerMsg =
-    audioPlayerMsg Msg.NextTrack
+nextTrackMsg : Msg
+nextTrackMsg =
+    Msg.NextTrack
 
 
 performAudioPlayerReset : (Msg -> msg) -> SoundCloudPlaylistUrl -> Cmd msg
@@ -123,9 +123,9 @@ subscriptions parentMsgs audioPlayer =
     Subscriptions.subscriptions parentMsgs audioPlayer
 
 
-toggleMuteMsg : (Msg -> msg) -> msg
-toggleMuteMsg audioPlayerMsg =
-    audioPlayerMsg Msg.ToggleMute
+toggleMuteMsg : Msg
+toggleMuteMsg =
+    Msg.ToggleMute
 
 
 update :

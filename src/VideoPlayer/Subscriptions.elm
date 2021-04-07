@@ -92,7 +92,7 @@ handlePayload parentMsgs context videoPlayer1 payload =
 
         "WINDOW_FOCUSED" ->
             if videoPlayer1.status == Status.halted then
-                Ports.playVideosMsg portsMsg
+                portsMsg Ports.playVideosMsg
 
             else
                 noOpMsg
@@ -134,4 +134,4 @@ handleWindowBlurred { noOpMsg, portsMsg } rawAudioPlayerId data =
         noOpMsg
 
     else
-        Ports.haltVideosMsg portsMsg
+        portsMsg Ports.haltVideosMsg
