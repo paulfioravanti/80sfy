@@ -14,8 +14,9 @@ port module Ports exposing
     , pauseVideos
     , pauseVideosMsg
     , performPause
-    , playAudio
+    , play
     , playAudioMsg
+    , playMsg
     , playVideos
     , playVideosMsg
     , setVolume
@@ -101,9 +102,14 @@ performPause portsMsg =
     Task.performPause portsMsg
 
 
-playAudio : Cmd msg
-playAudio =
-    Cmd.playAudio
+play : Cmd msg
+play =
+    Cmd.play
+
+
+playMsg : Msg
+playMsg =
+    Msg.Play
 
 
 playAudioMsg : Msg

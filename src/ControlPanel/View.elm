@@ -35,7 +35,6 @@ type alias ParentMsgs msgs msg =
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , controlPanelMsg : Msg -> msg
         , pauseMsg : msg
-        , playMsg : msg
         , portsMsg : Ports.Msg -> msg
     }
 

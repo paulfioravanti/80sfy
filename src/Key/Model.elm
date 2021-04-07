@@ -20,7 +20,6 @@ type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , pauseMsg : msg
-        , playMsg : msg
         , portsMsg : Ports.Msg -> msg
         , videoPlayerMsg : VideoPlayer.Msg -> msg
     }
@@ -59,7 +58,7 @@ pressed ({ audioPlayerMsg } as parentMsgs) { audioPlayer, secretConfig } key =
                 Ports.performPause parentMsgs.portsMsg
 
             else
-                Cmd.batch [ Ports.playVideos, Ports.playAudio ]
+                Ports.play
 
         UpArrow ->
             let

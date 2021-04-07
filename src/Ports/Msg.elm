@@ -16,6 +16,7 @@ type Msg
     | Log Value
     | PauseAudio
     | PauseVideos
+    | Play
     | PlayAudio
     | PlayVideos
     | SetVolume Int

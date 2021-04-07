@@ -17,7 +17,6 @@ type Msg
     | NoOp
     | Pause
     | Ports Ports.Msg
-    | Play
     | SecretConfig SecretConfig.Msg
     | ShowApplicationState
     | VideoPlayer VideoPlayer.Msg
@@ -30,7 +29,6 @@ type alias Msgs =
     , keyPressedMsg : Key -> Msg
     , noOpMsg : Msg
     , pauseMsg : Msg
-    , playMsg : Msg
     , portsMsg : Ports.Msg -> Msg
     , secretConfigMsg : SecretConfig.Msg -> Msg
     , showApplicationStateMsg : Msg
@@ -46,7 +44,6 @@ dictionary =
     , keyPressedMsg = KeyPressed
     , noOpMsg = NoOp
     , pauseMsg = Pause
-    , playMsg = Play
     , portsMsg = Ports
     , secretConfigMsg = SecretConfig
     , showApplicationStateMsg = ShowApplicationState

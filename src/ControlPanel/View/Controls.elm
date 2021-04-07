@@ -12,7 +12,6 @@ type alias ParentMsgs msgs msg =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> msg
         , pauseMsg : msg
-        , playMsg : msg
         , portsMsg : Ports.Msg -> msg
     }
 
@@ -69,14 +68,14 @@ muteUnmuteButton { audioPlayerMsg } muted =
 
 
 playPauseButton : ParentMsgs msgs msg -> Bool -> Html msg
-playPauseButton { pauseMsg, playMsg } playing =
+playPauseButton { pauseMsg, portsMsg } playing =
     let
         ( iconClass, playPauseMsg ) =
             if playing then
                 ( "fas fa-pause", pauseMsg )
 
             else
-                ( "fas fa-play", playMsg )
+                ( "fas fa-play", portsMsg Ports.playMsg )
     in
     div
         [ css [ Styles.button ]

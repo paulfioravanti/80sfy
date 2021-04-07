@@ -16,7 +16,6 @@ type alias Msgs msgs =
     { msgs
         | audioPlayerMsg : AudioPlayer.Msg -> Msg
         , pauseMsg : Msg
-        , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
         , secretConfigMsg : SecretConfig.Msg -> Msg
         , videoPlayerMsg : VideoPlayer.Msg -> Msg
@@ -84,9 +83,6 @@ update parentMsgs msg model =
                     Ports.performPause Msg.Ports
             in
             ( model, pauseMedia )
-
-        Msg.Play ->
-            ( model, Cmd.batch [ Ports.playVideos, Ports.playAudio ] )
 
         Msg.Ports msgForPorts ->
             ( model, Ports.cmd msgForPorts )

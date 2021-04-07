@@ -5,7 +5,7 @@ port module Ports.Cmd exposing
     , log
     , logError
     , pauseVideos
-    , playAudio
+    , play
     , playVideos
     , setVolume
     , skipToTrack
@@ -53,6 +53,12 @@ cmd msg =
 
         Msg.PauseVideos ->
             outbound (Payload.withTag "PAUSE_VIDEOS")
+
+        Msg.Play ->
+            Cmd.batch
+                [ outbound (Payload.withTag "PLAY_VIDEOS")
+                , outbound (Payload.withTag "PLAY_AUDIO")
+                ]
 
         Msg.PlayAudio ->
             outbound (Payload.withTag "PLAY_AUDIO")
@@ -122,9 +128,9 @@ pauseVideos =
     cmd Msg.PauseVideos
 
 
-playAudio : Cmd msg
-playAudio =
-    cmd Msg.PlayAudio
+play : Cmd msg
+play =
+    cmd Msg.Play
 
 
 playVideos : Cmd msg

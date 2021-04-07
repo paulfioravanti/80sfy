@@ -18,7 +18,6 @@ type alias Msgs msgs =
         , controlPanelMsg : ControlPanel.Msg -> Msg
         , noOpMsg : Msg
         , pauseMsg : Msg
-        , playMsg : Msg
         , portsMsg : Ports.Msg -> Msg
         , secretConfigMsg : SecretConfig.Msg -> Msg
         , showApplicationStateMsg : Msg
