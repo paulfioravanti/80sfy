@@ -1,6 +1,6 @@
 module ControlPanel.Subscriptions exposing (ParentMsgs, subscriptions)
 
-import Browser.Events
+import Browser.Events as Events
 import ControlPanel.Animation as Animation
 import ControlPanel.Model exposing (ControlPanel)
 import ControlPanel.Msg as Msg exposing (Msg)
@@ -45,7 +45,7 @@ visibilitySubscription controlPanelMsg state =
             (Msg.countdownToHideControlPanel controlPanelMsg secondsVisible)
 
     else if state == State.invisible then
-        Browser.Events.onMouseMove
+        Events.onMouseMove
             (Decode.succeed (controlPanelMsg Msg.ShowControlPanel))
 
     else

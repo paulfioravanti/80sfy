@@ -3,7 +3,7 @@ module View exposing (view)
 import AudioPlayer
 import Browser exposing (Document)
 import ControlPanel
-import Html.Styled exposing (div)
+import Html.Styled as Html exposing (div)
 import Html.Styled.Attributes exposing (attribute)
 import Model exposing (Model)
 import Msg exposing (Msg)
@@ -38,7 +38,7 @@ view msgs ({ secretConfig, videoPlayer1, videoPlayer2 } as model) =
     in
     { title = "Welcome back to the 80s -- this is 80sfy."
     , body =
-        List.map Html.Styled.toUnstyled
+        List.map Html.toUnstyled
             [ div [ attribute "data-name" "container" ]
                 [ ControlPanel.view msgs model
                 , VideoPlayer.view msgs audioPlaying videoPlayer1

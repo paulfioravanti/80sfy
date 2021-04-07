@@ -56,10 +56,7 @@ config =
     , NoDuplicatePorts.rule
     , NoExposingEverything.rule
     , NoImportingEverything.rule []
-    , NoInconsistentAliases.config
-        [ ( "Json.Decode", "Decode" )
-        , ( "Json.Encode", "Encode" )
-        ]
+    , NoInconsistentAliases.config aliases
         |> NoInconsistentAliases.noMissingAliases
         |> NoInconsistentAliases.rule
     , NoIndirectInternal.rule
@@ -77,4 +74,19 @@ config =
     , NoUnused.Variables.rule
     , NoUnusedPorts.rule
     , NoUselessSubscriptions.rule
+    ]
+
+
+
+-- PRIVATE
+
+
+aliases : List ( String, String )
+aliases =
+    [ ( "Browser.Events", "Events" )
+    , ( "Html.Styled", "Html" )
+    , ( "Html.Styled.Attributes", "Attributes" )
+    , ( "Json.Decode", "Decode" )
+    , ( "Json.Decode.Pipeline", "Pipeline" )
+    , ( "Json.Encode", "Encode" )
     ]
