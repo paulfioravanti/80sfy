@@ -1,8 +1,9 @@
 module Update exposing (update)
 
-import ApplicationState
 import AudioPlayer
 import ControlPanel exposing (ControlPanel)
+import Encoder
+import Json.Encode exposing (Value)
 import Key
 import Model exposing (Model)
 import Msg exposing (Msg)
@@ -98,7 +99,12 @@ update parentMsgs msg model =
             ( { model | secretConfig = secretConfig }, cmd )
 
         Msg.ShowApplicationState ->
-            ( model, ApplicationState.show model )
+            let
+                encodedModel : Value
+                encodedModel =
+                    Encoder.encode model
+            in
+            ( model, Ports.log encodedModel )
 
         Msg.VideoPlayer msgForVideoPlayer ->
             let

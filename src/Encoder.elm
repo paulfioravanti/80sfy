@@ -1,31 +1,25 @@
-module ApplicationState exposing (show)
+module Encoder exposing (encode)
 
 import AudioPlayer exposing (AudioPlayer)
 import ControlPanel exposing (ControlPanel)
 import Gif
 import Json.Encode as Encode exposing (Value)
 import Model exposing (Model)
-import Ports
 import SecretConfig exposing (SecretConfig)
 import SoundCloud
 import Tag
 import VideoPlayer exposing (VideoPlayer)
 
 
-show : Model -> Cmd msg
-show { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
-    let
-        applicationState : Value
-        applicationState =
-            Encode.object
-                [ ( "Audio Player", audioPlayerJson audioPlayer )
-                , ( "Control Panel", controlPanelJson controlPanel )
-                , ( "Secret Config", secretConfigJson secretConfig )
-                , ( "Video Player 1", videoPlayerJson videoPlayer1 )
-                , ( "Video Player 2", videoPlayerJson videoPlayer2 )
-                ]
-    in
-    Ports.log applicationState
+encode : Model -> Value
+encode { audioPlayer, controlPanel, secretConfig, videoPlayer1, videoPlayer2 } =
+    Encode.object
+        [ ( "Audio Player", audioPlayerJson audioPlayer )
+        , ( "Control Panel", controlPanelJson controlPanel )
+        , ( "Secret Config", secretConfigJson secretConfig )
+        , ( "Video Player 1", videoPlayerJson videoPlayer1 )
+        , ( "Video Player 2", videoPlayerJson videoPlayer2 )
+        ]
 
 
 
