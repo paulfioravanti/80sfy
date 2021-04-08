@@ -57,7 +57,9 @@ update parentMsgs msg model =
 
                 generateRandomTagForHiddenVideoPlayer : Cmd Msg
                 generateRandomTagForHiddenVideoPlayer =
-                    Tag.generateRandomTag randomTagGeneratedMsg model.secretConfig.tags
+                    Tag.generateRandomTag
+                        randomTagGeneratedMsg
+                        model.secretConfig.tags
             in
             ( { model
                 | videoPlayer1 = crossFadedVideoPlayer1
