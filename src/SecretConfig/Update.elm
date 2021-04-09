@@ -4,8 +4,9 @@ import AudioPlayer
 import Gif
 import Http exposing (Error)
 import Ports
-import SecretConfig.Model as Model exposing (SecretConfig)
+import SecretConfig.Model exposing (SecretConfig)
 import SecretConfig.Msg as Msg exposing (Msg)
+import SecretConfig.Validator as Validator
 import Tag exposing (Tag)
 import VideoPlayer exposing (VideoPlayerId)
 
@@ -41,17 +42,19 @@ update parentMsgs msg secretConfig =
         Msg.Save ->
             let
                 ( gifDisplayIntervalSeconds, gifDisplayIntervalSecondsField ) =
-                    Model.validateGifDisplayIntervalSeconds
+                    Validator.validateGifDisplayIntervalSeconds
                         secretConfig.gifDisplayIntervalSeconds
                         secretConfig.gifDisplayIntervalSecondsField
 
                 ( soundCloudPlaylistUrl, soundCloudPlaylistUrlField ) =
-                    Model.validateSoundCloudPlaylistUrl
+                    Validator.validateSoundCloudPlaylistUrl
                         secretConfig.soundCloudPlaylistUrl
                         secretConfig.soundCloudPlaylistUrlField
 
                 ( tags, tagsField ) =
-                    Model.validateTags secretConfig.tags secretConfig.tagsField
+                    Validator.validateTags
+                        secretConfig.tags
+                        secretConfig.tagsField
 
                 cmd : Cmd msg
                 cmd =
