@@ -1,12 +1,60 @@
-module SecretConfig.Validator exposing
-    ( validateGifDisplayIntervalSeconds
-    , validateSoundCloudPlaylistUrl
-    , validateTags
-    )
+module SecretConfig.Validator exposing (ValidatedFields, validate)
 
 import Gif exposing (GifDisplayIntervalSeconds)
 import SoundCloud exposing (SoundCloudPlaylistUrl)
 import Tag exposing (Tag)
+
+
+type alias Context a =
+    { a
+        | gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+        , gifDisplayIntervalSecondsField : String
+        , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
+        , soundCloudPlaylistUrlField : String
+        , tags : List Tag
+        , tagsField : String
+    }
+
+
+type alias ValidatedFields =
+    { gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+    , gifDisplayIntervalSecondsField : String
+    , soundCloudPlaylistUrl : SoundCloudPlaylistUrl
+    , soundCloudPlaylistUrlField : String
+    , tags : List Tag
+    , tagsField : String
+    }
+
+
+validate : Context a -> ValidatedFields
+validate context =
+    let
+        ( gifDisplayIntervalSeconds, gifDisplayIntervalSecondsField ) =
+            validateGifDisplayIntervalSeconds
+                context.gifDisplayIntervalSeconds
+                context.gifDisplayIntervalSecondsField
+
+        ( soundCloudPlaylistUrl, soundCloudPlaylistUrlField ) =
+            validateSoundCloudPlaylistUrl
+                context.soundCloudPlaylistUrl
+                context.soundCloudPlaylistUrlField
+
+        ( tags, tagsField ) =
+            validateTags
+                context.tags
+                context.tagsField
+    in
+    { gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
+    , gifDisplayIntervalSecondsField = gifDisplayIntervalSecondsField
+    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+    , soundCloudPlaylistUrlField = soundCloudPlaylistUrlField
+    , tags = tags
+    , tagsField = tagsField
+    }
+
+
+
+-- PRIVATE
 
 
 validateGifDisplayIntervalSeconds :
