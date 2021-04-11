@@ -88,7 +88,7 @@ function initPortSubscriptions(scPlayer, ports) {
       // NOTE: The call to `scPlayer.skip` forcably *unpauses* the player, so if
       // the player was originally paused before the `skip` command, we want to
       // keep the SoundCloud widget player paused by *re-pausing* it.
-      scPlayer.isPaused((paused) => {
+      scPlayer.isPaused(paused => {
         scPlayer.skip(data.trackNumber)
         if (paused) {
           scPlayer.pause()
