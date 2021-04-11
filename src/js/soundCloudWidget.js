@@ -60,17 +60,28 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
     })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
-    // NOTE: The `sound.loadedProgress` condition is checked as a result of
-    // needed to "re-pause" the player when a call to `scPlayer.skip` is made.
-    // At the point of the "re-pausing", the `loadedProgress` will be 0.
-    // Basically, a `skip` event should not tell the Elm app at the audio has
-    // been paused.
-    if (sound.loadedProgress > 0) {
-      ports.inbound.send({
-        tag: "AUDIO_PAUSED",
-        data: sound.currentPosition
-      })
+    // NOTE: When the player is in a paused state, and a track is skipped,
+    // Soundcloud forceably unpauses it, which means we have to forceably
+    // "re-pause" it (see "SKIP_TO_TRACK" below). We don't consider this a
+    // "real" active pause, so Elm should not be notified of it. At the
+    // point of the re-pause the sound's `loadedProgress` is at 0, which is why
+    // we use it to determine whether a forced re-pause has occurred, and hence
+    // need to not send Elm the "AUDIO_PAUSED" message.
+    if (sound.loadedProgress === 0) {
+      return
     }
+    // NOTE: The play may receive PAUSE events even when it is not technically
+    // expecting them due to the issues with `scPlayer.skip`. If the player has
+    // been *actively* paused, only then should the "AUDIO_PAUSED" message be
+    // sent to Elm.
+    scPlayer.isPaused(paused => {
+      if (paused) {
+        ports.inbound.send({
+          tag: "AUDIO_PAUSED",
+          data: sound.currentPosition
+        })
+      }
+    })
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
     ports.inbound.send({
@@ -94,7 +105,9 @@ function initPortSubscriptions(scPlayer, ports) {
     case "SKIP_TO_TRACK":
       // NOTE: The call to `scPlayer.skip` forcably *unpauses* the player, so if
       // the player was originally paused before the `skip` command, we want to
-      // keep the SoundCloud widget player paused by *re-pausing* it.
+      // keep the SoundCloud widget player paused by *re-pausing* it (which
+      // then causes issues that are dealt with in the PAUSE event handling
+      // code above).
       scPlayer.isPaused(paused => {
         scPlayer.skip(data.trackNumber)
         if (paused) {
