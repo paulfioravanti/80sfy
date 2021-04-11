@@ -62,9 +62,7 @@ update { audioPlayerMsg } msg audioPlayer =
                         audioPlayer.playlist
                         audioPlayer.playlistLength
             in
-            ( { audioPlayer | playlist = playlist }
-            , Cmd.batch [ cmd, Ports.playVideos ]
-            )
+            ( { audioPlayer | playlist = playlist }, cmd )
 
         Msg.NextTrackNumberRequested ->
             let
