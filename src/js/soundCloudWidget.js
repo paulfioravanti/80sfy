@@ -60,10 +60,17 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
     })
   })
   scPlayer.bind(SC.Widget.Events.PAUSE, sound => {
-    ports.inbound.send({
-      tag: "AUDIO_PAUSED",
-      data: sound.currentPosition
-    })
+    // NOTE: The `sound.loadedProgress` condition is checked as a result of
+    // needed to "re-pause" the player when a call to `scPlayer.skip` is made.
+    // At the point of the "re-pausing", the `loadedProgress` will be 0.
+    // Basically, a `skip` event should not tell the Elm app at the audio has
+    // been paused.
+    if (sound.loadedProgress > 0) {
+      ports.inbound.send({
+        tag: "AUDIO_PAUSED",
+        data: sound.currentPosition
+      })
+    }
   })
   scPlayer.bind(SC.Widget.Events.FINISH, () => {
     ports.inbound.send({
