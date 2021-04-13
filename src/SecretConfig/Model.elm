@@ -33,35 +33,33 @@ type alias SecretConfig =
 init : Flags -> SecretConfig
 init flags =
     let
-        defaultGifDisplayIntervalSeconds : Float
-        defaultGifDisplayIntervalSeconds =
-            4
-
         gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
         gifDisplayIntervalSeconds =
-            Gif.displayIntervalSeconds defaultGifDisplayIntervalSeconds
+            Gif.defaultDisplayIntervalSeconds
 
-        gifDisplayIntervalSecondsString : String
-        gifDisplayIntervalSecondsString =
-            String.fromFloat defaultGifDisplayIntervalSeconds
+        gifDisplayIntervalSecondsField : String
+        gifDisplayIntervalSecondsField =
+            gifDisplayIntervalSeconds
+                |> Gif.rawDisplayIntervalSeconds
+                |> String.fromFloat
 
         rawGiphyApiKeyString : String
         rawGiphyApiKeyString =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
-        rawSoundCloudPlaylistUrlString : String
-        rawSoundCloudPlaylistUrlString =
+        rawSoundCloudPlaylistUrlField : String
+        rawSoundCloudPlaylistUrlField =
             Value.extractStringWithDefault
                 SoundCloud.defaultPlaylistUrlString
                 flags.soundCloudPlaylistUrl
     in
     { gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
-    , gifDisplayIntervalSecondsField = gifDisplayIntervalSecondsString
+    , gifDisplayIntervalSecondsField = gifDisplayIntervalSecondsField
     , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
     , overrideInactivityPause = False
     , soundCloudPlaylistUrl =
-        SoundCloud.playlistUrl rawSoundCloudPlaylistUrlString
-    , soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrlString
+        SoundCloud.playlistUrl rawSoundCloudPlaylistUrlField
+    , soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrlField
     , tags = []
     , tagsField = ""
     , visible = False

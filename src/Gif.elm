@@ -2,6 +2,7 @@ module Gif exposing
     ( GifDisplayIntervalSeconds
     , GifUrl
     , GiphyAPIKey
+    , defaultDisplayIntervalSeconds
     , displayIntervalSeconds
     , fetchRandomGifUrl
     , giphyApiKey
@@ -30,9 +31,18 @@ type GiphyAPIKey
     = GiphyAPIKey String
 
 
-displayIntervalSeconds : Float -> GifDisplayIntervalSeconds
+defaultDisplayIntervalSeconds : GifDisplayIntervalSeconds
+defaultDisplayIntervalSeconds =
+    GifDisplayIntervalSeconds 4
+
+
+displayIntervalSeconds : Float -> Maybe GifDisplayIntervalSeconds
 displayIntervalSeconds rawDisplayIntervalSecondsFloat =
-    GifDisplayIntervalSeconds rawDisplayIntervalSecondsFloat
+    if rawDisplayIntervalSecondsFloat > 0 then
+        Just (GifDisplayIntervalSeconds rawDisplayIntervalSecondsFloat)
+
+    else
+        Nothing
 
 
 fetchRandomGifUrl :
@@ -42,13 +52,9 @@ fetchRandomGifUrl :
     -> Cmd msg
 fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
     let
-        host : String
-        host =
-            "https://api.giphy.com"
-
-        path : String
-        path =
-            "/v1/gifs/random"
+        baseUrl : String
+        baseUrl =
+            "https://api.giphy.com/v1/gifs/random"
 
         rawTag : String
         rawTag =
@@ -58,8 +64,7 @@ fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
         giphyUrl =
             String.join
                 ""
-                [ host
-                , path
+                [ baseUrl
                 , "?api_key="
                 , apiKey
                 , "&tag="

@@ -62,27 +62,29 @@ validateGifDisplayIntervalSeconds :
     -> String
     -> ( GifDisplayIntervalSeconds, String )
 validateGifDisplayIntervalSeconds currentGifDisplayIntervalSeconds gifDisplayIntervalSecondsField =
-    let
-        parsedGifDisplayIntervalSeconds : Maybe Float
-        parsedGifDisplayIntervalSeconds =
-            String.toFloat gifDisplayIntervalSecondsField
-    in
-    case parsedGifDisplayIntervalSeconds of
-        Just gifDisplayIntervalSeconds ->
-            ( Gif.displayIntervalSeconds gifDisplayIntervalSeconds
+    case String.toFloat gifDisplayIntervalSecondsField of
+        Just gifDisplayIntervalSecondsFloat ->
+            let
+                gifDisplayIntervalSeconds : GifDisplayIntervalSeconds
+                gifDisplayIntervalSeconds =
+                    gifDisplayIntervalSecondsFloat
+                        |> Gif.displayIntervalSeconds
+                        |> Maybe.withDefault currentGifDisplayIntervalSeconds
+            in
+            ( gifDisplayIntervalSeconds
             , gifDisplayIntervalSecondsField
             )
 
         Nothing ->
             let
-                gifDisplayIntervalSecondsString : String
-                gifDisplayIntervalSecondsString =
+                currentGifDisplayIntervalSecondsString : String
+                currentGifDisplayIntervalSecondsString =
                     currentGifDisplayIntervalSeconds
                         |> Gif.rawDisplayIntervalSeconds
                         |> String.fromFloat
             in
             ( currentGifDisplayIntervalSeconds
-            , gifDisplayIntervalSecondsString
+            , currentGifDisplayIntervalSecondsString
             )
 
 
