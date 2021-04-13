@@ -64,7 +64,8 @@ init flags =
     , giphyApiKey = Gif.giphyApiKey giphyApiKey
     , overrideInactivityPause = False
     , soundCloudPlaylistUrl = soundCloudPlaylistUrl
-    , soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrl
+    , soundCloudPlaylistUrlField =
+        SoundCloud.rawPlaylistUrl soundCloudPlaylistUrl
     , tags = []
     , tagsField = ""
     , visible = False
