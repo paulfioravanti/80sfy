@@ -64,12 +64,28 @@ stringTagsToTagList tagsList =
     List.map tag tagsList
 
 
-stringToTagList : String -> List Tag
+stringToTagList : String -> Maybe (List Tag)
 stringToTagList tagsString =
-    tagsString
-        |> String.split separator
-        |> List.map String.trim
-        |> stringTagsToTagList
+    let
+        tagsStringIsEmpty : Bool
+        tagsStringIsEmpty =
+            tagsString
+                |> String.trim
+                |> String.isEmpty
+    in
+    if tagsStringIsEmpty then
+        Nothing
+
+    else
+        let
+            tagList : List Tag
+            tagList =
+                tagsString
+                    |> String.split separator
+                    |> List.map String.trim
+                    |> stringTagsToTagList
+        in
+        Just tagList
 
 
 tagListToString : List Tag -> String

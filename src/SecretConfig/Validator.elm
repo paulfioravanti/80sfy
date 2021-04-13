@@ -107,15 +107,9 @@ validateSoundCloudPlaylistUrl currentSoundCloudPlaylistUrl soundCloudPlaylistUrl
 
 validateTags : List Tag -> String -> ( List Tag, String )
 validateTags currentTags tagsField =
-    let
-        tagsFieldIsEmpty : Bool
-        tagsFieldIsEmpty =
-            tagsField
-                |> String.trim
-                |> String.isEmpty
-    in
-    if tagsFieldIsEmpty then
-        ( currentTags, Tag.tagListToString currentTags )
+    case Tag.stringToTagList tagsField of
+        Just tagList ->
+            ( tagList, tagsField )
 
-    else
-        ( Tag.stringToTagList tagsField, tagsField )
+        Nothing ->
+            ( currentTags, Tag.tagListToString currentTags )
