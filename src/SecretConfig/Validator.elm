@@ -93,22 +93,16 @@ validateSoundCloudPlaylistUrl :
     -> String
     -> ( SoundCloudPlaylistUrl, String )
 validateSoundCloudPlaylistUrl currentSoundCloudPlaylistUrl soundCloudPlaylistUrlField =
-    let
-        isValidUrl : Bool
-        isValidUrl =
-            String.startsWith
-                SoundCloud.playlistUrlPrefix
-                soundCloudPlaylistUrlField
-    in
-    if isValidUrl then
-        ( SoundCloud.playlistUrl soundCloudPlaylistUrlField
-        , soundCloudPlaylistUrlField
-        )
+    case SoundCloud.playlistUrl soundCloudPlaylistUrlField of
+        Just soundCloudPlaylistUrl ->
+            ( soundCloudPlaylistUrl
+            , soundCloudPlaylistUrlField
+            )
 
-    else
-        ( currentSoundCloudPlaylistUrl
-        , SoundCloud.rawPlaylistUrl currentSoundCloudPlaylistUrl
-        )
+        Nothing ->
+            ( currentSoundCloudPlaylistUrl
+            , SoundCloud.rawPlaylistUrl currentSoundCloudPlaylistUrl
+            )
 
 
 validateTags : List Tag -> String -> ( List Tag, String )

@@ -1,10 +1,10 @@
 module SoundCloud.Url exposing
     ( SoundCloudIframeUrl
     , SoundCloudPlaylistUrl
+    , defaultPlaylistUrl
     , defaultPlaylistUrlString
     , iframeUrl
     , playlistUrl
-    , playlistUrlPrefix
     , rawIframeUrl
     , rawPlaylistUrl
     )
@@ -16,6 +16,11 @@ type SoundCloudIframeUrl
 
 type SoundCloudPlaylistUrl
     = SoundCloudPlaylistUrl String
+
+
+defaultPlaylistUrl : SoundCloudPlaylistUrl
+defaultPlaylistUrl =
+    SoundCloudPlaylistUrl (playlistUrlPrefix ++ defaultPlaylistUrlString)
 
 
 defaultPlaylistUrlString : String
@@ -53,14 +58,18 @@ iframeUrl soundCloudPlaylistUrl =
     SoundCloudIframeUrl rawIframeUrlString
 
 
-playlistUrl : String -> SoundCloudPlaylistUrl
+playlistUrl : String -> Maybe SoundCloudPlaylistUrl
 playlistUrl rawSoundCloudPlaylistUrlString =
-    SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString
+    let
+        isValidUrl : Bool
+        isValidUrl =
+            String.startsWith playlistUrlPrefix rawSoundCloudPlaylistUrlString
+    in
+    if isValidUrl then
+        Just (SoundCloudPlaylistUrl rawSoundCloudPlaylistUrlString)
 
-
-playlistUrlPrefix : String
-playlistUrlPrefix =
-    "https://api.soundcloud.com/"
+    else
+        Nothing
 
 
 rawIframeUrl : SoundCloudIframeUrl -> String
@@ -71,3 +80,12 @@ rawIframeUrl (SoundCloudIframeUrl rawIframeUrlString) =
 rawPlaylistUrl : SoundCloudPlaylistUrl -> String
 rawPlaylistUrl (SoundCloudPlaylistUrl rawplaylistUrlString) =
     rawplaylistUrlString
+
+
+
+-- PRIVATE
+
+
+playlistUrlPrefix : String
+playlistUrlPrefix =
+    "https://api.soundcloud.com/"

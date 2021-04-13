@@ -43,23 +43,28 @@ init flags =
                 |> Gif.rawDisplayIntervalSeconds
                 |> String.fromFloat
 
-        rawGiphyApiKeyString : String
-        rawGiphyApiKeyString =
+        giphyApiKey : String
+        giphyApiKey =
             Value.extractStringWithDefault "" flags.giphyApiKey
 
-        rawSoundCloudPlaylistUrlField : String
-        rawSoundCloudPlaylistUrlField =
+        rawSoundCloudPlaylistUrl : String
+        rawSoundCloudPlaylistUrl =
             Value.extractStringWithDefault
                 SoundCloud.defaultPlaylistUrlString
                 flags.soundCloudPlaylistUrl
+
+        soundCloudPlaylistUrl : SoundCloudPlaylistUrl
+        soundCloudPlaylistUrl =
+            rawSoundCloudPlaylistUrl
+                |> SoundCloud.playlistUrl
+                |> Maybe.withDefault SoundCloud.defaultPlaylistUrl
     in
     { gifDisplayIntervalSeconds = gifDisplayIntervalSeconds
     , gifDisplayIntervalSecondsField = gifDisplayIntervalSecondsField
-    , giphyApiKey = Gif.giphyApiKey rawGiphyApiKeyString
+    , giphyApiKey = Gif.giphyApiKey giphyApiKey
     , overrideInactivityPause = False
-    , soundCloudPlaylistUrl =
-        SoundCloud.playlistUrl rawSoundCloudPlaylistUrlField
-    , soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrlField
+    , soundCloudPlaylistUrl = soundCloudPlaylistUrl
+    , soundCloudPlaylistUrlField = rawSoundCloudPlaylistUrl
     , tags = []
     , tagsField = ""
     , visible = False

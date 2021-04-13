@@ -1,10 +1,10 @@
 module SoundCloud exposing
     ( SoundCloudIframeUrl
     , SoundCloudPlaylistUrl
+    , defaultPlaylistUrl
     , defaultPlaylistUrlString
     , iframeUrl
     , playlistUrl
-    , playlistUrlPrefix
     , rawIframeUrl
     , rawPlaylistUrl
     )
@@ -18,6 +18,11 @@ type alias SoundCloudIframeUrl =
 
 type alias SoundCloudPlaylistUrl =
     Url.SoundCloudPlaylistUrl
+
+
+defaultPlaylistUrl : SoundCloudPlaylistUrl
+defaultPlaylistUrl =
+    Url.defaultPlaylistUrl
 
 
 defaultPlaylistUrlString : String
@@ -40,11 +45,6 @@ rawPlaylistUrl soundCloudPlaylistUrl =
     Url.rawPlaylistUrl soundCloudPlaylistUrl
 
 
-playlistUrl : String -> SoundCloudPlaylistUrl
+playlistUrl : String -> Maybe SoundCloudPlaylistUrl
 playlistUrl rawSoundCloudPlaylistUrlString =
     Url.playlistUrl rawSoundCloudPlaylistUrlString
-
-
-playlistUrlPrefix : String
-playlistUrlPrefix =
-    Url.playlistUrlPrefix
