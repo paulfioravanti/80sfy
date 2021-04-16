@@ -114,7 +114,7 @@ atIndex tags index =
 
 separator : String
 separator =
-    ", "
+    ","
 
 
 tag : String -> Tag
