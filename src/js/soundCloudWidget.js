@@ -18,7 +18,7 @@ function initWidget(ports, { id, volume }) {
     scPlayer.bind(SC.Widget.Events.READY, () => {
       initAudioPlayer(scPlayer, volume, ports)
       bindSoundCloudWidgetEvents(scPlayer, ports)
-      initPortSubscriptions(scPlayer, ports)
+      initOutboundPortMessageHandling(scPlayer, ports)
     })
   })
 }
@@ -90,7 +90,7 @@ function bindSoundCloudWidgetEvents(scPlayer, ports) {
   })
 }
 
-function initPortSubscriptions(scPlayer, ports) {
+function initOutboundPortMessageHandling(scPlayer, ports) {
   ports.outbound.subscribe(({ tag, data }) => {
     switch (tag) {
     case "PLAY_AUDIO":
