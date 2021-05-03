@@ -4,7 +4,14 @@
 site if you love [synthwave][] music, so I decided to re-create it using
 [Elm][].
 
-You can see the results at: <https://www.paulfioravanti.com/80sfy>
+You can read all about things I learned during the development of this
+application on my blog post:
+
+- [░▒▓ＥＬＭＳＴＨＥＴＩＣＳ▓▒░][]
+
+The site itself is deployed at:
+
+- <https://www.paulfioravanti.com/80sfy>
 
 Note that it's currently only optimised for the Google Chrome and Firefox
 desktop browsers, so it's probably best to view it with either of those.
@@ -118,6 +125,7 @@ to play audio the first time the app is loaded.
 [Chrome Autoplay Policy Changes]: https://developers.google.com/web/updates/2017/09/autoplay-policy-changes#webaudio
 [Create Elm App]: https://github.com/halfzebra/create-elm-app
 [Elm]: http://elm-lang.org/
+[░▒▓ＥＬＭＳＴＨＥＴＩＣＳ▓▒░]: https://www.paulfioravanti.com/blog/elmsthetics/
 [gh-pages]: https://github.com/tschaub/gh-pages
 [Giphy Developers]: https://developers.giphy.com/
 [Github Pages]: https://pages.github.com/
