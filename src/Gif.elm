@@ -75,7 +75,13 @@ fetchRandomGifUrl randomGifUrlFetchedMsg (GiphyAPIKey apiKey) tag =
 
         decodeGifUrl : Decoder String
         decodeGifUrl =
-            Decode.at [ "data", "image_mp4_url" ] Decode.string
+            Decode.at
+                [ "data"
+                , "images"
+                , "original"
+                , "mp4"
+                ]
+                Decode.string
     in
     Http.get
         { url = giphyUrl
