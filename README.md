@@ -30,13 +30,13 @@ desktop browsers, so it's probably best to view it with either of those.
 This app was created using [Create Elm App][], and uses some commands that it
 provides, so install it globally with `npm`:
 
-```sh
+```console
 npm install -g create-elm-app
 ```
 
 ### Application
 
-```sh
+```console
 git clone https://github.com/paulfioravanti/80sfy.git
 cd 80sfy
 npm install
@@ -49,13 +49,13 @@ cp .env.example .env
 Create an account at [Giphy Developers][], create an app to get your API key,
 and copy/paste it into the `.env` file:
 
-```sh
+```.env
 ELM_APP_GIPHY_API_KEY="Your API key here"
 ```
 
 ### Run Server
 
-```sh
+```console
 elm-app start
 ```
 
@@ -63,14 +63,30 @@ Now, you should be able to use the app at the following address:
 
 - <http://localhost:3000>
 
+> [!NOTE]
+> If you get a `'error:03000086:digital envelope routines::initialization
+> error'` error, then change the command to the following:
+>
+> ```console
+> NODE_OPTIONS=--openssl-legacy-provider elm-app start
+> ```
+
 ## Deployment
 
 Deployment is managed in the [`push`][] script. It uses [gh-pages][] to
 deploy out to [Github Pages][].
 
-```sh
+```console
 ./push
 ```
+
+> [!NOTE]
+> If you get a `'error:03000086:digital envelope routines::initialization
+> error'` error, then change the command to the following:
+>
+> ```console
+> NODE_OPTIONS=--openssl-legacy-provider ./push
+> ```
 
 ## Gotchas
 
