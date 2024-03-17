@@ -1,11 +1,11 @@
 {
-  "main.js": "/80sfy/static/js/main.4606dff8.chunk.js",
-  "main.js.map": "/80sfy/static/js/main.4606dff8.chunk.js.map",
+  "main.js": "/80sfy/static/js/main.c7f32aba.chunk.js",
+  "main.js.map": "/80sfy/static/js/main.c7f32aba.chunk.js.map",
   "runtime~main.js": "/80sfy/static/js/runtime~main.0d357bf1.js",
   "runtime~main.js.map": "/80sfy/static/js/runtime~main.0d357bf1.js.map",
   "vendors~main.css": "/80sfy/static/css/vendors~main.e6f595e7.chunk.css",
-  "vendors~main.js": "/80sfy/static/js/vendors~main.5cae8850.chunk.js",
-  "vendors~main.js.map": "/80sfy/static/js/vendors~main.5cae8850.chunk.js.map",
+  "vendors~main.js": "/80sfy/static/js/vendors~main.752ec839.chunk.js",
+  "vendors~main.js.map": "/80sfy/static/js/vendors~main.752ec839.chunk.js.map",
   "./service-worker.js": "/80sfy/./service-worker.js",
   "assets/giphy.png": "/80sfy/assets/giphy.png",
   "assets/logo.png": "/80sfy/assets/logo.png",
@@ -15,7 +15,7 @@
   "favicon.ico": "/80sfy/favicon.ico",
   "index.html": "/80sfy/index.html",
   "manifest.json": "/80sfy/manifest.json",
-  "precache-manifest.754e4d1b3e4f521444f24961325027a3.js": "/80sfy/precache-manifest.754e4d1b3e4f521444f24961325027a3.js",
+  "precache-manifest.4965657499ec1045cf8bbb39443ae416.js": "/80sfy/precache-manifest.4965657499ec1045cf8bbb39443ae416.js",
   "static/media/fa-solid.css": "/80sfy/static/media/fa-solid-900.d279d01b.svg",
   "tags.json": "/80sfy/tags.json"
 }

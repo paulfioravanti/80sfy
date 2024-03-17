@@ -24,7 +24,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/80sfy/favicon.ico"
   },
   {
-    "revision": "80f4663e3c3cc3ae490c3df239c23e06",
+    "revision": "c459b17e08ed79e42dc7fb92dd82f804",
     "url": "/80sfy/index.html"
   },
   {
@@ -32,20 +32,20 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/80sfy/manifest.json"
   },
   {
-    "revision": "5cae8850b8a1edcfd062",
+    "revision": "752ec839f9a42d1a9161",
     "url": "/80sfy/static/css/vendors~main.e6f595e7.chunk.css"
   },
   {
-    "revision": "4606dff84a9734672233",
-    "url": "/80sfy/static/js/main.4606dff8.chunk.js"
+    "revision": "c7f32aba4763c47f2cbe",
+    "url": "/80sfy/static/js/main.c7f32aba.chunk.js"
   },
   {
     "revision": "0d357bf12e913b6f0d08",
     "url": "/80sfy/static/js/runtime~main.0d357bf1.js"
   },
   {
-    "revision": "5cae8850b8a1edcfd062",
-    "url": "/80sfy/static/js/vendors~main.5cae8850.chunk.js"
+    "revision": "752ec839f9a42d1a9161",
+    "url": "/80sfy/static/js/vendors~main.752ec839.chunk.js"
   },
   {
     "revision": "e57e108a1ae04ca2b27cab75e4478867",
