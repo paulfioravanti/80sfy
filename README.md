@@ -21,7 +21,7 @@ desktop browsers, so it's probably best to view it with either of those.
 ### Dependencies
 
 - [Elm][] 0.19.1
-- [NodeJS][] 15.9.0
+- [NodeJS][] 21.6.2
 
 ## Setup
 
