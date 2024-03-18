@@ -1,4 +1,4 @@
-module SecretConfig.View.Styles exposing
+module SecretConfig.View.Styled exposing
     ( configButton
     , configInput
     , gifTags
@@ -34,11 +34,21 @@ import Css
         , width
         , zIndex
         )
+import Html.Styled
+    exposing
+        ( Attribute
+        , Html
+        , button
+        , div
+        , input
+        , styled
+        , textarea
+        )
 
 
-configButton : Style
+configButton : List (Attribute msg) -> List (Html msg) -> Html msg
 configButton =
-    Css.batch
+    styled button
         [ cursor pointer
         , display block
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
@@ -46,9 +56,9 @@ configButton =
         ]
 
 
-configInput : Style
+configInput : List (Attribute msg) -> List (Html msg) -> Html msg
 configInput =
-    Css.batch
+    styled input
         [ color inherit
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (px 14)
@@ -57,9 +67,9 @@ configInput =
         ]
 
 
-gifTags : Style
+gifTags : List (Attribute msg) -> List (Html msg) -> Html msg
 gifTags =
-    Css.batch
+    styled textarea
         [ color inherit
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (px 14)
@@ -70,7 +80,7 @@ gifTags =
         ]
 
 
-secretConfig : Bool -> Style
+secretConfig : Bool -> List (Attribute msg) -> List (Html msg) -> Html msg
 secretConfig visible =
     let
         visibility : Style
@@ -81,7 +91,7 @@ secretConfig visible =
             else
                 display none
     in
-    Css.batch
+    styled div
         [ visibility
         , fontFamilies [ "Source Code Pro", "sans-serif" ]
         , fontSize (px 14)
@@ -95,9 +105,9 @@ secretConfig visible =
         ]
 
 
-secretConfigButton : Style
+secretConfigButton : List (Attribute msg) -> List (Html msg) -> Html msg
 secretConfigButton =
-    Css.batch
+    styled div
         [ bottom (px 0)
         , display block
         , height (px 20)
