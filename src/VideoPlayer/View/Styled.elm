@@ -1,4 +1,4 @@
-module VideoPlayer.View.Styles exposing
+module VideoPlayer.View.Styled exposing
     ( gifContainer
     , videoPlayer
     , videoPlayerPaused
@@ -7,8 +7,7 @@ module VideoPlayer.View.Styles exposing
 
 import Css
     exposing
-        ( Style
-        , absolute
+        ( absolute
         , auto
         , backgroundColor
         , block
@@ -40,11 +39,12 @@ import Css
         , width
         , zIndex
         )
+import Html.Styled exposing (Attribute, Html, div, styled, video)
 
 
-gifContainer : Int -> Style
+gifContainer : Int -> List (Attribute msg) -> List (Html msg) -> Html msg
 gifContainer zindex =
-    Css.batch
+    styled div
         [ height (pct 100)
         , left (px 0)
         , position fixed
@@ -55,9 +55,9 @@ gifContainer zindex =
         ]
 
 
-videoPlayer : Style
+videoPlayer : List (Attribute msg) -> List (Html msg) -> Html msg
 videoPlayer =
-    Css.batch
+    styled video
         [ height auto
         , minHeight (pct 100)
         , minWidth (pct 100)
@@ -66,9 +66,9 @@ videoPlayer =
         ]
 
 
-videoPlayerPaused : Style
+videoPlayerPaused : List (Attribute msg) -> List (Html msg) -> Html msg
 videoPlayerPaused =
-    Css.batch
+    styled div
         [ backgroundColor (rgba 0 0 0 0.7)
         , color (rgb 255 255 255)
         , display block
@@ -86,9 +86,9 @@ videoPlayerPaused =
         ]
 
 
-videoPlayerPausedContent : Style
+videoPlayerPausedContent : List (Attribute msg) -> List (Html msg) -> Html msg
 videoPlayerPausedContent =
-    Css.batch
+    styled div
         [ fontSize (px 20)
         , lineHeight (num 1.4)
         , margin2 (px 0) auto
