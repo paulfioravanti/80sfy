@@ -1,15 +1,14 @@
 module ControlPanel.View.Credits exposing (view)
 
-import ControlPanel.View.Styles as Styles
-import Html.Styled exposing (Html, a, br, div, img, text)
-import Html.Styled.Attributes exposing (attribute, css, href, src, target)
+import ControlPanel.View.Styled as Styled
+import Html.Styled exposing (Html, br, text)
+import Html.Styled.Attributes exposing (attribute, href, src, target)
 
 
 view : Html msg
 view =
-    div [ css [ Styles.credits ], attribute "data-name" "credits" ]
-        [ div [ css [ Styles.creditsBackground ] ]
-            []
+    Styled.credits [ attribute "data-name" "credits" ]
+        [ Styled.creditsBackground [] []
         , header
         , icons
         , creator
@@ -21,19 +20,15 @@ view =
 
 header : Html msg
 header =
-    div
-        [ css [ Styles.creditsHeader ]
-        , attribute "data-name" "credit-header"
-        ]
+    Styled.creditsHeader
+        [ attribute "data-name" "credit-header" ]
         [ text "Powered by" ]
 
 
 icons : Html msg
 icons =
-    div
-        [ css [ Styles.creditsIcons ]
-        , attribute "data-name" "credit-icons"
-        ]
+    Styled.creditsIcons
+        [ attribute "data-name" "credit-icons" ]
         [ giphyIconLink
         , soundCloudIconLink
         ]
@@ -41,20 +36,16 @@ icons =
 
 creator : Html msg
 creator =
-    div
-        [ css [ Styles.creditsCreator ]
-        , attribute "data-name" "credit-creator"
-        ]
-        [ a
-            [ css [ Styles.creditsLink ]
-            , href "https://80sfy.com"
+    Styled.creditsCreator
+        [ attribute "data-name" "credit-creator" ]
+        [ Styled.creditsLink
+            [ href "https://80sfy.com"
             , target "_blank"
             ]
             [ text "Created by" ]
         , br [] []
-        , a
-            [ css [ Styles.creditsLink ]
-            , href "http://www.digitalbloc.com"
+        , Styled.creditsLink
+            [ href "http://www.digitalbloc.com"
             , target "_blank"
             ]
             [ text "Art Sangurai" ]
@@ -63,44 +54,35 @@ creator =
 
 creatorCopyright : Html msg
 creatorCopyright =
-    div
-        [ css [ Styles.creditsCopyright ]
-        , attribute "data-name" "credit-creator-copyright"
-        ]
+    Styled.creditsCopyright
+        [ attribute "data-name" "credit-creator-copyright" ]
         [ text "Copyright 2017" ]
 
 
 giphyIconLink : Html msg
 giphyIconLink =
-    a
-        [ css [ Styles.creditsIconLink ]
-        , href "https://www.giphy.com"
+    Styled.creditsIconLink
+        [ href "https://www.giphy.com"
         , target "_blank"
         ]
-        [ img
-            [ css [ Styles.creditsIconImage ]
-            , src "assets/giphy.png"
-            ]
+        [ Styled.creditsIconImage
+            [ src "assets/giphy.png" ]
             []
         ]
 
 
 porter : Html msg
 porter =
-    div
-        [ css [ Styles.creditsPorter ]
-        , attribute "data-name" "credit-porter"
-        ]
-        [ a
-            [ css [ Styles.creditsLink ]
-            , href "https://github.com/paulfioravanti/80sfy"
+    Styled.creditsPorter
+        [ attribute "data-name" "credit-porter" ]
+        [ Styled.creditsLink
+            [ href "https://github.com/paulfioravanti/80sfy"
             , target "_blank"
             ]
             [ text "Elm port by" ]
         , br [] []
-        , a
-            [ css [ Styles.creditsLink ]
-            , href "https://www.paulfioravanti.com"
+        , Styled.creditsLink
+            [ href "https://www.paulfioravanti.com"
             , target "_blank"
             ]
             [ text "Paul Fioravanti" ]
@@ -109,23 +91,18 @@ porter =
 
 porterCopyright : Html msg
 porterCopyright =
-    div
-        [ css [ Styles.creditsCopyright ]
-        , attribute "data-name" "credit-porter-copyright"
-        ]
+    Styled.creditsCopyright
+        [ attribute "data-name" "credit-porter-copyright" ]
         [ text "Copyright 2018-2021" ]
 
 
 soundCloudIconLink : Html msg
 soundCloudIconLink =
-    a
-        [ css [ Styles.creditsIconLink ]
-        , href "https://www.soundcloud.com"
+    Styled.creditsIconLink
+        [ href "https://www.soundcloud.com"
         , target "_blank"
         ]
-        [ img
-            [ css [ Styles.creditsIconImage ]
-            , src "assets/soundcloud.png"
-            ]
+        [ Styled.creditsIconImage
+            [ src "assets/soundcloud.png" ]
             []
         ]

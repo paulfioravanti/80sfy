@@ -7,12 +7,11 @@ import ControlPanel.Msg as Msg exposing (Msg)
 import ControlPanel.State as State
 import ControlPanel.View.Controls as Controls
 import ControlPanel.View.Credits as Credits
-import ControlPanel.View.Styles as Styles
-import Html.Styled as Html exposing (Html, div, iframe, img, input)
+import ControlPanel.View.Styled as Styled
+import Html.Styled as Html exposing (Html)
 import Html.Styled.Attributes as Attributes
     exposing
         ( attribute
-        , css
         , src
         , step
         , type_
@@ -47,9 +46,7 @@ view parentMsgs ({ audioPlayer, controlPanel } as context) =
 
         attributes : List (Html.Attribute msg)
         attributes =
-            [ attribute "data-name" "control-panel"
-            , css [ Styles.controlPanel ]
-            ]
+            [ attribute "data-name" "control-panel" ]
 
         animations : List (Html.Attribute msg)
         animations =
@@ -65,11 +62,9 @@ view parentMsgs ({ audioPlayer, controlPanel } as context) =
                 , onMouseLeave (controlPanelMsg Msg.LeaveControlPanel)
                 ]
     in
-    div (attributes ++ animations ++ visibilityToggles)
-        [ div
-            [ css [ Styles.controlPanelContent ]
-            , attribute "data-name" "panel-content"
-            ]
+    Styled.controlPanel (attributes ++ animations ++ visibilityToggles)
+        [ Styled.controlPanelContent
+            [ attribute "data-name" "panel-content" ]
             [ logo
             , trackInfo audioPlayer
             , Controls.view parentMsgs context
@@ -85,11 +80,10 @@ view parentMsgs ({ audioPlayer, controlPanel } as context) =
 
 logo : Html msg
 logo =
-    div [ css [ Styles.logo ], attribute "data-name" "logo" ]
-        [ div [ css [ Styles.logoImageBackground ] ] []
-        , img
+    Styled.logo [ attribute "data-name" "logo" ]
+        [ Styled.logoImageBackground [] []
+        , Styled.logoImage
             [ attribute "data-name" "logo-image"
-            , css [ Styles.logoImage ]
             , src "assets/logo.png"
             ]
             []
@@ -111,13 +105,10 @@ trackInfo { id, soundCloudIframeUrl } =
     -- automatically starting the player without user input. It is needed so
     -- that a user can also start the SoundCloud audio widget using the the Play
     -- button in the web controls, and not just on the iframe itself.
-    div
-        [ attribute "data-name" "track-info"
-        , css [ Styles.trackInfo ]
-        ]
-        [ iframe
-            [ css [ Styles.trackPlayer ]
-            , attribute "allow" "autoplay"
+    Styled.trackInfo
+        [ attribute "data-name" "track-info" ]
+        [ Styled.trackPlayer
+            [ attribute "allow" "autoplay"
             , attribute "data-name" audioPlayerId
             , Attributes.id audioPlayerId
             , src rawSoundCloudIframeUrl
@@ -139,15 +130,11 @@ volumeControl audioPlayerMsg { volume } =
         adjustVolumeMsg =
             AudioPlayer.adjustVolumeMsg audioPlayerMsg
     in
-    div
-        [ attribute "data-name" "volume"
-        , css [ Styles.volume ]
-        ]
-        [ div [ css [ Styles.volumeBackground ] ]
-            []
-        , input
-            [ css [ Styles.volumeControl ]
-            , type_ "range"
+    Styled.volume
+        [ attribute "data-name" "volume" ]
+        [ Styled.volumeBackground [] []
+        , Styled.volumeControl
+            [ type_ "range"
             , Attributes.min "0"
             , Attributes.max "100"
             , step "5"

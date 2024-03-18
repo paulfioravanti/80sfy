@@ -1,5 +1,5 @@
-module ControlPanel.View.Styles exposing
-    ( button
+module ControlPanel.View.Styled exposing
+    ( controlButton
     , controlPanel
     , controlPanelContent
     , controls
@@ -99,12 +99,24 @@ import Css
         , width
         , zIndex
         )
-import Css.Global exposing (children, div)
+import Css.Global exposing (children)
+import Html.Styled
+    exposing
+        ( Attribute
+        , Html
+        , a
+        , div
+        , i
+        , iframe
+        , img
+        , input
+        , styled
+        )
 
 
-button : Style
-button =
-    Css.batch
+controlButton : List (Attribute msg) -> List (Html msg) -> Html msg
+controlButton =
+    styled div
         [ active
             [ borderStyle inset ]
         , backgroundColor Colors.background
@@ -122,9 +134,9 @@ button =
         ]
 
 
-controlPanel : Style
+controlPanel : List (Attribute msg) -> List (Html msg) -> Html msg
 controlPanel =
-    Css.batch
+    styled div
         [ display block
         , fontSize (px 14)
         , height (pct 100)
@@ -137,9 +149,9 @@ controlPanel =
         ]
 
 
-controlPanelContent : Style
+controlPanelContent : List (Attribute msg) -> List (Html msg) -> Html msg
 controlPanelContent =
-    Css.batch
+    styled div
         [ boxSizing borderBox
         , cursor default
         , height (pct 100)
@@ -150,24 +162,16 @@ controlPanelContent =
         ]
 
 
-controlPanelItemBorder : Style
-controlPanelItemBorder =
-    Css.batch
-        [ border3 (px 3) double Colors.blue
-        , boxShadow4 (px 0) (px 0) (px 12) Colors.blue
-        ]
-
-
-controls : Style
+controls : List (Attribute msg) -> List (Html msg) -> Html msg
 controls =
-    Css.batch
+    styled div
         [ after
             [ display block
             , property "clear" "both"
             , property "content" "' '"
             ]
         , children
-            [ div
+            [ Css.Global.div
                 [ lastChild
                     [ marginRight (px 0) ]
                 ]
@@ -175,9 +179,9 @@ controls =
         ]
 
 
-credits : Style
+credits : List (Attribute msg) -> List (Html msg) -> Html msg
 credits =
-    Css.batch
+    styled div
         [ backgroundColor Colors.background
         , boxShadow4 (px 0) (px 0) (px 12) Colors.blue
         , boxSizing borderBox
@@ -195,39 +199,39 @@ credits =
         ]
 
 
-creditsBackground : Style
+creditsBackground : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsBackground =
-    Css.batch
+    styled div
         [ scanlines (px 210) (px 200) (px -2) ]
 
 
-creditsCopyright : Style
+creditsCopyright : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsCopyright =
-    Css.batch
+    styled div
         [ fontSize (pct 80) ]
 
 
-creditsCreator : Style
+creditsCreator : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsCreator =
-    Css.batch
+    styled div
         [ marginBottom (px 5) ]
 
 
-creditsHeader : Style
+creditsHeader : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsHeader =
-    Css.batch
+    styled div
         [ marginBottom (px 14) ]
 
 
-creditsIcons : Style
+creditsIcons : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsIcons =
-    Css.batch
+    styled div
         [ marginBottom (px 14) ]
 
 
-creditsIconLink : Style
+creditsIconLink : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsIconLink =
-    Css.batch
+    styled a
         [ marginBottom (px 0)
         , marginLeft (px 10)
         , marginRight (px 10)
@@ -235,34 +239,34 @@ creditsIconLink =
         ]
 
 
-creditsIconImage : Style
+creditsIconImage : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsIconImage =
-    Css.batch
+    styled img
         [ border (px 0)
         , height (px 40)
         ]
 
 
-creditsLink : Style
+creditsLink : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsLink =
-    Css.batch
+    styled a
         [ backgroundColor transparent
         , textDecoration none
         , color Colors.white
         ]
 
 
-creditsPorter : Style
+creditsPorter : List (Attribute msg) -> List (Html msg) -> Html msg
 creditsPorter =
-    Css.batch
+    styled div
         [ marginBottom (px 5)
         , marginTop (px 10)
         ]
 
 
-icon : Style
+icon : List (Attribute msg) -> List (Html msg) -> Html msg
 icon =
-    Css.batch
+    styled i
         [ backgroundImage
             (linearGradient2
                 toBottom
@@ -286,15 +290,15 @@ icon =
         ]
 
 
-iconBackground : Style
+iconBackground : List (Attribute msg) -> List (Html msg) -> Html msg
 iconBackground =
-    Css.batch
+    styled div
         [ scanlines (px 44) (px 44) (px -2) ]
 
 
-logo : Style
+logo : List (Attribute msg) -> List (Html msg) -> Html msg
 logo =
-    Css.batch
+    styled div
         [ backgroundColor transparent
         , backgroundImage (url "https://i.giphy.com/yrIRi67zxPmo.gif")
         , backgroundPosition2 (px 0) (px -40)
@@ -310,23 +314,24 @@ logo =
         ]
 
 
-logoImage : Style
+logoImage : List (Attribute msg) -> List (Html msg) -> Html msg
 logoImage =
-    Css.batch
+    styled img
         [ border (px 0)
         , height (pct 90)
         , marginTop (pct 5)
         ]
 
 
-logoImageBackground : Style
+logoImageBackground : List (Attribute msg) -> List (Html msg) -> Html msg
 logoImageBackground =
-    scanlines (px 120) (px 200) (px -2)
+    styled div
+        [ scanlines (px 120) (px 200) (px -2) ]
 
 
-trackInfo : Style
+trackInfo : List (Attribute msg) -> List (Html msg) -> Html msg
 trackInfo =
-    Css.batch
+    styled div
         [ backgroundColor Colors.background
         , boxSizing borderBox
         , color Colors.white
@@ -338,9 +343,9 @@ trackInfo =
         ]
 
 
-trackPlayer : Style
+trackPlayer : List (Attribute msg) -> List (Html msg) -> Html msg
 trackPlayer =
-    Css.batch
+    styled iframe
         [ borderWidth (px 0)
         , height (px 120)
         , overflow hidden
@@ -349,23 +354,24 @@ trackPlayer =
         ]
 
 
-volume : Style
+volume : List (Attribute msg) -> List (Html msg) -> Html msg
 volume =
-    Css.batch
+    styled div
         [ marginBottom (px 20)
         , marginTop (px 10)
         , position relative
         ]
 
 
-volumeBackground : Style
+volumeBackground : List (Attribute msg) -> List (Html msg) -> Html msg
 volumeBackground =
-    scanlines (pct 85) (pct 100) (px 0)
+    styled div
+        [ scanlines (pct 85) (pct 100) (px 0) ]
 
 
-volumeControl : Style
+volumeControl : List (Attribute msg) -> List (Html msg) -> Html msg
 volumeControl =
-    Css.batch
+    styled input
         [ focus
             [ outline none ]
         , marginBottom (px 0)
@@ -379,6 +385,18 @@ volumeControl =
         , pseudoElement "-webkit-slider-thumb"
             (property "-webkit-appearance" "none" :: thumbStyles)
         , width (pct 100)
+        ]
+
+
+
+-- PRIVATE
+
+
+controlPanelItemBorder : Style
+controlPanelItemBorder =
+    Css.batch
+        [ border3 (px 3) double Colors.blue
+        , boxShadow4 (px 0) (px 0) (px 12) Colors.blue
         ]
 
 
@@ -402,19 +420,6 @@ scanlines linesHeight linesWidth positioning =
         ]
 
 
-trackStyles : List Style
-trackStyles =
-    [ backgroundColor Colors.blue
-    , border3 (px 0) solid Colors.black
-    , borderRadius (px 0)
-    , boxShadow4 (px 0) (px 0) (px 2) (Colors.whiteWithAlpha 0.12)
-    , boxShadow4 (px 2) (px 2) (px 1) (Colors.whiteWithAlpha 0.12)
-    , cursor pointer
-    , height (px 18)
-    , width (pct 100)
-    ]
-
-
 thumbStyles : List Style
 thumbStyles =
     [ backgroundColor (Colors.yellowWithAlpha 0.96)
@@ -426,4 +431,17 @@ thumbStyles =
     , height (px 18)
     , marginTop (px 0.15)
     , width (px 18)
+    ]
+
+
+trackStyles : List Style
+trackStyles =
+    [ backgroundColor Colors.blue
+    , border3 (px 0) solid Colors.black
+    , borderRadius (px 0)
+    , boxShadow4 (px 0) (px 0) (px 2) (Colors.whiteWithAlpha 0.12)
+    , boxShadow4 (px 2) (px 2) (px 1) (Colors.whiteWithAlpha 0.12)
+    , cursor pointer
+    , height (px 18)
+    , width (pct 100)
     ]

@@ -1,9 +1,9 @@
 module ControlPanel.View.Controls exposing (view)
 
 import AudioPlayer exposing (AudioPlayer)
-import ControlPanel.View.Styles as Styles
-import Html.Styled exposing (Html, div, i)
-import Html.Styled.Attributes exposing (attribute, class, css)
+import ControlPanel.View.Styled as Styled
+import Html.Styled exposing (Html)
+import Html.Styled.Attributes exposing (attribute, class)
 import Html.Styled.Events exposing (onClick)
 import Ports
 
@@ -31,10 +31,8 @@ view parentMsgs { audioPlayer } =
         playing =
             AudioPlayer.isPlaying audioPlayer
     in
-    div
-        [ css [ Styles.controls ]
-        , attribute "data-name" "controls"
-        ]
+    Styled.controls
+        [ attribute "data-name" "controls" ]
         [ muteUnmuteButton parentMsgs muted
         , playPauseButton parentMsgs playing
         , nextTrackButton parentMsgs
@@ -57,13 +55,12 @@ muteUnmuteButton { audioPlayerMsg } muted =
             else
                 "fas fa-volume-up"
     in
-    div
-        [ css [ Styles.button ]
-        , attribute "data-name" "mute-unmute"
+    Styled.controlButton
+        [ attribute "data-name" "mute-unmute"
         , onClick (audioPlayerMsg AudioPlayer.toggleMuteMsg)
         ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class iconClass ] []
+        [ Styled.iconBackground [] []
+        , Styled.icon [ class iconClass ] []
         ]
 
 
@@ -77,35 +74,32 @@ playPauseButton { pauseMsg, portsMsg } playing =
             else
                 ( "fas fa-play", portsMsg Ports.playMsg )
     in
-    div
-        [ css [ Styles.button ]
-        , attribute "data-name" "play-pause"
+    Styled.controlButton
+        [ attribute "data-name" "play-pause"
         , onClick playPauseMsg
         ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class iconClass ] []
+        [ Styled.iconBackground [] []
+        , Styled.icon [ class iconClass ] []
         ]
 
 
 nextTrackButton : ParentMsgs msgs msg -> Html msg
 nextTrackButton { audioPlayerMsg } =
-    div
-        [ css [ Styles.button ]
-        , attribute "data-name" "next-track"
+    Styled.controlButton
+        [ attribute "data-name" "next-track"
         , onClick (audioPlayerMsg AudioPlayer.nextTrackMsg)
         ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-fast-forward" ] []
+        [ Styled.iconBackground [] []
+        , Styled.icon [ class "fas fa-fast-forward" ] []
         ]
 
 
 fullscreenButton : ParentMsgs msgs msg -> Html msg
 fullscreenButton { portsMsg } =
-    div
+    Styled.controlButton
         [ onClick (portsMsg Ports.toggleFullscreenMsg)
-        , css [ Styles.button ]
         , attribute "data-name" "fullscreen"
         ]
-        [ div [ css [ Styles.iconBackground ] ] []
-        , i [ css [ Styles.icon ], class "fas fa-expand-arrows-alt" ] []
+        [ Styled.iconBackground [] []
+        , Styled.icon [ class "fas fa-expand-arrows-alt" ] []
         ]
